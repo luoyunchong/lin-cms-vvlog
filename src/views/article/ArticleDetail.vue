@@ -1,43 +1,41 @@
 <template>
-  <div class="content">
-    <div class="page-header-index-wide">
-      <el-row :gutter="24">
-        <el-col :xl="17" :lg="16" :md="24" :sm="24" :xs="24">
-          <el-card class="box-card" shadow="never">
-            <div slot="header" class="clearfix">
-              <span>{{model.title}}</span>
-            </div>
-            <div class="mavon-editor">
-              <mavon-editor
-                id="mavon-editor"
-                ref="mavon"
-                :toolbarsFlag="false"
-                :editable="false"
-                :readModel="true"
-                defaultOpen="preview"
-                :subfield="false"
-                v-model="model.content"
-                :boxShadow="false"
-                previewBackground="#fff"
-                :navigation="false"
-              />
-            </div>
-          </el-card>
-        </el-col>
-        <el-col :xl="7" :lg="8" :md="24" :sm="24" :xs="24">
-          <el-card class="aside-list" shadow="never" :body-style="{ padding: '12px'}">
-            <div slot="header" class="clearfix">
-              <span>目录</span>
-            </div>
-            <!-- <div class="wx_navigation">
+  <div class="page-header-index-wide">
+    <el-row :gutter="24">
+      <el-col :xl="17" :lg="16" :md="24" :sm="24" :xs="24">
+        <el-card class="box-card" shadow="never">
+          <!-- <div slot="header" class="clearfix">
+            <span>{{model.title}}</span>
+          </div>-->
+          <div class="mavon-editor">
+            <mavon-editor
+              id="mavon-editor"
+              ref="mavon"
+              :toolbarsFlag="false"
+              :editable="false"
+              :readModel="true"
+              defaultOpen="preview"
+              :subfield="false"
+              v-model="model.content"
+              :boxShadow="false"
+              previewBackground="#fff"
+              :navigation="false"
+            />
+          </div>
+        </el-card>
+      </el-col>
+      <el-col :xl="7" :lg="8" :md="24" :sm="24" :xs="24">
+        <el-card class="aside-list" shadow="never" :body-style="{ padding: '12px'}">
+          <div slot="header" class="clearfix">
+            <span>目录</span>
+          </div>
+          <!-- <div class="wx_navigation">
               <div class="navigator-item-title">目录</div>
-            </div>-->
+          </div>-->
 
-            <div id="navigation" class="wx_navigation" />
-          </el-card>
-        </el-col>
-      </el-row>
-    </div>
+          <div id="navigation" class="wx_navigation" />
+        </el-card>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -155,7 +153,7 @@ export default {
 
           const a = document.createElement("a");
 
-          a.id = id;
+          a.href = "#" + id;
           a.innerHTML = content;
           node.appendChild(a);
           // console.log(id, content, node.tagName)
@@ -165,7 +163,7 @@ export default {
               parents[j].classList.remove("active");
             }
             node.classList.add("active");
-            window.location.replace("#" + this.children[0].id);
+            // window.location.replace("#" + this.children[0].id);
           };
           newDoms.push(node);
         }
@@ -204,15 +202,15 @@ export default {
 </script>
 
 <style  lang="scss">
-.content {
-  margin: 24px 24px 0;
-}
 .page-header-index-wide {
   max-width: 1200px;
   margin: 0 auto;
 }
 .mavon-editor .v-note-wrapper .v-note-panel {
   border: none;
+  a:target {
+    padding-top: 80px;
+  }
 }
 .mavon-editor .v-note-wrapper .v-note-panel .v-note-show .v-show-content {
   background: #fff;
@@ -224,20 +222,8 @@ export default {
   transition: all 0.2s;
 }
 
-/** navigatior*/
 .wx_navigation {
   position: relative;
-}
-
-.wx_navigation::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 2px;
-  bottom: 0;
-  width: 2px;
-  background-color: #ebedef;
-  opacity: 0.5;
 }
 
 .wx_navigation > .navigator-item,

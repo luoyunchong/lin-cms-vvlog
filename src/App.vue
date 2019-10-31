@@ -5,39 +5,38 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
-import Vue from 'vue'
+import { mapActions } from "vuex";
+import Vue from "vue";
 
 export default {
   data() {
     return {
       timer: null,
-      eventBus: new Vue(),
-    }
+      eventBus: new Vue()
+    };
   },
   mounted() {
-    document.getElementById('loader').style.display = 'none'
+    document.getElementById("loader").style.display = "none";
   },
   provide() {
     // eventBus挂载的事件： addGroup addUser
     return {
-      eventBus: this.eventBus,
-    }
+      eventBus: this.eventBus
+    };
   },
   methods: {
-    ...mapActions(['loginOut']),
-  },
-}
+    ...mapActions(["loginOut"])
+  }
+};
 </script>
 
 <style lang="scss">
-
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  // text-align: center;
   color: #2c3e50;
-
+  background-color: #f4f5f5;
   #nav {
     padding: 30px;
 

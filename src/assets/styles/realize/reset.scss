@@ -106,7 +106,6 @@ html,
 body,
 #app {
   width: 100%;
-  height: 100%;
 }
 
 blockquote:before,
@@ -179,7 +178,7 @@ a:hover {
     visibility: hidden;
     display: block;
     font-size: 0;
-    content: ' ';
+    content: " ";
     clear: both;
     height: 0;
   }
@@ -190,5 +189,5 @@ a:hover {
 /* 改变主题色变量 */
 $--color-primary: #4c76af;
 /* 改变 icon 字体路径变量，必需 */
-$--font-path: '~element-ui/lib/theme-chalk/fonts';
-@import '../../../../node_modules/element-ui/packages/theme-chalk/src/index';
+$--font-path: "~element-ui/lib/theme-chalk/fonts";
+@import "../../../../node_modules/element-ui/packages/theme-chalk/src/index";
