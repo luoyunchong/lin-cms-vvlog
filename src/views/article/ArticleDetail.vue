@@ -228,7 +228,11 @@ export default {
 
 @media (max-width: 600px) {
   .box-card .el-card__body {
-    padding-left: 0px;
+    padding: 0px;
+  }
+  .mavon-editor .v-note-wrapper .v-note-panel .v-note-show .v-show-content {
+    width: 97vw;
+    padding-left: 10px;
     padding-right: 0px;
   }
 }
