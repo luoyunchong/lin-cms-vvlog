@@ -13,6 +13,15 @@ let homeRouter = [
     icon: "iconfont icon-tushuguanli"
   },
   {
+    name: "BlogHome",
+    title: "文档",
+    type: "view",
+    route: "/home/docs",
+    filePath: "views/home/Docs.vue",
+    inNav: true,
+    icon: "iconfont icon-tushuguanli"
+  },
+  {
     title: "博客详情页",
     type: "view",
     name: "ArticleDetail",

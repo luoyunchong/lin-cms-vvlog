@@ -1,22 +1,55 @@
 <template>
-  <div class="app-container">
+  <el-row>
+    <el-col
+      :xs=" {span: 24, offset: 0}"
+      :md="{span:18,offset:3}"
+      :lg=" {span: 14, offset: 5}"
+      :xl="{span: 12, offset: 6}"
+    >
+      <el-container>
+        <div class="headerWrapper">
+          <el-header style="padding:0;background:#fff;" class="main-header">
+            <div class="container">
+              <el-menu
+                default-active="1"
+                mode="horizontal"
+                @select="handleSelect"
+                router
+                background-color="#fff"
+                active-text-color="#007fff"
+              >
+                <el-menu-item index="1" :route="{path:'/home/index'}">首页</el-menu-item>
+                <el-menu-item index="2" :route="{path:'/home/docs'}">文档</el-menu-item>
+              </el-menu>
+            </div>
+          </el-header>
+        </div>
+        <div class="mainWrapper">
+          <section class="container">
+            <div class="wrapper" id="wrapper">
+              <transition name="fade-transform" mode="out-in">
+                <router-view></router-view>
+              </transition>
+            </div>
+          </section>
+        </div>
+      </el-container>
+    </el-col>
+  </el-row>
+
+  <!-- <div class="app-container">
     <el-container>
       <div class="headerWrapper">
         <el-header style="padding:0;background:#fff;" class="main-header">
           <div class="container">
-            <el-menu
-              active-text-color="#007fff"
-              :default-active="activeIndex"
-              mode="horizontal"
-              @select="handleSelect"
-            >
-              <el-menu-item index="1">首页</el-menu-item>
-              <el-menu-item index="2">文档</el-menu-item>
+            <el-menu active-text-color="#007fff" mode="horizontal" @select="handleSelect" router>
+              <el-menu-item index="1" :route="{path:'/home/index'}">首页</el-menu-item>
+              <el-menu-item index="2" :route="{path:'/home/docs'}">文档</el-menu-item>
             </el-menu>
           </div>
         </el-header>
       </div>
-      <el-main class="mainWrapper">
+      <div class="mainWrapper">
         <section class="container">
           <div class="wrapper" id="wrapper">
             <transition name="fade-transform" mode="out-in">
@@ -24,9 +57,9 @@
             </transition>
           </div>
         </section>
-      </el-main>
+      </div>
     </el-container>
-  </div>
+  </div>-->
 </template>
 
 <script>
@@ -45,12 +78,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.app-container {
-  width: 1140px;
-  padding: 0;
-  margin: 0 auto;
-  height: 100%;
-}
 .headerWrapper {
   position: fixed;
   width: 100%;

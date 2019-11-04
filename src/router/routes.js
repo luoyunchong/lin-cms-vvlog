@@ -9,13 +9,11 @@ const routes = [
     component: Base,
     children: [...homeRouter]
   },
-  // {
-  //   path: "/",
-  //   name: "Home",
-  //   redirect: "/home/index",
-  //   component: Home,
-  //   children: [...homeRouter]
-  // },
+  {
+    name: "p",
+    path: "/p",
+    component: () => import("@/views/home/Index.vue"),
+  },
   {
     path: "/login",
     name: "login",

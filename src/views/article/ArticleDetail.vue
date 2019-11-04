@@ -64,15 +64,16 @@ export default {
   },
   created() {
     this.getData();
+    this.activeIndex = 0;
   },
   mounted() {
-    this.$nextTick(function() {
-      window.addEventListener("scroll", this.dataScroll, true);
-    });
+    // this.$nextTick(function() {
+    //   window.addEventListener("scroll", this.dataScroll, true);
+    // });
   },
   watch: {
     scroll: function() {
-      this.loadSroll();
+      // this.loadSroll();
     }
   },
   methods: {
@@ -122,7 +123,7 @@ export default {
 
       const nodes = a.children;
       var newDoms = [];
-
+      var router = this.$router;
       if (nodes.length) {
         for (let i = 0; i < nodes.length; i++) {
           const id =
@@ -153,7 +154,8 @@ export default {
 
           const a = document.createElement("a");
 
-          a.href = "#" + id;
+          // a.href = "#" + id;
+          a.id = id;
           a.innerHTML = content;
           node.appendChild(a);
           // console.log(id, content, node.tagName)
@@ -163,7 +165,11 @@ export default {
               parents[j].classList.remove("active");
             }
             node.classList.add("active");
-            // window.location.replace("#" + this.children[0].id);
+            let id = "#" + this.children[0].id;
+            if (location.hash == id) {
+              return;
+            }
+            router.replace(id);
           };
           newDoms.push(node);
         }
@@ -206,6 +212,9 @@ export default {
   max-width: 1200px;
   margin: 0 auto;
 }
+.mavon-editor {
+  width: 100%;
+}
 .mavon-editor .v-note-wrapper .v-note-panel {
   border: none;
   a:target {
@@ -214,6 +223,14 @@ export default {
 }
 .mavon-editor .v-note-wrapper .v-note-panel .v-note-show .v-show-content {
   background: #fff;
+  width: 90vw;
+}
+
+@media (max-width: 600px) {
+  .box-card .el-card__body {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
 }
 
 .aside-list {

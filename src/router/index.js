@@ -35,11 +35,21 @@ let isLoginRequired = routeName => {
   return isLoginRequired(routeName);
 };
 
+const scrollBehavior = function (to, from, savedPosition) {
+  if (to.hash) {
+    return {
+      // 通过 to.hash 的值來找到对应的元素
+      selector: to.hash,
+      offset: {
+        y: 100
+      }
+    }
+  }
+}
+
 const router = new Router({
   mode: 'history',
-  scrollBehavior: () => ({
-    y: 0
-  }),
+  scrollBehavior,
   base: process.env.BASE_URL,
   routes
 });
