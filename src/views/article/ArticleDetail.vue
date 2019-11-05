@@ -3,9 +3,6 @@
     <el-row :gutter="24">
       <el-col :xl="17" :lg="16" :md="24" :sm="24" :xs="24">
         <el-card class="box-card" shadow="never">
-          <!-- <div slot="header" class="clearfix">
-            <span>{{model.title}}</span>
-          </div>-->
           <div class="mavon-editor">
             <mavon-editor
               id="mavon-editor"
@@ -36,6 +33,7 @@
         </el-card>
       </el-col>
     </el-row>
+    <tools-badge></tools-badge>
   </div>
 </template>
 
@@ -43,6 +41,7 @@
 import articleApi from "../../models/article";
 import { mavonEditor } from "mavon-editor";
 import "mavon-editor/dist/css/index.css";
+import ToolsBadge from "./ToolsBadge";
 export default {
   name: "ArticleDetail",
   data() {
@@ -55,7 +54,8 @@ export default {
     };
   },
   components: {
-    mavonEditor
+    mavonEditor,
+    ToolsBadge
   },
   computed: {
     id() {
@@ -223,7 +223,9 @@ export default {
 }
 .mavon-editor .v-note-wrapper .v-note-panel .v-note-show .v-show-content {
   background: #fff;
-  width: 90vw;
+}
+.mavon-editor .markdown-body {
+  font-size: 14px;
 }
 
 @media (max-width: 600px) {
@@ -231,9 +233,15 @@ export default {
     padding: 0px;
   }
   .mavon-editor .v-note-wrapper .v-note-panel .v-note-show .v-show-content {
-    width: 97vw;
-    padding-left: 10px;
-    padding-right: 0px;
+    width: 100vw;
+  }
+  .el-row {
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+  }
+  .el-col-xs-24 {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
   }
 }
 

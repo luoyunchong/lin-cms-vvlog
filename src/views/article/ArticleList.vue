@@ -29,21 +29,23 @@
                 <ul class="article-about">
                   <li>
                     <a href>
-                      <i class="el-icon-star-off"></i>
-                      <!-- <i class="iconfont icon-shoucang"></i> -->
+                      <l-icon name="like" color="#b2bac2"></l-icon>
+                      <!-- <i class="el-icon-star-off"></i> -->
                       <span class="count">{{item.point_quantity}}</span>
                     </a>
                   </li>
                   <li>
                     <a href>
-                      <i class="el-icon-s-comment"></i>
+                      <l-icon name="comment" color="#b2bac2"></l-icon>
+                      <!-- <i class="el-icon-s-comment"></i> -->
                       <span class="count">{{item.comment_quantity}}</span>
                     </a>
                   </li>
                   <li>
                     <a href>
+                      <l-icon name="eye" color="#b2bac2"></l-icon>
                       <!-- <i class="iconfont icon-fenxiang"></i> -->
-                      <i class="el-icon-view"></i>
+                      <!-- <i class="el-icon-view"></i> -->
                       <span class="count">{{item.view_hits}}</span>
                     </a>
                   </li>
