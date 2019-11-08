@@ -1,78 +1,178 @@
 <template>
-  <el-row>
-    <el-col
-      :xs=" {span: 24, offset: 0}"
-      :md="{span:18,offset:3}"
-      :lg=" {span: 14, offset: 5}"
-      :xl="{span: 12, offset: 6}"
-    >
-      <el-container>
-        <div class="headerWrapper">
-          <el-header style="padding:0;background:#fff;" class="main-header">
-            <div class="container">
-              <el-menu
-                default-active="1"
-                mode="horizontal"
-                @select="handleSelect"
-                router
-                background-color="#fff"
-                active-text-color="#007fff"
-              >
-                <el-menu-item index="1" :route="{path:'/home/index'}">首页</el-menu-item>
-                <el-menu-item index="2" :route="{path:'/home/docs'}">文档</el-menu-item>
-              </el-menu>
-            </div>
-          </el-header>
-        </div>
-        <div class="mainWrapper">
-          <section class="container">
-            <div class="wrapper" id="wrapper">
-              <transition name="fade-transform" mode="out-in">
-                <router-view></router-view>
-              </transition>
-            </div>
-          </section>
-        </div>
-      </el-container>
-    </el-col>
-  </el-row>
+  <div>
+    <el-row>
+      <el-col
+        :xs=" {span: 24, offset: 0}"
+        :md="{span:18,offset:3}"
+        :lg=" {span: 14, offset: 5}"
+        :xl="{span: 12, offset: 6}"
+      >
+        <el-container>
+          <div class="headerWrapper">
+            <el-header style="padding:0;background:#fff;" class="main-header">
+              <div class="container">
+                <el-menu :default-active="activeIndex" mode="horizontal" @select="handleSelect">
+                  <!-- text-color="#000"
+                  background-color="#fff"
+                  active-text-color="#ffd04b"-->
+                  <el-menu-item index="/home/index" class="block">
+                    <router-link :to="{path:'/home/index'}">首页</router-link>
+                  </el-menu-item>
+                  <el-menu-item index="/home/docs" class="block">
+                    <router-link :to="{path:'/home/docs'}">文档</router-link>
+                  </el-menu-item>
+                  <template>
+                    <el-menu-item index="login" v-show="!logined" style="float:right;">
+                      <el-link>登录</el-link>
+                    </el-menu-item>
+                    <el-menu-item index="register" v-show="!logined" style="float:right;">
+                      <el-link>注册</el-link>
+                    </el-menu-item>
+                    <el-menu-item v-if="logined" style="float:right;">
+                      <current-user class="current-user"></current-user>
+                    </el-menu-item>
+                  </template>
+                </el-menu>
+              </div>
+            </el-header>
+          </div>
+          <div class="mainWrapper">
+            <section class="container">
+              <div class="wrapper" id="wrapper">
+                <transition name="fade-transform" mode="out-in">
+                  <router-view></router-view>
+                </transition>
+              </div>
+            </section>
+          </div>
+        </el-container>
+      </el-col>
+    </el-row>
 
-  <!-- <div class="app-container">
-    <el-container>
-      <div class="headerWrapper">
-        <el-header style="padding:0;background:#fff;" class="main-header">
-          <div class="container">
-            <el-menu active-text-color="#007fff" mode="horizontal" @select="handleSelect" router>
-              <el-menu-item index="1" :route="{path:'/home/index'}">首页</el-menu-item>
-              <el-menu-item index="2" :route="{path:'/home/docs'}">文档</el-menu-item>
-            </el-menu>
-          </div>
-        </el-header>
-      </div>
-      <div class="mainWrapper">
-        <section class="container">
-          <div class="wrapper" id="wrapper">
-            <transition name="fade-transform" mode="out-in">
-              <router-view></router-view>
-            </transition>
-          </div>
-        </section>
-      </div>
-    </el-container>
-  </div>-->
+    <el-dialog
+      width="318px"
+      class="lin-dialog"
+      :visible.sync="dialogTableVisible"
+      :close-on-click-modal="false"
+    >
+      <span slot="title">登录</span>
+      <el-form :model="form" label-position="top" ref="form">
+        <el-form-item
+          prop="username"
+          :rules="[
+              { required: true, message: '请输入用户名', trigger: 'blur' },
+            ]"
+        >
+          <el-input
+            v-model="form.username"
+            prefix-icon="el-icon-user"
+            autocomplete="off"
+            placeholder="请输入用户名"
+            clearable
+          ></el-input>
+        </el-form-item>
+        <el-form-item
+          prop="password"
+          :rules="[
+              { required: true, message: '请输入密码', trigger: 'blur' },
+            ]"
+        >
+          <el-input
+            v-model="form.password"
+            prefix-icon="el-icon-lock"
+            autocomplete="off"
+            placeholder="请输入密码"
+            show-password
+            clearable
+          ></el-input>
+        </el-form-item>
+        <el-form-item class="dialog-footer lin-form-item">
+          <el-button type="primary" @click="submitForm">登录</el-button>
+        </el-form-item>
+        <el-form-item class="lin-form-item">
+          没有账号？
+          <el-link type="primary">注册</el-link>
+          <el-link href="/reset-password" style="float:right;">忘记密码</el-link>
+        </el-form-item>
+        <el-form-item label="第三方账号登录" class="oauth lin-form-item">
+          <el-avatar icon="iconfont icon-QQ" title="qq登录" size="large"></el-avatar>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
+  </div>
 </template>
 
 <script>
+import { mapActions, mapMutations } from "vuex";
+import User from "@/lin/models/user";
+import Utils from "@/lin/utils/util";
+import { User as CurrentUser } from "@/components/layout";
+
 export default {
   name: "Base",
+  components: { CurrentUser },
   data() {
     return {
-      activeIndex: "1"
+      activeIndex: "1",
+      dialogTableVisible: false,
+      form: {
+        username: "",
+        password: ""
+      },
+      formLabelWidth: "120px"
     };
   },
+  computed: {
+    logined() {
+      return this.$store.state.logined;
+    }
+  },
   methods: {
+    ...mapActions(["setUserAndState"]),
+    ...mapMutations({
+      setUserAuths: "SET_USER_AUTHS"
+    }),
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
+      if (key == "login") {
+        this.dialogTableVisible = true;
+        return;
+      }
+      // this.$router.push(key);
+    },
+    submitForm() {
+      this.$refs["form"].validate(valid => {
+        if (valid) {
+          this.login();
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
+    },
+    async login() {
+      try {
+        this.loading = true;
+        await User.getToken(this.form.username, this.form.password);
+        this.dialogTableVisible = false;
+        await this.getInformation();
+        this.loading = false;
+        this.$router.push("/home/index");
+        this.$message.success("登录成功");
+      } catch (e) {
+        this.loading = false;
+        console.log(e);
+      }
+    },
+    async getInformation() {
+      try {
+        // 尝试获取当前用户信息
+        const user = await User.getAuths();
+        this.setUserAndState(user);
+        this.setUserAuths(user.auths);
+      } catch (e) {
+        console.log(e);
+      }
     }
   }
 };
@@ -83,7 +183,7 @@ export default {
   width: 100%;
   left: 0;
   top: 0;
-  z-index: 10000;
+  z-index: 1501;
 }
 .mainWrapper {
   height: calc(100% - 80px);
@@ -96,11 +196,51 @@ export default {
   border-bottom: 1px solid #f1f1f1;
   color: #909090;
   height: 5rem;
-  z-index: 250;
 }
 .container {
   max-width: 1100px;
   margin: auto;
   height: 100%;
+  /deep/ .block {
+    padding: 0px;
+    a {
+      display: block;
+      padding: 0 20px;
+    }
+  }
+  .current-user {
+    height: 60px;
+    /deep/ .el-dropdown {
+      top: 10px;
+      left: 5px;
+    }
+  }
+}
+.lin-dialog {
+  span {
+    font-size: 1.3rem;
+    font-weight: bold;
+  }
+  .el-form-item {
+    margin-bottom: 0px !important;
+  }
+  .lin-form-item /deep/ .el-form-item__content {
+    margin-bottom: 0px !important;
+  }
+  .dialog-footer {
+    text-align: center;
+
+    .el-button {
+      width: 270px;
+    }
+  }
+  .oauth .el-form-item__content {
+    .el-avatar /deep/ i.icon-QQ {
+      font-size: 22px !important;
+      &:hover {
+        cursor: pointer !important;
+      }
+    }
+  }
 }
 </style>

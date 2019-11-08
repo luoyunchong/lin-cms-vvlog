@@ -3,6 +3,9 @@
     <el-row :gutter="24">
       <el-col :xl="17" :lg="16" :md="24" :sm="24" :xs="24">
         <el-card class="box-card" shadow="never">
+          <div slot="header">
+            <el-page-header @back="goBack" :content="model.title"></el-page-header>
+          </div>
           <div class="mavon-editor">
             <mavon-editor
               id="mavon-editor"

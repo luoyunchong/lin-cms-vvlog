@@ -81,6 +81,7 @@
       </div>
     </el-dialog>
     <el-dialog
+      width="500px"
       title="修改密码"
       :append-to-body="true"
       :before-close="handleClose"
@@ -89,7 +90,6 @@
     >
       <el-form
         :model="form"
-        status-icon
         :rules="rules"
         label-position="left"
         ref="form"
@@ -97,13 +97,31 @@
         @submit.native.prevent
       >
         <el-form-item label="原始密码" prop="old_password">
-          <el-input type="password" v-model="form.old_password" autocomplete="off"></el-input>
+          <el-input
+            type="password"
+            v-model="form.old_password"
+            autocomplete="off"
+            show-password
+            clearable
+          ></el-input>
         </el-form-item>
         <el-form-item label="新密码" prop="new_password">
-          <el-input type="password" v-model="form.new_password" autocomplete="off"></el-input>
+          <el-input
+            type="password"
+            v-model="form.new_password"
+            autocomplete="off"
+            show-password
+            clearable
+          ></el-input>
         </el-form-item>
         <el-form-item label="确认密码" prop="confirm_password" label-position="top">
-          <el-input type="password" v-model="form.confirm_password" autocomplete="off"></el-input>
+          <el-input
+            type="password"
+            v-model="form.confirm_password"
+            autocomplete="off"
+            show-password
+            clearable
+          ></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('form')">保存</el-button>
@@ -354,7 +372,7 @@ export default {
     init() {
       const { user } = this.$store.state;
       this.username = user ? user.username : "未登录";
-      this.groupName = user.groupName ? user.groupName : "超级管理员";
+      this.groupName = user && user.groupName ? user.groupName : "无角色";
       this.nickname = user && user.nickname ? user.nickname : "佚名";
     },
     changePassword() {
