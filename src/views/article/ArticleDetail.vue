@@ -1,7 +1,7 @@
 <template>
   <div class="page-header-index-wide">
     <el-row :gutter="24">
-      <el-col :xl="17" :lg="16" :md="24" :sm="24" :xs="24">
+      <el-col :xl="18" :lg="18" :md="24" :sm="24" :xs="24">
         <el-card class="box-card" shadow="never">
           <div slot="header">
             <el-page-header @back="goBack" :content="model.title"></el-page-header>
@@ -23,7 +23,7 @@
           </div>
         </el-card>
       </el-col>
-      <el-col :xl="7" :lg="8" :md="24" :sm="24" :xs="24">
+      <el-col :xl="6" :lg="6" :md="24" :sm="24" :xs="24">
         <el-card class="aside-list" shadow="never" :body-style="{ padding: '12px'}">
           <div slot="header" class="clearfix">
             <span>目录</span>
@@ -36,7 +36,18 @@
         </el-card>
       </el-col>
     </el-row>
-    <tools-badge></tools-badge>
+    <tools-badge
+      :model="{
+          id: model.id,
+          is_liked:  model.is_liked,
+          likes_quantity:  model.likes_quantity,
+          is_comment:  model.is_comment,
+          comment_quantity:  model.comment_quantity,
+          is_collect:  model.is_collect,
+          collect_quantity:  model.collect_quantity
+    }"
+      @likeChange="likeChange"
+    ></tools-badge>
   </div>
 </template>
 
@@ -80,6 +91,10 @@ export default {
     }
   },
   methods: {
+    likeChange({ likes_quantity, is_liked }) {
+      this.model.likes_quantity += likes_quantity;
+      this.model.is_liked = is_liked;
+    },
     async getData() {
       this.model = await articleApi.getArticle(this.id);
       this.init();

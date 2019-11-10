@@ -4,13 +4,14 @@
       <el-col
         :xs=" {span: 24, offset: 0}"
         :md="{span:18,offset:3}"
-        :lg=" {span: 14, offset: 5}"
-        :xl="{span: 12, offset: 6}"
+        :lg=" {span: 14, offset: 4}"
+        :xl="{span: 14, offset: 5}"
+        :xll="{span: 14, offset: 5}"
       >
         <el-container>
           <div class="headerWrapper">
             <el-header style="padding:0;background:#fff;" class="main-header">
-              <div class="container">
+              <div class="header-container">
                 <el-menu :default-active="activeIndex" mode="horizontal" @select="handleSelect">
                   <!-- text-color="#000"
                   background-color="#fff"
@@ -37,13 +38,9 @@
             </el-header>
           </div>
           <div class="mainWrapper">
-            <section class="container">
-              <div class="wrapper" id="wrapper">
-                <transition name="fade-transform" mode="out-in">
-                  <router-view></router-view>
-                </transition>
-              </div>
-            </section>
+            <transition name="fade-transform" mode="out-in">
+              <router-view></router-view>
+            </transition>
           </div>
         </el-container>
       </el-col>
@@ -189,6 +186,7 @@ export default {
   height: calc(100% - 80px);
   margin-top: 80px;
   padding-left: 0px;
+  width: 100%;
   padding-right: 0px;
 }
 .main-header {
@@ -197,7 +195,7 @@ export default {
   color: #909090;
   height: 5rem;
 }
-.container {
+.header-container {
   max-width: 1100px;
   margin: auto;
   height: 100%;

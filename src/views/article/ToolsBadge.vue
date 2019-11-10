@@ -1,37 +1,37 @@
 <template>
   <div class="a-tools action-box">
     <div class="a-badge" title="点赞">
-      <a @click="handleStar">
-        <el-badge :value="model.starCount" :type="model.isStared==1?'danger':'info'">
+      <a @click="handleLike">
+        <el-badge :value="model.likes_quantity" :type="model.is_liked?'danger':'info'">
           <el-avatar
             :size="32"
             icon="iconfont icon-like"
             class="a-avatar"
-            :style="model.isStared==1?'color: #f56a00; background-color: #fde3cf':''"
+            :style="model.is_liked?'color: #f56a00; background-color: #fde3cf':''"
           />
         </el-badge>
       </a>
     </div>
     <div class="a-badge" title="评论">
       <a>
-        <el-badge :type="model.isComment==1?'danger':'info'" :value="model.commentCount">
+        <el-badge :type="model.is_comment?'danger':'info'" :value="model.comment_quantity">
           <el-avatar
             :size="32"
             icon="el-icon-chat-dot-square"
             class="a-avatar"
-            :style="model.isComment==1?'color: #f56a00; background-color: #fde3cf':''"
+            :style="model.is_comment?'color: #f56a00; background-color: #fde3cf':''"
           />
         </el-badge>
       </a>
     </div>
     <div class="a-badge" title="收藏">
       <a @click="handleCollect">
-        <el-badge :type="model.isCollect==1?'danger':'info'" :value="model.collectCount">
+        <el-badge :type="model.is_collect?'danger':'info'" :value="model.collect_quantity">
           <el-avatar
             :size="32"
             icon="el-icon-collection"
             class="a-avatar"
-            :style="model.isCollect==1?'color: #f56a00; background-color: #fde3cf':''"
+            :style="model.is_collect?'color: #f56a00; background-color: #fde3cf':''"
           />
         </el-badge>
       </a>
@@ -40,53 +40,45 @@
 </template>
 
 <script>
+import userLike from "@/models/userLike";
 export default {
   data() {
-    return {
-      model: {
-        id: 0,
-        isStared: 0,
-        starCount: 0,
-        isComment: 0,
-        commentCount: 0,
-        isCollect: 0,
-        collectCount: 0
-      }
-    };
+    return {};
   },
   props: {
-    // model: {
-    //   type: Object,
-    //   default() {
-    //     return {
-    //       id: 0,
-    //       isStared: 0,
-    //       starCount: 0,
-    //       isComment: 0,
-    //       commentCount: 0,
-    //       isCollect: 0,
-    //       collectCount: 0
-    //     };
-    //   }
-    // }
+    model: {
+      type: Object,
+      default() {
+        return {
+          id: 0,
+          is_liked: false,
+          likes_quantity: 0,
+          is_comment: false,
+          comment_quantity: 0,
+          is_collect: false,
+          collect_quantity: 0
+        };
+      }
+    }
   },
   computed: {},
   created() {},
   methods: {
-    handleStar() {
-      console.log("handleStar");
-      if (this.model.isStared == 1) {
-        this.model.isStared = 0;
-        this.model.starCount -= 1;
+    async handleLike() {
+      let res = await userLike.addUserLike({
+        article_Id: this.model.id
+      });
+      this.$message.success(`${res.msg}`);
+      if (this.model.is_liked) {
+        this.$emit("likeChange", { likes_quantity: -1, is_liked: false });
       } else {
-        this.model.isStared = 1;
-        this.model.starCount += 1;
+        this.$emit("likeChange", { likes_quantity: 1, is_liked: true });
       }
     },
     handleCollect() {
-      console.log("handleCollect");
+      console.log("");
 
-      if (this.model.isCollect == 1) {
+      if (this.model.isCollect) {
         this.model.isCollect = 0;
         this.model.collectCount -= 1;
       } else {

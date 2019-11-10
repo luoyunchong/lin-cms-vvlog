@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class>
     <article-list :dataSource="dataSource"></article-list>
     <infinite-loading @infinite="infiniteHandler"></infinite-loading>
   </div>

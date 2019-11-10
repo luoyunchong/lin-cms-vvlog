@@ -19,7 +19,7 @@
               <!-- 需要注意这里加/# -->
               <router-link
                 class="article-detail-title"
-                :to="{ name: 'ArticleDetail', params: { id: item.id }}"
+                :to="{ name: 'p', params: { id: item.id }}"
               >{{item.title}}</router-link>
               <!-- <a class="article-detail-title" @click="()=>toArticle(item)">{{item.title}}</a> -->
             </div>
@@ -31,7 +31,7 @@
                     <a href>
                       <l-icon name="like" color="#b2bac2"></l-icon>
                       <!-- <i class="el-icon-star-off"></i> -->
-                      <span class="count">{{item.point_quantity}}</span>
+                      <span class="count">{{item.likes_quantity}}</span>
                     </a>
                   </li>
                   <li>
@@ -77,7 +77,7 @@ export default {
   mounted() {},
   methods: {
     toArticle(item) {
-      this.$router.push({ name: "ArticleDetail", params: { id: item.id } });
+      this.$router.push({ name: "p", params: { id: item.id } });
     }
   }
 };

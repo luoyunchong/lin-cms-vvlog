@@ -4,7 +4,7 @@ import Utils from "@/lin/utils/util";
 // eslint-disable-next-line import/no-mutable-exports
 let homeRouter = [
   {
-    name: "BlogHome",
+    name: "index",
     title: "博客首页",
     type: "view",
     route: "/home/index",
@@ -13,7 +13,7 @@ let homeRouter = [
     icon: "iconfont icon-tushuguanli"
   },
   {
-    name: "BlogHome",
+    name: "docs",
     title: "文档",
     type: "view",
     route: "/home/docs",
@@ -22,9 +22,18 @@ let homeRouter = [
     icon: "iconfont icon-tushuguanli"
   },
   {
+    name: "comment",
+    title: "评论",
+    type: "view",
+    route: "/home/comment",
+    filePath: "views/comment/CommentList.vue",
+    inNav: true,
+    icon: "iconfont icon-tushuguanli"
+  },
+  {
     title: "博客详情页",
     type: "view",
-    name: "ArticleDetail",
+    name: "p",
     route: "/post/:id",
     filePath: "views/article/ArticleDetail.vue",
     inNav: false
