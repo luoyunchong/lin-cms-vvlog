@@ -16,9 +16,9 @@ import StickyTop from "@/components/base/sticky-top/sticky-top";
 import LIcon from "@/components/base/icon/lin-icon";
 import SourceCode from "@/components/base/source-code/source-code";
 
-import "@/assets/styles/index.scss"; // eslint-disable-line
+import "@/assets/styles/index.scss";
 import "@/assets/styles/realize/element-variables.scss";
-import "element-ui/lib/theme-chalk/display.css";
+import "element-ui/lib/theme-chalk/base.css";
 
 Vue.config.productionTip = false;
 
@@ -31,7 +31,6 @@ Vue.component("sticky-top", StickyTop);
 Vue.component("l-icon", LIcon);
 Vue.component("source-code", SourceCode);
 
-/* eslint no-unused-vars: 0 */
 const AppInstance = new Vue({
   router,
   store,

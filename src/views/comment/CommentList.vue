@@ -2,16 +2,24 @@
   <div class="container">
     <div :gutter="20">
       <el-col :xs="24" :sm="24" :md="18" :lg="18" :xl="18">
-        <el-form ref="form" :model="form" label-width="80px" label-position="top" :rules="rules">
-          <el-form-item label="评论内容" prop="text">
-            <el-input type="textarea" placeholder="请输入评论内容" v-model="form.text"></el-input>
+        <el-form ref="form" :model="form" :rules="rules">
+          <el-form-item prop="text">
+            <el-input
+              type="textarea"
+              :autosize="true"
+              placeholder="请输入评论内容"
+              v-model="form.text"
+              minlength="1"
+              maxlength="500"
+              show-word-limit
+            ></el-input>
           </el-form-item>
           <el-form-item style="float:right;">
-            <el-badge :value="500" class="item">剩余字数</el-badge>
-            <el-button type="primary" @click="addComment">评论</el-button>
+            <el-button type="primary" @click="addComment" :disabled="form.text==''">发布</el-button>
           </el-form-item>
         </el-form>
-
+      </el-col>
+      <el-col :xs="24" :sm="24" :md="18" :lg="18" :xl="18">
         <el-card>
           <comment-item
             v-for="(comment,index) in comments"
@@ -61,6 +69,9 @@ export default {
     return {
       comments: [],
       replys: [],
+      disabled: true,
+      surplus: 500,
+      status: "primary",
       form: {
         subject_id: "5dc93286-5e44-c190-008e-3fc74d4fcee0",
         resp_id: null,
@@ -124,5 +135,11 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
+.el-form-item {
+  margin-bottom: 1px !important;
+  /deep/ .el-form-item__content {
+    line-height: 20px;
+  }
+}
 </style>
