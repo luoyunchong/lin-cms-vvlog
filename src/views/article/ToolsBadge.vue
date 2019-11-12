@@ -65,8 +65,9 @@ export default {
   created() {},
   methods: {
     async handleLike() {
-      let res = await userLike.addUserLike({
-        article_Id: this.model.id
+      let res = await userLike.likeOrCancel({
+        subject_id: this.model.id,
+        subject_type: 1
       });
       this.$message.success(`${res.msg}`);
       if (this.model.is_liked) {

@@ -35,7 +35,7 @@
           @click="()=>item.click()"
         >
           <i :class="item.icon + ' coments-ops-icon'" v-if="item.icon"></i>
-          <span class="coments-ops-text">{{item.name}}</span>
+          <span class="coments-ops-text">{{item.count}}</span>
         </span>
         <span class="comments-reply-btn ml15" @click="handleAddReply">
           <i class="iconfont icon-comment coments-ops-icon"></i>
@@ -203,9 +203,6 @@ img {
       color: #5cb6ff;
     }
   }
-}
-.comments-option {
-  /*visibility: hidden;*/
 }
 .comments-content {
   line-height: 1.6;

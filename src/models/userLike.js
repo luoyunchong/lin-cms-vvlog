@@ -5,7 +5,7 @@ class UserLike {
     // constructor() {}
 
     // 类中的方法可以代表一个用户行为
-    async addUserLike(info) {
+    async likeOrCancel(info) {
         const res = await post("v1/user-like/", info);
         return res;
     }
