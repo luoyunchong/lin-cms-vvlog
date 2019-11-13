@@ -1,12 +1,19 @@
 <template>
   <div>
-    <el-form ref="form" :model="form" label-width="80px" label-position="top" :rules="rules">
+    <el-form ref="form" :rules="rules" :model="model">
       <el-form-item prop="text">
-        <el-input type="textarea" :autosize="true" placeholder="请输入评论内容" v-model="form.text"></el-input>
+        <el-input
+          type="textarea"
+          :autosize="true"
+          placeholder="请输入评论内容"
+          v-model="model.text"
+          minlength="1"
+          :maxlength="surplus"
+          show-word-limit
+        ></el-input>
       </el-form-item>
-      <el-form-item style="float:right;">
-        <el-badge :value="500" style="margin-right:50px;">剩余字数</el-badge>
-        <el-button type="primary" @click="addComment">评论</el-button>
+      <el-form-item style="text-align:right;">
+        <el-button type="primary" @click="addComment" :disabled="model.text==''">发布</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -16,12 +23,35 @@
 import commentApi from "@/models/comment";
 export default {
   name: "CommentInput",
+  props: {
+    form: {
+      type: Object,
+      default() {
+        return {
+          subject_id: "5dc93286-5e44-c190-008e-3fc74d4fcee0",
+          resp_id: null,
+          text: "",
+          root_comment_id: null,
+          resp_user_id: null
+        };
+      }
+    }
+  },
   data() {
     return {
-      form: {
-        subject_id: "5dc93286-5e44-c190-008e-3fc74d4fcee0",
-        resp_id: null,
+      disabled: true,
+      surplus: 500,
+      model: {
         text: ""
+      },
+      rules: {
+        text: [
+          {
+            required: true,
+            message: "请输入评论内容",
+            trigger: "blur"
+          }
+        ]
       }
     };
   },
@@ -31,10 +61,21 @@ export default {
     addComment() {
       this.$refs["form"].validate(async valid => {
         if (valid) {
-          let res = await commentApi.addComment(this.form);
+          var text = this.model.text.trim();
+          if (text == "") {
+            this.$message({
+              message: "发布内容为空!",
+              type: "warning"
+            });
+            return;
+          }
+
+          let res = await commentApi.addComment(
+            Object.assign(this.form, { text: text })
+          );
           this.$message.success(`${res.msg}`);
-          this.$refs["form"].resetFields();
           this.$emit("success");
+          this.$refs["form"].resetFields();
         } else {
           console.log("error submit!!");
           return false;
@@ -45,5 +86,12 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
+.el-form-item {
+  margin-bottom: 1px !important;
+  /deep/ .el-form-item__content {
+    line-height: 20px;
+    margin-bottom: 10px;
+  }
+}
 </style>

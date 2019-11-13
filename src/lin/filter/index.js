@@ -110,7 +110,8 @@ const globalFilter = {
 
   filterTitle(value, len = 9) {
     return Utils.cutString(value, len);
-  }
+  },
+
 };
 
 // 全局过滤器

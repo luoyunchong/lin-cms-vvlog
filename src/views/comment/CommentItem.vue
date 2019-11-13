@@ -22,7 +22,7 @@
         <strong>
           <a target="_blank" href="javascript:void(0)" @click="handleClickAuthor">{{author}}</a>
         </strong>
-        <span class="comments-date">· {{time | filterTime}}</span>
+        <span class="comments-date">· {{time | filterTimeYmdHms}}</span>
       </div>
       <div class="comments-content">
         <p>{{content}}</p>
@@ -39,11 +39,14 @@
         </span>
         <span class="comments-reply-btn ml15" @click="handleAddReply">
           <i class="iconfont icon-comment coments-ops-icon"></i>
-          回复
+          {{replyText}}
         </span>
       </p>
+      <div class="comment-input" v-show="replyVisible">
+        <slot name="comment-input"></slot>
+      </div>
       <div class="reply-list" v-show="hasReply">
-        <slot></slot>
+        <slot name="reply-list"></slot>
         <!-- <div class="reply-item reply-item--ops">
           <a class="reply-inner-btn" href="javascript:void(0);" @click="handleAddReply">添加回复</a>
         </div>-->
@@ -62,12 +65,22 @@ export default {
     ops: Array,
     tools: Array,
     time: [String, Number],
-    hasReply: Boolean
+    hasReply: Boolean,
+    replyVisible: {
+      type: Boolean,
+      default: false
+    }
   },
   data() {
-    return {};
+    return {
+      // replyVisible: false
+    };
   },
-  computed: {},
+  computed: {
+    replyText() {
+      return this.replyVisible == true ? "取消回复" : "回复";
+    }
+  },
   methods: {
     handleClickAvatar(event) {
       event.stopPropagation();
@@ -86,56 +99,7 @@ export default {
       this.$emit("addReply", this);
     }
   },
-  filters: {
-    filterTime(value) {
-      if (!value) {
-        return "未知时间";
-      }
-      if (Object.prototype.toString.call(value) === "[object String]") {
-        return value;
-      }
-      if (value === "" || isNaN(value)) {
-        return "未知时间";
-      }
-      if (value <= 0) {
-        return "未知时间";
-      }
-      if (value < 10000000000) {
-        value *= 1000;
-      }
-      let time = new Date(value);
-      let tY = time.getFullYear();
-      let tM =
-        time.getMonth() + 1 < 10
-          ? "0" + (time.getMonth() + 1)
-          : time.getMonth() + 1;
-      let tD = time.getDate() < 10 ? "0" + time.getDate() : time.getDate();
-      let th = time.getHours() < 10 ? "0" + time.getHours() : time.getHours();
-      let tm =
-        time.getMinutes() < 10 ? "0" + time.getMinutes() : time.getMinutes();
-      let ts =
-        time.getSeconds() < 10 ? "0" + time.getSeconds() : time.getSeconds();
-      let now = new Date();
-      let nY = now.getFullYear();
-      let nM =
-        now.getMonth() + 1 < 10
-          ? "0" + (now.getMonth() + 1)
-          : now.getMonth() + 1;
-      let nD = now.getDate() < 10 ? "0" + now.getDate() : now.getDate();
-      let result = "";
-      if (tY !== nY) {
-        result += tY + "年";
-      }
-      if (tM !== nM || tD !== nD) {
-        result += tM + "月";
-        result += tD + "日";
-      }
-      if (result === "") {
-        result = th + ":" + tm + ":" + ts;
-      }
-      return result;
-    }
-  }
+  filters: {}
 };
 </script>
 
@@ -224,6 +188,13 @@ img {
 }
 .comments-reply-btn {
   cursor: pointer;
+}
+.comment-input {
+  margin-top: 1.083rem;
+  position: relative;
+  padding: 1rem 1rem 0rem 1rem;
+  background-color: #fafbfc;
+  border-radius: 3px;
 }
 .reply-list {
   margin-top: 10px;
