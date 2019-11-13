@@ -24,12 +24,15 @@
             </a>
           </span>
           <span class="comment-meta inline-block">
-            <span>—</span>
             <a
               target="_blank"
               href="javascript:void(0)"
               @click="handleClickAuthor($event)"
             >{{author}}</a>
+            <template v-if="resp_user_info!=null">
+              <span style="margin:0px 5px;">回复</span>
+              <a target="_blank" href="javascript:void(0)">{{resp_user_info.nickname}}</a>
+            </template>
             <span class="comments-date">· {{time | filterTimeYmdHms}}</span>
           </span>
         </div>
@@ -59,7 +62,8 @@ export default {
     replyVisible: {
       type: Boolean,
       default: false
-    }
+    },
+    resp_user_info: Object
   },
   data() {
     return {};
@@ -139,9 +143,6 @@ export default {
 }
 .reply-item p {
   margin-bottom: 5px;
-}
-.comment-tools {
-  /*visibility: hidden;*/
 }
 .comment-meta {
   color: #999;

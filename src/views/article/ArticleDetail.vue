@@ -22,6 +22,7 @@
             />
           </div>
         </el-card>
+        <comment-list :subject_id="id" :subject_type="1"></comment-list>
       </el-col>
       <el-col :xl="6" :lg="6" :md="24" :sm="24" :xs="24">
         <el-card class="aside-list" shadow="never" :body-style="{ padding: '12px'}">
@@ -56,6 +57,8 @@ import articleApi from "../../models/article";
 import { mavonEditor } from "mavon-editor";
 import "mavon-editor/dist/css/index.css";
 import ToolsBadge from "./ToolsBadge";
+import CommentList from "@/views/comment/CommentList";
+
 export default {
   name: "ArticleDetail",
   data() {
@@ -69,7 +72,8 @@ export default {
   },
   components: {
     mavonEditor,
-    ToolsBadge
+    ToolsBadge,
+    CommentList
   },
   computed: {
     id() {

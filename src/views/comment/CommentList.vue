@@ -1,33 +1,44 @@
 <template>
-  <div class="container">
-    <div :gutter="20">
-      <el-col :xs="24" :sm="24" :md="18" :lg="18" :xl="18">
-        <comment-input @success="getComments" :form="form"></comment-input>
-      </el-col>
-      <el-col :xs="24" :sm="24" :md="18" :lg="18" :xl="18">
-        <el-card>
-          <!-- :ops="[
+  <div>
+    <el-card
+      shadow="never"
+      :body-style="{'padding-bottom':'0px'}"
+      style="margin-bottom:20px;margin-top:20px;"
+    >
+      <comment-input
+        @success="getComments"
+        :form="{
+                subject_id:subject_id,
+                subject_type:subject_type,
+                resp_id: null,
+                root_comment_id: null,
+                resp_user_id: null
+            }"
+      ></comment-input>
+    </el-card>
+    <el-card shadow="never">
+      <!-- :ops="[
                 {
                   count:comment.likes_quantity,
                   name:'点赞',
                   icon:'iconfont icon-'+(comment.is_liked?'like-fill':'like'),
                   click:()=>handleLike(comment,index)
                 }
-          ]"-->
-          <comment-item
-            v-for="(comment,index) in comments"
-            :key="comment.id"
-            :avatar="comment.user_info.avatar"
-            :author="comment.user_info.nickname"
-            :content="comment.text"
-            :time="comment.create_time|filterTimeYmdHms"
-            :hasReply="comment.top_comment && comment.top_comment.length > 0"
-            :replyVisible="comment.replyVisible"
-            @clickAvatar="handleClickAvatar(comment)"
-            @clickAuthor="handleClickAuthor(comment)"
-            @addReply="handleAddReply(comment,index)"
-            @clickTool="($event, item)=>handleClickTool(item,comment,index)"
-            :tools="[
+      ]"-->
+      <comment-item
+        v-for="(comment,index) in comments"
+        :key="comment.id"
+        :avatar="comment.user_info.avatar"
+        :author="comment.user_info.nickname"
+        :content="comment.text"
+        :time="comment.create_time|filterTimeYmdHms"
+        :hasReply="comment.top_comment && comment.top_comment.length > 0"
+        :replyVisible="comment.replyVisible"
+        @clickAvatar="handleClickAvatar(comment)"
+        @clickAuthor="handleClickAuthor(comment)"
+        @addReply="handleAddReply(comment,index)"
+        @clickTool="($event, item)=>handleClickTool(item,comment,index)"
+        :tools="[
                 {
                   text:comment.likes_quantity,
                   title:'点赞',
@@ -35,29 +46,31 @@
                   icon:'iconfont icon-'+(comment.is_liked?'like-fill':'like'),
                 }
             ]"
-          >
-            <comment-input
-              slot="comment-input"
-              @success="getComments"
-              :form="{
-                subject_id:form.subject_id,
+      >
+        <comment-input
+          slot="comment-input"
+          @success="()=>getTopComments(comment.id,index)"
+          :form="{
+                subject_id:subject_id,
+                subject_type:subject_type,
                 resp_id: comment.id,
                 root_comment_id: comment.id,
                 resp_user_id: comment.user_info.id
             }"
-            ></comment-input>
-            <reply-item
-              slot="reply-list"
-              v-for="(reply,i) in comment.top_comment"
-              :avatar="reply.user_info.avatar"
-              :key="reply.id"
-              :author="reply.user_info.nickname"
-              :content="reply.text"
-              :time="reply.create_time|filterTimeYmdHms"
-              @clickTool="($event, item)=>handleClickReplyTool(item,reply,index,i)"
-              @addReply="handleAddCommentReply(reply,index,i)"
-              :replyVisible="reply.replyVisible"
-              :tools="[
+        ></comment-input>
+        <reply-item
+          slot="reply-list"
+          v-for="(reply,i) in comment.top_comment"
+          :avatar="reply.user_info.avatar"
+          :key="reply.id"
+          :author="reply.user_info.nickname"
+          :resp_user_info="reply.resp_user_info"
+          :content="reply.text"
+          :time="reply.create_time|filterTimeYmdHms"
+          @clickTool="($event, item)=>handleClickReplyTool(item,reply,index,i)"
+          @addReply="handleAddCommentReply(reply,index,i)"
+          :replyVisible="reply.replyVisible"
+          :tools="[
                 {
                   text:reply.likes_quantity,
                   title:'点赞',
@@ -65,22 +78,23 @@
                   icon:'iconfont icon-'+(reply.is_liked?'like-fill':'like'),
                 }
             ]"
-            >
-              <comment-input
-                slot="reply-item-input"
-                @success="()=>getTopComments(reply,index)"
-                :form="{
-                subject_id:form.subject_id,
+        >
+          <comment-input
+            slot="reply-item-input"
+            @success="()=>getTopComments(reply.root_comment_id,index)"
+            :form="{
+                subject_id:subject_id,
+                subject_type:subject_type,
                 resp_id: reply.id,
                 root_comment_id: reply.root_comment_id,
                 resp_user_id: reply.user_info.id
             }"
-              ></comment-input>
-            </reply-item>
-          </comment-item>
-        </el-card>
-      </el-col>
-    </div>
+          ></comment-input>
+        </reply-item>
+      </comment-item>
+
+      <infinite-loading @infinite="infiniteHandler" spinner="bubbles" :identifier="any"></infinite-loading>
+    </el-card>
   </div>
 </template>
 
@@ -91,27 +105,51 @@ import ReplyItem from "@/views/comment/ReplyItem";
 import userLike from "@/models/userLike";
 import CommentInput from "@/views/comment/CommentInput";
 
+import InfiniteLoading from "vue-infinite-loading";
 export default {
   name: "CommentList",
-  components: { CommentItem, ReplyItem, CommentInput },
+  components: { CommentItem, ReplyItem, CommentInput, InfiniteLoading },
   data() {
     return {
       comments: [],
       form: {
-        subject_id: "5dc93286-5e44-c190-008e-3fc74d4fcee0",
         resp_id: null,
         root_comment_id: null,
         resp_user_id: null
-      }
+      },
+      pagination: {
+        currentPage: 0,
+        pageSize: 10,
+        pageTotal: 0
+      },
+      any: "any" + new Date()
     };
   },
-  async created() {
-    await this.getComments();
+  props: {
+    subject_id: {
+      type: String,
+      default: "5dc93286-5e44-c190-008e-3fc74d4fcee1"
+    },
+    subject_type: {
+      type: Number,
+      default: 1
+    }
   },
+  computed: {},
+  async created() {},
   methods: {
     async getComments() {
+      this.pagination.currentPage = 0;
+      this.any = new Date();
+      await this.infiniteHandler();
+    },
+    async infiniteHandler($state) {
+      console.log($state);
+      const currentPage = this.pagination.currentPage;
       let comments = await commentApi.getComments({
-        article_id: "5dc93286-5e44-c190-008e-3fc74d4fcee0"
+        subject_id: this.subject_id,
+        count: this.pagination.pageSize,
+        page: currentPage
       });
       comments.items.forEach(item => {
         item.replyVisible = false;
@@ -119,12 +157,25 @@ export default {
           val.replyVisible = false;
         });
       });
-      this.comments = comments.items;
+      if (comments.items.length == 0) {
+        $state && $state.complete();
+      } else {
+        if (currentPage == 0) {
+          this.comments = comments.items;
+        } else {
+          this.comments = this.comments.concat(comments.items);
+        }
+
+        this.pagination.currentPage += 1;
+        this.pagination.pageTotal = comments.total;
+
+        $state && $state.loaded();
+      }
     },
-    async getTopComments(reply, index) {
+    async getTopComments(root_comment_id, index) {
       let comments = await commentApi.getComments({
-        article_id: "5dc93286-5e44-c190-008e-3fc74d4fcee0",
-        root_comment_id: reply.root_comment_id
+        subject_id: this.subject_id,
+        root_comment_id: root_comment_id
       });
       comments.items.forEach(item => {
         item.replyVisible = false;

@@ -28,7 +28,8 @@ export default {
       type: Object,
       default() {
         return {
-          subject_id: "5dc93286-5e44-c190-008e-3fc74d4fcee0",
+          subject_id: "",
+          subject_type:1,
           resp_id: null,
           text: "",
           root_comment_id: null,
