@@ -1,7 +1,7 @@
 <template>
   <div class>
     <article-list :dataSource="dataSource"></article-list>
-    <infinite-loading @infinite="infiniteHandler"></infinite-loading>
+    <infinite-loading @infinite="infiniteHandler" spinner="bubbles" :identifier="any"></infinite-loading>
   </div>
 </template>
 
@@ -21,12 +21,18 @@ export default {
         pageSize: 10,
         pageTotal: 0
       },
-      loading: false
+      loading: false,
+      any: new Date()
     };
   },
   mounted() {},
   computed: {},
   methods: {
+    async refresh() {
+      this.pagination.currentPage = 0;
+      this.any = new Date();
+      await this.infiniteHandler();
+    },
     async infiniteHandler($state) {
       let res;
       const currentPage = this.pagination.currentPage;
@@ -37,13 +43,17 @@ export default {
       let items = [...res.items];
 
       if (items.length == 0) {
-        $state.complete();
+        $state && $state.complete();
       } else {
-        this.dataSource = this.dataSource.concat(items);
+        if (currentPage == 0) {
+          this.dataSource = items;
+        } else {
+          this.dataSource = this.dataSource.concat(items);
+        }
         this.pagination.currentPage += 1;
         this.pagination.pageTotal = res.total;
 
-        $state.loaded();
+        $state && $state.loaded();
       }
     }
   }

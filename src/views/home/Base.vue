@@ -110,7 +110,7 @@ export default {
   components: { CurrentUser },
   data() {
     return {
-      activeIndex: "1",
+      activeIndex: "/home/index",
       dialogTableVisible: false,
       form: {
         username: "",
@@ -134,6 +134,11 @@ export default {
       if (key == "login") {
         this.dialogTableVisible = true;
         return;
+      }
+      switch (key) {
+        case "/home/index":
+          // this.flushCom();
+          break;
       }
       // this.$router.push(key);
     },
@@ -170,6 +175,9 @@ export default {
       } catch (e) {
         console.log(e);
       }
+    },
+    flushCom: function() {
+      this.$router.go(0);
     }
   }
 };
