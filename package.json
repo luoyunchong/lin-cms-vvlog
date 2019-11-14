@@ -17,6 +17,7 @@
     "@tinymce/tinymce-vue": "^2.0.0",
     "axios": "~0.18.0",
     "element-ui": "^2.12.0",
+    "enquire.js": "^2.1.6",
     "event-source-polyfill": "^1.0.7",
     "fastscan": "^1.0.4",
     "good-storage": "^1.1.0",

@@ -1,48 +1,28 @@
 <template>
-  <div>
-    <el-row :gutter="24">
-      <el-col :span="6" :xs="12" :md="6" v-for="(o) in 12" :key="o">
-        <el-card
-          class="info-box"
-          shadow="hover"
-          :body-style="{ 
-                'width':' 100%',
-                'background-color': '#fff',
-                'border': '1px solid #f1f1f1',
-                'transition': 'border-color .3s',
-                'padding': '1.5rem 0'}"
-        >
-          <div class="width:100%;text-align:center;">
-            <img
-              src="https://lc-gold-cdn.xitu.io/bac28828a49181c34110.png?imageView2/2/w/200/h/64/q/85/format/webp/interlace/1"
-              class="image"
-              style="width: 32px;height: 32px;margin:10px auto"
-            />
-          </div>
-          <div style="padding: 14px;text-align:center;">
-            <span class="title">前端</span>
-            <div class="bottom clearfix" style="margin-top:10px;">
-              <div class="meta-box">
-                <time class="meta subscribe">397398 关注</time>
-                <time class="meta article">37335 文章</time>
-              </div>
-              <el-button type="primary" class="button" icon="iconfont icon-heart-fill">已关注</el-button>
-              <el-button type="plain" class="button" icon="iconfont icon-heart">关注</el-button>
-            </div>
-          </div>
-        </el-card>
+  <div class="container">
+    <el-row :gutter="24" style="margin-left:0px;">
+      <el-col :span="6" :xs="12" :md="6" v-for="(item,index) in dataSource" :key="index">
+        <tag-item
+          :article_count="item.article_count"
+          :id="item.id"
+          :tag_name="item.tag_name"
+          :thumbnail_display="item.thumbnail_display"
+        ></tag-item>
       </el-col>
     </el-row>
-    <!-- <infinite-loading @infinite="infiniteHandler" spinner="bubbles" :identifier="any"></infinite-loading> -->
+    <infinite-loading @infinite="infiniteHandler" spinner="bubbles" :identifier="any">
+      <span slot="no-more">没有更多标签了</span>
+      <span slot="no-results">加载完成</span>
+    </infinite-loading>
   </div>
 </template>
 
 <script>
 import tagApi from "@/models/tag";
 import InfiniteLoading from "vue-infinite-loading";
-
+import TagItem from "@/views/tag/TagItem";
 export default {
-  components: { InfiniteLoading },
+  components: { InfiniteLoading, TagItem },
   name: "Tag",
   data() {
     return {
@@ -67,7 +47,9 @@ export default {
       }
     };
   },
-  created() {},
+  created() {
+    // this.refresh();
+  },
   methods: {
     async refresh() {
       this.pagination.currentPage = 0;
@@ -102,6 +84,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.container {
+  margin-bottom: 20px;
+}
 .info-box {
   margin-bottom: 20px;
   .title {

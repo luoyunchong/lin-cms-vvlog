@@ -264,7 +264,7 @@ export default {
 };
 </script>
 
-<style  lang="scss">
+<style  lang="scss" scoped>
 .page-header-index-wide {
   max-width: 1200px;
   margin: 0 auto;
@@ -306,16 +306,17 @@ export default {
 .mavon-editor {
   width: 100%;
 }
-.mavon-editor .v-note-wrapper .v-note-panel {
+.mavon-editor /deep/ .v-note-wrapper .v-note-panel {
   border: none;
+  .v-note-show .v-show-content {
+    background: #fff;
+  }
   a:target {
     padding-top: 80px;
   }
 }
-.mavon-editor .v-note-wrapper .v-note-panel .v-note-show .v-show-content {
-  background: #fff;
-}
-.mavon-editor .markdown-body {
+
+.mavon-editor /deep/ .markdown-body {
   font-size: 14px;
 }
 
