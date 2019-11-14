@@ -22,6 +22,9 @@
                   <el-menu-item index="/home/docs" class="block">
                     <router-link :to="{path:'/home/docs'}">文档</router-link>
                   </el-menu-item>
+                  <el-menu-item index="/home/tag" class="block">
+                    <router-link :to="{path:'/home/tag'}">标签</router-link>
+                  </el-menu-item>
                   <template>
                     <el-menu-item index="login" v-show="!logined" style="float:right;">
                       <el-link>登录</el-link>

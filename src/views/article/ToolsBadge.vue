@@ -12,6 +12,7 @@
         </el-badge>
       </a>
     </div>
+    <el-divider direction="vertical"></el-divider>
     <div class="a-badge" title="评论">
       <a href="#comment-list">
         <el-badge :type="model.is_comment?'danger':'info'" :value="model.comment_quantity">
@@ -24,7 +25,8 @@
         </el-badge>
       </a>
     </div>
-    <!-- <div class="a-badge" title="收藏">
+    <el-divider direction="vertical"></el-divider>
+    <div class="a-badge" title="收藏">
       <a @click="handleCollect">
         <el-badge :type="model.is_collect?'danger':'info'" :value="model.collect_quantity">
           <el-avatar
@@ -35,7 +37,7 @@
           />
         </el-badge>
       </a>
-    </div>-->
+    </div>
   </div>
 </template>
 
@@ -101,7 +103,7 @@ export default {
     cursor: pointer;
     margin-bottom: 1rem;
   }
-  .ant-divider {
+  .el-divider {
     display: none;
   }
 }
@@ -110,7 +112,7 @@ export default {
   .a-tools {
     display: block;
     position: fixed;
-    z-index: 1;
+    z-index: 1501;
     bottom: 0;
     width: 100%;
     margin-left: 0px;
@@ -119,8 +121,10 @@ export default {
       cursor: pointer;
       margin-bottom: 0rem;
     }
-    .ant-divider {
+    .el-divider {
       display: inherit;
+      height: 1.92rem;
+      margin-top: 10px;
     }
   }
 

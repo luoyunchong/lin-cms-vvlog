@@ -23,7 +23,7 @@
                   <span>阅读 {{model.view_hits}}</span>
                 </el-col>
               </el-col>
-              <el-col :span="3" :xs="3" style="text-align:center;">
+              <el-col :span="3" :xs="3" style="text-align:left;padding-left:0px;">
                 <el-button>关注</el-button>
               </el-col>
             </el-row>
@@ -337,6 +337,11 @@ export default {
   }
 }
 
+.mobile {
+  .el-backtop {
+    bottom: 5rem !important;
+  }
+}
 .aside-list {
   position: fixed;
   width: 240px;
