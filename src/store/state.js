@@ -18,5 +18,7 @@ export default {
   currentRoute: {
     config: null,
     treePath: []
-  }
+  },
+  //当前设备，'desktop','mobile'
+  device: 'desktop',
 };

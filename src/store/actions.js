@@ -17,5 +17,8 @@ export default {
   readMessage({ commit }, message) {
     commit(types.REMOVE_UNREAD_MESSAGE, message.id);
     commit(types.ADD_READED_MESSAGE, message);
-  }
+  },
+  ToggleDevice({ commit }, device) {
+    commit(types.TOGGLE_DEVICE, device)
+  },
 };

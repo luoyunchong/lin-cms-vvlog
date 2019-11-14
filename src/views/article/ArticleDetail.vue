@@ -4,7 +4,32 @@
       <el-col :xl="18" :lg="18" :md="24" :sm="24" :xs="24">
         <el-card class="box-card" shadow="never">
           <div slot="header">
-            <el-page-header @back="goBack" :content="model.title"></el-page-header>
+            <el-page-header @back="goBack"></el-page-header>
+          </div>
+          <div class="info-box">
+            <el-row :gutter="24">
+              <el-col :span="2" :xs="4" style="text-align:center;">
+                <a href>
+                  <el-avatar size="large" :src="model.user_info.avatar"></el-avatar>
+                </a>
+              </el-col>
+              <el-col :span="18" :xs="16">
+                <el-col :span="24">
+                  <a class="nickname">{{model.user_info.nickname}}</a>
+                </el-col>
+                <el-col :span="24">
+                  <span>{{model.time_span}}</span>
+                  <el-divider direction="vertical"></el-divider>
+                  <span>阅读 {{model.view_hits}}</span>
+                </el-col>
+              </el-col>
+              <el-col :span="3" :xs="3" style="text-align:center;">
+                <el-button>关注</el-button>
+              </el-col>
+            </el-row>
+          </div>
+          <div class="info-box">
+            <h1 class="title">{{model.title}}</h1>
           </div>
           <div class="mavon-editor">
             <mavon-editor
@@ -20,6 +45,10 @@
               previewBackground="#fff"
               :navigation="false"
             />
+          </div>
+          <div class="info-box top20">
+            <h3 class="tag-title">标签</h3>
+            <el-tag effect="light" type="success">.NET Core</el-tag>
           </div>
         </el-card>
         <comment-list :subject_id="id" :subject_type="1"></comment-list>
@@ -63,11 +92,14 @@ export default {
   name: "ArticleDetail",
   data() {
     return {
-      model: {},
+      model: {
+        user_info: {}
+      },
       scroll: 0,
       currentIndex: 0,
       heightArr: [],
-      nodes: []
+      nodes: [],
+      avatarUrl: ""
     };
   },
   components: {
@@ -95,6 +127,9 @@ export default {
     }
   },
   methods: {
+    goBack() {
+      this.$router.replace("/home/index");
+    },
     likeChange({ likes_quantity, is_liked }) {
       this.model.likes_quantity += likes_quantity;
       this.model.is_liked = is_liked;
@@ -234,6 +269,40 @@ export default {
   max-width: 1200px;
   margin: 0 auto;
 }
+.top20 {
+  margin-top: 20px;
+  padding-bottom: 20px;
+}
+.info-box {
+  font-size: 14px;
+  color: #909090;
+  .title {
+    margin-top: 1rem;
+    padding: 0 0 0 1rem;
+    font-size: 2rem;
+    font-weight: 600;
+    color: #000;
+    font-weight: 700;
+    line-height: 1.5;
+  }
+  .nickname {
+    max-width: 100%;
+    font-size: 1.3rem;
+    font-weight: 700;
+    line-height: 18px;
+    color: #333;
+    display: inline-block;
+    margin-bottom: 8px;
+  }
+  .tag-title {
+    margin-bottom: 1rem;
+    padding: 0 0 0 1rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #000;
+    border-left: 6px solid #ddd;
+  }
+}
 .mavon-editor {
   width: 100%;
 }
@@ -253,6 +322,7 @@ export default {
 @media (max-width: 600px) {
   .box-card .el-card__body {
     padding: 0px;
+    padding-top: 20px;
   }
   .mavon-editor .v-note-wrapper .v-note-panel .v-note-show .v-show-content {
     width: 100vw;

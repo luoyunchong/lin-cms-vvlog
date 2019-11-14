@@ -198,3 +198,6 @@ export const getStageInfo = (state) => {
     return stageInfo
   }
 }
+
+
+export const device = state => state.device;

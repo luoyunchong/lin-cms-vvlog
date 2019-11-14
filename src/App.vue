@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="app">
     <router-view />
   </div>
 </template>
@@ -7,8 +7,9 @@
 <script>
 import { mapActions } from "vuex";
 import Vue from "vue";
-
+import { AppDeviceEnquire } from "@/lin/utils/mixin";
 export default {
+  mixins: [AppDeviceEnquire],
   data() {
     return {
       timer: null,

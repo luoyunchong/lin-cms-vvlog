@@ -13,7 +13,7 @@
       </a>
     </div>
     <div class="a-badge" title="评论">
-      <a>
+      <a href="#comment-list">
         <el-badge :type="model.is_comment?'danger':'info'" :value="model.comment_quantity">
           <el-avatar
             :size="32"
@@ -24,7 +24,7 @@
         </el-badge>
       </a>
     </div>
-    <div class="a-badge" title="收藏">
+    <!-- <div class="a-badge" title="收藏">
       <a @click="handleCollect">
         <el-badge :type="model.is_collect?'danger':'info'" :value="model.collect_quantity">
           <el-avatar
@@ -35,7 +35,7 @@
           />
         </el-badge>
       </a>
-    </div>
+    </div>-->
   </div>
 </template>
 

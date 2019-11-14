@@ -28,26 +28,35 @@
               <div class="article-tool">
                 <ul class="article-about">
                   <li>
-                    <a href>
+                    <router-link
+                      class="article-detail-title"
+                      :to="{ name: 'p', params: { id: item.id }}"
+                    >
                       <l-icon name="like" color="#b2bac2"></l-icon>
                       <!-- <i class="el-icon-star-off"></i> -->
                       <span class="count">{{item.likes_quantity}}</span>
-                    </a>
+                    </router-link>
                   </li>
                   <li>
-                    <a href>
+                    <router-link
+                      class="article-detail-title"
+                      :to="{path:'/post/'+item.id+'#comment-list'}"
+                    >
                       <l-icon name="comment" color="#b2bac2"></l-icon>
                       <!-- <i class="el-icon-s-comment"></i> -->
                       <span class="count">{{item.comment_quantity}}</span>
-                    </a>
+                    </router-link>
                   </li>
                   <li>
-                    <a href>
+                    <router-link
+                      class="article-detail-title"
+                      :to="{ name: 'p', params: { id: item.id }}"
+                    >
                       <l-icon name="eye" color="#b2bac2"></l-icon>
                       <!-- <i class="iconfont icon-fenxiang"></i> -->
                       <!-- <i class="el-icon-view"></i> -->
                       <span class="count">{{item.view_hits}}</span>
-                    </a>
+                    </router-link>
                   </li>
                 </ul>
               </div>

@@ -48,4 +48,8 @@ export default {
     state.refreshOptions = option
   },
 
+  [types.TOGGLE_DEVICE]: (state, device) => {
+    state.device = device
+  },
+
 }

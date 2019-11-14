@@ -1,5 +1,5 @@
 <template>
-  <div class>
+  <div>
     <article-list :dataSource="dataSource"></article-list>
     <infinite-loading @infinite="infiniteHandler" spinner="bubbles" :identifier="any"></infinite-loading>
   </div>

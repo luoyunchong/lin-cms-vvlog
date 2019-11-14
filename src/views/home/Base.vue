@@ -37,10 +37,13 @@
               </div>
             </el-header>
           </div>
-          <div class="mainWrapper">
+          <div class="mainWrapper" :class="device">
             <transition name="fade-transform" mode="out-in">
               <router-view></router-view>
             </transition>
+            <el-backtop>
+              <div class="lin-backtop">UP</div>
+            </el-backtop>
           </div>
         </el-container>
       </el-col>
@@ -104,10 +107,11 @@ import { mapActions, mapMutations } from "vuex";
 import User from "@/lin/models/user";
 import Utils from "@/lin/utils/util";
 import { User as CurrentUser } from "@/components/layout";
-
+import { mixinDevice } from "@/lin/utils/mixin";
 export default {
   name: "Base",
   components: { CurrentUser },
+  mixins: [mixinDevice],
   data() {
     return {
       activeIndex: "/home/index",
@@ -196,6 +200,15 @@ export default {
   padding-left: 0px;
   width: 100%;
   padding-right: 0px;
+  .lin-backtop {
+    height: 100%;
+    width: 100%;
+    background-color: #f2f5f6;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.12);
+    text-align: center;
+    line-height: 40px;
+    color: #1989fa;
+  }
 }
 .main-header {
   background: #fff;

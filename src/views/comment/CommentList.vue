@@ -1,5 +1,12 @@
 <template>
-  <div>
+  <div
+    id="comment-list"
+    style="  position: relative;
+  padding-top: 50px;
+  margin-top: -50px;
+  margin-bottom:50px;
+}"
+  >
     <el-card
       shadow="never"
       :body-style="{'padding-bottom':'0px'}"
