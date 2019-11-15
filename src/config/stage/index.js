@@ -22,6 +22,15 @@ let homeRouter = [
     icon: "iconfont icon-tushuguanli"
   },
   {
+    name: "TagDetail",
+    title: "标签TagDetail",
+    type: "view",
+    route: "/tag/:id",
+    filePath: "views/tag/TagDetail.vue",
+    inNav: true,
+    icon: "iconfont icon-tushuguanli"
+  },
+  {
     name: "tag",
     title: "标签",
     type: "view",
