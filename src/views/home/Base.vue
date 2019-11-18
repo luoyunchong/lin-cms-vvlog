@@ -117,7 +117,7 @@ export default {
   mixins: [mixinDevice],
   data() {
     return {
-      activeIndex: "/home/index",
+      activeIndex: "", ///home/index
       dialogTableVisible: false,
       form: {
         username: "",

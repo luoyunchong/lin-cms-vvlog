@@ -11,7 +11,7 @@
                 </li>
                 <li class="item">{{item.time_span}}</li>
                 <li class="item" v-for="(tag,index) in item.tags" v-bind:key="index">
-                  <a class="tag">{{tag.tag_name}}</a>
+                  <a :href="'/tag/'+tag.id" class="tag" target="_blank">{{tag.tag_name}}</a>
                 </li>
               </ul>
             </div>
@@ -32,7 +32,8 @@
                       class="article-detail-title"
                       :to="{ name: 'p', params: { id: item.id }}"
                     >
-                      <l-icon name="like" color="#b2bac2"></l-icon>
+                      <l-icon name="like-fill" v-if="item.is_liked==true" color="#7fccde"></l-icon>
+                      <l-icon name="like" v-else color="#b2bac2"></l-icon>
                       <!-- <i class="el-icon-star-off"></i> -->
                       <span class="count">{{item.likes_quantity}}</span>
                     </router-link>

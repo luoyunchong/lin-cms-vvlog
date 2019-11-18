@@ -1,5 +1,15 @@
 <template>
   <div>
+    <el-row :gutter="20">
+      <el-col>
+        <tag-item
+          :article_count="item.article_count"
+          :id="item.id"
+          :tag_name="item.tag_name"
+          :thumbnail_display="item.thumbnail_display"
+        ></tag-item>
+      </el-col>
+    </el-row>
     <article-list :dataSource="dataSource"></article-list>
     <infinite-loading @infinite="infiniteHandler" spinner="bubbles" :identifier="any"></infinite-loading>
   </div>
@@ -7,11 +17,13 @@
 
 <script>
 import ArticleList from "@/views/article/ArticleList";
+import TagItem from "@/views/tag/TagItem";
 import InfiniteLoading from "vue-infinite-loading";
 import articleApi from "@/models/article";
+import tagApi from "@/models/tag";
 export default {
   name: "TagDetail",
-  components: { ArticleList, InfiniteLoading },
+  components: { ArticleList, InfiniteLoading, TagItem },
   data() {
     return {
       count: 20,
@@ -22,11 +34,23 @@ export default {
         pageTotal: 0
       },
       loading: false,
-      any: new Date()
+      any: new Date(),
+      item: {
+        id: "",
+        tag_name: "",
+        thumbnail_display: "",
+        article_count: 0
+      }
     };
   },
-  mounted() {},
-  computed: {},
+  mounted() {
+    this.get();
+  },
+  computed: {
+    tag_id() {
+      return this.$route.params.id;
+    }
+  },
   methods: {
     async refresh() {
       this.pagination.currentPage = 0;
@@ -39,7 +63,7 @@ export default {
       res = await articleApi.getAllArticles({
         count: this.pagination.pageSize,
         page: currentPage,
-        tag_id:'5dc931fd-5e44-c190-008e-3fc4728735d6'
+        tag_id: this.tag_id
       });
       let items = [...res.items];
 
@@ -56,6 +80,10 @@ export default {
 
         $state && $state.loaded();
       }
+    },
+    async get() {
+      let tag = await tagApi.getTag(this.tag_id);
+      this.item = tag;
     }
   }
 };

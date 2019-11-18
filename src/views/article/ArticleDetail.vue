@@ -24,12 +24,15 @@
                 </el-col>
               </el-col>
               <el-col :span="3" :xs="3" style="text-align:left;padding-left:0px;">
-                <el-button>关注</el-button>
+                <el-button type="primary" icon="el-icon-plus">关注他</el-button>
               </el-col>
             </el-row>
           </div>
           <div class="info-box">
             <h1 class="title">{{model.title}}</h1>
+          </div>
+          <div class="info-box">
+            <el-alert title="本文阅读约需30分钟。" type="info"></el-alert>
           </div>
           <div class="mavon-editor">
             <mavon-editor
@@ -276,6 +279,7 @@ export default {
 .info-box {
   font-size: 14px;
   color: #909090;
+  margin-bottom: 10px;
   .title {
     margin-top: 1rem;
     padding: 0 0 0 1rem;
