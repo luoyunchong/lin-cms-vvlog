@@ -353,8 +353,8 @@ export default {
   position: relative;
 }
 
-.wx_navigation > .navigator-item,
-.wx_navigation > .navigator-item-title {
+.wx_navigation /deep/ .navigator-item,
+.wx_navigation /deep/ .navigator-item-title {
   cursor: pointer;
   margin: 0;
   padding: 0;
@@ -370,38 +370,40 @@ export default {
   position: relative;
 }
 
-.wx_navigation > .navigator-item > a {
-  // padding-left: 10px;
-  position: relative;
-  padding: 4px 0 4px 12px;
-  white-space: nowrap;
-}
+.wx_navigation /deep/ {
+  .navigator-item > a {
+    // padding-left: 10px;
+    position: relative;
+    padding: 4px 0 4px 12px;
+    white-space: nowrap;
+  }
 
-.navigator-item.heading_1 > a {
-  font-weight: 600;
-  color: #000;
-}
+  .navigator-item.heading_1 > a {
+    font-weight: 600;
+    color: #000;
+  }
 
-.navigator-item.heading_2 {
-  padding-left: 20px;
-}
+  .navigator-item.heading_2 {
+    padding-left: 20px;
+  }
 
-.navigator-item.heading_3 {
-  padding-left: 30px;
-}
+  .navigator-item.heading_3 {
+    padding-left: 30px;
+  }
 
-.navigator-item.heading_4 {
-  padding-left: 40px;
-}
+  .navigator-item.heading_4 {
+    padding-left: 40px;
+  }
 
-.navigator-item.heading_5 {
-  padding-left: 50px;
-}
+  .navigator-item.heading_5 {
+    padding-left: 50px;
+  }
 
-.navigator-item.heading_6 {
-  padding-left: 60px;
+  .navigator-item.heading_6 {
+    padding-left: 60px;
+  }
 }
-.wx_navigation > .navigator-item {
+.wx_navigation /deep/ .navigator-item {
   border-left: 4px solid transparent;
   &.active {
     color: #007fff;
