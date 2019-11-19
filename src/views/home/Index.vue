@@ -1,7 +1,14 @@
 <template>
   <div>
     <article-list :dataSource="dataSource"></article-list>
-    <infinite-loading @infinite="infiniteHandler" spinner="bubbles" :identifier="any"></infinite-loading>
+    <infinite-loading @infinite="infiniteHandler" spinner="bubbles" :identifier="any">
+      <span slot="no-more">
+        <el-divider class="lin-divider">我也是有底线的...</el-divider>
+      </span>
+      <span slot="no-results">
+        <el-divider class="lin-divider">没有查询您想要的标签...</el-divider>
+      </span>
+    </infinite-loading>
   </div>
 </template>
 

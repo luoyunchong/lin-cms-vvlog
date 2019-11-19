@@ -10,7 +10,7 @@
                 'padding': '1.5rem 0'}"
   >
     <div class="tag">
-      <a :href="`/tag/${id}}`">
+      <a :href="`/tag/${id}`" target="_blank">
         <div class="thumb" :style="`background-image:url(${thumbnail_display})`"></div>
         <!-- <el-image :src="thumbnail_display" class="image">
           <div slot="error" class="image-slot">

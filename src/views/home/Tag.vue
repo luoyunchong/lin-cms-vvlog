@@ -1,6 +1,27 @@
 <template>
   <div class="container">
     <el-row :gutter="24" style="margin-left:0px;">
+      <el-col :span="24">
+        <el-form :inline="true" :model="form" class="demo-form-inline">
+          <el-form-item>
+            <el-link :type="sort=='newest'?'primary':'info'" href="/home/tag?sort=newest">最新</el-link>
+            <el-divider direction="vertical"></el-divider>
+            <el-link :type="sort=='hottest'?'primary':'info'" href="/home/tag?sort=hottest">最热</el-link>
+          </el-form-item>
+          <el-form-item>
+            <el-input
+              v-model="form.tag_name"
+              placeholder="根据标签名查询"
+              clearable
+              size="small"
+              @clear="refresh"
+            ></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="refresh">查询</el-button>
+          </el-form-item>
+        </el-form>
+      </el-col>
       <el-col :span="6" :xs="12" :md="6" v-for="(item,index) in dataSource" :key="index">
         <tag-item
           :article_count="item.article_count"
@@ -11,8 +32,12 @@
       </el-col>
     </el-row>
     <infinite-loading @infinite="infiniteHandler" spinner="bubbles" :identifier="any">
-      <span slot="no-more">没有更多标签了</span>
-      <span slot="no-results">加载完成</span>
+      <span slot="no-more">
+        <el-divider class="lin-divider">我也是有底线的...</el-divider>
+      </span>
+      <span slot="no-results">
+        <el-divider class="lin-divider">没有查询您想要的标签...</el-divider>
+      </span>
     </infinite-loading>
   </div>
 </template>
@@ -35,22 +60,24 @@ export default {
       },
       loading: false,
       any: new Date(),
-      model: {
-        alias: "",
-        create_time: 1573521607710,
-        create_user_id: 7,
-        id: "5dca7947-3e28-1460-0026-4835799a9601",
-        tag_name: "测试",
-        thumbnail: "2019/11/12/82f53f1c-8ffe-4f8f-ab6d-6002a54cea5a.jpg",
-        thumbnail_display:
-          "https://localhost:5001/assets/2019/11/12/82f53f1c-8ffe-4f8f-ab6d-6002a54cea5a.jpg"
+      form: {
+        tag_name: ""
       }
     };
+  },
+  computed: {
+    sort() {
+      return this.$route.query.sort;
+    }
   },
   created() {
     // this.refresh();
   },
   methods: {
+    async sortBy(active) {
+      this.active = active;
+      this.refresh();
+    },
     async refresh() {
       this.pagination.currentPage = 0;
       this.any = new Date();
@@ -59,14 +86,28 @@ export default {
     async infiniteHandler($state) {
       let res;
       const currentPage = this.pagination.currentPage;
+      let sort = this.sort;
+      if (sort == "hottest") {
+        sort = "article_count desc";
+      } else {
+        sort = "create_time desc";
+      }
+
       res = await tagApi.getTags({
         count: this.pagination.pageSize,
-        page: currentPage
+        page: currentPage,
+        tag_name: this.form.tag_name,
+        sort: sort
       });
       let items = [...res.items];
 
       if (items.length == 0) {
         $state && $state.complete();
+        if (currentPage == 0) {
+          this.dataSource = items;
+          this.pagination.currentPage += 1;
+          this.pagination.pageTotal = res.total;
+        }
       } else {
         if (currentPage == 0) {
           this.dataSource = items;
