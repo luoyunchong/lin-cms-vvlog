@@ -19,7 +19,7 @@
               <!-- 需要注意这里加/# -->
               <router-link
                 class="article-detail-title"
-                :to="{ name: 'p', params: { id: item.id }}"
+                :to="{ name: 'post', params: { id: item.id }}"
               >{{item.title}}</router-link>
               <!-- <a class="article-detail-title" @click="()=>toArticle(item)">{{item.title}}</a> -->
             </div>
@@ -30,7 +30,7 @@
                   <li>
                     <router-link
                       class="article-detail-title"
-                      :to="{ name: 'p', params: { id: item.id }}"
+                      :to="{ name: 'post', params: { id: item.id }}"
                     >
                       <l-icon name="like-fill" v-if="item.is_liked==true" color="#7fccde"></l-icon>
                       <l-icon name="like" v-else color="#b2bac2"></l-icon>
@@ -51,7 +51,7 @@
                   <li>
                     <router-link
                       class="article-detail-title"
-                      :to="{ name: 'p', params: { id: item.id }}"
+                      :to="{ name: 'post', params: { id: item.id }}"
                     >
                       <l-icon name="eye" color="#b2bac2"></l-icon>
                       <!-- <i class="iconfont icon-fenxiang"></i> -->

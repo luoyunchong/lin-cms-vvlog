@@ -22,7 +22,7 @@ let homeRouter = [
     icon: "iconfont icon-tushuguanli"
   },
   {
-    name: "TagDetail",
+    name: "tag-detail",
     title: "标签TagDetail",
     type: "view",
     route: "/tag/:id",
@@ -51,7 +51,7 @@ let homeRouter = [
   {
     title: "博客详情页",
     type: "view",
-    name: "p",
+    name: "post",
     route: "/post/:id",
     filePath: "views/article/ArticleDetail.vue",
     inNav: false

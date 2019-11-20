@@ -51,10 +51,14 @@
           </div>
           <div class="info-box top20">
             <h3 class="tag-title">标签</h3>
-            <el-tag effect="light" type="success">.NET Core</el-tag>
+            <el-tag effect="light" type="success" v-bind:key="item.id" v-for="item in model.tags">
+              <a :href="'/tag/'+item.id" target="_blank">{{item.tag_name}}</a>
+            </el-tag>
           </div>
         </el-card>
-        <comment-list :subject_id="id" :subject_type="1"></comment-list>
+        <div id="comment-list">
+          <comment-list :subject_id="id" :subject_type="1"></comment-list>
+        </div>
       </el-col>
       <el-col :xl="6" :lg="6" :md="24" :sm="24" :xs="24">
         <el-card class="aside-list" shadow="never" :body-style="{ padding: '12px'}">
@@ -305,6 +309,9 @@ export default {
     font-weight: 600;
     color: #000;
     border-left: 6px solid #ddd;
+  }
+  .el-tag {
+    margin-right: 10px;
   }
 }
 .mavon-editor {
