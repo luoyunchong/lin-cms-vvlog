@@ -44,9 +44,7 @@
             <transition name="fade-transform" mode="out-in">
               <router-view></router-view>
             </transition>
-            <el-backtop>
-              <div class="lin-backtop">UP</div>
-            </el-backtop>
+            <!-- <el-backtop class="lin-back-top"></el-backtop> -->
           </div>
         </el-container>
       </el-col>
@@ -58,45 +56,99 @@
       :visible.sync="dialogTableVisible"
       :close-on-click-modal="false"
     >
-      <span slot="title">登录</span>
+      <span slot="title">{{activeIndex=='login'?'登录':'注册'}}</span>
       <el-form :model="form" label-position="top" ref="form">
-        <el-form-item
-          prop="username"
-          :rules="[
-              { required: true, message: '请输入用户名', trigger: 'blur' },
+        <template v-if="activeIndex=='login'">
+          <el-form-item
+            prop="username"
+            :rules="[
+              { required: true, message: '请输入用户名或手机号', trigger: 'blur' },
             ]"
-        >
-          <el-input
-            v-model="form.username"
-            prefix-icon="el-icon-user"
-            autocomplete="off"
-            placeholder="请输入用户名"
-            clearable
-          ></el-input>
-        </el-form-item>
-        <el-form-item
-          prop="password"
-          :rules="[
+          >
+            <el-input
+              v-model="form.username"
+              prefix-icon="el-icon-user"
+              autocomplete="off"
+              placeholder="请输入用户名或手机号"
+              clearable
+            ></el-input>
+          </el-form-item>
+          <el-form-item
+            prop="password"
+            :rules="[
               { required: true, message: '请输入密码', trigger: 'blur' },
             ]"
-        >
-          <el-input
-            v-model="form.password"
-            prefix-icon="el-icon-lock"
-            autocomplete="off"
-            placeholder="请输入密码"
-            show-password
-            clearable
-          ></el-input>
-        </el-form-item>
-        <el-form-item class="dialog-footer lin-form-item">
-          <el-button type="primary" @click="submitForm">登录</el-button>
-        </el-form-item>
-        <el-form-item class="lin-form-item">
-          没有账号？
-          <el-link type="primary">注册</el-link>
-          <el-link href="/reset-password" style="float:right;">忘记密码</el-link>
-        </el-form-item>
+          >
+            <el-input
+              v-model="form.password"
+              prefix-icon="el-icon-lock"
+              autocomplete="off"
+              placeholder="请输入密码"
+              show-password
+              clearable
+            ></el-input>
+          </el-form-item>
+          <el-form-item class="dialog-footer lin-form-item">
+            <el-button type="primary" @click="submitForm">登录</el-button>
+          </el-form-item>
+          <el-form-item class="lin-form-item">
+            没有账号？
+            <el-link type="primary" @click="activeIndex='register'">注册</el-link>
+            <el-link href="/reset-password" style="float:right;">忘记密码</el-link>
+          </el-form-item>
+        </template>
+        <template v-else-if="activeIndex=='register'">
+          <el-form-item
+            prop="nickname"
+            :rules="[
+              { required: true, message: '请输入昵称', trigger: 'blur' },
+            ]"
+          >
+            <el-input
+              v-model="form.nickname"
+              prefix-icon="el-icon-user"
+              autocomplete="off"
+              placeholder="请输入昵称"
+              clearable
+            ></el-input>
+          </el-form-item>
+          <el-form-item
+            prop="phone_number"
+            :rules="[
+              { required: true, message: '请输入手机号', trigger: 'blur' },
+            ]"
+          >
+            <el-input
+              v-model="form.phone_number"
+              prefix-icon="el-icon-user"
+              autocomplete="off"
+              placeholder="请输入手机号"
+              clearable
+            ></el-input>
+          </el-form-item>
+          <el-form-item
+            prop="password"
+            :rules="[
+              { required: true, message: '请输入密码', trigger: 'blur' },
+            ]"
+          >
+            <el-input
+              v-model="form.password"
+              prefix-icon="el-icon-lock"
+              autocomplete="off"
+              placeholder="请输入密码"
+              show-password
+              clearable
+            ></el-input>
+          </el-form-item>
+          <el-form-item class="dialog-footer lin-form-item">
+            <el-button type="primary" @click="submitForm">注册</el-button>
+          </el-form-item>
+          <el-form-item class="lin-form-item to-login">
+            <el-link type="primary" @click="activeIndex='login'">已有账号,去登录</el-link>
+          </el-form-item>
+        </template>
+
         <el-form-item label="第三方账号登录" class="oauth lin-form-item">
           <el-avatar icon="iconfont icon-QQ" title="qq登录" size="large"></el-avatar>
         </el-form-item>
@@ -138,8 +190,9 @@ export default {
     }),
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
-      if (key == "login") {
+      if (key == "login" || key == "register") {
         this.dialogTableVisible = true;
+        this.activeIndex = key;
         return;
       }
       switch (key) {
@@ -248,6 +301,9 @@ export default {
   }
   .lin-form-item /deep/ .el-form-item__content {
     margin-bottom: 0px !important;
+  }
+  .to-login {
+    text-align: center;
   }
   .dialog-footer {
     text-align: center;

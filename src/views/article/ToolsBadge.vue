@@ -114,7 +114,7 @@ export default {
     position: fixed;
     z-index: 1501;
     bottom: 0;
-    width: 100%;
+    width: 95%;
     margin-left: 0px;
     top: inherit;
     .a-badge {
