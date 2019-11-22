@@ -32,7 +32,7 @@
             <h1 class="title">{{model.title}}</h1>
           </div>
           <div class="info-box">
-            <el-alert title="本文阅读约需30分钟。" type="info"></el-alert>
+            <el-alert :title="`本文共${model.word_number}字,阅读约需${model.reading_time}分钟。`" type="info"></el-alert>
           </div>
           <div class="mavon-editor">
             <mavon-editor
@@ -143,6 +143,12 @@ export default {
     },
     async getData() {
       this.model = await articleApi.getArticle(this.id);
+      if (this.model.word_number == 0) {
+        this.model.word_number = this.model.content.length;
+        this.model.reading_time = Number(this.model.word_number / 800).toFixed(
+          0
+        );
+      }
       this.init();
     },
     init() {
