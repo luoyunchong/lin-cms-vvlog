@@ -5,7 +5,7 @@ import Utils from "@/lin/utils/util";
 let homeRouter = [
   {
     name: "index",
-    title: "博客首页",
+    title: "首页",
     type: "view",
     route: "/home/index",
     filePath: "views/home/Index.vue",
@@ -23,7 +23,7 @@ let homeRouter = [
   },
   {
     name: "tag-detail",
-    title: "标签TagDetail",
+    title: "标签详情页",
     type: "view",
     route: "/tag/:id",
     filePath: "views/tag/TagDetail.vue",
@@ -49,7 +49,7 @@ let homeRouter = [
     icon: "iconfont icon-tushuguanli"
   },
   {
-    title: "博客详情页",
+    title: "详情页",
     type: "view",
     name: "post",
     route: "/post/:id",
