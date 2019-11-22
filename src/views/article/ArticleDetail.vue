@@ -7,26 +7,34 @@
             <el-page-header @back="goBack"></el-page-header>
           </div>
           <div class="info-box">
-            <el-row :gutter="24">
-              <el-col :span="2" :xs="4" style="text-align:center;">
+            <div>
+              <el-col style="position: absolute;">
                 <a href>
                   <el-avatar size="large" :src="model.user_info.avatar"></el-avatar>
                 </a>
               </el-col>
-              <el-col :span="18" :xs="16">
-                <el-col :span="24">
-                  <a class="nickname">{{model.user_info.nickname}}</a>
+              <el-row :gutter="10" style="float: right;padding-left: 50px;width: 100%;">
+                <el-col :span="18" :xs="18">
+                  <el-col :span="24">
+                    <a class="nickname">{{model.user_info.nickname}}</a>
+                  </el-col>
+                  <el-col :span="24">
+                    <span>{{model.time_span}}</span>
+                    <el-divider direction="vertical"></el-divider>
+                    <span>阅读 {{model.view_hits}}</span>
+                    <el-divider direction="vertical"></el-divider>
+                    <span>
+                      <el-tag type="success" v-if="model.article_type==0">原创</el-tag>
+                      <el-tag type="info" v-else-if="model.article_type==1">转载</el-tag>
+                      <el-tag type="danger" v-else-if="model.article_type==2">翻译</el-tag>
+                    </span>
+                  </el-col>
                 </el-col>
-                <el-col :span="24">
-                  <span>{{model.time_span}}</span>
-                  <el-divider direction="vertical"></el-divider>
-                  <span>阅读 {{model.view_hits}}</span>
+                <el-col :span="5" :xs="5" style="text-align:left;padding-left:0px;">
+                  <el-button type="primary" icon="el-icon-plus">关注他</el-button>
                 </el-col>
-              </el-col>
-              <el-col :span="3" :xs="3" style="text-align:left;padding-left:0px;">
-                <el-button type="primary" icon="el-icon-plus">关注他</el-button>
-              </el-col>
-            </el-row>
+              </el-row>
+            </div>
           </div>
           <div class="info-box">
             <h1 class="title">{{model.title}}</h1>
@@ -59,6 +67,7 @@
         <div id="comment-list">
           <comment-list :subject_id="id" :subject_type="1"></comment-list>
         </div>
+        <el-backtop class="lin-back-top"></el-backtop>
       </el-col>
       <el-col :xl="6" :lg="6" :md="24" :sm="24" :xs="24">
         <el-card class="aside-list" shadow="never" :body-style="{ padding: '12px'}">
@@ -355,11 +364,6 @@ export default {
   }
 }
 
-.mobile {
-  .el-backtop {
-    bottom: 5rem !important;
-  }
-}
 .aside-list {
   position: fixed;
   width: 240px;
@@ -448,5 +452,10 @@ export default {
   margin-top: -3px;
   width: 6px;
   height: 6px;
+}
+.mobile {
+  .el-backtop {
+    bottom: 5rem !important;
+  }
 }
 </style>

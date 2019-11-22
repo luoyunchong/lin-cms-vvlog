@@ -1,6 +1,8 @@
 <template>
   <div>
     <article-list :dataSource="dataSource"></article-list>
+    <el-backtop></el-backtop>
+
     <infinite-loading @infinite="infiniteHandler" spinner="bubbles" :identifier="any">
       <span slot="no-more">
         <el-divider class="lin-divider">我也是有底线的...</el-divider>

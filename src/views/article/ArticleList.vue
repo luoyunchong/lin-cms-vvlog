@@ -6,6 +6,11 @@
           <div class="article-detail">
             <div class="info-row">
               <ul class="meta-list">
+                <li class="item clickable">
+                  <el-tag type="success" v-if="item.article_type==0">原创</el-tag>
+                  <el-tag type="info" v-else-if="item.article_type==1">转载</el-tag>
+                  <el-tag type="danger" v-else-if="item.article_type==2">翻译</el-tag>
+                </li>
                 <li class="item username clickable">
                   <a :href="'/blog/detail/'+item.id">{{item.author}}</a>
                 </li>
