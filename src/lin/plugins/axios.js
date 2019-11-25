@@ -28,10 +28,8 @@ const _axios = axios.create(config);
 _axios.interceptors.request.use(
   originConfig => {
     const reqConfig = { ...originConfig };
-
     // step1: 容错处理
     if (!reqConfig.url) {
-      /* eslint-disable-next-line */
       console.error("request need url");
       throw new Error({
         source: "axiosInterceptors",
@@ -88,21 +86,18 @@ _axios.interceptors.request.use(
       }
     } else {
       // TODO: 其他类型请求数据格式处理
-      /* eslint-disable-next-line */
       console.warn(`其他请求类型: ${reqConfig.method}, 暂无自动处理`);
     }
     // step2: auth 处理
     if (reqConfig.url === "cms/user/refresh") {
       const refreshToken = getToken("refresh_token");
       if (refreshToken) {
-        // eslint-disable-next-line no-param-reassign
         reqConfig.headers.Authorization = refreshToken;
       }
     } else {
       // 有access_token
       const accessToken = getToken("access_token");
       if (accessToken) {
-        // eslint-disable-next-line no-param-reassign
         reqConfig.headers.Authorization = accessToken;
       }
     }
@@ -123,7 +118,7 @@ _axios.interceptors.response.use(
     }
     return new Promise(async (resolve, reject) => {
       const { params, url } = res.config;
-
+      debugger
       // refresh_token 异常，直接登出
       if (error_code === 10000 || error_code === 10100) {
         setTimeout(() => {
@@ -151,6 +146,8 @@ _axios.interceptors.response.use(
         reject(res);
         return;
       }
+
+
       console.log("msg", msg);
       // 本次请求添加 params 参数：showBackend 为 true, 弹出后端返回错误信息
       if (params && params.showBackend) {
@@ -163,7 +160,7 @@ _axios.interceptors.response.use(
         // 匹配到前端自定义的错误码
         if (errorArr.length > 0) {
           if (errorArr[0][1] !== "") {
-            message = errorArr[0][1]; // eslint-disable-line
+            message = errorArr[0][1];
           } else {
             message = ErrorCode["777"];
           }
@@ -177,22 +174,7 @@ _axios.interceptors.response.use(
     });
   },
   error => {
-    if (!error.response) {
-      Vue.prototype.$notify({
-        title: "Network Error",
-        dangerouslyUseHTMLString: true,
-        message: '<strong class="my-notify">请检查 API 是否异常</strong>'
-      });
-      console.log("error", error);
-    }
-    Vue.prototype.$message({
-      message,
-      type: "error"
-    });
-    resolve(res.data);
-  }
-),
-  error => {
+    debugger
     if (!error.response) {
       Vue.prototype.$notify({
         title: "Network Error",
@@ -213,10 +195,11 @@ _axios.interceptors.response.use(
       });
     }
     return Promise.reject(error);
-  };
+  }
+);
 
 // eslint-disable-next-line
-Plugin.install = function(Vue, options) {
+Plugin.install = function (Vue, options) {
   // eslint-disable-next-line
   Vue.axios = _axios;
   window.axios = _axios;

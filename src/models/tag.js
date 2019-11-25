@@ -22,7 +22,7 @@ class Tag {
   }
 
   async getTags(params) {
-    const res = await get("v1/tag", params);
+    const res = await get("v1/tag/public", params);
     return res;
   }
 }

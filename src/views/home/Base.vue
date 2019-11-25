@@ -55,6 +55,8 @@
       class="lin-dialog"
       :visible.sync="dialogTableVisible"
       :close-on-click-modal="false"
+      v-loading="loading"
+      element-loading-background="rgba(0, 0, 0, 0)"
     >
       <span slot="title">{{activeIndex=='login'?'登录':'注册'}}</span>
       <el-form :model="form" label-position="top" ref="form">
@@ -113,16 +115,16 @@
             ></el-input>
           </el-form-item>
           <el-form-item
-            prop="phone_number"
+            prop="email"
             :rules="[
-              { required: true, message: '请输入手机号', trigger: 'blur' },
+              { required: true, message: '请输入邮件', trigger: 'blur' },
             ]"
           >
             <el-input
-              v-model="form.phone_number"
+              v-model="form.email"
               prefix-icon="el-icon-user"
               autocomplete="off"
-              placeholder="请输入手机号"
+              placeholder="请输入邮件"
               clearable
             ></el-input>
           </el-form-item>
@@ -175,7 +177,8 @@ export default {
         username: "",
         password: ""
       },
-      formLabelWidth: "120px"
+      formLabelWidth: "120px",
+      loading: false
     };
   },
   computed: {
@@ -205,7 +208,11 @@ export default {
     submitForm() {
       this.$refs["form"].validate(valid => {
         if (valid) {
-          this.login();
+          if (this.activeIndex == "login") {
+            this.login();
+          } else {
+            this.register();
+          }
         } else {
           console.log("error submit!!");
           return false;
@@ -225,6 +232,20 @@ export default {
         this.loading = false;
         console.log(e);
       }
+    },
+    async register() {
+      this.loading = true;
+      await User.register({
+        nickname: this.form.nickname,
+        password: this.form.password,
+        email: this.form.email
+      }).finally(() => {
+        this.loading = false;
+      });
+      this.form.username = this.form.email;
+      this.$message.success("注册成功");
+
+      await this.login();
     },
     async getInformation() {
       try {

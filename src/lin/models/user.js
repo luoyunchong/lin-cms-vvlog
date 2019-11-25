@@ -51,7 +51,7 @@ export default class User {
    * @param {object} data 注册信息
    */
   static register(data) {
-    return post('cms/user/register', data, { handleError: true })
+    return post('cms/user/register', data)
   }
 
   /**

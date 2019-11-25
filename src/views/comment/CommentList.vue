@@ -152,7 +152,7 @@ export default {
     async infiniteHandler($state) {
       console.log($state);
       const currentPage = this.pagination.currentPage;
-      let comments = await commentApi.getComments({
+      let comments = await commentApi.getPublicComments({
         subject_id: this.subject_id,
         count: this.pagination.pageSize,
         page: currentPage
@@ -179,7 +179,7 @@ export default {
       }
     },
     async getTopComments(root_comment_id, index) {
-      let comments = await commentApi.getComments({
+      let comments = await commentApi.getPublicComments({
         subject_id: this.subject_id,
         root_comment_id: root_comment_id
       });

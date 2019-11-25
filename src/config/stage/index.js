@@ -109,9 +109,7 @@ const deepReduceName = target => {
   }
   if (typeof target === "object") {
     // if (typeof target.name !== 'symbol') {
-    //   // eslint-disable-next-line no-param-reassign
     //   target.name = target.name || Utils.getRandomStr()
-    //   // eslint-disable-next-line no-param-reassign
     //   target.name = Symbol(target.name)
     // }
 

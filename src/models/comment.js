@@ -28,8 +28,8 @@ class Comment {
     return res;
   }
 
-  async getComments(pagesParmas) {
-    const res = await get("v1/comment/", pagesParmas);
+  async getPublicComments(pagesParmas) {
+    const res = await get("v1/comment/public", pagesParmas);
     return res;
   }
 }

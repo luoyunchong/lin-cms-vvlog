@@ -6,7 +6,7 @@
           <div slot="header">
             <el-page-header @back="goBack"></el-page-header>
           </div>
-          <div class="info-box">
+          <div class="info-box" v-loading="loading">
             <div>
               <el-col style="position: absolute;">
                 <a href>
@@ -115,7 +115,8 @@ export default {
       currentIndex: 0,
       heightArr: [],
       nodes: [],
-      avatarUrl: ""
+      avatarUrl: "",
+      loading: false
     };
   },
   components: {
@@ -151,7 +152,13 @@ export default {
       this.model.is_liked = is_liked;
     },
     async getData() {
-      this.model = await articleApi.getArticle(this.id);
+      const loading = this.$loading({
+        lock: true,
+        text: "Loading"
+      });
+      this.model = await articleApi.getArticle(this.id).finally(() => {
+        loading.close();
+      });
       if (this.model.word_number == 0) {
         this.model.word_number = this.model.content.length;
         this.model.reading_time = Number(this.model.word_number / 800).toFixed(
