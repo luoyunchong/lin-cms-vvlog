@@ -65,19 +65,16 @@
                       placeholder="请选择随笔类型"
                     >
                       <el-option
-                        v-for="item in classifys"
-                        :key="item.id"
-                        :label="item.classify_name"
-                        :value="item.id"
+                        v-for="item in article_types"
+                        :key="Number(item.item_code)"
+                        :label="item.item_name"
+                        :value="Number(item.item_code)"
                       ></el-option>
                     </el-select>
                   </el-form-item>
                 </el-col>
                 <el-col :lg="12">
                   <el-form-item label="标签" prop="source">
-                    <!--
-                    remote
-                    :remote-method="remoteMethod"-->
                     <el-select
                       style="width:100%;"
                       v-model="form.tag_ids"
@@ -156,6 +153,7 @@ import UploadImgs from "@/components/base/upload-imgs";
 import articleApi from "../../models/article";
 import classifyApi from "../../models/classify";
 import tagApi from "../../models/tag";
+import baseApi from "@/plugins/Blog/models/base";
 
 export default {
   name: "ArticleForm",
@@ -210,9 +208,9 @@ export default {
   },
   async created() {
     this.classifys = await classifyApi.getClassifys();
-    // this.article_types = await baseApi.getItems({
-    //   typeCode: 'Article.Type',
-    // })
+    this.article_types = await baseApi.getItems({
+      typeCode: "Article.Type"
+    });
     let tags = await tagApi.getTags();
     this.tags = tags.items;
   },

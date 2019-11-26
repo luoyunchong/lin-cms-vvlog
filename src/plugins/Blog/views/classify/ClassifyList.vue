@@ -41,14 +41,14 @@
 </template>
 
 <script>
-import classifyApi from '../../models/classify'
-import LinTable from '@/components/base/table/lin-table'
-import ClassifyForm from './ClassifyForm'
-import Vue from 'vue'
+import classifyApi from "../../models/classify";
+import LinTable from "@/components/base/table/lin-table";
+import ClassifyForm from "./ClassifyForm";
+import Vue from "vue";
 export default {
-  name: 'ClassifyList',
+  name: "ClassifyList",
   components: { LinTable, ClassifyForm },
-  inject: ['eventBus'],
+  inject: ["eventBus"],
   data() {
     return {
       id: 0,
@@ -58,99 +58,100 @@ export default {
       tableData: [], // 表格数据
       tableColumn: [], // 表头数据
       operate: [], // 表格按键操作区
-      loading: false,
-    }
+      loading: false
+    };
   },
   methods: {
     async getClassifys() {
-      let res
+      let res;
       try {
-        this.loading = true
-        res = await classifyApi.getClassifys()
+        this.loading = true;
+        res = await classifyApi.getClassifys();
         setTimeout(() => {
-          this.loading = false
-        }, 500)
-        this.tableData = res
+          this.loading = false;
+        }, 500);
+        this.tableData = res;
       } catch (e) {
-        this.loading = false
+        this.loading = false;
       }
     },
     async handleEdit(val) {
-      this.showEdit = true
-      this.id = val.row.id
+      this.showEdit = true;
+      this.id = val.row.id;
     },
     handleDelete(val) {
-      let res
-      this.$confirm('此操作将永久删除该分类专栏项, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning',
+      let res;
+      this.$confirm("此操作将永久删除该分类专栏项, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
       }).then(async () => {
         try {
-          this.loading = true
-          res = await classifyApi.deleteClassify(val.row.id)
+          this.loading = true;
+          res = await classifyApi.deleteClassify(val.row.id);
         } catch (e) {
-          this.loading = false
+          this.loading = false;
         }
         if (res.error_code === 0) {
-          this.loading = false
-          await this.getClassifys()
+          this.loading = false;
+          await this.getClassifys();
 
           this.$message({
-            type: 'success',
-            message: `${res.msg}`,
-          })
+            type: "success",
+            message: `${res.msg}`
+          });
         } else {
-          this.loading = false
-          this.$message.error(`${res.msg}`)
+          this.loading = false;
+          this.$message.error(`${res.msg}`);
         }
-      })
+      });
     },
     async refresh() {
-      await this.getClassifys()
+      await this.getClassifys();
     },
     // 下拉框选择分组
     async handleChange() {
-      this.currentPage = 1
-      this.loading = true
-      await this.getClassifys()
-      this.loading = false
+      this.currentPage = 1;
+      this.loading = true;
+      await this.getClassifys();
+      this.loading = false;
     },
 
     async editClose() {
-      this.showEdit = false
-      await this.getClassifys()
-    },
+      this.showEdit = false;
+      await this.getClassifys();
+    }
   },
   async created() {
     this.tableColumn = [
-      { prop: 'classify_name', label: '分类专栏' },
+      { prop: "classify_name", label: "分类专栏" },
+      { prop: "article_count", label: "文章数量" },
       {
-        prop: 'thumbnail_display',
-        label: '封面',
-        scopedSlots: { customRender: 'thumbnail_display' },
+        prop: "thumbnail_display",
+        label: "封面",
+        scopedSlots: { customRender: "thumbnail_display" }
       },
-      { prop: 'sort_code', label: '排序码' },
+      { prop: "sort_code", label: "排序码" },
       {
-        prop: 'create_time',
-        label: '创建时间',
-        scope: 'create_time',
+        prop: "create_time",
+        label: "创建时间",
+        scope: "create_time",
         customRender: function(row, column) {
-          return Vue.filter('filterTimeYmdHms')(column)
-        },
-      },
-    ]
+          return Vue.filter("filterTimeYmdHms")(column);
+        }
+      }
+    ];
     this.operate = [
-      { name: '编辑', func: 'handleEdit', type: 'primary', auth: '编辑标签' },
-      { name: '删除', func: 'handleDelete', type: 'danger', auth: '删除标签' },
-    ]
+      { name: "编辑", func: "handleEdit", type: "primary", auth: "编辑标签" },
+      { name: "删除", func: "handleDelete", type: "danger", auth: "删除标签" }
+    ];
 
-    await this.getClassifys()
+    await this.getClassifys();
   },
-  beforeDestroy() {},
-}
+  beforeDestroy() {}
+};
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/list.scss';
+@import "@/assets/styles/list.scss";
 </style>

@@ -6,39 +6,36 @@
           <div class="title">我的随笔</div>
         </div>
         <div class="header-right">
-          <div style="margin-left:30px">
-            <el-select
-              size="medium"
-              v-model="pagination.classify_id"
-              placeholder="请选择专栏"
-              @change="handleChange"
-              clearable
-              style="margin-right:30px"
-            >
-              <el-option
-                v-for="item in classifys"
-                :key="item.id"
-                :label="item.classify_name"
-                :value="item.id"
-              ></el-option>
-            </el-select>
-
-            <el-input
-              size="medium"
-              style="margin-right:10px;"
-              v-model="pagination.title"
-              placeholder="标题"
-            ></el-input>
-            <el-button
-              type="primary"
-              icon="el-icon-edit"
-              @click="()=>{
+          <el-select
+            size="medium"
+            v-model="pagination.classify_id"
+            placeholder="请选择专栏"
+            @change="handleChange"
+            clearable
+            style="margin-right:30px;width:300px;"
+          >
+            <el-option
+              v-for="item in classifys"
+              :key="item.id"
+              :label="item.classify_name"
+              :value="item.id"
+            ></el-option>
+          </el-select>
+          <el-input
+            size="medium"
+            style="margin-right:10px;"
+            v-model="pagination.title"
+            placeholder="标题"
+          ></el-input>
+          <el-button
+            type="primary"
+            icon="el-icon-edit"
+            @click="()=>{
                 this.showEdit = true;
                 this.id = null;
             }"
-            >新增随笔</el-button>
-            <el-button type="default" icon="el-icon-search" @click="getArticles">查询</el-button>
-          </div>
+          >新增随笔</el-button>
+          <el-button type="default" icon="el-icon-search" @click="getArticles">查询</el-button>
         </div>
       </div>
       <!-- 表格 -->
