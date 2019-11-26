@@ -2,7 +2,7 @@
 <% plugins.forEach(function(plugin){ %>import <%= plugin.name %> from '@/plugins/<%= plugin.name %>/stage-config'
 <% }); %>
 const pluginsConfig = [
-<% plugins.forEach(function(plugin){ %>  <%= plugin.name %>,
+<% plugins.forEach(function(plugin){ %> ...<%= plugin.name %>,
 <% }); %>]
 
 export default pluginsConfig

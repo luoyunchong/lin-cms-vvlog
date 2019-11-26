@@ -67,7 +67,7 @@ router.beforeEach((to, from, next) => {
   if (store && store.state && store.getters) {
     const { auths, user } = store.getters;
     if (
-      to.path !== "/home/index" &&
+      to.path !== "/index" &&
       !Util.hasPermission(auths, to.meta, user)
     ) {
       Vue.prototype.$notify({
@@ -75,7 +75,7 @@ router.beforeEach((to, from, next) => {
         dangerouslyUseHTMLString: true,
         message: '<strong class="my-notify">您无此页面的权限哟</strong>'
       });
-      next({ path: "/home/index" });
+      next({ path: "/index" });
       return;
     }
   }

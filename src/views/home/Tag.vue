@@ -4,9 +4,9 @@
       <el-col :span="24">
         <el-form :inline="true" :model="form" class="demo-form-inline">
           <el-form-item>
-            <el-link :type="sort=='newest'?'primary':'info'" href="/home/tag?sort=newest">最新</el-link>
+            <el-link :type="sort=='newest'?'primary':'info'" href="/tag?sort=newest">最新</el-link>
             <el-divider direction="vertical"></el-divider>
-            <el-link :type="sort=='hottest'?'primary':'info'" href="/home/tag?sort=hottest">最热</el-link>
+            <el-link :type="sort=='hottest'?'primary':'info'" href="/tag?sort=hottest">最热</el-link>
           </el-form-item>
           <el-form-item>
             <el-input

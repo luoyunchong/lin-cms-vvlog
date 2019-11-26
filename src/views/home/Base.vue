@@ -16,14 +16,14 @@
                   <!-- text-color="#000"
                   background-color="#fff"
                   active-text-color="#ffd04b"-->
-                  <el-menu-item index="/home/index" class="block">
-                    <router-link :to="{path:'/home/index'}">首页</router-link>
+                  <el-menu-item index="/index" class="block">
+                    <router-link :to="{path:'/index'}">首页</router-link>
                   </el-menu-item>
-                  <el-menu-item index="/home/docs" class="block">
-                    <router-link :to="{path:'/home/docs'}">文档</router-link>
+                  <el-menu-item index="/docs" class="block">
+                    <router-link :to="{path:'/docs'}">文档</router-link>
                   </el-menu-item>
-                  <el-menu-item index="/home/tag" class="block">
-                    <router-link :to="{path:'/home/tag'}">标签</router-link>
+                  <el-menu-item index="/tag" class="block">
+                    <router-link :to="{path:'/tag'}">标签</router-link>
                   </el-menu-item>
                   <template>
                     <el-menu-item index="login" v-show="!logined" style="float:right;">
@@ -171,7 +171,7 @@ export default {
   mixins: [mixinDevice],
   data() {
     return {
-      activeIndex: "", ///home/index
+      activeIndex: "", ///index
       dialogTableVisible: false,
       form: {
         username: "",
@@ -226,7 +226,7 @@ export default {
         this.dialogTableVisible = false;
         await this.getInformation();
         this.loading = false;
-        this.$router.push("/home/index");
+        this.$router.push("/index");
         this.$message.success("登录成功");
       } catch (e) {
         this.loading = false;

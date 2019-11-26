@@ -9,8 +9,18 @@ let homeRouter = [
     route: "/about",
     filePath: "views/about/About.vue",
     inNav: true,
-    icon: "iconfont icon-iconset0103",
+    icon: 'iconfont icon-send',
     order: 0
+  },
+  {
+    title: "首页",
+    type: "view",
+    name: Symbol("dashboard"),
+    route: "/dashboard",
+    filePath: "views/home/Dashboard.vue",
+    inNav: true,
+    icon: 'iconfont icon-appstoreadd',
+    order: 1
   },
   {
     title: "404",
@@ -19,7 +29,7 @@ let homeRouter = [
     route: "/404",
     filePath: "views/error-page/404.vue",
     inNav: false,
-    icon: "iconfont icon-rizhiguanli"
+    icon: "iconfont icon-Batchfolding"
   }
 ];
 

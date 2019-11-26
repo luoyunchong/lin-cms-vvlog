@@ -5,7 +5,7 @@ const Config = {
   notLoginRoute: ["login", "index", "docs", 'post', 'comment', 'tag', 'tag-detail'], // 无需登录即可访问的路由 name,
   sideBarLevel: 3, // 侧边栏层级限制, 3表示三级, 可设置 2 和 3
   showSidebarSearch: true, // 默认打开侧边栏搜索
-  defaultRoute: "/home/index" // 默认打开的路由
+  defaultRoute: "/index" // 默认打开的路由
 };
 
 export default Config;

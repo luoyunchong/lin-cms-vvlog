@@ -310,7 +310,6 @@ export default {
           }
         })
           .then(res => {
-            // eslint-disable-line
             if (res.error_code === 0) {
               this.$message({
                 type: "success",
@@ -323,10 +322,7 @@ export default {
             return Promise.reject(new Error("更新头像失败"));
           })
           .then(res => {
-            // eslint-disable-line
-            // 尝试获取当前用户信息
-            const user = res;
-            this.setUserAndState(user);
+            this.setUserAndState(res);
           });
       });
     },
@@ -362,7 +358,6 @@ export default {
               this.nickname = user.nickname;
             })
             .then(res => {
-              // eslint-disable-line
               this.setUserAndState(res);
             });
         }

@@ -3,7 +3,7 @@ let baseRouter = [
         name: "index",
         title: "首页",
         type: "view",
-        route: "/home/index",
+        route: "/index",
         filePath: "views/home/Index.vue",
         inNav: true,
         icon: "iconfont icon-tushuguanli"
@@ -12,7 +12,7 @@ let baseRouter = [
         name: "docs",
         title: "文档",
         type: "view",
-        route: "/home/docs",
+        route: "/docs",
         filePath: "views/home/Docs.vue",
         inNav: true,
         icon: "iconfont icon-tushuguanli"
@@ -30,7 +30,7 @@ let baseRouter = [
         name: "tag",
         title: "标签",
         type: "view",
-        route: "/home/tag",
+        route: "/tag",
         filePath: "views/home/Tag.vue",
         inNav: true,
         icon: "iconfont icon-tushuguanli"
@@ -39,7 +39,7 @@ let baseRouter = [
         name: "comment",
         title: "评论",
         type: "view",
-        route: "/home/comment",
+        route: "/comment",
         filePath: "views/comment/CommentList.vue",
         inNav: true,
         icon: "iconfont icon-tushuguanli"

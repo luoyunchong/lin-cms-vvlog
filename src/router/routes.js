@@ -5,8 +5,8 @@ import Base from "@/views/home/Base";
 const routes = [
   {
     path: "/",
-    name: "Home",
-    redirect: "/home/index",
+    name: "index",
+    redirect: "/index",
     component: Base,
     children: [...baseRouter]
   },

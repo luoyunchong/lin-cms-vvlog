@@ -50,7 +50,7 @@ export default {
         await User.getToken(username, password);
         await this.getInformation();
         this.loading = false;
-        this.$router.push("/home/index");
+        this.$router.push("/index");
         this.$message.success("登录成功");
       } catch (e) {
         this.loading = false;

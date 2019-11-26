@@ -22,6 +22,11 @@
                     <span>{{model.time_span}}</span>
                     <el-divider direction="vertical"></el-divider>
                     <span>阅读 {{model.view_hits}}</span>
+                    <template v-if="user!=null&&model.user_info.id==user.id">
+                      <el-divider direction="vertical"></el-divider>
+                      <el-link type="primary" href="https://element.eleme.io" target="_blank">编辑</el-link>
+                    </template>
+
                     <el-divider direction="vertical"></el-divider>
                     <span>
                       <el-tag type="success" v-if="model.article_type==0">原创</el-tag>
@@ -30,7 +35,12 @@
                     </span>
                   </el-col>
                 </el-col>
-                <el-col :span="5" :xs="5" style="text-align:left;padding-left:0px;">
+                <el-col
+                  :span="5"
+                  :xs="5"
+                  style="text-align:left;padding-left:0px;"
+                  v-if="user!=null&&model.user_info.id!=user.id"
+                >
                   <el-button type="primary" icon="el-icon-plus">关注他</el-button>
                 </el-col>
               </el-row>
@@ -145,7 +155,7 @@ export default {
   },
   methods: {
     goBack() {
-      this.$router.replace("/home/index");
+      this.$router.replace("/index");
     },
     likeChange({ likes_quantity, is_liked }) {
       this.model.likes_quantity += likes_quantity;

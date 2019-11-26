@@ -1,5 +1,8 @@
 <template>
-  <div>docs</div>
+  <div>
+    docs
+    <a href="/cms/classify/list">/cms/classify/list</a>
+  </div>
 </template>
 
 <script>

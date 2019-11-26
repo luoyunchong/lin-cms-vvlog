@@ -10,6 +10,7 @@ const SUPER_VALUE = 2
 const ACTIVE_VALUE = 1
 
 export default class User {
+  id = null;
   // 当前用户是否在激活状态
   isActive = null
 
@@ -34,7 +35,7 @@ export default class User {
   // 分组名称
   groupName = null
 
-  constructor(active, email, groupId, username, _super, avatar, auths, nickname, groupName) {
+  constructor(active, email, groupId, username, _super, avatar, auths, nickname, groupName, id) {
     this.isActive = active === ACTIVE_VALUE
     this.email = email
     this.groupId = groupId
@@ -44,6 +45,7 @@ export default class User {
     this.auths = auths || []
     this.nickname = nickname
     this.groupName = groupName
+    this.id = id;
   }
 
   /**
@@ -81,7 +83,7 @@ export default class User {
    */
   static async getAuths() {
     const info = await get('cms/user/auths')
-    return new User(info.active, info.email, info.group_id, info.username, info.admin, info.avatar, info.auths, info.nickname, info.group_name)
+    return new User(info.active, info.email, info.group_id, info.username, info.admin, info.avatar, info.auths, info.nickname, info.group_name, info.id)
   }
 
   /**

@@ -26,6 +26,16 @@
                     <el-input size="medium" v-model="form.title" placeholder="请填写标题"></el-input>
                   </el-form-item>
                 </el-col>
+                <el-col :lg="12">
+                  <el-form-item label prop="title">
+                    <el-link
+                      type="primary"
+                      :href="'/post/'+form.id"
+                      v-if="form.id!=null"
+                      target="_blank"
+                    >查看随笔</el-link>
+                  </el-form-item>
+                </el-col>
               </el-row>
               <el-row>
                 <el-col :lg="6">
@@ -55,10 +65,10 @@
                       placeholder="请选择随笔类型"
                     >
                       <el-option
-                        v-for="item in article_types"
-                        :key="Number(item.item_code)"
-                        :label="item.item_name"
-                        :value="Number(item.item_code)"
+                        v-for="item in classifys"
+                        :key="item.id"
+                        :label="item.classify_name"
+                        :value="item.id"
                       ></el-option>
                     </el-select>
                   </el-form-item>

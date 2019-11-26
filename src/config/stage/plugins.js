@@ -2,7 +2,7 @@
 import Blog from '@/plugins/Blog/stage-config'
 
 const pluginsConfig = [
-  Blog,
+ ...Blog,
 ]
 
 export default pluginsConfig
