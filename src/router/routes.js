@@ -1,5 +1,6 @@
 import Home from "@/views/home/Home";
 import homeRouter from "./home-router";
+import baseRouter from "./base-router";
 import Base from "@/views/home/Base";
 const routes = [
   {
@@ -7,12 +8,16 @@ const routes = [
     name: "Home",
     redirect: "/home/index",
     component: Base,
-    children: [...homeRouter]
+    children: [...baseRouter]
   },
   {
-    name: "p",
-    path: "/p",
-    component: () => import("@/views/home/Index.vue"),
+    path: '/home',
+    name: 'Home',
+    redirect: '/about',
+    component: Home,
+    children: [
+      ...homeRouter,
+    ],
   },
   {
     path: "/login",

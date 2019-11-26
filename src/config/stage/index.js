@@ -1,60 +1,16 @@
 import pluginsConfig from "./plugins";
 import Utils from "@/lin/utils/util";
 
-// eslint-disable-next-line import/no-mutable-exports
 let homeRouter = [
   {
-    name: "index",
-    title: "首页",
+    title: "林间有风",
     type: "view",
-    route: "/home/index",
-    filePath: "views/home/Index.vue",
+    name: Symbol("about"),
+    route: "/about",
+    filePath: "views/about/About.vue",
     inNav: true,
-    icon: "iconfont icon-tushuguanli"
-  },
-  {
-    name: "docs",
-    title: "文档",
-    type: "view",
-    route: "/home/docs",
-    filePath: "views/home/Docs.vue",
-    inNav: true,
-    icon: "iconfont icon-tushuguanli"
-  },
-  {
-    name: "tag-detail",
-    title: "标签详情页",
-    type: "view",
-    route: "/tag/:id",
-    filePath: "views/tag/TagDetail.vue",
-    inNav: true,
-    icon: "iconfont icon-tushuguanli"
-  },
-  {
-    name: "tag",
-    title: "标签",
-    type: "view",
-    route: "/home/tag",
-    filePath: "views/home/Tag.vue",
-    inNav: true,
-    icon: "iconfont icon-tushuguanli"
-  },
-  {
-    name: "comment",
-    title: "评论",
-    type: "view",
-    route: "/home/comment",
-    filePath: "views/comment/CommentList.vue",
-    inNav: true,
-    icon: "iconfont icon-tushuguanli"
-  },
-  {
-    title: "详情页",
-    type: "view",
-    name: "post",
-    route: "/post/:id",
-    filePath: "views/article/ArticleDetail.vue",
-    inNav: false
+    icon: "iconfont icon-iconset0103",
+    order: 0
   },
   {
     title: "404",
