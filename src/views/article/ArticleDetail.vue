@@ -7,44 +7,46 @@
             <el-page-header @back="goBack"></el-page-header>
           </div>
           <div class="info-box" v-loading="loading">
-            <div>
-              <el-col style="position: absolute;">
+            <el-row type="flex">
+              <el-col :span="2">
                 <a href>
                   <el-avatar size="large" :src="model.user_info.avatar"></el-avatar>
                 </a>
               </el-col>
-              <el-row :gutter="10" style="float: right;padding-left: 50px;width: 100%;">
-                <el-col :span="18" :xs="18">
-                  <el-col :span="24">
-                    <a class="nickname">{{model.user_info.nickname}}</a>
-                  </el-col>
-                  <el-col :span="24">
-                    <span>{{model.time_span}}</span>
-                    <el-divider direction="vertical"></el-divider>
-                    <span>阅读 {{model.view_hits}}</span>
-                    <template v-if="user!=null&&model.user_info.id==user.id">
+              <el-col>
+                <el-row :gutter="10">
+                  <el-col :span="18" :xs="18">
+                    <el-col :span="24">
+                      <a class="nickname">{{model.user_info.nickname}}</a>
+                    </el-col>
+                    <el-col :span="24">
+                      <span>{{model.time_span}}</span>
                       <el-divider direction="vertical"></el-divider>
-                      <el-link type="primary" href="https://element.eleme.io" target="_blank">编辑</el-link>
-                    </template>
+                      <span>阅读 {{model.view_hits}}</span>
+                      <template v-if="user!=null&&model.user_info.id==user.id">
+                        <el-divider direction="vertical"></el-divider>
+                        <el-link type="primary" href="https://element.eleme.io" target="_blank">编辑</el-link>
+                      </template>
 
-                    <el-divider direction="vertical"></el-divider>
-                    <span>
-                      <el-tag type="success" v-if="model.article_type==0">原创</el-tag>
-                      <el-tag type="info" v-else-if="model.article_type==1">转载</el-tag>
-                      <el-tag type="danger" v-else-if="model.article_type==2">翻译</el-tag>
-                    </span>
+                      <el-divider direction="vertical"></el-divider>
+                      <span>
+                        <el-tag type="success" v-if="model.article_type==0">原创</el-tag>
+                        <el-tag type="info" v-else-if="model.article_type==1">转载</el-tag>
+                        <el-tag type="danger" v-else-if="model.article_type==2">翻译</el-tag>
+                      </span>
+                    </el-col>
                   </el-col>
-                </el-col>
-                <el-col
-                  :span="5"
-                  :xs="5"
-                  style="text-align:left;padding-left:0px;"
-                  v-if="user!=null&&model.user_info.id!=user.id"
-                >
-                  <el-button type="primary" icon="el-icon-plus">关注他</el-button>
-                </el-col>
-              </el-row>
-            </div>
+                  <el-col
+                    :span="5"
+                    :xs="5"
+                    style="text-align:left;padding-left:0px;"
+                    v-if="user!=null&&model.user_info.id!=user.id"
+                  >
+                    <el-button type="primary" icon="el-icon-plus">关注他</el-button>
+                  </el-col>
+                </el-row>
+              </el-col>
+            </el-row>
           </div>
           <div class="info-box">
             <h1 class="title">{{model.title}}</h1>
@@ -75,12 +77,33 @@
           </div>
         </el-card>
         <div id="comment-list">
-          <comment-list :subject_id="id" :subject_type="1"></comment-list>
+          <comment-list :subject_id="id" :subject_type="1" v-on:success="getCommentSuccess"></comment-list>
         </div>
         <el-backtop class="lin-back-top"></el-backtop>
       </el-col>
       <el-col :xl="6" :lg="6" :md="24" :sm="24" :xs="24">
-        <el-card class="aside-list" shadow="never" :body-style="{ padding: '12px'}">
+        <el-card style="margin-bottom:20px;">
+          <div slot="header" class="clearfix" :body-style="{ padding: '0'}">
+            <span>关于作者</span>
+          </div>
+          <div class="info-box" style="display: flex;">
+            <div style="flex: 0 0 auto;margin-right: 1rem;">
+              <a href class="avatar">
+                <el-avatar size="large" :src="model.user_info.avatar"></el-avatar>
+              </a>
+            </div>
+            <div style="flex: 1 1 auto;min-width: 0;">
+              <a class="nickname">{{model.user_info.nickname}}</a>
+              <div class="intro-content">{{model.user_info.introduction}}</div>
+            </div>
+          </div>
+        </el-card>
+        <el-card
+          class="aside-list"
+          :style="this.scroll>260?'position: fixed;top:80px':''"
+          shadow="never"
+          :body-style="{ padding: '12px'}"
+        >
           <div slot="header" class="clearfix">
             <span>目录</span>
           </div>
@@ -144,9 +167,9 @@ export default {
     this.activeIndex = 0;
   },
   mounted() {
-    // this.$nextTick(function() {
-    //   window.addEventListener("scroll", this.dataScroll, true);
-    // });
+    this.$nextTick(function() {
+      window.addEventListener("scroll", this.dataScroll, true);
+    });
   },
   watch: {
     scroll: function() {
@@ -154,6 +177,10 @@ export default {
     }
   },
   methods: {
+    getCommentSuccess(total) {
+      this.model.comment_quantity = total;
+      console.log("getCommentSuccess");
+    },
     goBack() {
       this.$router.replace("/index");
     },
@@ -169,6 +196,7 @@ export default {
       this.model = await articleApi.getArticle(this.id).finally(() => {
         loading.close();
       });
+      console.log("getData");
       if (this.model.word_number == 0) {
         this.model.word_number = this.model.content.length;
         this.model.reading_time = Number(this.model.word_number / 800).toFixed(
@@ -198,7 +226,7 @@ export default {
       this.scroll =
         document.documentElement.scrollTop ||
         document.body.scrollTop ||
-        document.querySelector(".el-main").scrollTop;
+        document.querySelector(".aside-list").scrollTop;
     },
     loadSroll() {
       var self = this;
@@ -325,6 +353,11 @@ export default {
     font-weight: 700;
     line-height: 1.5;
   }
+  .avatar {
+    &:hover {
+      cursor: pointer !important;
+    }
+  }
   .nickname {
     max-width: 100%;
     font-size: 1.3rem;
@@ -382,9 +415,20 @@ export default {
 }
 
 .aside-list {
-  position: fixed;
-  width: 240px;
+  // position: fixed;
+  // width: 240px;
   transition: all 0.2s;
+}
+
+.intro-content {
+  display: -webkit-box;
+  overflow: hidden;
+  white-space: normal !important;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  line-height: 18px;
 }
 
 .wx_navigation {

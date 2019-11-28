@@ -22,7 +22,7 @@
       <div class="bottom clearfix" style="margin-top:10px;">
         <div class="meta-box">
           <!-- <time class="meta subscribe">397398 关注</time> -->
-          <time class="meta">{{article_count}} 文章</time>
+          <time class="meta">{{article_count}} 随笔</time>
           <!-- article -->
         </div>
         <!-- <el-button type="primary" class="button" icon="iconfont icon-heart-fill">已关注</el-button>

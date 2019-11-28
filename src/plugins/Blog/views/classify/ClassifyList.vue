@@ -125,7 +125,7 @@ export default {
   async created() {
     this.tableColumn = [
       { prop: "classify_name", label: "分类专栏" },
-      { prop: "article_count", label: "文章数量" },
+      { prop: "article_count", label: "随笔数量" },
       {
         prop: "thumbnail_display",
         label: "封面",

@@ -3,13 +3,15 @@
     <div class="lin-info">
       <div class="lin-info-left">
         <div class="welcome">
-          <img src="../../assets/img/about/welcome.png" class="welcome-title" alt="">
+          <img src="../../assets/img/about/welcome.png" class="welcome-title" alt />
           <div class="subtitle">
             <div class="guide">您还可以点击林间有风官方网站，查看更多作品</div>
-            <div class="link"><a href="http://www.7yue.pro" target="_blank">http://www.7yue.pro</a></div>
+            <div class="link">
+              <a href="http://www.7yue.pro" target="_blank">http://www.7yue.pro</a>
+            </div>
           </div>
         </div>
-        <img class="welcome-bg" src="../../assets/img/about/header-bg.png" alt="">
+        <img class="welcome-bg" src="../../assets/img/about/header-bg.png" alt />
       </div>
       <div class="lin-info-right">
         <div class="team-detail">
@@ -53,7 +55,7 @@
             </ul>
           </div>
           <div class="team-icon">
-            <img src="../../assets/img/about/qrcode.jpg" alt="">
+            <img src="../../assets/img/about/qrcode.jpg" alt />
           </div>
           <p class="team-label">林间有风公众号</p>
         </div>
@@ -69,7 +71,7 @@
           </div>
         </div>
         <div class="quantity-icon">
-          <img src="../../assets/img/about/icon.png" alt="">
+          <img src="../../assets/img/about/icon.png" alt />
         </div>
       </div>
       <div class="quantity-item">
@@ -81,7 +83,7 @@
           </div>
         </div>
         <div class="quantity-icon">
-          <img src="../../assets/img/about/icon.png" alt="">
+          <img src="../../assets/img/about/icon.png" alt />
         </div>
       </div>
       <div class="quantity-item">
@@ -93,7 +95,7 @@
           </div>
         </div>
         <div class="quantity-icon">
-          <img src="../../assets/img/about/icon.png" alt="">
+          <img src="../../assets/img/about/icon.png" alt />
         </div>
       </div>
       <div class="quantity-item">
@@ -105,7 +107,7 @@
           </div>
         </div>
         <div class="quantity-icon">
-          <img src="../../assets/img/about/icon.png" alt="">
+          <img src="../../assets/img/about/icon.png" alt />
         </div>
       </div>
     </div>
@@ -128,19 +130,22 @@
           </div>
         </div>
         <el-tabs v-model="activeName" class="personal-tabs">
-            <el-tab-pane label="最新作品" name="first">
-              <div class="content">How to Contribute to Open Source?</div>
-            </el-tab-pane>
-            <el-tab-pane label="最热作品" name="second">
-              <div class="content">为什么程序员们愿意在GitHub上开源...</div>
-            </el-tab-pane>
+          <el-tab-pane label="最新作品" name="first">
+            <div class="content">How to Contribute to Open Source?</div>
+          </el-tab-pane>
+          <el-tab-pane label="最热作品" name="second">
+            <div class="content">为什么程序员们愿意在GitHub上开源...</div>
+          </el-tab-pane>
         </el-tabs>
       </div>
       <div class="article">
-        <div class="article-title">文章</div>
+        <div class="article-title">随笔</div>
         <div class="article-list">
-          <div class="article-item" @click="handleArticle('https://opensource.guide/how-to-contribute/')">
-            <img class="article-thumb" src="../../assets/img/about/open-source.jpg" alt="">
+          <div
+            class="article-item"
+            @click="handleArticle('https://opensource.guide/how-to-contribute/')"
+          >
+            <img class="article-thumb" src="../../assets/img/about/open-source.jpg" alt />
             <div class="article-detail">
               <p class="article-detail-title">How to Contribute to Open Source?</p>
               <div class="article-detail-content">
@@ -151,30 +156,45 @@
               <div class="article-tool">
                 <div class="pubdate">一天前</div>
                 <div class="article-about">
-                    <span><i class="iconfont icon-shoucang"></i>37</span>
-                    <el-divider direction="vertical"></el-divider>
-                    <span><i class="iconfont icon-pinglun"></i>2384</span>
-                    <el-divider direction="vertical"></el-divider>
-                    <span><i class="iconfont icon-fenxiang"></i>56</span>
+                  <span>
+                    <i class="iconfont icon-shoucang"></i>37
+                  </span>
+                  <el-divider direction="vertical"></el-divider>
+                  <span>
+                    <i class="iconfont icon-pinglun"></i>2384
+                  </span>
+                  <el-divider direction="vertical"></el-divider>
+                  <span>
+                    <i class="iconfont icon-fenxiang"></i>56
+                  </span>
                 </div>
               </div>
             </div>
           </div>
-          <div class="article-item" @click="handleArticle('https://www.zhihu.com/question/269033309')">
-            <img class="article-thumb" src="../../assets/img/about/open-source.jpg" alt="">
+          <div
+            class="article-item"
+            @click="handleArticle('https://www.zhihu.com/question/269033309')"
+          >
+            <img class="article-thumb" src="../../assets/img/about/open-source.jpg" alt />
             <div class="article-detail article-last">
               <p class="article-detail-title">为什么程序员们愿意在GitHub上开源自己的成果给别人免费使用和学习？</p>
-              <div class="article-detail-content">
-                “Git的精髓在于让所有人的贡献无缝合并。而GitHub的天才之处，在于理解了Git的精髓。”来一句我们程序员们接地气的话：分享是一种快乐~
-              </div>
+              <div
+                class="article-detail-content"
+              >“Git的精髓在于让所有人的贡献无缝合并。而GitHub的天才之处，在于理解了Git的精髓。”来一句我们程序员们接地气的话：分享是一种快乐~</div>
               <div class="article-tool">
                 <div class="pubdate">2019年5月26日</div>
                 <div class="article-about">
-                    <span><i class="iconfont icon-shoucang"></i>37</span>
-                    <el-divider direction="vertical"></el-divider>
-                    <span><i class="iconfont icon-pinglun"></i>2384</span>
-                    <el-divider direction="vertical"></el-divider>
-                    <span><i class="iconfont icon-fenxiang"></i>56</span>
+                  <span>
+                    <i class="iconfont icon-shoucang"></i>37
+                  </span>
+                  <el-divider direction="vertical"></el-divider>
+                  <span>
+                    <i class="iconfont icon-pinglun"></i>2384
+                  </span>
+                  <el-divider direction="vertical"></el-divider>
+                  <span>
+                    <i class="iconfont icon-fenxiang"></i>56
+                  </span>
                 </div>
               </div>
             </div>
@@ -186,25 +206,24 @@
 </template>
 
 <script>
-
 export default {
   data() {
     return {
-      activeName: 'first',
-      showTeam: false,
-    }
+      activeName: "first",
+      showTeam: false
+    };
   },
   mounted() {
     if (document.body.clientWidth > 1200 && document.body.clientWidth < 1330) {
-      this.showTeam = true
+      this.showTeam = true;
     }
   },
   methods: {
     handleArticle(link) {
-      window.open(link)
-    },
-  },
-}
+      window.open(link);
+    }
+  }
+};
 </script>
 
 <style scoped lang="scss">
@@ -219,12 +238,12 @@ export default {
       position: relative;
       width: 690px;
       height: 100%;
-      background:rgba(69,119,255,1);
-      box-shadow:0px 2px 14px 0px rgba(243,243,243,1);
-      border-radius:8px;
+      background: rgba(69, 119, 255, 1);
+      box-shadow: 0px 2px 14px 0px rgba(243, 243, 243, 1);
+      border-radius: 8px;
       .welcome {
         margin: 28px 0 0 30px;
-        .welcome-title{
+        .welcome-title {
           width: 366px;
           height: 31px;
         }
@@ -241,13 +260,13 @@ export default {
           }
           .link {
             margin-top: 6px;
-            width:160px;
-            height:22px;
-            background:rgba(44,95,233,1);
-            border-radius:11px;
+            width: 160px;
+            height: 22px;
+            background: rgba(44, 95, 233, 1);
+            border-radius: 11px;
             text-align: center;
             line-height: 20px;
-            color:rgba(255,255,255,1);
+            color: rgba(255, 255, 255, 1);
           }
         }
       }
@@ -268,9 +287,9 @@ export default {
       .team-detail {
         position: relative;
         height: 160px;
-        background:rgba(255,176,139,1);
-        box-shadow:0px 2px 14px 0px rgba(243,243,243,1);
-        border-radius:8px;
+        background: rgba(255, 176, 139, 1);
+        box-shadow: 0px 2px 14px 0px rgba(243, 243, 243, 1);
+        border-radius: 8px;
 
         .team-box {
           margin: 20px 0 0 22px;
@@ -302,7 +321,7 @@ export default {
                   width: 6px;
                   height: 6px;
                   border-radius: 6px;
-                  background-color: #FFB9A4;
+                  background-color: #ffb9a4;
                 }
               }
 
@@ -311,7 +330,7 @@ export default {
                 width: 30px;
                 margin-right: 15px;
                 font-weight: 400;
-                color: #45526B;
+                color: #45526b;
               }
 
               .team-name {
@@ -329,7 +348,6 @@ export default {
               }
             }
           }
-
         }
 
         .team-icon {
@@ -342,7 +360,7 @@ export default {
           justify-content: center;
           align-items: center;
           background-color: #fff;
-          box-shadow: 0 0 10px 0 #CFD5E3;
+          box-shadow: 0 0 10px 0 #cfd5e3;
 
           img {
             width: 62px;
@@ -353,10 +371,10 @@ export default {
           position: absolute;
           top: 73%;
           right: 20px;
-          font-size:13px;
-          font-weight:400;
-          color:rgba(69,82,107,1);
-          line-height:20px;
+          font-size: 13px;
+          font-weight: 400;
+          color: rgba(69, 82, 107, 1);
+          line-height: 20px;
         }
       }
     }
@@ -369,13 +387,13 @@ export default {
     .quantity-item {
       display: flex;
       width: 23%;
-      height:100%;
-      background:rgba(255,255,255,1);
-      box-shadow:0px 2px 14px 0px rgba(243,243,243,1);
-      border-radius:8px;
+      height: 100%;
+      background: rgba(255, 255, 255, 1);
+      box-shadow: 0px 2px 14px 0px rgba(243, 243, 243, 1);
+      border-radius: 8px;
       .quantity-detail {
         flex: 1;
-        .quantity-detail-box{
+        .quantity-detail-box {
           margin: 12px 0 0 30px;
           .quantity-title {
             margin-bottom: 2px;
@@ -386,17 +404,17 @@ export default {
             font-weight: 400;
           }
           .quantity-border-line {
-            width:46px;
-            height:2px;
-            background:rgba(73,84,104,1);
+            width: 46px;
+            height: 2px;
+            background: rgba(73, 84, 104, 1);
           }
           .quantity {
             margin-top: 7px;
-            height:48px;
-            font-size:32px;
-            color:rgba(73,84,104,1);
-            line-height:38px;
-            letter-spacing:2px
+            height: 48px;
+            font-size: 32px;
+            color: rgba(73, 84, 104, 1);
+            line-height: 38px;
+            letter-spacing: 2px;
           }
         }
       }
@@ -405,8 +423,8 @@ export default {
         justify-content: center;
         align-items: center;
         width: 90px;
-        height:100%;
-        background:rgba(69,119,255,0.1);
+        height: 100%;
+        background: rgba(69, 119, 255, 0.1);
         border-top-right-radius: 8px;
         border-bottom-right-radius: 8px;
         img {
@@ -423,15 +441,15 @@ export default {
       width: 320px;
       height: 100%;
       margin-right: 20px;
-      background:rgba(255,255,255,1);
-      box-shadow:0px 2px 14px 0px rgba(243,243,243,1);
-      border-radius:8px;
+      background: rgba(255, 255, 255, 1);
+      box-shadow: 0px 2px 14px 0px rgba(243, 243, 243, 1);
+      border-radius: 8px;
       .personal-title {
         margin: 20px 0 10px 20px;
         height: 22px;
         line-height: 22px;
         font-weight: 500;
-        color: #596C8E;
+        color: #596c8e;
         font-size: 16px;
       }
       .personal-avatar {
@@ -439,7 +457,7 @@ export default {
         height: 140px;
         margin: 0 auto 40px;
         border-radius: 75px;
-        box-shadow: 0 0 30px 0 #CFD5E3;
+        box-shadow: 0 0 30px 0 #cfd5e3;
       }
       .personal-influence {
         display: flex;
@@ -453,19 +471,19 @@ export default {
             font-size: 28px;
             line-height: 34px;
             &.color1 {
-              color: #00C292;
+              color: #00c292;
             }
             &.color2 {
-              color: #FEC108;
+              color: #fec108;
             }
             &.color3 {
-              color: #03A9F3;
+              color: #03a9f3;
             }
           }
           .personal-influece-label {
             font-size: 12px;
             font-weight: 400;
-            color: #8C98AE;
+            color: #8c98ae;
             line-height: 17px;
           }
         }
@@ -486,14 +504,14 @@ export default {
       flex: 1;
       height: 100%;
       padding: 20px;
-      background:rgba(255,255,255,1);
-      box-shadow:0px 2px 14px 0px rgba(243,243,243,1);
-      border-radius:8px;
+      background: rgba(255, 255, 255, 1);
+      box-shadow: 0px 2px 14px 0px rgba(243, 243, 243, 1);
+      border-radius: 8px;
       .article-title {
         height: 22px;
         line-height: 22px;
         font-weight: 500;
-        color: #596C8E;
+        color: #596c8e;
         font-size: 16px;
         margin-bottom: 20px;
       }
@@ -512,25 +530,25 @@ export default {
           }
           .article-detail {
             flex: 1;
-            border-bottom: 1px #ECEDEF solid;
+            border-bottom: 1px #ecedef solid;
             margin-bottom: 20px;
             &.article-last {
               border-bottom: none;
               margin-bottom: 0;
             }
             .article-detail-title {
-              height:22px;
-              font-size:16px;
-              font-weight:400;
-              color:rgba(69,82,107,1);
-              line-height:22px;
+              height: 22px;
+              font-size: 16px;
+              font-weight: 400;
+              color: rgba(69, 82, 107, 1);
+              line-height: 22px;
             }
             .article-detail-content {
               margin-top: 10px;
-              font-size:14px;
-              font-weight:400;
-              color:rgba(140,152,174,1);
-              line-height:22px;
+              font-size: 14px;
+              font-weight: 400;
+              color: rgba(140, 152, 174, 1);
+              line-height: 22px;
             }
           }
           .article-tool {
@@ -538,10 +556,10 @@ export default {
             flex-direction: row;
             justify-content: space-between;
             margin: 10px 0 20px 0;
-            font-size:12px;
+            font-size: 12px;
             line-height: 17px;
             font-weight: 400;
-            color: #808DA3;
+            color: #808da3;
             .article-about {
               .iconfont {
                 line-height: 17px;
@@ -556,26 +574,26 @@ export default {
   }
 }
 
-@media screen and (max-width: 1200px){
-  .container .lin-info .lin-info-right{
+@media screen and (max-width: 1200px) {
+  .container .lin-info .lin-info-right {
     display: none;
   }
-  .container .lin-info .lin-info-left{
+  .container .lin-info .lin-info-left {
     width: 100%;
   }
-  .container .quantity-statistics .quantity-item{
+  .container .quantity-statistics .quantity-item {
     width: 32%;
     &:last-child {
       display: none;
     }
   }
-  .container .information .personal{
+  .container .information .personal {
     display: none;
   }
 }
 
-@media screen and (max-width: 1200px){
-  .container .lin-info .lin-info-left{
+@media screen and (max-width: 1200px) {
+  .container .lin-info .lin-info-left {
     width: 100%;
   }
 }

@@ -16,7 +16,7 @@
         <el-divider class="lin-divider">我也是有底线的...</el-divider>
       </span>
       <span slot="no-results">
-        <el-divider class="lin-divider">没有文章...</el-divider>
+        <el-divider class="lin-divider">没有随笔...</el-divider>
       </span>
     </infinite-loading>
   </div>

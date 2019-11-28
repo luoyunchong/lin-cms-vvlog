@@ -1,7 +1,12 @@
 <template>
   <div class="comments-item">
     <div class="pull-left">
-      <img class="avatar-32" :src="avatar" alt v-if="avatar" @click="handleClickAvatar" />
+      <img
+        class="avatar-32"
+        :src="author.avatar||defaultAvatar"
+        alt="default"
+        @click="handleClickAvatar"
+      />
     </div>
     <div class="comments-box">
       <div class="comments-trigger">
@@ -20,12 +25,16 @@
           </a>
         </div>
         <strong>
-          <a target="_blank" href="javascript:void(0)" @click="handleClickAuthor">{{author}}</a>
+          <a
+            target="_blank"
+            href="javascript:void(0)"
+            @click="handleClickAuthor"
+          >{{author.nickname}}</a>
         </strong>
         <span class="comments-date">· {{time | filterTimeYmdHms}}</span>
       </div>
       <div class="comments-content">
-        <p>{{content}}</p>
+        <p v-html="commentContent"></p>
       </div>
       <p class="comments-ops">
         <span
@@ -41,6 +50,12 @@
           <i class="iconfont icon-comment coments-ops-icon"></i>
           {{replyText}}
         </span>
+        <el-popconfirm title="确认删除此评论" @onConfirm="handleDeleteReply" v-show="author.id==user.id">
+          <span class="comments-reply-btn ml15" slot="reference">
+            <i class="iconfont icon-delete coments-ops-icon"></i>
+            删除
+          </span>
+        </el-popconfirm>
       </p>
       <div class="comment-input" v-show="replyVisible">
         <slot name="comment-input"></slot>
@@ -56,11 +71,15 @@
 </template>
 
 <script>
+import Utils from "@/lin/utils/util";
+import defaultAvatar from "@/assets/img/user/user.png";
 export default {
   name: "CommentItem",
   props: {
     avatar: String,
-    author: String,
+    author: {
+      type: Object
+    },
     content: String,
     ops: Array,
     tools: Array,
@@ -74,11 +93,15 @@ export default {
   data() {
     return {
       // replyVisible: false
+      defaultAvatar
     };
   },
   computed: {
     replyText() {
       return this.replyVisible == true ? "取消回复" : "回复";
+    },
+    commentContent() {
+      return Utils.formatHtml(Utils.formatHyperLink(this.content));
     }
   },
   methods: {
@@ -97,6 +120,9 @@ export default {
     handleAddReply(event) {
       event.stopPropagation();
       this.$emit("addReply", this);
+    },
+    handleDeleteReply(event) {
+      this.$emit("deleteReply", this);
     }
   },
   filters: {}

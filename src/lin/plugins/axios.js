@@ -118,7 +118,7 @@ _axios.interceptors.response.use(
     }
     return new Promise(async (resolve, reject) => {
       const { params, url } = res.config;
-      debugger
+
       // refresh_token 异常，直接登出
       if (error_code === 10000 || error_code === 10100) {
         setTimeout(() => {

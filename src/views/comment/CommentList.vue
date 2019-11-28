@@ -1,6 +1,6 @@
 <template>
   <div
-    style="  position: relative;
+    style="position: relative;
       padding-top: 50px;
       margin-top: -50px;
       margin-bottom:50px;
@@ -35,7 +35,7 @@
         v-for="(comment,index) in comments"
         :key="comment.id"
         :avatar="comment.user_info.avatar"
-        :author="comment.user_info.nickname"
+        :author="comment.user_info"
         :content="comment.text"
         :time="comment.create_time|filterTimeYmdHms"
         :hasReply="comment.top_comment && comment.top_comment.length > 0"
@@ -43,6 +43,7 @@
         @clickAvatar="handleClickAvatar(comment)"
         @clickAuthor="handleClickAuthor(comment)"
         @addReply="handleAddReply(comment,index)"
+        @deleteReply="handleDeleteReply(comment,index)"
         @clickTool="($event, item)=>handleClickTool(item,comment,index)"
         :tools="[
                 {
@@ -67,14 +68,14 @@
         <reply-item
           slot="reply-list"
           v-for="(reply,i) in comment.top_comment"
-          :avatar="reply.user_info.avatar"
           :key="reply.id"
-          :author="reply.user_info.nickname"
+          :author="reply.user_info"
           :resp_user_info="reply.resp_user_info"
           :content="reply.text"
           :time="reply.create_time|filterTimeYmdHms"
           @clickTool="($event, item)=>handleClickReplyTool(item,reply,index,i)"
           @addReply="handleAddCommentReply(reply,index,i)"
+          @deleteReply="handleDeleteCommentReply(reply,index,i)"
           :replyVisible="reply.replyVisible"
           :tools="[
                 {
@@ -99,7 +100,14 @@
         </reply-item>
       </comment-item>
 
-      <infinite-loading @infinite="infiniteHandler" spinner="bubbles" :identifier="any"></infinite-loading>
+      <infinite-loading @infinite="infiniteHandler" spinner="bubbles" :identifier="any">
+        <span slot="no-more">
+          <el-divider>我也是有底线的...</el-divider>
+        </span>
+        <span slot="no-results">
+          <el-divider>还没有人来评论...</el-divider>
+        </span>
+      </infinite-loading>
     </el-card>
   </div>
 </template>
@@ -152,41 +160,49 @@ export default {
     async infiniteHandler($state) {
       console.log($state);
       const currentPage = this.pagination.currentPage;
-      let comments = await commentApi.getPublicComments({
+      let res = await commentApi.getPublicComments({
         subject_id: this.subject_id,
         count: this.pagination.pageSize,
         page: currentPage
       });
-      comments.items.forEach(item => {
+      res.items.forEach(item => {
         item.replyVisible = false;
         item.top_comment.forEach(val => {
           val.replyVisible = false;
         });
       });
-      if (comments.items.length == 0) {
+      if (res.items.length == 0) {
         $state && $state.complete();
+        if (currentPage == 0) {
+          this.comments = res.items;
+          this.pagination.currentPage += 1;
+          this.pagination.pageTotal = res.total;
+        }
       } else {
         if (currentPage == 0) {
-          this.comments = comments.items;
+          this.comments = res.items;
         } else {
-          this.comments = this.comments.concat(comments.items);
+          this.comments = this.comments.concat(res.items);
         }
 
         this.pagination.currentPage += 1;
-        this.pagination.pageTotal = comments.total;
+        this.pagination.pageTotal = res.total;
 
         $state && $state.loaded();
       }
+      this.$emit("success", res.total);
     },
     async getTopComments(root_comment_id, index) {
-      let comments = await commentApi.getPublicComments({
+      let res = await commentApi.getPublicComments({
         subject_id: this.subject_id,
         root_comment_id: root_comment_id
       });
-      comments.items.forEach(item => {
+      res.items.forEach(item => {
         item.replyVisible = false;
       });
-      this.comments[index].top_comment = comments.items;
+      this.comments[index].top_comment = res.items;
+
+      this.$emit("success", res.total);
     },
     handleClickAvatar() {},
     handleClickAuthor() {},
@@ -195,6 +211,15 @@ export default {
     },
     handleAddCommentReply(reply, index, i) {
       this.comments[index].top_comment[i].replyVisible = !reply.replyVisible;
+    },
+    async handleDeleteReply(comment, index) {
+      await commentApi.delectComment(comment.id);
+      this.getComments();
+    },
+    async handleDeleteCommentReply(reply, index, i) {
+      let res = await commentApi.delectComment(reply.id);
+      this.$message.success(`${res.msg}`);
+      await this.getTopComments(reply.root_comment_id, index);
     },
     async handleClickTool(item, comment, index) {
       if (item.name == "like") {
