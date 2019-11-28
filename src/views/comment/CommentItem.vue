@@ -18,6 +18,7 @@
             :title="item.title"
             v-for="item in tools"
             :key="item.name"
+            v-show="item.isAudit"
             @click="handleClickTool($event, item)"
           >
             <i :class="item.icon" v-if="item.icon"></i>
@@ -46,11 +47,15 @@
           <i :class="item.icon + ' coments-ops-icon'" v-if="item.icon"></i>
           <span class="coments-ops-text">{{item.count}}</span>
         </span>
-        <span class="comments-reply-btn ml15" @click="handleAddReply">
+        <span class="comments-reply-btn ml15" @click="handleAddReply" v-show="isAudit">
           <i class="iconfont icon-comment coments-ops-icon"></i>
           {{replyText}}
         </span>
-        <el-popconfirm title="确认删除此评论" @onConfirm="handleDeleteReply" v-show="author.id==user.id">
+        <el-popconfirm
+          :title="hasReply?'删除评论后，评论下的所有回复都会被删除!':'确认删除此评论'"
+          @onConfirm="handleDeleteReply"
+          v-show="user!=null&&author.id==user.id"
+        >
           <span class="comments-reply-btn ml15" slot="reference">
             <i class="iconfont icon-delete coments-ops-icon"></i>
             删除
@@ -88,6 +93,10 @@ export default {
     replyVisible: {
       type: Boolean,
       default: false
+    },
+    isAudit: {
+      type: Boolean,
+      default: true
     }
   },
   data() {

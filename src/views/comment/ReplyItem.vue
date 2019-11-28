@@ -42,7 +42,11 @@
           <i class="iconfont icon-comment coments-ops-icon"></i>
           {{replyText}}
         </span>
-        <el-popconfirm title="确认删除此评论" @onConfirm="handleDeleteReply" v-show="author.id==user.id">
+        <el-popconfirm
+          title="确认删除此评论"
+          @onConfirm="handleDeleteReply"
+          v-show="user!=null&&author.id==user.id"
+        >
           <span class="comments-reply-btn ml15" slot="reference">
             <i class="iconfont icon-delete coments-ops-icon"></i>
             删除

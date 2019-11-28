@@ -40,6 +40,7 @@
         :time="comment.create_time|filterTimeYmdHms"
         :hasReply="comment.top_comment && comment.top_comment.length > 0"
         :replyVisible="comment.replyVisible"
+        :isAudit="comment.is_audit"
         @clickAvatar="handleClickAvatar(comment)"
         @clickAuthor="handleClickAuthor(comment)"
         @addReply="handleAddReply(comment,index)"
@@ -51,6 +52,7 @@
                   title:'点赞',
                   name:'like',
                   icon:'iconfont icon-'+(comment.is_liked?'like-fill':'like'),
+                  isAudit:comment.isAudit
                 }
             ]"
       >

@@ -57,7 +57,7 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   // 登录验证
   if (isLoginRequired(to.name) && !store.state.logined) {
-    next({ path: "/login" });
+    next({ path: "/login", query: { redirect: to.fullPath } });
     return;
   }
 
