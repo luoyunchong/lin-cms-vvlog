@@ -45,7 +45,7 @@ export default {
     async infiniteHandler($state) {
       let res;
       const currentPage = this.pagination.currentPage;
-      res = await articleApi.getAllArticles({
+      res = await articleApi.getLatestArticles({
         count: this.pagination.pageSize,
         page: currentPage
       });

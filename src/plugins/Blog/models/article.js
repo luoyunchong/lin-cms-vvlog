@@ -42,6 +42,11 @@ class Article {
     const res = await get("v1/article/all", pagesParmas);
     return res;
   }
+
+  async getLatestArticles(pagesParmas) {
+    const res = await get("v1/article/latest", pagesParmas);
+    return res;
+  }
 }
 
 export default new Article();
