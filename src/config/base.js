@@ -31,7 +31,7 @@ let baseRouter = [
         title: "标签",
         type: "view",
         route: "/tag",
-        filePath: "views/home/Tag.vue",
+        filePath: "views/tag/TagList.vue",
         inNav: true,
         icon: "iconfont icon-tushuguanli"
     },
