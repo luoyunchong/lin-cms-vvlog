@@ -48,7 +48,7 @@ import InfiniteLoading from "vue-infinite-loading";
 import TagItem from "@/views/tag/TagItem";
 export default {
   components: { InfiniteLoading, TagItem },
-  name: "Tag",
+  name: "TagList",
   data() {
     return {
       count: 20,

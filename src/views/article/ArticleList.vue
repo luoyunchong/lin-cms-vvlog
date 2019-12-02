@@ -12,7 +12,7 @@
                   <el-tag type="danger" v-else-if="item.article_type==2">翻译</el-tag>
                 </li>
                 <li class="item username clickable">
-                  <a :href="'/blog/detail/'+item.id">{{item.author}}</a>
+                  <a :href="'/blog/detail/'+item.id">{{item.user_info.nickname}}</a>
                 </li>
                 <li class="item">{{item.time_span}}</li>
                 <li class="item" v-for="(tag,index) in item.tags" v-bind:key="index">
