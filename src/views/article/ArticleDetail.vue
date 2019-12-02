@@ -82,7 +82,7 @@
         <el-backtop class="lin-back-top"></el-backtop>
       </el-col>
       <el-col :xl="6" :lg="6" :md="24" :sm="24" :xs="24">
-        <el-card style="margin-bottom:20px;">
+        <!-- <el-card style="margin-bottom:20px;">
           <div slot="header" class="clearfix" :body-style="{ padding: '0'}">
             <span>关于作者</span>
           </div>
@@ -97,13 +97,10 @@
               <div class="intro-content">{{model.user_info.introduction}}</div>
             </div>
           </div>
-        </el-card>
-        <el-card
-          class="aside-list"
-          :style="this.scroll>260?'position: fixed;top:80px':''"
-          shadow="never"
-          :body-style="{ padding: '12px'}"
-        >
+        </el-card>-->
+        <!-- :style="this.aside>260?'position: fixed;top:80px':''" -->
+
+        <el-card class="aside-list" shadow="never" :body-style="{ padding: '12px'}">
           <div slot="header" class="clearfix">
             <span>目录</span>
           </div>
@@ -145,6 +142,7 @@ export default {
         user_info: {}
       },
       scroll: 0,
+      aside: 0,
       currentIndex: 0,
       heightArr: [],
       nodes: [],
@@ -162,8 +160,9 @@ export default {
       return this.$route.params.id;
     }
   },
-  created() {
-    this.getData();
+  async created() {
+    await this.getData();
+    this.init();
     this.activeIndex = 0;
   },
   mounted() {
@@ -172,8 +171,8 @@ export default {
     });
   },
   watch: {
-    scroll() {
-      // this.loadSroll();
+    scroll: function() {
+      this.loadSroll();
     },
     $route(to, from) {
       this.getData();
@@ -182,7 +181,6 @@ export default {
   methods: {
     getCommentSuccess(total) {
       this.model.comment_quantity = total;
-      console.log("getCommentSuccess");
     },
     goBack() {
       this.$router.replace("/index");
@@ -199,14 +197,12 @@ export default {
       this.model = await articleApi.getArticle(this.id).finally(() => {
         loading.close();
       });
-      console.log("getData");
       if (this.model.word_number == 0) {
         this.model.word_number = this.model.content.length;
         this.model.reading_time = Number(this.model.word_number / 800).toFixed(
           0
         );
       }
-      this.init();
     },
     init() {
       this.$nextTick(() => {
@@ -217,8 +213,7 @@ export default {
         manveEditor.children[1]
           .querySelectorAll("h1,h2,h3,h4,h5")
           .forEach((item, index) => {
-            // console.log(item.textContent);
-            this.heightArr.push(item.offsetTop);
+            this.heightArr.push(item.offsetTop + 150);
           });
         this.nodes = document
           .getElementById("navigation")
@@ -229,18 +224,25 @@ export default {
       this.scroll =
         document.documentElement.scrollTop ||
         document.body.scrollTop ||
+        document.querySelector(".mavon-editor").scrollTop;
+
+      this.aside =
+        document.documentElement.scrollTop ||
+        document.body.scrollTop ||
         document.querySelector(".aside-list").scrollTop;
     },
     loadSroll() {
       var self = this;
       for (let i = 0; i < this.heightArr.length - 1; i++) {
-        if (
-          this.scroll >= this.heightArr[i] &&
-          this.scroll <= this.heightArr[i + 1]
-        ) {
-          this.nodes[i].classList.add("active");
-        } else {
-          this.nodes[i].classList.remove("active");
+        if (this.nodes[i] && this.nodes[i].classList != undefined) {
+          if (
+            this.scroll >= this.heightArr[i] &&
+            this.scroll <= this.heightArr[i + 1]
+          ) {
+            this.nodes[i].classList.add("active");
+          } else {
+            this.nodes[i].classList.remove("active");
+          }
         }
       }
     },
@@ -270,7 +272,6 @@ export default {
           node.classList.add("navigator-item");
           const nodeArr = node.innerHTML.split("</a>");
 
-          // const id = nodeArr[0].replace(/[^0-9]+/g, '')
           const id = domId;
           const content = nodeArr[1];
 
@@ -284,8 +285,8 @@ export default {
           // a.href = "#" + id;
           a.id = id;
           a.innerHTML = content;
+          console.log("aaa");
           node.appendChild(a);
-          // console.log(id, content, node.tagName)
           node.onclick = function() {
             var parents = node.parentElement.children;
             for (let j = 0; j < parents.length; j++) {
@@ -418,7 +419,7 @@ export default {
 }
 
 .aside-list {
-  // position: fixed;
+  position: fixed;
   // width: 240px;
   transition: all 0.2s;
 }

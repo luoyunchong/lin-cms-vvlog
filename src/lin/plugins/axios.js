@@ -121,14 +121,15 @@ _axios.interceptors.response.use(
 
       // refresh_token 异常，直接登出
       if (error_code === 10000 || error_code === 10100) {
-        setTimeout(() => {
-          store.dispatch("loginOut");
-          debugger
-          const { origin } = window.location;
-          window.location.href = origin;
-        }, 1500);
-        resolve(null);
-        return;
+        // setTimeout(() => {
+        store.dispatch("loginOut");
+
+        // debugger
+        // const { origin } = window.location;
+        // window.location.href = origin;
+        // }, 1500);
+        // resolve(null);
+        // return;
       }
       // 令牌相关，刷新令牌
       if (error_code === 10040 || error_code === 10050) {
@@ -142,17 +143,17 @@ _axios.interceptors.response.use(
           return;
         }
       }
+      //感觉这种设计好奇怪，暂时不这么搞。
       // 本次请求添加 params 参数：handleError 为 true，用户自己try catch，框架不做处理
-      if (params && params.handleError) {
-        reject(res);
-        return;
-      }
-
-
+      // if (params && params.handleError) {
+      //   reject(res);
+      //   return;
+      // }
       console.log("msg", msg);
       // 本次请求添加 params 参数：showBackend 为 true, 弹出后端返回错误信息
-      if (params && params.showBackend) {
-        [message] = msg;
+      //  && params.showBackend 这个好像也更奇怪
+      if (params) {
+        message = msg;
       } else {
         // 弹出前端自定义错误信息
         const errorArr = Object.entries(ErrorCode).filter(
@@ -166,12 +167,13 @@ _axios.interceptors.response.use(
             message = ErrorCode["777"];
           }
         }
-        Vue.prototype.$message({
-          message: msg,
-          type: "error"
-        });
-        reject(null);
       }
+
+      Vue.prototype.$message({
+        message: message,
+        type: "error"
+      });
+      reject(null);
     });
   },
   error => {
