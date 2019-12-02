@@ -50,7 +50,16 @@ export default {
         await User.getToken(username, password);
         await this.getInformation();
         this.loading = false;
-        this.$router.push("/index");
+
+        const redirect = decodeURIComponent(
+          this.$route.query.redirect || this.$route.path
+        );
+        if (this.$route.path === redirect) {
+          this.$router.push("/index");
+        } else {
+          this.$router.push(redirect);
+        }
+        // this.$router.push("/index");
         this.$message.success("登录成功");
       } catch (e) {
         this.loading = false;

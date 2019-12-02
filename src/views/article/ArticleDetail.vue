@@ -172,8 +172,11 @@ export default {
     });
   },
   watch: {
-    scroll: function() {
+    scroll() {
       // this.loadSroll();
+    },
+    $route(to, from) {
+      this.getData();
     }
   },
   methods: {

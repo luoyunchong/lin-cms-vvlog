@@ -5,7 +5,7 @@ import Base from "@/views/home/Base";
 const routes = [
   {
     path: "/",
-    name: "index",
+    name: "base-index",
     redirect: "/index",
     component: Base,
     children: [...baseRouter]

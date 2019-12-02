@@ -226,7 +226,13 @@ export default {
         this.dialogTableVisible = false;
         await this.getInformation();
         this.loading = false;
-        this.$router.push("/index");
+        // this.$router.push("/index");
+        const redirect = decodeURIComponent(
+          this.$route.query.redirect || this.$route.path
+        );
+
+        this.$router.push(redirect + "?d=" + Utils.getRandomStr());
+
         this.$message.success("登录成功");
       } catch (e) {
         this.loading = false;

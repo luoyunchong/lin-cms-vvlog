@@ -123,6 +123,7 @@ _axios.interceptors.response.use(
       if (error_code === 10000 || error_code === 10100) {
         setTimeout(() => {
           store.dispatch("loginOut");
+          debugger
           const { origin } = window.location;
           window.location.href = origin;
         }, 1500);
