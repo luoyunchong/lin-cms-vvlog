@@ -1,6 +1,6 @@
 <template>
   <div class="user">
-    <el-dropdown>
+    <el-dropdown @command="handleCommand">
       <span class="el-dropdown-link">
         <div class="nav-avatar">
           <img :src="user.avatar || defaultAvatar" alt="头像" />
@@ -33,7 +33,10 @@
             <div class="desc">{{ groupName }}</div>
           </div>
         </div>
-        <ul class="dropdown-box">
+        <el-dropdown-item command="main" icon="el-icon-help">我的主页</el-dropdown-item>
+        <el-dropdown-item command="changePassword" icon="el-icon-s-tools">修改登录密码</el-dropdown-item>
+        <el-dropdown-item command="outLogin" icon="el-icon-warning">退出账户</el-dropdown-item>
+        <!-- <ul class="dropdown-box">
           <li class="password" @click="changePassword">
             <i class="iconfont icon-weibaoxitongshangchuanlogo-"></i>
             <span>修改登录密码</span>
@@ -42,7 +45,7 @@
             <i class="iconfont icon-tuichu"></i>
             <span>退出账户</span>
           </li>
-        </ul>
+        </ul>-->
       </el-dropdown-menu>
     </el-dropdown>
     <!-- 修改头像 -->
@@ -423,6 +426,19 @@ export default {
     clearFileInput(ele) {
       // eslint-disable-next-line
       ele.value = "";
+    },
+    handleCommand(command) {
+      switch (command) {
+        case "main":
+          window.open("/dashboard", (target = "_blank"));
+          break;
+        case "changePassword":
+          this.changePassword();
+          break;
+        case "outLogin":
+          this.outLogin();
+          break;
+      }
     }
   }
 };
@@ -457,7 +473,7 @@ export default {
 .user-box {
   width: 326px;
   background-color: none;
-  background: transparent;
+  // background: transparent;
   margin-bottom: 0;
   padding-bottom: 0;
   border: none;

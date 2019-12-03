@@ -25,7 +25,7 @@
                       <span>阅读 {{model.view_hits}}</span>
                       <template v-if="user!=null&&model.user_info.id==user.id">
                         <el-divider direction="vertical"></el-divider>
-                        <el-link type="primary" href="https://element.eleme.io" target="_blank">编辑</el-link>
+                        <el-link type="primary" href="/article/list" target="_blank">编辑</el-link>
                       </template>
 
                       <el-divider direction="vertical"></el-divider>
@@ -82,7 +82,7 @@
         <el-backtop class="lin-back-top"></el-backtop>
       </el-col>
       <el-col :xl="6" :lg="6" :md="24" :sm="24" :xs="24">
-        <!-- <el-card style="margin-bottom:20px;">
+        <el-card style="margin-bottom:20px;">
           <div slot="header" class="clearfix" :body-style="{ padding: '0'}">
             <span>关于作者</span>
           </div>
@@ -97,10 +97,15 @@
               <div class="intro-content">{{model.user_info.introduction}}</div>
             </div>
           </div>
-        </el-card>-->
-        <!-- :style="this.aside>260?'position: fixed;top:80px':''" -->
+        </el-card>
+        <!--  -->
 
-        <el-card class="aside-list" shadow="never" :body-style="{ padding: '12px'}">
+        <el-card
+          class="aside-list"
+          shadow="never"
+          :body-style="{ padding: '12px'}"
+          :style="this.aside>260?'position: fixed;top:80px':''"
+        >
           <div slot="header" class="clearfix">
             <span>目录</span>
           </div>
@@ -175,7 +180,7 @@ export default {
       this.loadSroll();
     },
     $route(to, from) {
-      this.getData();
+      // this.getData();
     }
   },
   methods: {
@@ -419,7 +424,7 @@ export default {
 }
 
 .aside-list {
-  position: fixed;
+  // position: fixed;
   // width: 240px;
   transition: all 0.2s;
 }
