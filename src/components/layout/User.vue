@@ -430,7 +430,7 @@ export default {
     handleCommand(command) {
       switch (command) {
         case "main":
-          window.open("/dashboard", (target = "_blank"));
+          window.open("/dashboard");
           break;
         case "changePassword":
           this.changePassword();
