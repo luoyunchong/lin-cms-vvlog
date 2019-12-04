@@ -53,6 +53,7 @@ export default {
 <style lang="scss" scoped>
 .info-box {
   margin-bottom: 20px;
+  border-radius: 8px;
   .tag {
     width: 100%;
     text-align: center;

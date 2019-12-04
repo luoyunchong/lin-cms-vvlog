@@ -104,7 +104,7 @@
           class="aside-list"
           shadow="never"
           :body-style="{ padding: '12px'}"
-          :style="this.aside>260?'position: fixed;top:80px':''"
+          :style="this.aside>260?'position: fixed;top:80px;width:260px;':''"
         >
           <div slot="header" class="clearfix">
             <span>目录</span>

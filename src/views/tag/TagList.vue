@@ -2,25 +2,31 @@
   <div class="container">
     <el-row :gutter="24" style="margin-left:0px;">
       <el-col :span="24">
-        <el-form :inline="true" :model="form" class="demo-form-inline">
-          <el-form-item>
-            <el-link :type="sort=='newest'?'primary':'info'" href="/tag?sort=newest">最新</el-link>
-            <el-divider direction="vertical"></el-divider>
-            <el-link :type="sort=='hottest'?'primary':'info'" href="/tag?sort=hottest">最热</el-link>
-          </el-form-item>
-          <el-form-item>
-            <el-input
-              v-model="form.tag_name"
-              placeholder="根据标签名查询"
-              clearable
-              size="small"
-              @clear="refresh"
-            ></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="refresh">查询</el-button>
-          </el-form-item>
-        </el-form>
+        <el-card
+          :body-style="{ 'padding-bottom': '0px' }"
+          shadow="never"
+          style="margin-bottom:10px;border-radius: 8px;"
+        >
+          <el-form :inline="true" size="small" :model="form" class="demo-form-inline">
+            <el-form-item>
+              <el-link :type="sort=='newest'?'primary':'info'" href="/tag?sort=newest">最新</el-link>
+              <el-divider direction="vertical"></el-divider>
+              <el-link :type="sort=='hottest'?'primary':'info'" href="/tag?sort=hottest">最热</el-link>
+            </el-form-item>
+            <el-form-item>
+              <el-input
+                v-model="form.tag_name"
+                placeholder="根据标签名查询"
+                clearable
+                size="small"
+                @clear="refresh"
+              ></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="refresh">查询</el-button>
+            </el-form-item>
+          </el-form>
+        </el-card>
       </el-col>
       <el-col :span="6" :xs="12" :md="6" v-for="(item,index) in dataSource" :key="index">
         <tag-item
@@ -127,26 +133,8 @@ export default {
 <style lang="scss" scoped>
 .container {
   margin-bottom: 20px;
-}
-.info-box {
-  margin-bottom: 20px;
-  .title {
-    font-size: 1.2rem;
-    line-height: 1.7rem;
-    color: #333;
-  }
-}
-.meta-box {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 1rem;
-  color: #909090;
-  .meta {
-    line-height: 2rem;
-  }
-  .article {
-    margin-left: 0.8rem;
+  .el-form-item {
+    margin-bottom: 0px !important;
   }
 }
 </style>

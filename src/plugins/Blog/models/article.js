@@ -43,8 +43,8 @@ class Article {
     return res;
   }
 
-  async getLatestArticles(pagesParmas) {
-    const res = await get("v1/article/latest", pagesParmas);
+  async getQueryArticles(pagesParmas) {
+    const res = await get("v1/article/query", pagesParmas);
     return res;
   }
 }

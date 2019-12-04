@@ -67,10 +67,11 @@ export default {
     async infiniteHandler($state) {
       let res;
       const currentPage = this.pagination.currentPage;
-      res = await articleApi.getLatestArticles({
+      res = await articleApi.getQueryArticles({
         count: this.pagination.pageSize,
         page: currentPage,
-        tag_id: this.tag_id
+        tag_id: this.tag_id,
+        sort:'CreateTime'
       });
       let items = [...res.items];
 
