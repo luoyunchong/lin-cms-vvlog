@@ -13,7 +13,7 @@
               <el-divider direction="vertical"></el-divider>
               <el-link :type="hotType" href="/index?sort=THREE_DAYS_HOTTEST">热榜</el-link>
             </el-form-item>
-            <el-form-item v-show="sort!='CreateTime'">
+            <el-form-item v-show="sort&&sort!='CreateTime'">
               <el-select :value="sort" size="mini" @change="onChange" style="width:100px;">
                 <el-option label="3天内" value="THREE_DAYS_HOTTEST"></el-option>
                 <el-option label="7天内" value="WEEKLY_HOTTEST"></el-option>

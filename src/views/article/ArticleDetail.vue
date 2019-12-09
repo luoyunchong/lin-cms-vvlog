@@ -10,7 +10,7 @@
             <el-row type="flex">
               <el-col :span="2">
                 <a href>
-                  <el-avatar size="large" :src="model.user_info.avatar"></el-avatar>
+                  <el-avatar size="large" :src="model.user_info.avatar" icon="el-icon-user-solid"></el-avatar>
                 </a>
               </el-col>
               <el-col>
@@ -39,10 +39,19 @@
                   <el-col
                     :span="5"
                     :xs="5"
-                    style="text-align:left;padding-left:0px;"
+                    style="text-align:right;padding-left:0px;"
                     v-if="user!=null&&model.user_info.id!=user.id"
                   >
-                    <el-button type="primary" icon="el-icon-plus">关注他</el-button>
+                    <el-button
+                      :type="!isFollow?'primary':'default'"
+                      icon="el-icon-plus"
+                      @click="()=>{
+                          followLoading=true;
+                          isFollow? unfollow(): follow();
+                          followLoading=false;
+                        }"
+                      :loading="followLoading"
+                    >{{isFollow?'已关注':'关注他'}}</el-button>
                   </el-col>
                 </el-row>
               </el-col>
@@ -71,7 +80,13 @@
           </div>
           <div class="info-box top20">
             <h3 class="tag-title">标签</h3>
-            <el-tag effect="light" type="success" v-bind:key="item.id" v-for="item in model.tags">
+            <el-tag
+              :hit="false"
+              effect="light"
+              type="success"
+              v-bind:key="item.id"
+              v-for="item in model.tags"
+            >
               <a :href="'/tag/'+item.id" target="_blank">{{item.tag_name}}</a>
             </el-tag>
           </div>
@@ -89,7 +104,7 @@
           <div class="info-box" style="display: flex;">
             <div style="flex: 0 0 auto;margin-right: 1rem;">
               <a href class="avatar">
-                <el-avatar size="large" :src="model.user_info.avatar"></el-avatar>
+                <el-avatar size="large" :src="model.user_info.avatar" icon="el-icon-user-solid"></el-avatar>
               </a>
             </div>
             <div style="flex: 1 1 auto;min-width: 0;">
@@ -134,6 +149,7 @@
 
 <script>
 import articleApi from "../../models/article";
+import followApi from "../../models/follow";
 import { mavonEditor } from "mavon-editor";
 import "mavon-editor/dist/css/index.css";
 import ToolsBadge from "./ToolsBadge";
@@ -146,6 +162,8 @@ export default {
       model: {
         user_info: {}
       },
+      isFollow: false,
+      followLoading: false,
       scroll: 0,
       aside: 0,
       currentIndex: 0,
@@ -208,6 +226,9 @@ export default {
           0
         );
       }
+      this.isFollow = await followApi.getFollow({
+        followUserId: this.model.user_info.id
+      });
     },
     init() {
       this.$nextTick(() => {
@@ -335,6 +356,18 @@ export default {
           dom.classList.add("heading_" + domHeadingLevel);
         });
       });
+    },
+    async follow() {
+      await followApi.addFollow({
+        followUserId: this.model.user_info.id
+      });
+      this.isFollow = true;
+    },
+    async unfollow() {
+      await followApi.deleteFollow({
+        followUserId: this.model.user_info.id
+      });
+      this.isFollow = false;
     }
   }
 };
@@ -386,6 +419,9 @@ export default {
   }
   .el-tag {
     margin-right: 10px;
+    &:hover {
+      opacity: 0.8;
+    }
   }
 }
 .mavon-editor {

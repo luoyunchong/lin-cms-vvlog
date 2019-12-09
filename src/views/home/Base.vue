@@ -19,9 +19,9 @@
                   <el-menu-item index="/index" class="block">
                     <router-link :to="{path:'/index'}">首页</router-link>
                   </el-menu-item>
-                  <el-menu-item index="/docs" class="block">
+                  <!-- <el-menu-item index="/docs" class="block">
                     <router-link :to="{path:'/docs'}">文档</router-link>
-                  </el-menu-item>
+                  </el-menu-item>-->
                   <el-menu-item index="/tag" class="block">
                     <router-link :to="{path:'/tag'}">标签</router-link>
                   </el-menu-item>

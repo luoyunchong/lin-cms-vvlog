@@ -33,7 +33,8 @@
             <div class="desc">{{ groupName }}</div>
           </div>
         </div>
-        <el-dropdown-item command="main" icon="el-icon-help">我的主页</el-dropdown-item>
+        <el-dropdown-item command="home" icon="el-icon-user">我的主页</el-dropdown-item>
+        <el-dropdown-item command="main" icon="el-icon-menu">创作者中心</el-dropdown-item>
         <el-dropdown-item command="changePassword" icon="el-icon-s-tools">修改登录密码</el-dropdown-item>
         <el-dropdown-item command="outLogin" icon="el-icon-warning">退出账户</el-dropdown-item>
         <!-- <ul class="dropdown-box">
@@ -424,7 +425,6 @@ export default {
       this.$refs[formName].resetFields();
     },
     clearFileInput(ele) {
-      // eslint-disable-next-line
       ele.value = "";
     },
     handleCommand(command) {
