@@ -1,16 +1,19 @@
 <template>
-  <div class="vv-list-item-extra-wrap">
-    <div class="vv-list-item-main">
-      <ul class="vv-list-item-action" v-for="(item,i) in actions" v-bind:key="i">
-        <li :key="'vv-list-item-action-'+i">
-          {action}
-          <em v-if="i!==actions.length-1" class="vv-list-item-action-split" />
-          <!-- {i !== actions.length - 1 && <em class={`${prefixCls}-item-action-split`} />} -->
-        </li>
-      </ul>
-    </div>
-    <div class="vv-list-item-extra">
-      <slot name="extra">{{extra}}</slot>
+  <div class="vv-list-item">
+    <div class="vv-list-item-extra-wrap">
+      <div class="vv-list-item-main">
+        <slot></slot>
+        <div class="vv-list-item-content" v-if="content|| $slots.content">
+          <slot name="content"></slot>
+        </div>
+        <ul class="vv-list-item-action">
+          <slot name="actions"></slot>
+          <!-- <em class="vv-list-item-action-split" /> -->
+        </ul>
+      </div>
+      <div class="vv-list-item-extra">
+        <slot name="extra">{{extra}}</slot>
+      </div>
     </div>
   </div>
 </template>
@@ -19,10 +22,20 @@
 export default {
   name: "VListItem",
   props: {
-    actions: [Array],
-    extra: String
+    extra: String,
+    content: String
   },
   computed: {
+    otherContent() {
+      let content = [];
+      ($slots.default || []).forEach(element => {
+        if (typeof item === "string") {
+          content.push(element);
+        }
+      });
+      debugger;
+      return content;
+    },
     isItemContainsTextNode() {
       let result;
       this.$slots.default.forEach(item => {
@@ -42,7 +55,7 @@ export default {
     classes() {
       return [
         {
-          "ivu-list-item-no-flex": !this.isFlexMode
+          "vv-list-item-no-flex": !this.isFlexMode
         }
       ];
     }
