@@ -53,6 +53,14 @@ let baseRouter = [
         inNav: false
     },
     {
+        title: "我的主页",
+        type: "view",
+        name: "home",
+        route: "/user/:id",
+        filePath: "views/user/Index.vue",
+        inNav: false
+    },
+    {
         title: "404",
         type: "view",
         name: Symbol("404"),

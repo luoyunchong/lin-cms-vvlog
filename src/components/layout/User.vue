@@ -432,6 +432,9 @@ export default {
         case "main":
           window.open("/dashboard");
           break;
+        case "home":
+          window.open("/user/" + this.user.id);
+          break;
         case "changePassword":
           this.changePassword();
           break;
