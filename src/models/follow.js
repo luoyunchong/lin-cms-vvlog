@@ -21,6 +21,11 @@ class Follow {
         const res = await get("v1/follow", params);
         return res;
     }
+
+    async getFans(params) {
+        const res = await get("v1/follow/fans", params);
+        return res;
+    }
 }
 
 export default new Follow();

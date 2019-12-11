@@ -42,7 +42,14 @@
                     style="text-align:right;padding-left:0px;"
                     v-if="user!=null&&model.user_info.id!=user.id"
                   >
-                    <el-button
+                    <follow-button
+                      :userId="this.model.user_info.id"
+                      :isFollow="isFollow"
+                      @on-follow="(is_followed)=>{
+                        this.isFollow=is_followed;
+                      }"
+                    ></follow-button>
+                    <!-- <el-button
                       :type="!isFollow?'primary':'default'"
                       icon="el-icon-plus"
                       @click="()=>{
@@ -51,7 +58,7 @@
                           followLoading=false;
                         }"
                       :loading="followLoading"
-                    >{{isFollow?'已关注':'关注他'}}</el-button>
+                    >{{isFollow?'已关注':'关注他'}}</el-button>-->
                   </el-col>
                 </el-row>
               </el-col>
@@ -154,7 +161,7 @@ import { mavonEditor } from "mavon-editor";
 import "mavon-editor/dist/css/index.css";
 import ToolsBadge from "./ToolsBadge";
 import CommentList from "@/views/comment/CommentList";
-
+import { FollowButton } from "@/views/follow";
 export default {
   name: "ArticleDetail",
   data() {
@@ -176,7 +183,8 @@ export default {
   components: {
     mavonEditor,
     ToolsBadge,
-    CommentList
+    CommentList,
+    FollowButton
   },
   computed: {
     id() {

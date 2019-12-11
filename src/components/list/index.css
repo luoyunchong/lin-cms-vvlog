@@ -1,3 +1,4 @@
+
 .vv-list {
   box-sizing: border-box;
   margin: 0;
@@ -96,6 +97,12 @@
   text-align: center;
   cursor: pointer;
 }
+.vv-list-item-action>li a{
+  color: #1890ff;
+}
+.vv-list-item-action>li a:hover{
+  color: #40a9ff;
+}
 .vv-list-item-action > li:first-child {
   padding-left: 0;
 }
@@ -188,6 +195,9 @@
 }
 .vv-list-vertical .vv-list-item-action > li:first-child {
   padding-left: 0;
+}
+.vv-list-vertical .vv-list-item-action > li:hover{
+  opacity: 0.8;
 }
 .vv-list-grid .vv-list-item {
   margin-bottom: 16px;

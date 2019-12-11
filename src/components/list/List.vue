@@ -3,17 +3,40 @@
     <div class="vv-list-header" v-if="header|| $slots.header">
       <slot name="header">{{ header }}</slot>
     </div>
+    <div class="vv-list-pagination" v-if="pagination&&(pagination.position=='top')">
+      <el-pagination
+        class="pagination"
+        v-if="pagination"
+        :background="pagination.background?pagination.background:false"
+        :small="pagination.small?pagination.small:false"
+        layout="prev, pager, next, jumper"
+        :page-size="pagination.pageSize ? pagination.pageSize: 10 "
+        :total="pagination.total ? pagination.total : null "
+        @current-change="currentChange"
+      ></el-pagination>
+    </div>
     <template v-for="(item,index) in dataSource">
       <slot name="renderItem" :item="item" :index="index"></slot>
     </template>
     <div class="vv-list-footer" v-if="footer || $slots.footer">
       <slot name="footer">{{ footer }}</slot>
     </div>
+    <div class="vv-list-pagination" v-if="pagination&&(pagination.position=='bottom')">
+      <el-pagination
+        class="pagination"
+        v-if="pagination"
+        :background="pagination.background?pagination.background:false"
+        :small="pagination.small?pagination.small:false"
+        layout="prev, pager, next, jumper"
+        :page-size="pagination.pageSize ? pagination.pageSize: 10 "
+        :total="pagination.total ? pagination.total : null "
+        @current-change="currentChange"
+      ></el-pagination>
+    </div>
   </div>
 </template>
 <script>
 const prefixCls = "vv-list";
-
 export default {
   name: "VList",
   provide() {
@@ -66,6 +89,10 @@ export default {
     split: {
       type: Boolean,
       default: true
+    },
+    pagination: {
+      type: [Boolean, Object],
+      default: false
     }
   },
   computed: {
@@ -93,9 +120,15 @@ export default {
         }
       ];
     }
+  },
+  methods: {
+    // 切换当前页
+    currentChange(page) {
+      this.pagination.currentChange(page);
+    }
   }
 };
 </script>
 
-<style>
+<style scoped>
 </style>
