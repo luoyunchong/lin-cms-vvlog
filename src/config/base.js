@@ -55,7 +55,7 @@ let baseRouter = [
     {
         title: "我的主页",
         type: "view",
-        name: "home",
+        name: "user",
         route: "/user/:id",
         filePath: "views/user/Index.vue",
         inNav: false

@@ -12,17 +12,15 @@
         <v-list-item class="item">
           <li slot="actions">
             <follow-button
-              :userId="item.follow_user_id"
+              :userId="item.follower.id"
               :isFollow="item.is_followed"
-              @on-follow="(is_followed)=>{
-                listData[index].is_followed=is_followed;
-              }"
+              @on-follow="getData"
             ></follow-button>
           </li>
           <v-list-item-meta
             :description="item.follower.introduction?item.follower.introduction:'什么话也没说'"
           >
-            <a slot="title" :href="`/user/${item.follow_user_id}`">{{item.follower.nickname}}</a>
+            <a slot="title" :href="`/user/${item.follower.id}`">{{item.follower.nickname}}</a>
             <el-avatar slot="avatar" icon="el-icon-user" :src="item.follower.avatar" />
           </v-list-item-meta>
         </v-list-item>
