@@ -126,6 +126,7 @@ export default {
           height: 100px;
           border-radius: 8px;
           margin-right: 30px;
+          object-fit: cover;
         }
         .article-detail {
           flex: 1 1 auto;

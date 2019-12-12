@@ -9,7 +9,7 @@
           <div class="info-box" v-loading="loading">
             <el-row type="flex">
               <el-col :span="2">
-                <a href>
+                <a :href="`/user/${model.user_info.id}`" target="_blank">
                   <el-avatar size="large" :src="model.user_info.avatar" icon="el-icon-user-solid"></el-avatar>
                 </a>
               </el-col>
@@ -110,7 +110,7 @@
           </div>
           <div class="info-box" style="display: flex;">
             <div style="flex: 0 0 auto;margin-right: 1rem;">
-              <a href class="avatar">
+              <a :href="`/user/${model.user_info.id}`" target="_blank" class="avatar">
                 <el-avatar size="large" :src="model.user_info.avatar" icon="el-icon-user-solid"></el-avatar>
               </a>
             </div>
