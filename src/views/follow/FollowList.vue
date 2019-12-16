@@ -20,7 +20,11 @@
           <v-list-item-meta
             :description="item.follower.introduction?item.follower.introduction:'什么话也没说'"
           >
-            <a slot="title" :href="`/user/${item.follower.id}`">{{item.follower.nickname}}</a>
+            <a
+              slot="title"
+              :href="`/user/${item.follower.id}`"
+              target="_blank"
+            >{{item.follower.nickname}}</a>
             <el-avatar slot="avatar" icon="el-icon-user" :src="item.follower.avatar" />
           </v-list-item-meta>
         </v-list-item>
