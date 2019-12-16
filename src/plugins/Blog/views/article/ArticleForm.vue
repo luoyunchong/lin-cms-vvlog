@@ -78,11 +78,13 @@
                     <el-select
                       style="width:100%;"
                       v-model="form.tag_ids"
+                      remote
                       multiple
                       filterable
                       :loading="loading"
                       default-first-option
                       placeholder="添加一个标签"
+                      :remote-method="remoteMethod"
                     >
                       <el-option
                         v-for="item in tags"
@@ -203,7 +205,7 @@ export default {
     mavonEditor,
     UploadImgs
   },
-  mounted() {
+  async mounted() {
     this.setForm();
   },
   async created() {
@@ -233,25 +235,31 @@ export default {
         });
         this.loading = false;
         this.tags = tags.items;
+        let filterTags = [];
+        tags.items.forEach(r => {
+          if (!this.tags.filter(u => u.id == r.id)) {
+            filterTags.push(r);
+          }
+        });
+        this.tags.concat(filterTags);
       } else {
         this.tags = [];
       }
     },
-    setForm() {
+    async setForm() {
       if (this.id) {
-        articleApi.getArticle(this.id).then(res => {
-          this.form = res;
-          this.thumbnailPreview.length = 0;
-          if (res.thumbnail) {
-            this.thumbnailPreview.push({
-              id: res.id,
-              display: res.thumbnail_display,
-              src: res.thumbnail,
-              imgId: res.id
-            });
-          }
-          // this.tags = res.tags;
-        });
+        let res = await articleApi.getArticle(this.id);
+        this.form = res;
+        this.thumbnailPreview.length = 0;
+        if (res.thumbnail) {
+          this.thumbnailPreview.push({
+            id: res.id,
+            display: res.thumbnail_display,
+            src: res.thumbnail,
+            imgId: res.id
+          });
+        }
+        this.tags = res.tags;
       } else {
         this.resetForm("form");
       }
