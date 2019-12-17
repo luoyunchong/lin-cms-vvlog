@@ -22,10 +22,14 @@
           >
             <a
               slot="title"
-              :href="`/user/${item.follower.id}`"
+              :href="`/user/${item.follower.id}/article`"
               target="_blank"
             >{{item.follower.nickname}}</a>
-            <el-avatar slot="avatar" icon="el-icon-user" :src="item.follower.avatar" />
+            <el-avatar
+              slot="avatar"
+              icon="el-icon-user"
+              :src="item.follower.avatar||defaultAvatar"
+            />
           </v-list-item-meta>
         </v-list-item>
       </template>
@@ -39,6 +43,8 @@ import followApi from "@/models/follow";
 import { FollowButton } from "@/views/follow";
 import VList from "@/components/list";
 import "@/components/list/index.css";
+import defaultAvatar from "@/assets/img/user/user.png";
+
 export default {
   name: "FollowList",
   components: {
@@ -77,7 +83,8 @@ export default {
           this.pagination.currentPage = currentPage;
           this.getData();
         }
-      }
+      },
+      defaultAvatar
     };
   },
   async created() {

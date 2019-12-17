@@ -61,7 +61,7 @@ export default {
       dataSource: [],
       pagination: {
         currentPage: 0,
-        pageSize: 10,
+        pageSize: 15,
         pageTotal: 0
       },
       loading: false,

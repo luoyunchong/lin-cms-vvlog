@@ -108,4 +108,9 @@ export default class User {
       old_password,
     })
   }
+
+  static async getUserByUserId(userId) {
+    const res = await get(`cms/user/${userId}`)
+    return res;
+  }
 }

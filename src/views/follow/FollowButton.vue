@@ -15,33 +15,41 @@ export default {
     userId: {
       type: [String, Number],
       default: 0
-    },
-    isFollow: {
-      type: [Boolean],
-      default: false
     }
   },
-
   data() {
     return {
+      isFollow: false,
       followLoading: false
     };
   },
+  watch: {
+    async userId(newVal, oldVal) {
+      await this.getFollow();
+    }
+  },
+  async created() {
+    await this.getFollow();
+  },
   computed: {},
   methods: {
+    async getFollow() {
+      if (this.userId == 0) return;
+      this.isFollow = await followApi.getFollow({
+        followUserId: this.userId
+      });
+    },
     async follow() {
       await followApi.addFollow({
         followUserId: this.userId
       });
-      this.$emit("on-follow", true);
-      // this.isFollow = true;
+      this.isFollow = true;
     },
     async unfollow() {
       await followApi.deleteFollow({
         followUserId: this.userId
       });
-      this.$emit("on-follow", false);
-      // this.isFollow = false;
+      this.isFollow = false;
     },
     followClick() {
       this.followLoading = true;

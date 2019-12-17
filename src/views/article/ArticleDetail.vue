@@ -1,146 +1,134 @@
 <template>
-  <div class="page-header-index-wide">
-    <el-row :gutter="24">
-      <el-col :xl="18" :lg="18" :md="24" :sm="24" :xs="24">
-        <el-card class="box-card" shadow="never">
-          <div slot="header">
-            <el-page-header @back="goBack"></el-page-header>
+  <div>
+    <div class="page-header-index-wide" v-show="!deleted">
+      <el-row :gutter="24">
+        <el-col :xl="18" :lg="18" :md="24" :sm="24" :xs="24">
+          <el-card class="box-card" shadow="never">
+            <div slot="header">
+              <el-page-header @back="goBack"></el-page-header>
+            </div>
+            <div class="info-box" v-loading="loading">
+              <el-row type="flex">
+                <el-col :span="2">
+                  <a :href="`/user/${model.user_info.id}/article`" target="_blank">
+                    <el-avatar size="large" :src="model.user_info.avatar" icon="el-icon-user-solid"></el-avatar>
+                  </a>
+                </el-col>
+                <el-col>
+                  <el-row :gutter="10">
+                    <el-col :span="18" :xs="18">
+                      <el-col :span="24">
+                        <a class="nickname">{{model.user_info.nickname}}</a>
+                      </el-col>
+                      <el-col :span="24">
+                        <span>{{model.time_span}}</span>
+                        <el-divider direction="vertical"></el-divider>
+                        <span>阅读 {{model.view_hits}}</span>
+                        <template v-if="user!=null&&model.user_info.id==user.id">
+                          <el-divider direction="vertical"></el-divider>
+                          <el-link type="primary" href="/article/list" target="_blank">编辑</el-link>
+                        </template>
+
+                        <el-divider direction="vertical"></el-divider>
+                        <span>
+                          <el-tag type="success" v-if="model.article_type==0">原创</el-tag>
+                          <el-tag type="info" v-else-if="model.article_type==1">转载</el-tag>
+                          <el-tag type="danger" v-else-if="model.article_type==2">翻译</el-tag>
+                        </span>
+                      </el-col>
+                    </el-col>
+                    <el-col
+                      :span="5"
+                      :xs="5"
+                      style="text-align:right;padding-left:0px;"
+                      v-if="user!=null&&model.user_info.id!=user.id"
+                    >
+                      <follow-button v-if="model.user_info.id" :userId="model.user_info.id"></follow-button>
+                    </el-col>
+                  </el-row>
+                </el-col>
+              </el-row>
+            </div>
+            <div class="info-box">
+              <h1 class="title">{{model.title}}</h1>
+            </div>
+            <div class="info-box">
+              <el-alert
+                :title="`本文共${model.word_number}字,阅读约需${model.reading_time}分钟。`"
+                type="info"
+              ></el-alert>
+            </div>
+            <div class="mavon-editor">
+              <mavon-editor
+                id="mavon-editor"
+                ref="mavon"
+                :toolbarsFlag="false"
+                :editable="false"
+                :readModel="true"
+                defaultOpen="preview"
+                :subfield="false"
+                v-model="model.content"
+                :boxShadow="false"
+                previewBackground="#fff"
+                :navigation="false"
+              />
+            </div>
+            <div class="info-box top20">
+              <h3 class="tag-title">标签</h3>
+              <el-tag
+                :hit="false"
+                effect="light"
+                type="success"
+                v-bind:key="item.id"
+                v-for="item in model.tags"
+              >
+                <a :href="'/tag/'+item.id" target="_blank">{{item.tag_name}}</a>
+              </el-tag>
+            </div>
+          </el-card>
+          <div id="comment-list">
+            <comment-list :subject_id="id" :subject_type="1" v-on:success="getCommentSuccess"></comment-list>
           </div>
-          <div class="info-box" v-loading="loading">
-            <el-row type="flex">
-              <el-col :span="2">
-                <a :href="`/user/${model.user_info.id}`" target="_blank">
+          <el-backtop class="lin-back-top"></el-backtop>
+        </el-col>
+        <el-col :xl="6" :lg="6" :md="24" :sm="24" :xs="24">
+          <el-card style="margin-bottom:20px;">
+            <div slot="header" class="clearfix" :body-style="{ padding: '0'}">
+              <span>关于作者</span>
+            </div>
+            <div class="info-box" style="display: flex;">
+              <div style="flex: 0 0 auto;margin-right: 1rem;">
+                <a :href="`/user/${model.user_info.id}/article`" target="_blank" class="avatar">
                   <el-avatar size="large" :src="model.user_info.avatar" icon="el-icon-user-solid"></el-avatar>
                 </a>
-              </el-col>
-              <el-col>
-                <el-row :gutter="10">
-                  <el-col :span="18" :xs="18">
-                    <el-col :span="24">
-                      <a class="nickname">{{model.user_info.nickname}}</a>
-                    </el-col>
-                    <el-col :span="24">
-                      <span>{{model.time_span}}</span>
-                      <el-divider direction="vertical"></el-divider>
-                      <span>阅读 {{model.view_hits}}</span>
-                      <template v-if="user!=null&&model.user_info.id==user.id">
-                        <el-divider direction="vertical"></el-divider>
-                        <el-link type="primary" href="/article/list" target="_blank">编辑</el-link>
-                      </template>
-
-                      <el-divider direction="vertical"></el-divider>
-                      <span>
-                        <el-tag type="success" v-if="model.article_type==0">原创</el-tag>
-                        <el-tag type="info" v-else-if="model.article_type==1">转载</el-tag>
-                        <el-tag type="danger" v-else-if="model.article_type==2">翻译</el-tag>
-                      </span>
-                    </el-col>
-                  </el-col>
-                  <el-col
-                    :span="5"
-                    :xs="5"
-                    style="text-align:right;padding-left:0px;"
-                    v-if="user!=null&&model.user_info.id!=user.id"
-                  >
-                    <follow-button
-                      :userId="this.model.user_info.id"
-                      :isFollow="isFollow"
-                      @on-follow="(is_followed)=>{
-                        this.isFollow=is_followed;
-                      }"
-                    ></follow-button>
-                    <!-- <el-button
-                      :type="!isFollow?'primary':'default'"
-                      icon="el-icon-plus"
-                      @click="()=>{
-                          followLoading=true;
-                          isFollow? unfollow(): follow();
-                          followLoading=false;
-                        }"
-                      :loading="followLoading"
-                    >{{isFollow?'已关注':'关注他'}}</el-button>-->
-                  </el-col>
-                </el-row>
-              </el-col>
-            </el-row>
-          </div>
-          <div class="info-box">
-            <h1 class="title">{{model.title}}</h1>
-          </div>
-          <div class="info-box">
-            <el-alert :title="`本文共${model.word_number}字,阅读约需${model.reading_time}分钟。`" type="info"></el-alert>
-          </div>
-          <div class="mavon-editor">
-            <mavon-editor
-              id="mavon-editor"
-              ref="mavon"
-              :toolbarsFlag="false"
-              :editable="false"
-              :readModel="true"
-              defaultOpen="preview"
-              :subfield="false"
-              v-model="model.content"
-              :boxShadow="false"
-              previewBackground="#fff"
-              :navigation="false"
-            />
-          </div>
-          <div class="info-box top20">
-            <h3 class="tag-title">标签</h3>
-            <el-tag
-              :hit="false"
-              effect="light"
-              type="success"
-              v-bind:key="item.id"
-              v-for="item in model.tags"
-            >
-              <a :href="'/tag/'+item.id" target="_blank">{{item.tag_name}}</a>
-            </el-tag>
-          </div>
-        </el-card>
-        <div id="comment-list">
-          <comment-list :subject_id="id" :subject_type="1" v-on:success="getCommentSuccess"></comment-list>
-        </div>
-        <el-backtop class="lin-back-top"></el-backtop>
-      </el-col>
-      <el-col :xl="6" :lg="6" :md="24" :sm="24" :xs="24">
-        <el-card style="margin-bottom:20px;">
-          <div slot="header" class="clearfix" :body-style="{ padding: '0'}">
-            <span>关于作者</span>
-          </div>
-          <div class="info-box" style="display: flex;">
-            <div style="flex: 0 0 auto;margin-right: 1rem;">
-              <a :href="`/user/${model.user_info.id}`" target="_blank" class="avatar">
-                <el-avatar size="large" :src="model.user_info.avatar" icon="el-icon-user-solid"></el-avatar>
-              </a>
+              </div>
+              <div style="flex: 1 1 auto;min-width: 0;">
+                <a class="nickname">{{model.user_info.nickname}}</a>
+                <div class="intro-content">{{model.user_info.introduction}}</div>
+              </div>
             </div>
-            <div style="flex: 1 1 auto;min-width: 0;">
-              <a class="nickname">{{model.user_info.nickname}}</a>
-              <div class="intro-content">{{model.user_info.introduction}}</div>
-            </div>
-          </div>
-        </el-card>
-        <!--  -->
+          </el-card>
+          <!--  -->
 
-        <el-card
-          class="aside-list"
-          shadow="never"
-          :body-style="{ padding: '12px'}"
-          :style="this.aside>260?'position: fixed;top:80px;width:260px;':''"
-        >
-          <div slot="header" class="clearfix">
-            <span>目录</span>
-          </div>
-          <!-- <div class="wx_navigation">
+          <el-card
+            class="aside-list"
+            shadow="never"
+            :body-style="{ padding: '12px'}"
+            :style="this.aside>260?'position: fixed;top:80px;width:260px;':''"
+          >
+            <div slot="header" class="clearfix">
+              <span>目录</span>
+            </div>
+            <!-- <div class="wx_navigation">
               <div class="navigator-item-title">目录</div>
-          </div>-->
+            </div>-->
 
-          <div id="navigation" class="wx_navigation" />
-        </el-card>
-      </el-col>
-    </el-row>
-    <tools-badge
-      :model="{
+            <div id="navigation" class="wx_navigation" />
+          </el-card>
+        </el-col>
+      </el-row>
+      <tools-badge
+        :model="{
           id: model.id,
           is_liked:  model.is_liked,
           likes_quantity:  model.likes_quantity,
@@ -149,8 +137,10 @@
           is_collect:  model.is_collect,
           collect_quantity:  model.collect_quantity
     }"
-      @likeChange="likeChange"
-    ></tools-badge>
+        @likeChange="likeChange"
+      ></tools-badge>
+    </div>
+    <error-404-page v-show="deleted"></error-404-page>
   </div>
 </template>
 
@@ -162,14 +152,16 @@ import "mavon-editor/dist/css/index.css";
 import ToolsBadge from "./ToolsBadge";
 import CommentList from "@/views/comment/CommentList";
 import { FollowButton } from "@/views/follow";
+import Error404Page from "@/views/error-page/404";
 export default {
   name: "ArticleDetail",
   data() {
     return {
       model: {
-        user_info: {}
+        user_info: {
+          id: 0
+        }
       },
-      isFollow: false,
       followLoading: false,
       scroll: 0,
       aside: 0,
@@ -177,14 +169,16 @@ export default {
       heightArr: [],
       nodes: [],
       avatarUrl: "",
-      loading: false
+      loading: false,
+      deleted: false
     };
   },
   components: {
     mavonEditor,
     ToolsBadge,
     CommentList,
-    FollowButton
+    FollowButton,
+    Error404Page
   },
   computed: {
     id() {
@@ -225,18 +219,22 @@ export default {
         lock: true,
         text: "Loading"
       });
-      this.model = await articleApi.getArticle(this.id).finally(() => {
-        loading.close();
-      });
-      if (this.model.word_number == 0) {
-        this.model.word_number = this.model.content.length;
-        this.model.reading_time = Number(this.model.word_number / 800).toFixed(
-          0
-        );
+      try {
+        this.deleted = false;
+
+        this.model = await articleApi.getArticle(this.id).finally(() => {
+          loading.close();
+        });
+        if (this.model.word_number == 0) {
+          this.model.word_number = this.model.content.length;
+          this.model.reading_time = Number(
+            this.model.word_number / 800
+          ).toFixed(0);
+        }
+      } catch (ex) {
+        console.log(ex);
+        this.deleted = true;
       }
-      this.isFollow = await followApi.getFollow({
-        followUserId: this.model.user_info.id
-      });
     },
     init() {
       this.$nextTick(() => {
@@ -364,18 +362,6 @@ export default {
           dom.classList.add("heading_" + domHeadingLevel);
         });
       });
-    },
-    async follow() {
-      await followApi.addFollow({
-        followUserId: this.model.user_info.id
-      });
-      this.isFollow = true;
-    },
-    async unfollow() {
-      await followApi.deleteFollow({
-        followUserId: this.model.user_info.id
-      });
-      this.isFollow = false;
     }
   }
 };

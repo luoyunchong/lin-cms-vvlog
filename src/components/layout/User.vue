@@ -433,7 +433,7 @@ export default {
           window.open("/dashboard");
           break;
         case "home":
-          window.open("/user/" + this.user.id);
+          window.open("/user/" + this.user.id + "/article");
           break;
         case "changePassword":
           this.changePassword();

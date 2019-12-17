@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-loading="loading">
     <sticky-top>
       <div class="title">
         <span>{{title[this.id==0?0:1]}}</span>
@@ -81,7 +81,7 @@
                       remote
                       multiple
                       filterable
-                      :loading="loading"
+                      :loading="tagLoading"
                       default-first-option
                       placeholder="添加一个标签"
                       :remote-method="remoteMethod"
@@ -162,6 +162,7 @@ export default {
   data() {
     return {
       title: ["添加随笔", "编辑随笔"],
+      id: 0,
       form: {
         archive: "",
         comment_quantity: 0,
@@ -190,24 +191,19 @@ export default {
       tags: [],
       article_types: [],
       loading: false,
+      tagLoading: false,
       rules: {
         // 表单验证规则
         title: [{ required: true, message: "请输入标题", trigger: "blur" }]
       }
     };
   },
-  props: {
-    id: {
-      type: String
-    }
-  },
+  props: {},
   components: {
     mavonEditor,
     UploadImgs
   },
-  async mounted() {
-    this.setForm();
-  },
+  async mounted() {},
   async created() {
     this.classifys = await classifyApi.getClassifys();
     this.article_types = await baseApi.getItems({
@@ -229,11 +225,11 @@ export default {
   methods: {
     async remoteMethod(query) {
       if (query !== "") {
-        this.loading = true;
+        this.tagLoading = true;
         let tags = await tagApi.getTags({
           tagName: query
         });
-        this.loading = false;
+        this.tagLoading = false;
         this.tags = tags.items;
         let filterTags = [];
         tags.items.forEach(r => {
@@ -246,9 +242,13 @@ export default {
         this.tags = [];
       }
     },
-    async setForm() {
+    async show(id) {
+      this.id = id;
       if (this.id) {
-        let res = await articleApi.getArticle(this.id);
+        this.loading = true;
+        let res = await articleApi.getArticle(this.id).finally(() => {
+          this.loading = false;
+        });
         this.form = res;
         this.thumbnailPreview.length = 0;
         if (res.thumbnail) {

@@ -56,9 +56,27 @@ let baseRouter = [
         title: "我的主页",
         type: "view",
         name: "user",
-        route: "/user/:id",
+        route: "/user/:id/:name",
         filePath: "views/user/Index.vue",
         inNav: false
+    },
+    {
+        title: "设置",
+        type: "view",
+        name: "settings",
+        route: "/settings/",
+        filePath: "views/user/Index.vue",
+        inNav: false,
+        children: [
+            {
+                name: null,
+                title: "专栏管理",
+                type: "view",
+                name: "ClassifyList",
+                route: "/cms/classify/list",
+                filePath: "plugins/Blog/views/classify/ClassifyList.vue",
+                inNav: true
+            }]
     },
     {
         title: "404",

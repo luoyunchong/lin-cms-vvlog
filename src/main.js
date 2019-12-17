@@ -19,6 +19,7 @@ import SourceCode from "@/components/base/source-code/source-code";
 import "@/assets/styles/index.scss";
 import "@/assets/styles/realize/element-variables.scss";
 import "element-ui/lib/theme-chalk/base.css";
+import '@/assets/styles/main.scss';
 
 Vue.config.productionTip = false;
 

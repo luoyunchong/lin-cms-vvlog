@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="container" v-if="!showEdit">
+    <div class="container" v-show="!showEdit">
       <div class="header">
         <div class="header-left">
           <div class="title">我的随笔</div>
@@ -27,14 +27,7 @@
             v-model="pagination.title"
             placeholder="标题"
           ></el-input>
-          <el-button
-            type="primary"
-            icon="el-icon-edit"
-            @click="()=>{
-                this.showEdit = true;
-                this.id = null;
-            }"
-          >新增随笔</el-button>
+          <el-button type="primary" icon="el-icon-edit" @click="handleEdit({id:0})">新增随笔</el-button>
           <el-button type="default" icon="el-icon-search" @click="getArticles">查询</el-button>
         </div>
       </div>
@@ -57,7 +50,7 @@
         </template>
       </lin-table>
     </div>
-    <article-form v-else @editClose="editClose" :id="id"></article-form>
+    <article-form ref="articleForm" v-show="showEdit" @editClose="editClose"></article-form>
   </div>
 </template>
 
@@ -85,7 +78,6 @@ export default {
   inject: ["eventBus"],
   data() {
     return {
-      id: null,
       showEdit: false,
       refreshPagination: true, // 页数增加的时候，因为缓存的缘故，需要刷新Pagination组件
       editIndex: null, // 编辑的行
@@ -124,9 +116,7 @@ export default {
           title: this.pagination.title,
           classify_id: this.pagination.classify_id
         });
-        setTimeout(() => {
-          this.loading = false;
-        }, 500);
+        this.loading = false;
         this.tableData = [...res.items];
         this.pagination.pageTotal = res.total;
       } catch (e) {
@@ -144,7 +134,7 @@ export default {
         selectedData = val;
       }
       this.showEdit = true;
-      this.id = selectedData.id;
+      this.$refs["articleForm"].show(selectedData.id);
     },
     // 切换table页
     async handleCurrentChange(val) {

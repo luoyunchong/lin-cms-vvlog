@@ -25,7 +25,10 @@
         </el-col>
       </el-row>
     </el-card>
-    <article-list :dataSource="dataSource"></article-list>
+    <div>
+      <!-- class="padding-xs" -->
+      <article-list :dataSource="dataSource"></article-list>
+    </div>
     <el-backtop></el-backtop>
 
     <infinite-loading @infinite="infiniteHandler" spinner="bubbles" :identifier="any">

@@ -12,7 +12,7 @@
                   <el-tag type="danger" v-else-if="item.article_type==2">翻译</el-tag>
                 </li>
                 <li class="item username clickable">
-                  <a :href="'/user/'+item.user_info.id">{{item.user_info.nickname}}</a>
+                  <a :href="`/user/${item.user_info.id}/article`">{{item.user_info.nickname}}</a>
                 </li>
                 <li class="item">{{item.time_span}}</li>
                 <li class="item" v-for="(tag,index) in item.tags" v-bind:key="index">
@@ -101,7 +101,7 @@ export default {
 <style scoped lang="scss">
 .article {
   flex: 1;
-  padding: 20px;
+  padding: 20px 5px;
   background: rgba(255, 255, 255, 1);
   box-shadow: 0px 2px 14px 0px rgba(243, 243, 243, 1);
   border-radius: 8px;

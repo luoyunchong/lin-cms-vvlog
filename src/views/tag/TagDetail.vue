@@ -1,24 +1,27 @@
 <template>
   <div>
-    <el-row :gutter="20">
-      <el-col>
-        <tag-item
-          :article_count="item.article_count"
-          :id="item.id"
-          :tag_name="item.tag_name"
-          :thumbnail_display="item.thumbnail_display"
-        ></tag-item>
-      </el-col>
-    </el-row>
-    <article-list :dataSource="dataSource"></article-list>
-    <infinite-loading @infinite="infiniteHandler" spinner="bubbles" :identifier="any">
-      <span slot="no-more">
-        <el-divider class="lin-divider">我也是有底线的...</el-divider>
-      </span>
-      <span slot="no-results">
-        <el-divider class="lin-divider">没有随笔...</el-divider>
-      </span>
-    </infinite-loading>
+    <div v-show="!deleted">
+      <el-row :gutter="20">
+        <el-col>
+          <tag-item
+            :article_count="item.article_count"
+            :id="item.id"
+            :tag_name="item.tag_name"
+            :thumbnail_display="item.thumbnail_display"
+          ></tag-item>
+        </el-col>
+      </el-row>
+      <article-list :dataSource="dataSource"></article-list>
+      <infinite-loading @infinite="infiniteHandler" spinner="bubbles" :identifier="any">
+        <span slot="no-more">
+          <el-divider class="lin-divider">我也是有底线的...</el-divider>
+        </span>
+        <span slot="no-results">
+          <el-divider class="lin-divider">没有随笔...</el-divider>
+        </span>
+      </infinite-loading>
+    </div>
+    <error-404-page v-show="deleted"></error-404-page>
   </div>
 </template>
 
@@ -28,9 +31,11 @@ import TagItem from "@/views/tag/TagItem";
 import InfiniteLoading from "vue-infinite-loading";
 import articleApi from "@/models/article";
 import tagApi from "@/models/tag";
+import Error404Page from "@/views/error-page/404";
+
 export default {
   name: "TagDetail",
-  components: { ArticleList, InfiniteLoading, TagItem },
+  components: { ArticleList, InfiniteLoading, TagItem, Error404Page },
   data() {
     return {
       count: 20,
@@ -47,11 +52,12 @@ export default {
         tag_name: "",
         thumbnail_display: "",
         article_count: 0
-      }
+      },
+      deleted: false
     };
   },
-  mounted() {
-    this.get();
+  async mounted() {
+    await this.get();
   },
   computed: {
     tag_id() {
@@ -71,7 +77,7 @@ export default {
         count: this.pagination.pageSize,
         page: currentPage,
         tag_id: this.tag_id,
-        sort:'CreateTime'
+        sort: "CreateTime"
       });
       let items = [...res.items];
 
@@ -90,8 +96,13 @@ export default {
       }
     },
     async get() {
-      let tag = await tagApi.getTag(this.tag_id);
-      this.item = tag;
+      try {
+        this.deleted = false;
+        let tag = await tagApi.getTag(this.tag_id);
+        this.item = tag;
+      } catch (ex) {
+        this.deleted = true;
+      }
     }
   }
 };
