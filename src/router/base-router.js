@@ -1,37 +1,72 @@
-
-import baseConfig from '@/config/base'
-
-// 深度遍历配置树, 摘取叶子节点作为路由部分
-function deepTravel(config, fuc) {
-    if (Array.isArray(config)) {
-        config.forEach((subConfig) => {
-            deepTravel(subConfig, fuc)
-        })
-    } else if (config.children) {
-        config.children.forEach((subConfig) => {
-            deepTravel(subConfig, fuc)
-        })
-    } else {
-        fuc(config)
+let baseRouter = [
+    {
+        path: '/index',
+        name: 'index',
+        component: () => import("@/views/home/Index.vue"),
+        meta: { title: '首页' },
+    },
+    {
+        path: '/docs',
+        name: 'docs',
+        component: () => import("@/views/home/Docs.vue"),
+        meta: { title: '文档' },
+    },
+    {
+        path: '/tag',
+        name: 'tag-list',
+        component: () => import("@/views/tag/TagList.vue"),
+        meta: { title: '标签列表页' },
+    },
+    {
+        path: '/tag/:id',
+        name: 'tag-detail',
+        component: () => import("@/views/tag/TagDetail.vue"),
+        meta: { title: '标签详情页' },
+    },
+    {
+        path: '/comment',
+        name: 'comment',
+        component: () => import("@/views/comment/CommentList.vue"),
+        meta: { title: '评论' },
+    },
+    {
+        path: '/post/:id',
+        name: 'post',
+        component: () => import("@/views/article/ArticleDetail.vue"),
+        meta: { title: '随笔详情页' },
+    },
+    {
+        path: '/user/:id/:name',
+        name: 'user',
+        component: () => import("@/views/user/Index.vue"),
+        meta: { title: '我的主页' },
+    },
+    {
+        path: '/settings',
+        name: 'settings',
+        component: () => import("@/views/settings/Index.vue"),
+        redirect: '/settings/profile',
+        meta: { title: '设置' },
+        children: [
+            {
+                path: '/settings/profile',
+                name: 'settings-profile',
+                component: () => import("@/views/settings/Profile.vue"),
+                meta: { title: '个人资料' },
+            },
+            {
+                path: '/settings/security',
+                name: 'settings-security',
+                component: () => import("@/views/settings/Security.vue"),
+                meta: { title: '安全设置' },
+            }
+        ]
+    },
+    {
+        path: '/404',
+        name: '404',
+        component: () => import("@/views/error-page/404.vue"),
+        meta: { title: '404' },
     }
-}
-
-const homeRouter = []
-
-deepTravel(baseConfig, (viewConfig) => {
-    // 构造舞台view路由
-    const viewRouter = {}
-    viewRouter.path = viewConfig.route
-    viewRouter.name = viewConfig.name
-    viewRouter.component = () => import(`@/${viewConfig.filePath}`)
-    viewRouter.meta = {
-        title: viewConfig.title,
-        icon: viewConfig.icon,
-        right: viewConfig.right,
-        type: viewConfig.type,
-        blueBaseColor: viewConfig.blueBaseColor ? 'viewConfig.blueBaseColor' : '',
-    }
-    homeRouter.push(viewRouter)
-})
-
-export default homeRouter
+]
+export default baseRouter

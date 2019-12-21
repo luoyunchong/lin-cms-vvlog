@@ -8,7 +8,7 @@ const routes = [
     name: "base-index",
     redirect: "/index",
     component: Base,
-    children: [...baseRouter]
+    children: baseRouter
   },
   {
     path: '/home',

@@ -15,7 +15,7 @@
           <div class="title">
             <a class="nickname" :href="`/user/${openUser.id}/article`">{{openUser.nickname}}</a>
           </div>
-          <p class="info-box">
+          <p class="info-box info-introduction">
             <i class="el-icon-postcard"></i>
             <span>{{openUser.introduction}}</span>
           </p>
@@ -24,11 +24,13 @@
             <span>{{openUser.username}}</span>
           </p>
           <div class="info-box item-button">
-            <el-button
-              type="primary"
-              icon="el-icon-edit"
-              v-if="user!=null&&user.id==openUser.id"
-            >编辑个人资料</el-button>
+            <router-link :to="{path:'/settings/profile'}">
+              <el-button
+                type="primary"
+                icon="el-icon-edit"
+                v-if="user!=null&&user.id==openUser.id"
+              >编辑个人资料</el-button>
+            </router-link>
             <follow-button
               :userId="openUser.id"
               v-if="user==null||(user!=null&&user.id!=openUser.id)"
@@ -105,6 +107,9 @@ export default {
   i {
     margin-right: 5px;
   }
+}
+.info-introduction {
+  line-height: 22px;
 }
 .item-button {
   padding-bottom: 18px;

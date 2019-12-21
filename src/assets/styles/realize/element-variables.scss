@@ -495,9 +495,9 @@ thead tr {
   .el-menu--inline {
     background: $menuItem-bg !important;
 
-    &:hover {
-      background-color: $menuItem-hover !important;
-    }
+    // &:hover {
+    //   background-color: $menuItem-hover !important;
+    // }
   }
 
   .el-submenu__title {

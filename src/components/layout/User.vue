@@ -35,18 +35,8 @@
         </div>
         <el-dropdown-item command="home" icon="el-icon-user">我的主页</el-dropdown-item>
         <el-dropdown-item command="main" icon="el-icon-menu">创作者中心</el-dropdown-item>
-        <el-dropdown-item command="changePassword" icon="el-icon-s-tools">修改登录密码</el-dropdown-item>
+        <el-dropdown-item command="settings" icon="el-icon-s-tools">设置</el-dropdown-item>
         <el-dropdown-item command="outLogin" icon="el-icon-warning">退出账户</el-dropdown-item>
-        <!-- <ul class="dropdown-box">
-          <li class="password" @click="changePassword">
-            <i class="iconfont icon-weibaoxitongshangchuanlogo-"></i>
-            <span>修改登录密码</span>
-          </li>
-          <li class="account" @click="outLogin">
-            <i class="iconfont icon-tuichu"></i>
-            <span>退出账户</span>
-          </li>
-        </ul>-->
       </el-dropdown-menu>
     </el-dropdown>
     <!-- 修改头像 -->
@@ -84,55 +74,6 @@
         <el-button type="primary" @click="handleCrop" size="small">确 定</el-button>
       </div>
     </el-dialog>
-    <el-dialog
-      width="500px"
-      title="修改密码"
-      :append-to-body="true"
-      :before-close="handleClose"
-      :visible.sync="dialogFormVisible"
-      class="user-dialog"
-    >
-      <el-form
-        :model="form"
-        :rules="rules"
-        label-position="left"
-        ref="form"
-        label-width="90px"
-        @submit.native.prevent
-      >
-        <el-form-item label="原始密码" prop="old_password">
-          <el-input
-            type="password"
-            v-model="form.old_password"
-            autocomplete="off"
-            show-password
-            clearable
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="新密码" prop="new_password">
-          <el-input
-            type="password"
-            v-model="form.new_password"
-            autocomplete="off"
-            show-password
-            clearable
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="确认密码" prop="confirm_password" label-position="top">
-          <el-input
-            type="password"
-            v-model="form.confirm_password"
-            autocomplete="off"
-            show-password
-            clearable
-          ></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="submitForm('form')">保存</el-button>
-          <el-button @click="resetForm('form')">重置</el-button>
-        </el-form-item>
-      </el-form>
-    </el-dialog>
   </div>
 </template>
 
@@ -153,56 +94,11 @@ export default {
   name: "user",
   components: {},
   data() {
-    const oldPassword = (rule, value, callback) => {
-      // eslint-disable-line
-      if (!value) {
-        return callback(new Error("原始密码不能为空"));
-      }
-      callback();
-    };
-    const validatePassword = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请输入密码"));
-      } else if (value.length < 6) {
-        callback(new Error("密码长度不能少于6位数"));
-      } else {
-        if (this.form.checkPassword !== "") {
-          this.$refs.form.validateField("confirm_password");
-        }
-        callback();
-      }
-    };
-    const validatePassword2 = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请再次输入密码"));
-      } else if (value !== this.form.new_password) {
-        callback(new Error("两次输入密码不一致!"));
-      } else {
-        callback();
-      }
-    };
     return {
       username: null,
-      dialogFormVisible: false,
       nicknameChanged: false,
       nickname: null,
       groupName: null,
-      form: {
-        old_password: "",
-        new_password: "",
-        confirm_password: ""
-      },
-      rules: {
-        old_password: [
-          { validator: oldPassword, trigger: "blur", required: true }
-        ],
-        new_password: [
-          { validator: validatePassword, trigger: "blur", required: true }
-        ],
-        confirm_password: [
-          { validator: validatePassword2, trigger: "blur", required: true }
-        ]
-      },
       cropRule: {
         width,
         height
@@ -342,12 +238,9 @@ export default {
         if (this.nickname !== user.nickname && this.nickname !== "佚名") {
           this.$axios({
             method: "put",
-            url: "/cms/user",
+            url: "/cms/user/nickname",
             data: {
               nickname: this.nickname
-            },
-            params: {
-              showBackend: true
             }
           })
             .then(res => {
@@ -374,56 +267,11 @@ export default {
       this.groupName = user && user.groupName ? user.groupName : "无角色";
       this.nickname = user && user.nickname ? user.nickname : "佚名";
     },
-    changePassword() {
-      this.dialogFormVisible = true;
-    },
-    // 弹框 右上角 X
-    handleClose(done) {
-      this.dialogFormVisible = false;
-      done();
-    },
     outLogin() {
       this.loginOut();
       window.location.reload(true);
     },
-    submitForm(formName) {
-      if (
-        this.form.old_password === "" &&
-        this.form.new_password === "" &&
-        this.form.confirm_password === ""
-      ) {
-        this.dialogFormVisible = false;
-        return;
-      }
-      if (this.form.old_password === this.form.new_password) {
-        this.$message.error("新密码不能与原始密码一样");
-        return;
-      }
-      this.$refs[formName].validate(async valid => {
-        // eslint-disable-line
-        if (valid) {
-          const res = await User.updatePassword(this.form);
-          if (res.error_code === 0) {
-            this.$message.success(`${res.msg}`);
-            this.resetForm(formName);
-            this.dialogFormVisible = false;
-            setTimeout(() => {
-              this.loginOut();
-              const { origin } = window.location;
-              window.location.href = origin;
-            }, 1000);
-          }
-        } else {
-          console.log("error submit!!");
-          this.$message.error("请填写正确的信息");
-          return false;
-        }
-      });
-    },
-    // 重置表单
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
-    },
+
     clearFileInput(ele) {
       ele.value = "";
     },
@@ -433,10 +281,12 @@ export default {
           window.open("/dashboard");
           break;
         case "home":
-          window.open("/user/" + this.user.id + "/article");
+          this.$router.push("/user/" + this.user.id + "/article");
+          // window.open("/user/" + this.user.id + "/article");
           break;
-        case "changePassword":
-          this.changePassword();
+        case "settings":
+          this.$router.push("/settings");
+          // window.open("/settings");
           break;
         case "outLogin":
           this.outLogin();
@@ -448,15 +298,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.user-dialog /deep/ .el-dialog .el-dialog__header {
-  border-bottom: 1px solid #dae1ed;
-  padding-bottom: 20px;
-}
-
-.user-dialog /deep/ .el-dialog .el-dialog__body {
-  padding-bottom: 00px;
-}
-
 .user {
   height: 40px;
 

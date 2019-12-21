@@ -14,7 +14,7 @@ const blogRouter = [
         title: "专栏管理",
         type: "view",
         name: "ClassifyList",
-        route: "/cms/classify/list",
+        route: "/classify/list",
         filePath: "plugins/Blog/views/classify/ClassifyList.vue",
         inNav: true
       },

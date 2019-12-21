@@ -3,7 +3,7 @@
     <el-row class="row-bg" :gutter="20">
       <el-col :xs="24" :md="17">
         <div class="margin-bottom-xs">
-          <el-card class="box-card" shadow="hover">
+          <el-card class="box-card" shadow="never">
             <profile></profile>
           </el-card>
         </div>

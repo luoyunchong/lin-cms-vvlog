@@ -1,4 +1,3 @@
-/* eslint-disable class-methods-use-this */
 import {
   post,
   get,
@@ -35,7 +34,9 @@ export default class User {
   // 分组名称
   groupName = null
 
-  constructor(active, email, groupId, username, _super, avatar, auths, nickname, groupName, id) {
+  introduction = null
+
+  constructor(active, email, groupId, username, _super, avatar, auths, nickname, groupName, id, introduction) {
     this.isActive = active === ACTIVE_VALUE
     this.email = email
     this.groupId = groupId
@@ -46,6 +47,7 @@ export default class User {
     this.nickname = nickname
     this.groupName = groupName
     this.id = id;
+    this.introduction = introduction
   }
 
   /**
@@ -75,7 +77,7 @@ export default class User {
    */
   static async getInformation() {
     const info = await get('cms/user/information')
-    return new User(info.active, info.email, info.group_id, info.username, info.admin, info.avatar, info.auths, info.nickname, info.group_name, info.id)
+    return new User(info.active, info.email, info.group_id, info.username, info.admin, info.avatar, info.auths, info.nickname, info.group_name, info.id, info.introduction)
   }
 
   /**
@@ -83,7 +85,7 @@ export default class User {
    */
   static async getAuths() {
     const info = await get('cms/user/auths')
-    return new User(info.active, info.email, info.group_id, info.username, info.admin, info.avatar, info.auths, info.nickname, info.group_name, info.id)
+    return new User(info.active, info.email, info.group_id, info.username, info.admin, info.avatar, info.auths, info.nickname, info.group_name, info.id, info.introduction)
   }
 
   /**
@@ -112,5 +114,10 @@ export default class User {
   static async getUserByUserId(userId) {
     const res = await get(`cms/user/${userId}`)
     return res;
+  }
+
+
+  static async updateProfile(params) {
+    return await put('cms/user', params)
   }
 }
