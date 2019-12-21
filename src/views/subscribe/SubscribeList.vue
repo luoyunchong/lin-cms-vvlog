@@ -11,24 +11,24 @@
       <template v-slot:renderItem="{item,index}">
         <v-list-item class="item">
           <li slot="actions">
-            <follow-button
-              :userId="item.follower.id"
-              :isFollow="item.is_followed"
-              @on-follow="getData"
-            ></follow-button>
+            <subscribe-button
+              :userId="item.subscribeer.id"
+              :isSubscribe="item.is_subscribeed"
+              @on-subscribe="getData"
+            ></subscribe-button>
           </li>
           <v-list-item-meta
-            :description="item.follower.introduction?item.follower.introduction:'什么话也没说'"
+            :description="item.subscribeer.introduction?item.subscribeer.introduction:'什么话也没说'"
           >
             <a
               slot="title"
-              :href="`/user/${item.follower.id}/article`"
+              :href="`/user/${item.subscribeer.id}/article`"
               target="_blank"
-            >{{item.follower.nickname}}</a>
+            >{{item.subscribeer.nickname}}</a>
             <el-avatar
               slot="avatar"
               icon="el-icon-user"
-              :src="item.follower.avatar||defaultAvatar"
+              :src="item.subscribeer.avatar||defaultAvatar"
             />
           </v-list-item-meta>
         </v-list-item>
@@ -39,19 +39,19 @@
 </template>
 
 <script>
-import followApi from "@/models/follow";
-import { FollowButton } from "@/views/follow";
+import subscribeApi from "@/models/subscribe";
+import { SubscribeButton } from "@/views/subscribe";
 import VList from "@/components/list";
 import "@/components/list/index.css";
 import defaultAvatar from "@/assets/img/user/user.png";
 
 export default {
-  name: "FollowList",
+  name: "SubscribeList",
   components: {
     VList,
     VListItem: VList.Item,
     VListItemMeta: VList.Item.Meta,
-    FollowButton
+    SubscribeButton
   },
   props: {
     userId: {
@@ -59,7 +59,7 @@ export default {
     },
     userType: {
       type: [String, Number],
-      default: "follow"
+      default: "subscribe"
     }
   },
   data() {
@@ -97,14 +97,14 @@ export default {
     async getData() {
       this.loading = true;
       let res;
-      if (this.userType == "follow") {
-        res = await followApi.getFollows({
+      if (this.userType == "subscribe") {
+        res = await subscribeApi.getSubscribes({
           user_id: this.userId,
           page: this.pagination.currentPage - 1,
           count: this.pagination.pageSize
         });
       } else {
-        res = await followApi.getFans({
+        res = await subscribeApi.getFans({
           user_id: this.userId,
           page: this.pagination.currentPage - 1,
           count: this.pagination.pageSize

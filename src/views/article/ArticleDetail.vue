@@ -43,7 +43,7 @@
                       style="text-align:right;padding-left:0px;"
                       v-if="user!=null&&model.user_info.id!=user.id"
                     >
-                      <follow-button v-if="model.user_info.id" :userId="model.user_info.id"></follow-button>
+                      <subscribe-button v-if="model.user_info.id" :userId="model.user_info.id"></subscribe-button>
                     </el-col>
                   </el-row>
                 </el-col>
@@ -146,12 +146,12 @@
 
 <script>
 import articleApi from "../../models/article";
-import followApi from "../../models/follow";
+import subscribeApi from "../../models/subscribe";
 import { mavonEditor } from "mavon-editor";
 import "mavon-editor/dist/css/index.css";
 import ToolsBadge from "./ToolsBadge";
 import CommentList from "@/views/comment/CommentList";
-import { FollowButton } from "@/views/follow";
+import { SubscribeButton } from "@/views/subscribe";
 import Error404Page from "@/views/error-page/404";
 export default {
   name: "ArticleDetail",
@@ -162,7 +162,7 @@ export default {
           id: 0
         }
       },
-      followLoading: false,
+      subscribeLoading: false,
       scroll: 0,
       aside: 0,
       currentIndex: 0,
@@ -177,7 +177,7 @@ export default {
     mavonEditor,
     ToolsBadge,
     CommentList,
-    FollowButton,
+    SubscribeButton,
     Error404Page
   },
   computed: {

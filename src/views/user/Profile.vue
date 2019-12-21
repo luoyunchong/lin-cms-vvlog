@@ -31,10 +31,10 @@
                 v-if="user!=null&&user.id==openUser.id"
               >编辑个人资料</el-button>
             </router-link>
-            <follow-button
+            <subscribe-button
               :userId="openUser.id"
               v-if="user==null||(user!=null&&user.id!=openUser.id)"
-            ></follow-button>
+            ></subscribe-button>
           </div>
         </div>
       </div>
@@ -44,12 +44,12 @@
 
 <script>
 import userApi from "@/lin/models/user";
-import followApi from "../../models/follow";
-import { FollowButton } from "@/views/follow";
+import subscribeApi from "../../models/subscribe";
+import { SubscribeButton } from "@/views/subscribe";
 import defaultAvatar from "@/assets/img/user/user.png";
 export default {
   name: "Profile",
-  components: { FollowButton },
+  components: { SubscribeButton },
   data() {
     return {
       openUser: {

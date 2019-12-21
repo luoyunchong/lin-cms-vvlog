@@ -23,16 +23,16 @@
                 </span>
               </infinite-loading>
             </el-tab-pane>
-            <el-tab-pane name="follow" :lazy="true">
+            <el-tab-pane name="subscribe" :lazy="true">
               <span slot="label">
                 <i class="el-icon-user"></i> 关注
               </span>
               <el-tabs v-model="activeName" @tab-click="handleClick">
-                <el-tab-pane label="关注了" name="follow">
-                  <follow-list :userId="userId" userType="follow" v-if="activeName=='follow'"></follow-list>
+                <el-tab-pane label="关注了" name="subscribe">
+                  <subscribe-list :userId="userId" userType="subscribe" v-if="activeName=='subscribe'"></subscribe-list>
                 </el-tab-pane>
                 <el-tab-pane label="关注者" name="fans">
-                  <follow-list :userId="userId" userType="fans" v-if="activeName=='fans'"></follow-list>
+                  <subscribe-list :userId="userId" userType="fans" v-if="activeName=='fans'"></subscribe-list>
                 </el-tab-pane>
               </el-tabs>
             </el-tab-pane>
@@ -43,14 +43,14 @@
         <div class="margin-bottom-xs">
           <el-card class="box-card" shadow="never" :body-style="{ padding: '0px' }">
             <div class="number-board">
-              <router-link :to="`/user/${userId}/follow?key=follow`" class="number-board-item">
+              <router-link :to="`/user/${userId}/subscribe?key=subscribe`" class="number-board-item">
                 <div class="number-board-item-inner">
                   <div class="number-board-item-name">关注了</div>
-                  <strong class="number-board-item-value">{{info.follow_count}}</strong>
+                  <strong class="number-board-item-value">{{info.subscribe_count}}</strong>
                 </div>
               </router-link>
               <el-divider direction="vertical"></el-divider>
-              <router-link :to="`/user/${userId}/follow?key=fans`" class="number-board-item">
+              <router-link :to="`/user/${userId}/subscribe?key=fans`" class="number-board-item">
                 <div class="number-board-item-inner">
                   <div class="number-board-item-name">关注者</div>
                   <strong class="number-board-item-value">{{info.fans_count}}</strong>
@@ -65,16 +65,16 @@
 </template>
 
 <script>
-import { FollowList } from "@/views/follow";
+import { SubscribeList } from "@/views/subscribe";
 import Profile from "@/views/user/Profile";
 import articleApi from "@/models/article";
-import followApi from "@/models/follow";
+import subscribeApi from "@/models/subscribe";
 import InfiniteLoading from "vue-infinite-loading";
 import ArticleList from "@/views/article/ArticleList";
 export default {
   name: "UserIndex",
   components: {
-    FollowList,
+    SubscribeList,
     Profile,
     ArticleList,
     InfiniteLoading
@@ -82,7 +82,7 @@ export default {
   data() {
     return {
       tab: "article",
-      activeName: "follow",
+      activeName: "subscribe",
       dataSource: [],
       pagination: {
         currentPage: 0,
@@ -92,7 +92,7 @@ export default {
       loading: false,
       any: new Date(),
       info: {
-        follow_count: 0,
+        subscribe_count: 0,
         fans_count: 0
       }
     };
@@ -115,10 +115,10 @@ export default {
         case "article":
           this.refresh();
           break;
-        case "follow":
+        case "subscribe":
           let key = v.query.key;
           if (key == null || key == undefined) {
-            key = "follow";
+            key = "subscribe";
           }
           this.activeName = key;
           break;
@@ -128,12 +128,12 @@ export default {
     }
   },
   async created() {
-    await this.getUserFollow();
+    await this.getUserSubscribe();
   },
   mounted() {
     switch (this.name) {
       case "article":
-      case "follow":
+      case "subscribe":
         this.tab = this.name;
         break;
       default:
@@ -142,7 +142,7 @@ export default {
     }
     let key = this.$route.query.key;
     if (key == null || key == undefined) {
-      key = "follow";
+      key = "subscribe";
     }
     this.activeName = key;
   },
@@ -159,7 +159,7 @@ export default {
     handleClick(tab, event) {
       if (tab.name == this.$route.query.key) return;
       this.$router.push({
-        path: `/user/${this.userId}/follow?key=${tab.name}`
+        path: `/user/${this.userId}/subscribe?key=${tab.name}`
       });
     },
     async infiniteHandler($state) {
@@ -187,8 +187,8 @@ export default {
         $state && $state.loaded();
       }
     },
-    async getUserFollow() {
-      let res = await followApi.getUserFollow({
+    async getUserSubscribe() {
+      let res = await subscribeApi.getUserSubscribe({
         userId: this.userId
       });
       this.info = res;
