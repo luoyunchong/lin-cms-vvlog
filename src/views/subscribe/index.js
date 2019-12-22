@@ -1,7 +1,9 @@
 import SubscribeButton from './SubscribeButton.vue'
-import SubscribeList from './SubscribeList.vue'
+import SubscribeUserList from './SubscribeUserList.vue'
+import SubscribeArticle from './SubscribeArticle.vue'
 
 export {
     SubscribeButton,
-    SubscribeList
+    SubscribeUserList,
+    SubscribeArticle
 }

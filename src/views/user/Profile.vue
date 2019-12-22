@@ -63,12 +63,13 @@ export default {
       return this.$route.params.id;
     }
   },
-  async created() {
-    try {
+  watch: {
+    async userId(newVal) {
       await this.getUserByUserId();
-    } catch (ex) {
-      console.log(ex);
     }
+  },
+  async created() {
+    await this.getUserByUserId();
   },
   methods: {
     async getUserByUserId() {

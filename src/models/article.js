@@ -47,6 +47,11 @@ class Article {
     const res = await get("v1/article/query", pagesParmas);
     return res;
   }
+
+  async getSubscribeArticles(pagesParmas) {
+    const res = await get("v1/article/subscribe", pagesParmas);
+    return res;
+  }
 }
 
 export default new Article();

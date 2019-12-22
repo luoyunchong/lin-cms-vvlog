@@ -10,7 +10,7 @@
     >
       <template v-slot:renderItem="{item,index}">
         <v-list-item class="item">
-          <li slot="actions">
+          <li slot="actions" v-show="showActions">
             <subscribe-button
               :userId="item.subscribeer.id"
               :isSubscribe="item.is_subscribeed"
@@ -60,6 +60,10 @@ export default {
     userType: {
       type: [String, Number],
       default: "subscribe"
+    },
+    showActions:{
+        type:[Boolean],
+      default:true
     }
   },
   data() {

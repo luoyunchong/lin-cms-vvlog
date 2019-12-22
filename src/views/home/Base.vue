@@ -19,9 +19,9 @@
                   <el-menu-item index="/index" class="block">
                     <router-link :to="{path:'/index'}">首页</router-link>
                   </el-menu-item>
-                  <!-- <el-menu-item index="/docs" class="block">
-                    <router-link :to="{path:'/docs'}">文档</router-link>
-                  </el-menu-item>-->
+                  <el-menu-item index="/subscribe" class="block">
+                    <router-link :to="{path:'/subscribe'}">关注</router-link>
+                  </el-menu-item>
                   <el-menu-item index="/tag" class="block">
                     <router-link :to="{path:'/tag'}">标签</router-link>
                   </el-menu-item>
@@ -153,6 +153,7 @@
 
         <el-form-item label="第三方账号登录" class="oauth lin-form-item">
           <el-avatar icon="iconfont icon-QQ" title="qq登录" size="large"></el-avatar>
+          <el-button type="primary" @click="github">GitHub</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -184,6 +185,14 @@ export default {
   computed: {
     logined() {
       return this.$store.state.logined;
+    }
+  },
+  created() {
+    this.activeIndex = this.$route.path;
+  },
+  watch: {
+    $route() {
+      this.activeIndex = this.$router.path;
     }
   },
   methods: {
@@ -265,6 +274,11 @@ export default {
     },
     flushCom: function() {
       this.$router.go(0);
+    },
+    github() {
+      window.open(
+        "https://github.com/login/oauth/authorize?client_id=6daf87d8c206b823763a&redirect_uri=http://localhost:8080/login-result"
+      );
     }
   }
 };

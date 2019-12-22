@@ -6,6 +6,12 @@ let baseRouter = [
         meta: { title: '首页' },
     },
     {
+        path: '/subscribe',
+        name: 'subscribe',
+        component: () => import("@/views/subscribe/SubscribeArticle.vue"),
+        meta: { title: '关注' },
+    },
+    {
         path: '/docs',
         name: 'docs',
         component: () => import("@/views/home/Docs.vue"),

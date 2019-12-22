@@ -29,10 +29,14 @@
               </span>
               <el-tabs v-model="activeName" @tab-click="handleClick">
                 <el-tab-pane label="关注了" name="subscribe">
-                  <subscribe-list :userId="userId" userType="subscribe" v-if="activeName=='subscribe'"></subscribe-list>
+                  <subscribe-user-list
+                    :userId="userId"
+                    userType="subscribe"
+                    v-if="activeName=='subscribe'"
+                  ></subscribe-user-list>
                 </el-tab-pane>
                 <el-tab-pane label="关注者" name="fans">
-                  <subscribe-list :userId="userId" userType="fans" v-if="activeName=='fans'"></subscribe-list>
+                  <subscribe-user-list :userId="userId" userType="fans" v-if="activeName=='fans'"></subscribe-user-list>
                 </el-tab-pane>
               </el-tabs>
             </el-tab-pane>
@@ -43,7 +47,10 @@
         <div class="margin-bottom-xs">
           <el-card class="box-card" shadow="never" :body-style="{ padding: '0px' }">
             <div class="number-board">
-              <router-link :to="`/user/${userId}/subscribe?key=subscribe`" class="number-board-item">
+              <router-link
+                :to="`/user/${userId}/subscribe?key=subscribe`"
+                class="number-board-item"
+              >
                 <div class="number-board-item-inner">
                   <div class="number-board-item-name">关注了</div>
                   <strong class="number-board-item-value">{{info.subscribe_count}}</strong>
@@ -65,7 +72,7 @@
 </template>
 
 <script>
-import { SubscribeList } from "@/views/subscribe";
+import { SubscribeUserList } from "@/views/subscribe";
 import Profile from "@/views/user/Profile";
 import articleApi from "@/models/article";
 import subscribeApi from "@/models/subscribe";
@@ -74,7 +81,7 @@ import ArticleList from "@/views/article/ArticleList";
 export default {
   name: "UserIndex",
   components: {
-    SubscribeList,
+    SubscribeUserList,
     Profile,
     ArticleList,
     InfiniteLoading
@@ -110,7 +117,7 @@ export default {
       this.tab = newVal;
       console.log(newVal);
     },
-    $route(v) {
+    async $route(v) {
       switch (v.params.name) {
         case "article":
           this.refresh();
@@ -125,6 +132,7 @@ export default {
         default:
           break;
       }
+      await this.getUserSubscribe();
     }
   },
   async created() {
