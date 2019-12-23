@@ -153,7 +153,7 @@
 
         <el-form-item label="第三方账号登录" class="oauth lin-form-item">
           <el-avatar icon="iconfont icon-QQ" title="qq登录" size="large"></el-avatar>
-          <el-button type="primary" @click="github">GitHub</el-button>
+          <el-button type="primary" @click="()=>signin('GitHub')">GitHub</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -275,9 +275,9 @@ export default {
     flushCom: function() {
       this.$router.go(0);
     },
-    github() {
+    signin(provider) {
       window.open(
-        "https://github.com/login/oauth/authorize?client_id=6daf87d8c206b823763a&redirect_uri=http://localhost:8080/login-result"
+        `https://localhost:5001/cms/oauth2/signin?provider=${provider}&redirectUrl=http://localhost:8081/login-result`
       );
     }
   }

@@ -69,6 +69,12 @@ let baseRouter = [
         ]
     },
     {
+        path: '/login-result',
+        name: 'login-result',
+        component: () => import("@/views/login/LoginResult.vue"),
+        meta: { title: '第三方登录' },
+    },
+    {
         path: '/404',
         name: '404',
         component: () => import("@/views/error-page/404.vue"),
