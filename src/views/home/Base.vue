@@ -285,7 +285,7 @@ export default {
     },
     signin(provider) {
       window.open(
-        `https://localhost:5001/cms/oauth2/signin?provider=${provider}&redirectUrl=http://localhost:8081/login-result`
+        `${process.env.VUE_APP_BASE_URL}cms/oauth2/signin?provider=${provider}&redirectUrl=${process.env.VUE_APP_CURRENT_URL}login-result`
       );
     }
   }
