@@ -152,8 +152,16 @@
         </template>
 
         <el-form-item label="第三方账号登录" class="oauth lin-form-item">
-          <el-avatar icon="iconfont icon-QQ" title="qq登录" size="large"></el-avatar>
-          <el-button type="primary" @click="()=>signin('GitHub')">GitHub</el-button>
+          <!-- <el-avatar icon="iconfont icon-QQ" title="qq登录" size="large"></el-avatar> -->
+          <a href @click="()=>signin('GitHub')">
+            <el-avatar
+              class="margin-left-xs"
+              icon="iconfont icon-github-fill"
+              title="github登录"
+              size="large"
+            ></el-avatar>
+          </a>
+          <!-- <el-button type="primary" @click="()=>signin('GitHub')">GitHub</el-button> -->
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -354,8 +362,9 @@ export default {
     }
   }
   .oauth .el-form-item__content {
-    .el-avatar /deep/ i.icon-QQ {
-      font-size: 22px !important;
+    .el-avatar /deep/ i.icon-QQ,
+    .el-avatar /deep/ i.icon-github-fill {
+      font-size: 30px !important;
       &:hover {
         cursor: pointer !important;
       }
