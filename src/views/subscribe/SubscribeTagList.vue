@@ -11,24 +11,19 @@
       <template v-slot:renderItem="{item,index}">
         <v-list-item class="item">
           <li slot="actions" v-show="showActions">
-            <subscribe-button
+            <!-- <subscribe-button
               :userId="item.subscribeer.id"
               :isSubscribe="item.is_subscribeed"
               @on-subscribe="getData"
-            ></subscribe-button>
+            ></subscribe-button>-->
           </li>
-          <v-list-item-meta
-            :description="item.subscribeer.introduction?item.subscribeer.introduction:'什么话也没说'"
-          >
-            <a
-              slot="title"
-              :href="`/user/${item.subscribeer.id}/article`"
-              target="_blank"
-            >{{item.subscribeer.nickname}}</a>
+          <v-list-item-meta>
+            <a slot="title" :href="`/tag/${item.id}`" target="_blank">{{item.tag_name}}</a>
             <el-avatar
               slot="avatar"
+              shape="square"
               icon="el-icon-user"
-              :src="item.subscribeer.avatar||defaultAvatar"
+              :src="item.thumbnail_display||defaultAvatar"
             />
           </v-list-item-meta>
         </v-list-item>
@@ -39,14 +34,14 @@
 </template>
 
 <script>
-import subscribeApi from "@/models/subscribe";
+import userTagApi from "@/models/userTag";
 import { SubscribeButton } from "@/views/subscribe";
 import VList from "@/components/list";
 import "@/components/list/index.css";
 import defaultAvatar from "@/assets/img/user/user.png";
 
 export default {
-  name: "SubscribeUserList",
+  name: "SubscribeTagList",
   components: {
     VList,
     VListItem: VList.Item,
@@ -101,19 +96,12 @@ export default {
     async getData() {
       this.loading = true;
       let res;
-      if (this.userType == "subscribe") {
-        res = await subscribeApi.getSubscribes({
-          user_id: this.userId,
-          page: this.pagination.currentPage - 1,
-          count: this.pagination.pageSize
-        });
-      } else {
-        res = await subscribeApi.getFans({
-          user_id: this.userId,
-          page: this.pagination.currentPage - 1,
-          count: this.pagination.pageSize
-        });
-      }
+      res = await userTagApi.getSubscribeTags({
+        userId: this.userId,
+        page: this.pagination.currentPage - 1,
+        count: this.pagination.pageSize
+      });
+
       this.listData = res.items;
       this.pagination.total = res.total;
       this.$emit("success", res.total);

@@ -27,16 +27,35 @@
               <span slot="label">
                 <i class="el-icon-user"></i> 关注
               </span>
-              <el-tabs v-model="activeName" @tab-click="handleClick">
-                <el-tab-pane label="关注了" name="subscribe">
+              <el-tabs v-model="activeName" @tab-click="handleClick" type="border-card">
+                <el-tab-pane :label="'关注用户'+info.subscribe_count" name="subscribe">
                   <subscribe-user-list
                     :userId="userId"
                     userType="subscribe"
                     v-if="activeName=='subscribe'"
+                    v-on:success="(subscribe_count)=>{
+                     info.subscribe_count=subscribe_count
+                    }"
                   ></subscribe-user-list>
                 </el-tab-pane>
-                <el-tab-pane label="关注者" name="fans">
-                  <subscribe-user-list :userId="userId" userType="fans" v-if="activeName=='fans'"></subscribe-user-list>
+                <el-tab-pane :label="'粉丝'+info.fans_count" name="fans">
+                  <subscribe-user-list
+                    :userId="userId"
+                    userType="fans"
+                    v-if="activeName=='fans'"
+                    v-on:success="(fans_count)=>{
+                     info.fans_count=fans_count
+                    }"
+                  ></subscribe-user-list>
+                </el-tab-pane>
+                <el-tab-pane :label="'标签'+info.tag_count" name="tag">
+                  <subscribe-tag-list
+                    :userId="userId"
+                    v-if="activeName=='tag'"
+                    v-on:success="(tag_count)=>{
+                      info.tag_count=tag_count
+                    }"
+                  ></subscribe-tag-list>
                 </el-tab-pane>
               </el-tabs>
             </el-tab-pane>
@@ -52,14 +71,14 @@
                 class="number-board-item"
               >
                 <div class="number-board-item-inner">
-                  <div class="number-board-item-name">关注了</div>
+                  <div class="number-board-item-name">关注用户</div>
                   <strong class="number-board-item-value">{{info.subscribe_count}}</strong>
                 </div>
               </router-link>
               <el-divider direction="vertical"></el-divider>
               <router-link :to="`/user/${userId}/subscribe?key=fans`" class="number-board-item">
                 <div class="number-board-item-inner">
-                  <div class="number-board-item-name">关注者</div>
+                  <div class="number-board-item-name">粉丝</div>
                   <strong class="number-board-item-value">{{info.fans_count}}</strong>
                 </div>
               </router-link>
@@ -72,7 +91,7 @@
 </template>
 
 <script>
-import { SubscribeUserList } from "@/views/subscribe";
+import { SubscribeUserList, SubscribeTagList } from "@/views/subscribe";
 import Profile from "@/views/user/Profile";
 import articleApi from "@/models/article";
 import subscribeApi from "@/models/subscribe";
@@ -82,6 +101,7 @@ export default {
   name: "UserIndex",
   components: {
     SubscribeUserList,
+    SubscribeTagList,
     Profile,
     ArticleList,
     InfiniteLoading
@@ -100,7 +120,8 @@ export default {
       any: new Date(),
       info: {
         subscribe_count: 0,
-        fans_count: 0
+        fans_count: 0,
+        tag_count: 0
       }
     };
   },

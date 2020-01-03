@@ -1,5 +1,9 @@
 <template>
-  <div>logining</div>
+  <div v-loading.fullscreen.lock="loading">
+    <router-link :to="{path:'/index'}">
+      <el-button type="primary">回到首页</el-button>
+    </router-link>
+  </div>
 </template>
 
 <script>
@@ -21,12 +25,16 @@ import User from "@/lin/models/user";
 import { saveTokens } from "@/lin/utils/token";
 export default {
   data() {
-    return {};
+    return {
+      loading: false
+    };
   },
   created() {
+    this.loading = true;
     var result = parseUrlParams();
     if (!(result && result.token)) {
       alert("无效的登录");
+      this.loading = false;
       return;
     }
     saveTokens(result.token);
@@ -63,6 +71,7 @@ export default {
       } catch (e) {
         console.log(e);
       } finally {
+        this.loading = true;
         location.href = "index";
       }
     }

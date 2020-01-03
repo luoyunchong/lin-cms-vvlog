@@ -92,7 +92,7 @@
           <el-backtop class="lin-back-top"></el-backtop>
         </el-col>
         <el-col :xl="6" :lg="6" :md="24" :sm="24" :xs="24">
-          <el-card style="margin-bottom:20px;">
+          <el-card style="margin-bottom:20px;" v-show="model.user_info.id!=0">
             <div slot="header" class="clearfix" :body-style="{ padding: '0'}">
               <span>关于作者</span>
             </div>
@@ -230,6 +230,11 @@ export default {
           this.model.reading_time = Number(
             this.model.word_number / 800
           ).toFixed(0);
+        }
+        if (this.model.user_info == undefined) {
+          this.model.user_info = {
+            id: 0
+          };
         }
       } catch (ex) {
         console.log(ex);

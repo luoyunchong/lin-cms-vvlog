@@ -6,6 +6,7 @@
     "serve": "node script/plugin-get-config.js && vue-cli-service serve",
     "build": "node script/plugin-get-config.js && vue-cli-service build",
     "build:production": "node script/plugin-get-config.js && vue-cli-service build --mode production",
+    "deploy": "yarn build:production && node ./deploy",
     "lint": "vue-cli-service lint",
     "commit": "git-cz",
     "plugin-init": "node script/plugin-init.js",

@@ -4,10 +4,14 @@
       <el-row :gutter="20">
         <el-col>
           <tag-item
+            :subscribers_count="item.subscribers_count"
             :article_count="item.article_count"
             :id="item.id"
             :tag_name="item.tag_name"
             :thumbnail_display="item.thumbnail_display"
+            :is_subscribe="item.is_subscribe"
+            v-on:addSubscribeTag="addSubscribeDataTag"
+            v-on:deleteSubscribeTag="deleteSubscribeDataTag"
           ></tag-item>
         </el-col>
       </el-row>
@@ -103,6 +107,14 @@ export default {
       } catch (ex) {
         this.deleted = true;
       }
+    },
+    addSubscribeDataTag(index) {
+      this.item.is_subscribe = true;
+      this.item.subscribers_count += 1;
+    },
+    deleteSubscribeDataTag(index) {
+      this.item.is_subscribe = false;
+      if (this.item.subscribers_count > 1) this.item.subscribers_count -= 1;
     }
   }
 };

@@ -12,43 +12,65 @@
     <div class="tag">
       <a :href="`/tag/${id}`" target="_blank">
         <div class="thumb" :style="`background-image:url(${thumbnail_display})`"></div>
-        <!-- <el-image :src="thumbnail_display" class="image">
-          <div slot="error" class="image-slot">
-            <i class="el-icon-picture-outline"></i>
-          </div>
-        </el-image>-->
         <div class="title">{{tag_name}}</div>
       </a>
       <div class="bottom clearfix" style="margin-top:10px;">
         <div class="meta-box">
-          <!-- <time class="meta subscribe">397398 关注</time> -->
+          <time class="meta subscribe">{{subscribers_count}} 关注</time>
           <time class="meta">{{article_count}} 随笔</time>
-          <!-- article -->
         </div>
-        <!-- <el-button type="primary" class="button" icon="iconfont icon-heart-fill">已关注</el-button>
-        <el-button type="plain" class="button" icon="iconfont icon-heart">关注</el-button>-->
+        <el-button
+          type="primary"
+          class="button"
+          icon="iconfont icon-heart-fill"
+          v-if="is_subscribe"
+          @click="deleteSubscribeTag"
+        >已关注</el-button>
+        <el-button
+          type="plain"
+          class="button"
+          icon="iconfont icon-heart"
+          v-else
+          @click="addSubscribeTag"
+        >关注</el-button>
       </div>
     </div>
   </el-card>
 </template>
 
 <script>
+import userTagApi from "@/models/userTag";
 export default {
   name: "TagItem",
   data() {
     return {};
   },
   props: {
+    index: Number,
     id: String,
     tag_name: String,
     thumbnail_display: String,
-    article_count: Number
+    article_count: Number,
+    is_subscribe: Boolean,
+    subscribers_count: Number
   },
   created() {},
-  methods: {}
+  methods: {
+    async addSubscribeTag() {
+      await userTagApi.addSubscribeTag({
+        tagId: this.id
+      });
+      this.$emit("addSubscribeTag", this.index);
+    },
+    async deleteSubscribeTag() {
+      await userTagApi.deleteSubscribeTag({
+        tagId: this.id
+      });
+      this.$emit("deleteSubscribeTag", this.index);
+    }
+  }
 };
 </script>
-
 
 <style lang="scss" scoped>
 .info-box {
@@ -95,6 +117,9 @@ export default {
   color: #909090;
   .meta {
     line-height: 2rem;
+  }
+  .subscribe {
+    margin-right: 0.4rem;
   }
   .article {
     margin-left: 0.8rem;

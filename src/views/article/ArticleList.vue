@@ -11,8 +11,13 @@
                   <el-tag type="info" v-else-if="item.article_type==1">转载</el-tag>
                   <el-tag type="danger" v-else-if="item.article_type==2">翻译</el-tag>
                 </li>
-                <li class="item username clickable">
-                  <a :href="`/user/${item.user_info.id}/article`">{{item.user_info.nickname}}</a>
+                <li class="item username clickable" v-if="item.user_info!=undefined">
+                  <router-link
+                    :to="{ 
+                        path:`/user/${item.user_info.id}/article`
+                      }"
+                  >{{item.user_info.nickname}}</router-link>
+                  <!-- <a :href="`/user/${item.user_info.id}/article`">{{item.user_info.nickname}}</a> -->
                 </li>
                 <li class="item">{{item.time_span}}</li>
                 <li class="item" v-for="(tag,index) in item.tags" v-bind:key="index">

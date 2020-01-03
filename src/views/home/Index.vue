@@ -1,44 +1,52 @@
 <template>
   <div>
-    <el-card
-      :body-style="{ 'padding-bottom': '0px' }"
-      shadow="never"
-      style="margin-bottom:10px;border-radius: 8px;"
-    >
-      <el-row>
-        <el-col :span="24">
-          <el-form :inline="true" size="mini" label-width="80px">
-            <el-form-item>
-              <el-link :type="sort=='CreateTime'?'primary':'info'" href="/index?sort=CreateTime">最新</el-link>
-              <el-divider direction="vertical"></el-divider>
-              <el-link :type="hotType" href="/index?sort=THREE_DAYS_HOTTEST">热榜</el-link>
-            </el-form-item>
-            <el-form-item v-show="sort&&sort!='CreateTime'">
-              <el-select :value="sort" size="mini" @change="onChange" style="width:100px;">
-                <el-option label="3天内" value="THREE_DAYS_HOTTEST"></el-option>
-                <el-option label="7天内" value="WEEKLY_HOTTEST"></el-option>
-                <el-option label="30天内" value="MONTHLY_HOTTEST"></el-option>
-                <el-option label="全部" value="HOTTEST"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-form>
-        </el-col>
-      </el-row>
-    </el-card>
-    <div>
-      <!-- class="padding-xs" -->
-      <article-list :dataSource="dataSource"></article-list>
-    </div>
-    <el-backtop></el-backtop>
+    <el-row class="row-bg" :gutter="20">
+      <el-col :xs="24" :md="17">
+        <el-card
+          :body-style="{ 'padding-bottom': '0px' }"
+          shadow="never"
+          style="margin-bottom:10px;border-radius: 8px;"
+        >
+          <el-row>
+            <el-col :span="24">
+              <el-form :inline="true" size="mini" label-width="80px">
+                <el-form-item>
+                  <el-link
+                    :type="sort=='CreateTime'?'primary':'info'"
+                    href="/index?sort=CreateTime"
+                  >最新</el-link>
+                  <el-divider direction="vertical"></el-divider>
+                  <el-link :type="hotType" href="/index?sort=THREE_DAYS_HOTTEST">热榜</el-link>
+                </el-form-item>
+                <el-form-item v-show="sort&&sort!='CreateTime'">
+                  <el-select :value="sort" size="mini" @change="onChange" style="width:100px;">
+                    <el-option label="3天内" value="THREE_DAYS_HOTTEST"></el-option>
+                    <el-option label="7天内" value="WEEKLY_HOTTEST"></el-option>
+                    <el-option label="30天内" value="MONTHLY_HOTTEST"></el-option>
+                    <el-option label="全部" value="HOTTEST"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-form>
+            </el-col>
+          </el-row>
+        </el-card>
+        <div>
+          <!-- class="padding-xs" -->
+          <article-list :dataSource="dataSource"></article-list>
+        </div>
+        <el-backtop></el-backtop>
 
-    <infinite-loading @infinite="infiniteHandler" spinner="bubbles" :identifier="any">
-      <span slot="no-more">
-        <el-divider class="lin-divider">我也是有底线的...</el-divider>
-      </span>
-      <span slot="no-results">
-        <el-divider class="lin-divider">暂无随笔...</el-divider>
-      </span>
-    </infinite-loading>
+        <infinite-loading @infinite="infiniteHandler" spinner="bubbles" :identifier="any">
+          <span slot="no-more">
+            <el-divider class="lin-divider">我也是有底线的...</el-divider>
+          </span>
+          <span slot="no-results">
+            <el-divider class="lin-divider">暂无随笔...</el-divider>
+          </span>
+        </infinite-loading>
+      </el-col>
+      <el-col :xs="24" :md="7"></el-col>
+    </el-row>
   </div>
 </template>
 

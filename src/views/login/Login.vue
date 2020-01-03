@@ -35,10 +35,10 @@ export default {
       wait: 2000, // 2000ms之内不能重复发起请求
       throttleLogin: null, // 节流登录
       form: {
-        username: "super",
-        password: "123456",
-        confirm_password: "123456",
-        email: "2285901508@qq.com"
+        username: "",
+        password: "",
+        confirm_password: "",
+        email: ""
       }
     };
   },
