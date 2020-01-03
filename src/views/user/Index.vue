@@ -36,6 +36,9 @@
                     v-on:success="(subscribe_count)=>{
                      info.subscribe_count=subscribe_count
                     }"
+                    v-on:subscribe="(subscribe_count)=>{
+                      info.subscribe_count+=subscribe_count
+                    }"
                   ></subscribe-user-list>
                 </el-tab-pane>
                 <el-tab-pane :label="'粉丝'+info.fans_count" name="fans">
@@ -46,6 +49,9 @@
                     v-on:success="(fans_count)=>{
                      info.fans_count=fans_count
                     }"
+                    v-on:subscribe="(fans_count)=>{
+                      info.fans_count+=fans_count
+                    }"
                   ></subscribe-user-list>
                 </el-tab-pane>
                 <el-tab-pane :label="'标签'+info.tag_count" name="tag">
@@ -54,6 +60,9 @@
                     v-if="activeName=='tag'"
                     v-on:success="(tag_count)=>{
                       info.tag_count=tag_count
+                    }"
+                    v-on:subscribe="(tag_count)=>{
+                      info.tag_count+=tag_count
                     }"
                   ></subscribe-tag-list>
                 </el-tab-pane>

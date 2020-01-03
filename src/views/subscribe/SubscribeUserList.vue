@@ -14,7 +14,8 @@
             <subscribe-button
               :userId="item.subscribeer.id"
               :isSubscribe="item.is_subscribeed"
-              @on-subscribe="getData"
+              @subscribe="subscribe"
+              @unsubscribe="unsubscribe"
             ></subscribe-button>
           </li>
           <v-list-item-meta
@@ -118,6 +119,14 @@ export default {
       this.pagination.total = res.total;
       this.$emit("success", res.total);
       this.loading = false;
+    },
+    async subscribe(index) {
+      // this.listData[index].is_subscribe = true;
+      this.$emit("subscribe", 1);
+    },
+    async unsubscribe(index) {
+      // this.listData[index].is_subscribe = false;
+      this.$emit("subscribe", -1);
     }
   }
 };

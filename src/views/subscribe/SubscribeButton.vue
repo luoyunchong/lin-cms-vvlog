@@ -44,12 +44,14 @@ export default {
         subscribeUserId: this.userId
       });
       this.isSubscribe = true;
+      this.$emit("subscribe");
     },
     async unsubscribe() {
       await subscribeApi.deleteSubscribe({
         subscribeUserId: this.userId
       });
       this.isSubscribe = false;
+      this.$emit("unsubscribe");
     },
     subscribeClick() {
       this.subscribeLoading = true;

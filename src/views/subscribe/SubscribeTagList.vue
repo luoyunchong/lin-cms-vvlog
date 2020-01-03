@@ -11,11 +11,13 @@
       <template v-slot:renderItem="{item,index}">
         <v-list-item class="item">
           <li slot="actions" v-show="showActions">
-            <!-- <subscribe-button
-              :userId="item.subscribeer.id"
-              :isSubscribe="item.is_subscribeed"
-              @on-subscribe="getData"
-            ></subscribe-button>-->
+            <subscribe-tag-button
+              :index="index"
+              :tag_id="item.id"
+              :is_subscribe="item.is_subscribe"
+              @subscribe="subscribe"
+              @unsubscribe="unsubscribe"
+            ></subscribe-tag-button>
           </li>
           <v-list-item-meta>
             <a slot="title" :href="`/tag/${item.id}`" target="_blank">{{item.tag_name}}</a>
@@ -34,11 +36,11 @@
 </template>
 
 <script>
-import userTagApi from "@/models/userTag";
-import { SubscribeButton } from "@/views/subscribe";
+import { SubscribeTagButton } from "@/views/subscribe";
 import VList from "@/components/list";
 import "@/components/list/index.css";
 import defaultAvatar from "@/assets/img/user/user.png";
+import userTagApi from "@/models/userTag";
 
 export default {
   name: "SubscribeTagList",
@@ -46,7 +48,7 @@ export default {
     VList,
     VListItem: VList.Item,
     VListItemMeta: VList.Item.Meta,
-    SubscribeButton
+    SubscribeTagButton
   },
   props: {
     userId: {
@@ -83,7 +85,8 @@ export default {
           this.getData();
         }
       },
-      defaultAvatar
+      defaultAvatar,
+      subscribeLoading: false
     };
   },
   async created() {
@@ -106,6 +109,14 @@ export default {
       this.pagination.total = res.total;
       this.$emit("success", res.total);
       this.loading = false;
+    },
+    async subscribe(index) {
+      this.listData[index].is_subscribe = true;
+      this.$emit("subscribe", 1);
+    },
+    async unsubscribe(index) {
+      this.listData[index].is_subscribe = false;
+      this.$emit("subscribe", -1);
     }
   }
 };
