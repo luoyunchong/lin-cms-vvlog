@@ -52,7 +52,7 @@
                   title:'点赞',
                   name:'like',
                   icon:'iconfont icon-'+(comment.is_liked?'like-fill':'like'),
-                  isAudit:comment.isAudit
+                  is_audit:comment.is_audit
                 }
             ]"
       >

@@ -26,12 +26,15 @@
           <span class="comment-meta inline-block">
             <a
               target="_blank"
-              href="javascript:void(0)"
+              :href="`/user/${author.id}/article`"
               @click="handleClickAuthor($event)"
             >{{author.nickname}}</a>
             <template v-if="resp_user_info!=null">
               <span style="margin:0px 5px;">回复</span>
-              <a target="_blank" href="javascript:void(0)">{{resp_user_info.nickname}}</a>
+              <a
+                target="_blank"
+                :href="`/user/${resp_user_info.id}/article`"
+              >{{resp_user_info.nickname}}</a>
             </template>
             <span class="comments-date">· {{time | filterTimeYmdHms}}</span>
           </span>

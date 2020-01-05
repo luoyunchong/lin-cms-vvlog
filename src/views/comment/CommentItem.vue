@@ -18,7 +18,7 @@
             :title="item.title"
             v-for="item in tools"
             :key="item.name"
-            v-show="item.isAudit"
+            v-show="item.is_audit"
             @click="handleClickTool($event, item)"
           >
             <i :class="item.icon" v-if="item.icon"></i>
@@ -27,8 +27,8 @@
         </div>
         <strong>
           <a
+            :href="`/user/${author.id}/article`"
             target="_blank"
-            href="javascript:void(0)"
             @click="handleClickAuthor"
           >{{author.nickname}}</a>
         </strong>
