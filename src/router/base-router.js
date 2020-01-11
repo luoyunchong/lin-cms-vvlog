@@ -1,6 +1,6 @@
 let baseRouter = [
     {
-        path: '/index',
+        path: '/index/:channel?/:tag_name?',
         name: 'index',
         component: () => import("@/views/home/Index.vue"),
         meta: { title: '首页' },
@@ -65,6 +65,12 @@ let baseRouter = [
                 name: 'settings-security',
                 component: () => import("@/views/settings/Security.vue"),
                 meta: { title: '安全设置' },
+            },
+            {
+                path: '/settings/blog',
+                name: 'settings-blog',
+                component: () => import("@/views/settings/Blog.vue"),
+                meta: { title: '博客设置' },
             }
         ]
     },

@@ -13,6 +13,7 @@
               <span slot="label">
                 <i class="el-icon-date"></i> 随笔
               </span>
+              <my-create-classify></my-create-classify>
               <article-list :dataSource="dataSource" class="vv-article-list"></article-list>
               <infinite-loading @infinite="infiniteHandler" spinner="bubbles" :identifier="any">
                 <span slot="no-more">
@@ -106,6 +107,7 @@ import articleApi from "@/models/article";
 import subscribeApi from "@/models/subscribe";
 import InfiniteLoading from "vue-infinite-loading";
 import ArticleList from "@/views/article/ArticleList";
+import MyCreateClassify from "./MyCreateClassify";
 export default {
   name: "UserIndex",
   components: {
@@ -113,7 +115,8 @@ export default {
     SubscribeTagList,
     Profile,
     ArticleList,
-    InfiniteLoading
+    InfiniteLoading,
+    MyCreateClassify
   },
   data() {
     return {
@@ -131,7 +134,8 @@ export default {
         subscribe_count: 0,
         fans_count: 0,
         tag_count: 0
-      }
+      },
+      classifys: []
     };
   },
   computed: {
@@ -140,6 +144,9 @@ export default {
     },
     name() {
       return this.$route.params.name;
+    },
+    classify_id() {
+      return this.$route.query.classify_id;
     }
   },
   watch: {
@@ -207,11 +214,15 @@ export default {
         count: this.pagination.pageSize,
         page: currentPage,
         sort: this.sort,
-        user_id: this.userId
+        user_id: this.userId,
+        classify_id: this.classify_id
       });
       let items = [...res.items];
 
       if (items.length == 0) {
+        if (currentPage == 0) {
+          this.dataSource = items;
+        }
         $state && $state.complete();
       } else {
         if (currentPage == 0) {

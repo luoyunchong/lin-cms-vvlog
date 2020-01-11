@@ -1,32 +1,85 @@
 <template>
   <div>
     <el-row class="row-bg" :gutter="20">
-      <el-col :xs="24" :md="17">
+      <el-col :span="24">
         <el-card
-          :body-style="{ 'padding-bottom': '0px' }"
+          :body-style="{ 'padding': '15px' }"
           shadow="never"
           style="margin-bottom:10px;border-radius: 8px;"
         >
           <el-row>
             <el-col :span="24">
-              <el-form :inline="true" size="mini" label-width="80px">
-                <el-form-item>
-                  <el-link
-                    :type="sort=='CreateTime'?'primary':'info'"
-                    href="/index?sort=CreateTime"
-                  >最新</el-link>
-                  <el-divider direction="vertical"></el-divider>
-                  <el-link :type="hotType" href="/index?sort=THREE_DAYS_HOTTEST">热榜</el-link>
-                </el-form-item>
-                <el-form-item v-show="sort&&sort!='CreateTime'">
-                  <el-select :value="sort" size="mini" @change="onChange" style="width:100px;">
-                    <el-option label="3天内" value="THREE_DAYS_HOTTEST"></el-option>
-                    <el-option label="7天内" value="WEEKLY_HOTTEST"></el-option>
-                    <el-option label="30天内" value="MONTHLY_HOTTEST"></el-option>
-                    <el-option label="全部" value="HOTTEST"></el-option>
-                  </el-select>
-                </el-form-item>
-              </el-form>
+              <ul class="nav-item">
+                <li v-for="(item,index) in channels" v-bind:key="index">
+                  <router-link
+                    :class="['el-link is-underline',channel==item.channel_code?'el-link--primary':'']"
+                    :to="{path:`/index/${item.channel_code}`}"
+                  >{{item.channel_name}}</router-link>
+                </li>
+              </ul>
+            </el-col>
+          </el-row>
+        </el-card>
+      </el-col>
+      <el-col :span="24" class="margin-bottom-xs">
+        <div v-for="(item,index) in channels" v-bind:key="index">
+          <el-tag
+            :hit="false"
+            type="success"
+            class="margin-left-xs"
+            v-if="item.channel_code==channel"
+            :effect="channel!=undefined&&tag_name==undefined?'dark':'plain'"
+          >
+            <router-link :to="{path:`/index/${item.channel_code}`}">全部</router-link>
+          </el-tag>
+          <template v-for="tag in item.tags">
+            <el-tag
+              :hit="false"
+              :effect="tag_name==tag.tag_name?'dark':'plain'"
+              type="success"
+              v-bind:key="tag.id"
+              v-if="item.channel_code==channel"
+              class="margin-left-xs"
+            >
+              <router-link
+                :to="{path:`/index/${item.channel_code}/${tag.tag_name}`}"
+              >{{tag.tag_name}}</router-link>
+            </el-tag>
+          </template>
+        </div>
+      </el-col>
+      <el-col :xs="24" :md="17">
+        <el-card
+          :body-style="{ 'padding-bottom': '10px','padding-top':'10px' }"
+          shadow="never"
+          style="margin-bottom:10px;border-radius: 8px;"
+        >
+          <el-row>
+            <el-col :span="24">
+              <router-link
+                :to="{path:latestArticle}"
+                :class="['el-link is-underline',sort=='CreateTime'?'el-link--primary':'el-link--info']"
+              >最新</router-link>
+              <!-- <el-link :type="sort=='CreateTime'?'primary':'info'" :href="latestArticle">最新</el-link> -->
+              <el-divider direction="vertical"></el-divider>
+              <router-link
+                :to="{path:threeDaysHottest}"
+                :class="['el-link is-underline','el-link--'+hotType]"
+              >热榜</router-link>
+              <!-- <el-link :type="hotType" :href="threeDaysHottest">热榜</el-link> -->
+              <el-select
+                :value="sort"
+                size="mini"
+                @change="onChange"
+                style="width:100px;"
+                v-show="sort&&sort!='CreateTime'"
+                class="margin-left-xs"
+              >
+                <el-option label="3天内" value="THREE_DAYS_HOTTEST"></el-option>
+                <el-option label="7天内" value="WEEKLY_HOTTEST"></el-option>
+                <el-option label="30天内" value="MONTHLY_HOTTEST"></el-option>
+                <el-option label="全部" value="HOTTEST"></el-option>
+              </el-select>
             </el-col>
           </el-row>
         </el-card>
@@ -54,6 +107,8 @@
 import ArticleList from "@/views/article/ArticleList";
 import InfiniteLoading from "vue-infinite-loading";
 import articleApi from "@/models/article";
+import channelApi from "@/models/channel";
+
 export default {
   name: "HomeIndex",
   components: { ArticleList, InfiniteLoading },
@@ -64,11 +119,17 @@ export default {
       pagination: {
         currentPage: 0,
         pageSize: 10,
-        pageTotal: 0
+        pageTotal: 0,
+        channel_id: null,
+        tag_id: null
       },
       loading: false,
-      any: new Date()
+      any: new Date(),
+      channels: []
     };
+  },
+  async created() {
+    this.getChannels();
   },
   mounted() {},
   computed: {
@@ -92,6 +153,18 @@ export default {
       } else {
         return "info";
       }
+    },
+    channel() {
+      return this.$route.params.channel;
+    },
+    tag_name() {
+      return this.$route.params.tag_name;
+    },
+    latestArticle() {
+      return this.getSortUrl("CreateTime");
+    },
+    threeDaysHottest() {
+      return this.getSortUrl("THREE_DAYS_HOTTEST");
     }
   },
   watch: {
@@ -104,6 +177,28 @@ export default {
     async refresh() {
       this.pagination.currentPage = 0;
       this.any = new Date();
+
+      //看起来很复杂，其实就是根据channels，得到选中的channelId值（技术频道），从channel.tags中找到对应的tagid（标签Id）值。
+      if (this.channel != undefined) {
+        this.channels &&
+          this.channels.forEach(element => {
+            if (this.channel == element.channel_code) {
+              this.pagination.channel_id = element.id;
+              if (this.tag_name != undefined) {
+                element.tags.forEach(tag => {
+                  this.pagination.tag_id = tag.id;
+                  return false;
+                });
+              } else {
+                this.pagination.tag_id = null;
+              }
+              return false;
+            }
+          });
+      } else {
+        this.pagination.channel_id = null;
+      }
+
       await this.infiniteHandler();
     },
     async infiniteHandler($state) {
@@ -112,11 +207,16 @@ export default {
       res = await articleApi.getQueryArticles({
         count: this.pagination.pageSize,
         page: currentPage,
-        sort: this.sort
+        sort: this.sort,
+        channel_id: this.pagination.channel_id,
+        tag_id: this.pagination.tag_id
       });
       let items = [...res.items];
 
       if (items.length == 0) {
+        if (currentPage == 0) {
+          this.dataSource = items;
+        }
         $state && $state.complete();
       } else {
         if (currentPage == 0) {
@@ -130,8 +230,26 @@ export default {
         $state && $state.loaded();
       }
     },
+    getSortUrl(val) {
+      let url = "";
+      if (this.channel && this.tag_name) {
+        url = `/index/${this.channel}/${this.tag_name}?sort=${val}`;
+      } else if (this.channel) {
+        url = `/index/${this.channel}?sort=${val}`;
+      } else {
+        url = `/index?sort=${val}`;
+      }
+      return url;
+    },
     onChange(val) {
-      this.$router.push("/index?sort=" + val);
+      this.$router.push(this.getSortUrl(val));
+    },
+    async getChannels() {
+      let res = await channelApi.getChannels({
+        count: 20,
+        page: 0
+      });
+      this.channels = res.items;
     }
   }
 };
@@ -140,5 +258,11 @@ export default {
 <style scoped lang="scss">
 .el-form-item {
   margin-bottom: 0px !important;
+}
+.nav-item {
+  display: flex;
+  li {
+    padding: 0 1rem 0 0;
+  }
 }
 </style>

@@ -244,13 +244,14 @@ export default {
     },
     async show(id) {
       this.id = id;
+      this.thumbnailPreview.length = 0;
+      this.$refs["thumbnail"].clear();
       if (this.id) {
         this.loading = true;
         let res = await articleApi.getArticle(this.id).finally(() => {
           this.loading = false;
         });
         this.form = res;
-        this.thumbnailPreview.length = 0;
         if (res.thumbnail) {
           this.thumbnailPreview.push({
             id: res.id,
