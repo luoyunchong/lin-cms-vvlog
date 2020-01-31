@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-card>
-      <div slot="header">我创建的个人专栏</div>
+      <div slot="header">{{name}}</div>
       <div>
         <el-tag
           :hit="false"
@@ -9,7 +9,7 @@
           class="margin-left-xs margin-bottom-xs"
           :effect="classify_id==undefined?'dark':'plain'"
         >
-          <router-link :to="{path:`/user/${user.id}/article`}">全部</router-link>
+          <router-link :to="{path:`/user/${userId}/article`}">全部</router-link>
         </el-tag>
         <template v-for="item in classifys">
           <el-tag
@@ -20,7 +20,7 @@
             class="margin-left-xs margin-bottom-xs"
           >
             <router-link
-              :to="{path:`/user/${user.id}/article?classify_id=${item.id}`}"
+              :to="{path:`/user/${userId}/article?classify_id=${item.id}`}"
             >{{item.classify_name}}</router-link>
           </el-tag>
         </template>
@@ -39,8 +39,14 @@ export default {
     };
   },
   computed: {
+    userId() {
+      return this.$route.params.id;
+    },
     classify_id() {
       return this.$route.query.classify_id;
+    },
+    name() {
+      return this.user.id == this.userId ? "我创建的个人专栏" : "他的个人专栏";
     }
   },
   async created() {
@@ -49,7 +55,7 @@ export default {
   methods: {
     async getClassifys() {
       let res = await classifyApi.getClassifys({
-        user_id: this.user.id
+        user_id: this.userId
       });
       this.classifys = res;
     }

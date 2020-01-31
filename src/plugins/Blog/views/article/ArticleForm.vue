@@ -6,6 +6,9 @@
         <span class="back" @click="back">
           <i class="iconfont icon-fanhui"></i> 返回
         </span>
+        <span class="back">
+          <el-button type="primary" @click="confirmEdit('form')" icon="el-icon-success">保 存</el-button>
+        </span>
       </div>
     </sticky-top>
     <div class="container">
@@ -26,7 +29,25 @@
                     <el-input size="medium" v-model="form.title" placeholder="请填写标题"></el-input>
                   </el-form-item>
                 </el-col>
-                <el-col :lg="12">
+                <el-col :lg="6">
+                  <el-form-item label="技术频道" prop="channel_id">
+                    <el-select
+                      size="medium"
+                      filterable
+                      v-model="form.channel_id"
+                      :disabled="channels.length === 0"
+                      placeholder="请选择技术频道"
+                    >
+                      <el-option
+                        v-for="item in channels"
+                        :key="item.id"
+                        :label="item.channel_name"
+                        :value="item.id"
+                      ></el-option>
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :lg="6">
                   <el-form-item label prop="title">
                     <el-link
                       type="primary"
@@ -138,7 +159,7 @@
               </el-row>
               <el-form-item class="submit">
                 <el-button type="primary" @click="confirmEdit('form')">保 存</el-button>
-                <el-button @click="resetForm('form')">重 置</el-button>
+                <!-- <el-button @click="resetForm('form')">重 置</el-button> -->
               </el-form-item>
             </el-form>
           </el-col>
@@ -155,14 +176,19 @@ import UploadImgs from "@/components/base/upload-imgs";
 import articleApi from "../../models/article";
 import classifyApi from "../../models/classify";
 import tagApi from "../../models/tag";
-import baseApi from "@/plugins/Blog/models/base";
+import baseApi from "@/models/base";
+import channelApi from "../../models/channel";
 
 export default {
   name: "ArticleForm",
+  props: {
+    id: {
+      type: [String, Number]
+    }
+  },
   data() {
     return {
       title: ["添加随笔", "编辑随笔"],
-      id: 0,
       form: {
         archive: "",
         comment_quantity: 0,
@@ -184,28 +210,39 @@ export default {
         type_code: null,
         type_name: null,
         view_hits: 0,
-        article_type: 0
+        article_type: 0,
+        channel_id: null
       },
       thumbnailPreview: [],
       classifys: [],
+      channels: [],
       tags: [],
       article_types: [],
       loading: false,
       tagLoading: false,
       rules: {
         // 表单验证规则
-        title: [{ required: true, message: "请输入标题", trigger: "blur" }]
+        title: [{ required: true, message: "请输入标题", trigger: "blur" }],
+        channel_id: [
+          { required: true, message: "请选择技术频道", trigger: "blur" }
+        ]
       }
     };
   },
-  props: {},
   components: {
     mavonEditor,
     UploadImgs
   },
-  async mounted() {},
+  async mounted() {
+    this.show();
+  },
   async created() {
     this.classifys = await classifyApi.getClassifys();
+    let res = await channelApi.getChannels({
+      count: 20,
+      page: 0
+    });
+    this.channels = res.items;
     this.article_types = await baseApi.getItems({
       typeCode: "Article.Type"
     });
@@ -242,8 +279,7 @@ export default {
         this.tags = [];
       }
     },
-    async show(id) {
-      this.id = id;
+    async show() {
       this.thumbnailPreview.length = 0;
       this.$refs["thumbnail"].clear();
       if (this.id) {

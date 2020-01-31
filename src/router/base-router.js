@@ -40,12 +40,27 @@ let baseRouter = [
         name: 'post',
         component: () => import("@/views/article/ArticleDetail.vue"),
         meta: { title: '随笔详情页' },
+        children: []
+    },
+    {
+        path: '/p/:id',
+        name: 'p',
+        component: () => import("@/views/article/MavonEditorPreview.vue"),
+        meta: { title: 'MavonEditorPreview' },
+        children: []
     },
     {
         path: '/user/:id/:name',
         name: 'user',
         component: () => import("@/views/user/Index.vue"),
         meta: { title: '我的主页' },
+    },
+    {
+        path: '/notifications/:notification_type',
+        name: 'notifications',
+        component: () => import("@/views/notification/Index.vue"),
+        meta: { title: 'NotificationList' },
+        children: []
     },
     {
         path: '/settings',

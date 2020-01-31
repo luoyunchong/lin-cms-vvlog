@@ -20,6 +20,12 @@ const routes = [
     ],
   },
   {
+    path: '/post/:id/edit',
+    name: 'post-edit',
+    component: () => import("@/views/article/EditorForm.vue"),
+    meta: { title: '随笔编辑' },
+  },
+  {
     path: "/login",
     name: "login",
     component: () => import("@/views/login/Login")

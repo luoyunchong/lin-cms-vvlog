@@ -18,7 +18,11 @@
                   <el-row :gutter="10">
                     <el-col :span="18" :xs="18">
                       <el-col :span="24">
-                        <a class="nickname">{{model.user_info.nickname}}</a>
+                        <a
+                          class="nickname"
+                          :href="`/user/${model.user_info.id}/article`"
+                          target="_blank"
+                        >{{model.user_info.nickname}}</a>
                       </el-col>
                       <el-col :span="24">
                         <span>{{model.time_span}}</span>
@@ -26,7 +30,11 @@
                         <span>阅读 {{model.view_hits}}</span>
                         <template v-if="user!=null&&model.user_info.id==user.id">
                           <el-divider direction="vertical"></el-divider>
-                          <el-link type="primary" href="/article/list" target="_blank">编辑</el-link>
+                          <el-link
+                            type="primary"
+                            :href="`/post/${model.id}/edit`"
+                            target="_blank"
+                          >编辑</el-link>
                         </template>
 
                         <el-divider direction="vertical"></el-divider>
@@ -58,21 +66,7 @@
                 type="info"
               ></el-alert>
             </div>
-            <div class="mavon-editor">
-              <mavon-editor
-                id="mavon-editor"
-                ref="mavon"
-                :toolbarsFlag="false"
-                :editable="false"
-                :readModel="true"
-                defaultOpen="preview"
-                :subfield="false"
-                v-model="model.content"
-                :boxShadow="false"
-                previewBackground="#fff"
-                :navigation="false"
-              />
-            </div>
+            <div id="preview" />
             <div class="info-box top20">
               <h3 class="tag-title">标签</h3>
               <el-tag
@@ -87,7 +81,12 @@
             </div>
           </el-card>
           <div id="comment-list">
-            <comment-list :subject_id="id" :subject_type="1" v-on:success="getCommentSuccess"></comment-list>
+            <comment-list
+              :subject_id="id"
+              :subject_type="1"
+              :resp_user_id="model.create_user_id"
+              v-on:success="getCommentSuccess"
+            ></comment-list>
           </div>
           <el-backtop class="lin-back-top"></el-backtop>
         </el-col>
@@ -103,7 +102,11 @@
                 </a>
               </div>
               <div style="flex: 1 1 auto;min-width: 0;">
-                <a class="nickname">{{model.user_info.nickname}}</a>
+                <a
+                  class="nickname"
+                  :href="`/user/${model.user_info.id}/article`"
+                  target="_blank"
+                >{{model.user_info.nickname}}</a>
                 <div class="intro-content">{{model.user_info.introduction}}</div>
               </div>
             </div>
@@ -147,12 +150,12 @@
 <script>
 import articleApi from "../../models/article";
 import subscribeApi from "../../models/subscribe";
-import { mavonEditor } from "mavon-editor";
-import "mavon-editor/dist/css/index.css";
 import ToolsBadge from "./ToolsBadge";
 import CommentList from "@/views/comment/CommentList";
 import { SubscribeButton } from "@/views/subscribe";
 import Error404Page from "@/views/error-page/404";
+import Vditor from "vditor/dist/method.min";
+
 export default {
   name: "ArticleDetail",
   data() {
@@ -174,7 +177,6 @@ export default {
     };
   },
   components: {
-    mavonEditor,
     ToolsBadge,
     CommentList,
     SubscribeButton,
@@ -225,6 +227,12 @@ export default {
         this.model = await articleApi.getArticle(this.id).finally(() => {
           loading.close();
         });
+        Vditor.preview(document.getElementById("preview"), this.model.content, {
+          anchor: true,
+          speech: {
+            enable: true
+          }
+        });
         if (this.model.word_number == 0) {
           this.model.word_number = this.model.content.length;
           this.model.reading_time = Number(
@@ -244,10 +252,8 @@ export default {
     init() {
       this.$nextTick(() => {
         this.buildNavigation();
-
-        var manveEditor = document.getElementById("mavon-editor");
-        const nodes = manveEditor.children;
-        manveEditor.children[1]
+        document
+          .getElementById("preview")
           .querySelectorAll("h1,h2,h3,h4,h5")
           .forEach((item, index) => {
             this.heightArr.push(item.offsetTop + 150);
@@ -261,7 +267,7 @@ export default {
       this.scroll =
         document.documentElement.scrollTop ||
         document.body.scrollTop ||
-        document.querySelector(".mavon-editor").scrollTop;
+        document.querySelector(".preview").scrollTop;
 
       this.aside =
         document.documentElement.scrollTop ||
@@ -284,10 +290,11 @@ export default {
       }
     },
     buildNavigation() {
-      var a = document.getElementById("navigation");
-      a.innerHTML = this.$refs.mavon.d_render; // mavmon根据marodown内容生成的dom
-
-      const nodes = a.children;
+      var navigation = document.getElementById("navigation");
+      let articleId = this.id;
+      const nodes = document
+        .getElementById("preview")
+        .querySelectorAll("h1,h2,h3,h4,h5");
       var newDoms = [];
       var router = this.$router;
       if (nodes.length) {
@@ -296,48 +303,40 @@ export default {
             nodes[i].children && nodes[i].children.length
               ? nodes[i].children[0].id
               : "";
-          judageH(nodes[i], i, nodes, id);
+          let navigationChildren = judageH(nodes[i], i, id);
+          navigation.appendChild(navigationChildren);
         }
       }
-      function judageH(node, i, nodes, domId) {
-        const reg = /^H[1-6]{1}$/;
-        if (!reg.exec(node.tagName)) {
-          // 把不是h标签的都过滤掉
-          node.style.display = "none";
-          // node.remove();
-        } else {
-          node.classList.add("navigator-item");
-          const nodeArr = node.innerHTML.split("</a>");
+      function judageH(node, i, domId) {
+        const reg = /^H[1-5]{1}$/;
+        if (reg.exec(node.tagName)) {
+          var cloneNode = node.cloneNode();
 
-          const id = domId;
-          const content = nodeArr[1];
-
-          var childs = node.childNodes;
-          for (var index = childs.length - 1; index >= 0; index--) {
-            node.removeChild(childs[index]);
-          }
-
+          cloneNode.classList.add("navigator-item");
           const a = document.createElement("a");
 
-          // a.href = "#" + id;
-          a.id = id;
-          a.innerHTML = content;
-          console.log("aaa");
-          node.appendChild(a);
-          node.onclick = function() {
-            var parents = node.parentElement.children;
+          a.href = `/post/${articleId}#${domId}`;
+          a.innerHTML = node.innerText;
+          cloneNode.appendChild(a);
+          cloneNode.onclick = function() {
+            var parents = cloneNode.parentElement.children;
             for (let j = 0; j < parents.length; j++) {
               parents[j].classList.remove("active");
             }
-            node.classList.add("active");
-            let id = "#" + this.children[0].id;
-            if (location.hash == id) {
-              return;
-            }
-            router.replace(id);
+            cloneNode.classList.add("active");
+            let id = this.children[0].id;
+            // if (location.hash == id) {
+            //   return;
+            // }
+            // // location.hash = `${id}`;
+            // // router.replace(`${id}`);
+            // router.push(`${id}`);
           };
-          newDoms.push(node);
+          newDoms.push(cloneNode);
+
+          return cloneNode;
         }
+        return "";
       }
       const sliceDoms = []; // 归类好的节点树
 
@@ -423,21 +422,17 @@ export default {
     }
   }
 }
-.mavon-editor {
-  width: 100%;
-}
-.mavon-editor /deep/ .v-note-wrapper .v-note-panel {
-  border: none;
-  .v-note-show .v-show-content {
-    background: #fff;
-  }
-  a:target {
-    padding-top: 80px;
-  }
-}
 
-.mavon-editor /deep/ .markdown-body {
-  font-size: 14px;
+#preview /deep/ {
+  img {
+    width: fit-content;
+  }
+  a {
+    color: #4285f4;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }
 
 @media (max-width: 600px) {
@@ -445,9 +440,7 @@ export default {
     padding: 0px;
     padding-top: 20px;
   }
-  .mavon-editor .v-note-wrapper .v-note-panel .v-note-show .v-show-content {
-    width: 100vw;
-  }
+
   .el-row {
     margin-left: 0px !important;
     margin-right: 0px !important;
@@ -459,8 +452,6 @@ export default {
 }
 
 .aside-list {
-  // position: fixed;
-  // width: 240px;
   transition: all 0.2s;
 }
 

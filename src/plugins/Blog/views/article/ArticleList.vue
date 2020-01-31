@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="container" v-show="!showEdit">
+    <div class="container" v-if="!showEdit">
       <div class="header">
         <div class="header-left">
           <div class="title">我的随笔</div>
@@ -50,7 +50,7 @@
         </template>
       </lin-table>
     </div>
-    <article-form ref="articleForm" v-show="showEdit" @editClose="editClose"></article-form>
+    <article-form ref="articleForm" v-else :id="id" @editClose="editClose"></article-form>
   </div>
 </template>
 
@@ -78,6 +78,7 @@ export default {
   inject: ["eventBus"],
   data() {
     return {
+      id: 0,
       showEdit: false,
       refreshPagination: true, // 页数增加的时候，因为缓存的缘故，需要刷新Pagination组件
       editIndex: null, // 编辑的行
@@ -134,7 +135,8 @@ export default {
         selectedData = val;
       }
       this.showEdit = true;
-      this.$refs["articleForm"].show(selectedData.id);
+      this.id = selectedData.id;
+      // this.$refs["articleForm"].show(selectedData.id);
     },
     // 切换table页
     async handleCurrentChange(val) {

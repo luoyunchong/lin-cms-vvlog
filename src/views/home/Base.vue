@@ -1,52 +1,51 @@
 <template>
   <div>
     <el-row>
-      <el-col
-        :xs=" {span: 24, offset: 0}"
-        :md="{span:18,offset:3}"
-        :lg=" {span: 14, offset: 4}"
-        :xl="{span: 14, offset: 5}"
-        :xll="{span: 14, offset: 5}"
-      >
-        <el-container>
-          <div class="headerWrapper">
-            <el-header style="padding:0;background:#fff;" class="main-header">
-              <div class="header-container">
-                <el-menu :default-active="activeIndex" mode="horizontal" @select="handleSelect">
-                  <!-- text-color="#000"
+      <el-col>
+        <div class="headerWrapper">
+          <el-header style="padding:0;background:#fff;" class="main-header">
+            <div class="header-container">
+              <el-menu :default-active="activeIndex" mode="horizontal" @select="handleSelect">
+                <!-- text-color="#000"
                   background-color="#fff"
-                  active-text-color="#ffd04b"-->
-                  <el-menu-item index="/index" class="block">
-                    <router-link :to="{path:'/index'}">首页</router-link>
+                active-text-color="#ffd04b"-->
+                <el-menu-item index="/index" class="block">
+                  <router-link :to="{path:'/index'}">首页</router-link>
+                </el-menu-item>
+                <el-menu-item index="/subscribe" class="block">
+                  <router-link :to="{path:'/subscribe'}">关注</router-link>
+                </el-menu-item>
+                <el-menu-item index="/tag" class="block">
+                  <router-link :to="{path:'/tag'}">标签</router-link>
+                </el-menu-item>
+                <template>
+                  <el-menu-item index="login" v-show="!logined" style="float:right;">
+                    <el-link>登录</el-link>
                   </el-menu-item>
-                  <el-menu-item index="/subscribe" class="block">
-                    <router-link :to="{path:'/subscribe'}">关注</router-link>
+                  <el-menu-item index="register" v-show="!logined" style="float:right;">
+                    <el-link>注册</el-link>
                   </el-menu-item>
-                  <el-menu-item index="/tag" class="block">
-                    <router-link :to="{path:'/tag'}">标签</router-link>
+                  <el-menu-item v-if="logined" style="float:right;">
+                    <current-user class="current-user"></current-user>
                   </el-menu-item>
-                  <template>
-                    <el-menu-item index="login" v-show="!logined" style="float:right;">
-                      <el-link>登录</el-link>
-                    </el-menu-item>
-                    <el-menu-item index="register" v-show="!logined" style="float:right;">
-                      <el-link>注册</el-link>
-                    </el-menu-item>
-                    <el-menu-item v-if="logined" style="float:right;">
-                      <current-user class="current-user"></current-user>
-                    </el-menu-item>
-                  </template>
-                </el-menu>
-              </div>
-            </el-header>
-          </div>
-          <div class="mainWrapper" :class="device">
+                </template>
+              </el-menu>
+            </div>
+          </el-header>
+        </div>
+        <div class="mainWrapper" :class="device">
+          <el-col
+            :xs=" {span: 24, offset: 0}"
+            :md="{span:18,offset:3}"
+            :lg=" {span: 14, offset: 4}"
+            :xl="{span: 14, offset: 5}"
+          >
             <transition name="fade-transform" mode="out-in">
               <router-view></router-view>
             </transition>
-            <!-- <el-backtop class="lin-back-top"></el-backtop> -->
-          </div>
-        </el-container>
+          </el-col>
+          <!-- <el-backtop class="lin-back-top"></el-backtop> -->
+        </div>
       </el-col>
     </el-row>
 

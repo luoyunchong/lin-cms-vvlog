@@ -4,6 +4,7 @@
     icon="el-icon-plus"
     @click="subscribeClick"
     :loading="subscribeLoading"
+    size="medium"
   >{{is_subscribe?'已关注':'关注'}}</el-button>
 </template>
 
