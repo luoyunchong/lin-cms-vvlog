@@ -18,7 +18,7 @@
                 subject_type:subject_type,
                 resp_id: null,
                 root_comment_id: null,
-                resp_user_id: null
+                resp_user_id: resp_user_id
             }"
       ></comment-input>
     </el-card>
@@ -107,7 +107,7 @@
           <el-divider>我也是有底线的...</el-divider>
         </span>
         <span slot="no-results">
-          <el-divider>还没有人来评论...</el-divider>
+          <el-divider>没有更多评论了...</el-divider>
         </span>
       </infinite-loading>
     </el-card>
@@ -143,12 +143,14 @@ export default {
   },
   props: {
     subject_id: {
-      type: String,
-      default: "5dc93286-5e44-c190-008e-3fc74d4fcee1"
+      type: String
     },
     subject_type: {
       type: Number,
       default: 1
+    },
+    resp_user_id: {
+      type: [String, Number]
     }
   },
   computed: {},
