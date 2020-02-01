@@ -1,11 +1,11 @@
 <template>
   <el-button
-    :type="!isSubscribe?'primary':'default'"
+    :type="!is_subscribeed?'primary':'default'"
     icon="el-icon-plus"
     @click="subscribeClick"
     :loading="subscribeLoading"
     size="medium"
-  >{{isSubscribe?'已关注':'关注他'}}</el-button>
+  >{{is_subscribeed?'已关注':'关注他'}}</el-button>
 </template>
 
 <script>
@@ -16,11 +16,14 @@ export default {
     userId: {
       type: [String, Number],
       default: 0
+    },
+    is_subscribeed: {
+      type: Boolean,
+      default: null
     }
   },
   data() {
     return {
-      isSubscribe: false,
       subscribeLoading: false
     };
   },
@@ -36,27 +39,28 @@ export default {
   methods: {
     async getSubscribe() {
       if (this.userId == 0) return;
-      this.isSubscribe = await subscribeApi.getSubscribe({
-        subscribeUserId: this.userId
-      });
+      if (this.is_subscribeed == null) {
+        let is_subscribeed = await subscribeApi.getSubscribe({
+          subscribeUserId: this.userId
+        });
+        this.$emit("subscribe", is_subscribeed);
+      }
     },
     async subscribe() {
       await subscribeApi.addSubscribe({
         subscribeUserId: this.userId
       });
-      this.isSubscribe = true;
-      this.$emit("subscribe");
+      this.$emit("subscribe", true);
     },
     async unsubscribe() {
       await subscribeApi.deleteSubscribe({
         subscribeUserId: this.userId
       });
-      this.isSubscribe = false;
-      this.$emit("unsubscribe");
+      this.$emit("subscribe", false);
     },
     subscribeClick() {
       this.subscribeLoading = true;
-      this.isSubscribe ? this.unsubscribe() : this.subscribe();
+      this.is_subscribeed ? this.unsubscribe() : this.subscribe();
       this.subscribeLoading = false;
     }
   }

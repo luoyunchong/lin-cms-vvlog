@@ -10,13 +10,23 @@
                   background-color="#fff"
                 active-text-color="#ffd04b"-->
                 <el-menu-item index="/index" class="block">
-                  <router-link :to="{path:'/index'}">首页</router-link>
+                  <router-link :to="{path:'/index'}">
+                    <i class="el-icon-help"></i>
+                    首页
+                  </router-link>
                 </el-menu-item>
-                <el-menu-item index="/subscribe" class="block">
-                  <router-link :to="{path:'/subscribe'}">关注</router-link>
+                <el-menu-item v-if="logined" index="/subscribe" class="block">
+                  <router-link :to="{path:'/subscribe'}">
+                    <i class="el-icon-c-scale-to-original"></i>关注
+                  </router-link>
                 </el-menu-item>
-                <el-menu-item index="/tag" class="block">
+                <!-- <el-menu-item index="/tag" class="block">
                   <router-link :to="{path:'/tag'}">标签</router-link>
+                </el-menu-item>-->
+                <el-menu-item v-if="logined" index="/notifications/userComment" class="block">
+                  <router-link :to="{path:'/notifications/userComment'}">
+                    <i class="el-icon-bell"></i>消息
+                  </router-link>
                 </el-menu-item>
                 <template>
                   <el-menu-item index="login" v-show="!logined" style="float:right;">

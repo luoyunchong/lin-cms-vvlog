@@ -13,9 +13,8 @@
           <li slot="actions" v-show="showActions">
             <subscribe-button
               :userId="item.subscribeer.id"
-              :isSubscribe="item.is_subscribeed"
-              @subscribe="subscribe"
-              @unsubscribe="unsubscribe"
+              :is_subscribeed="item.is_subscribeed"
+              @subscribe="(is_subscribeed)=>subscribe(is_subscribeed,index)"
             ></subscribe-button>
           </li>
           <v-list-item-meta
@@ -120,13 +119,9 @@ export default {
       this.$emit("success", res.total);
       this.loading = false;
     },
-    async subscribe(index) {
-      // this.listData[index].is_subscribe = true;
-      this.$emit("subscribe", 1);
-    },
-    async unsubscribe(index) {
-      // this.listData[index].is_subscribe = false;
-      this.$emit("subscribe", -1);
+    subscribe(is_subscribeed, index) {
+      this.listData[index].is_subscribeed = is_subscribeed;
+      this.$emit("subscribe", is_subscribeed ? 1 : -1);
     }
   }
 };

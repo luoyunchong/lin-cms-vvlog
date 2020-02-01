@@ -59,7 +59,7 @@ let baseRouter = [
         path: '/notifications/:notification_type',
         name: 'notifications',
         component: () => import("@/views/notification/Index.vue"),
-        meta: { title: 'NotificationList' },
+        meta: { title: '消息' },
         children: []
     },
     {

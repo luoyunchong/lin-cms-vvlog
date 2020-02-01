@@ -8,12 +8,12 @@
           </el-card>
         </div>
         <div style="background:#fff;padding: 26px 24px ">
-          <el-tabs v-model="tab" :stretch="false" class="vv-tabs" @tab-click="handleTabClick">
+          <el-tabs v-model="tab" :stretch="false" class="vv-tabs" @tab-click="handleTabClick" type>
             <el-tab-pane name="article">
               <span slot="label">
                 <i class="el-icon-date"></i> 随笔
               </span>
-              <my-create-classify></my-create-classify>
+              <!-- <my-create-classify></my-create-classify> -->
               <article-list :dataSource="dataSource" class="vv-article-list"></article-list>
               <infinite-loading @infinite="infiniteHandler" spinner="bubbles" :identifier="any">
                 <span slot="no-more">
@@ -28,7 +28,7 @@
               <span slot="label">
                 <i class="el-icon-user"></i> 关注
               </span>
-              <el-tabs v-model="activeName" @tab-click="handleClick" type="border-card">
+              <el-tabs v-model="activeName" @tab-click="handleClick" type="card">
                 <el-tab-pane :label="'关注用户'+info.subscribe_count" name="subscribe">
                   <subscribe-user-list
                     :userId="userId"

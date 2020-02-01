@@ -3,22 +3,18 @@
     <el-row class="row-bg" :gutter="20">
       <el-col :span="24">
         <el-card
-          :body-style="{ 'padding': '15px' }"
+          :body-style="{ 'padding': '15px','overflow-x':'auto' }"
           shadow="never"
           style="margin-bottom:10px;border-radius: 8px;"
         >
-          <el-row>
-            <el-col :span="24">
-              <ul class="nav-item">
-                <li v-for="(item,index) in channels" v-bind:key="index">
-                  <router-link
-                    :class="['el-link is-underline',channel==item.channel_code?'el-link--primary':'']"
-                    :to="{path:`/index/${item.channel_code}`}"
-                  >{{item.channel_name}}</router-link>
-                </li>
-              </ul>
-            </el-col>
-          </el-row>
+          <ul class="nav-list">
+            <li v-for="(item,index) in channels" v-bind:key="index" class="nav-item">
+              <router-link
+                :class="['el-link is-underline',channel==item.channel_code?'el-link--primary':'']"
+                :to="{path:`/index/${item.channel_code}`}"
+              >{{item.channel_name}}</router-link>
+            </li>
+          </ul>
         </el-card>
       </el-col>
       <el-col :span="24" class="margin-bottom-xs">
@@ -259,10 +255,27 @@ export default {
 .el-form-item {
   margin-bottom: 0px !important;
 }
-.nav-item {
+
+.nav-list {
+  height: 100%;
+  margin: auto;
   display: flex;
-  li {
-    padding: 0 1rem 0 0;
+  align-items: center;
+  line-height: 1;
+  .nav-item {
+    height: 100%;
+    align-items: center;
+    display: flex;
+    flex-shrink: 0;
+    font-size: 1.16rem;
+    color: #71777c;
+    padding: 0 0.5rem;
+  }
+}
+@media (max-width: 980px) {
+  .nav-list {
+    max-width: 960px;
+    width: auto;
   }
 }
 </style>

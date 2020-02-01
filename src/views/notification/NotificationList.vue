@@ -47,6 +47,13 @@
                 target="_blank"
               >《{{item.article_entry.title}}》</a>
             </div>
+            <div slot="title" class="info" v-show="item.notification_type==4">
+              <a
+                :href="`/user/${item.user_info_id}/article`"
+                target="_blank"
+              >{{(item.user_info!=null?item.user_info.nickname:'')}}</a>
+              关注了你
+            </div>
             <el-avatar slot="avatar" :src="item.user_info.avatar" />
           </v-list-item-meta>
           <template slot="content">{{item.comment_entry!=null?item.comment_entry.text:''}}</template>
@@ -83,9 +90,22 @@ export default {
   data() {
     return {
       pagination: {
-        currentPage: 0,
-        pageSize: 10,
-        pageTotal: 0
+        small: false,
+        background: true,
+        currentPage: 1,
+        position: "bottom",
+        total: 0,
+        currentChange: page => {
+          console.log(page);
+          this.pagination.currentPage = page;
+          this.getNotifications();
+        },
+        pageSize: 15,
+        onShowSizeChange: (currentPage, pageSize) => {
+          this.pagination.pageSize = pageSize;
+          this.pagination.currentPage = currentPage;
+          this.getNotifications();
+        }
       },
       listData: [],
       loading: false
@@ -102,15 +122,14 @@ export default {
   },
   watch: {
     notification_type(newVal, oldVal) {
-      console.log(newVal, oldVal);
-      this.pagination.currentPage = 0;
+      this.pagination.currentPage = 1;
       this.getNotifications();
     }
   },
   methods: {
     async getNotifications() {
       this.loading = true;
-      const currentPage = this.pagination.currentPage;
+      const currentPage = this.pagination.currentPage - 1;
       let res = await notificationApi
         .getNotifications({
           count: this.pagination.pageSize,
@@ -121,8 +140,7 @@ export default {
           this.loading = false;
         });
       this.listData = res.items;
-      this.pagination.currentPage += 1;
-      this.pagination.pageTotal = res.total;
+      this.pagination.total = res.total;
     }
   }
 };

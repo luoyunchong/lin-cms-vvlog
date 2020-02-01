@@ -13,6 +13,7 @@
         :page-size="pagination.pageSize ? pagination.pageSize: 10 "
         :total="pagination.total ? pagination.total : null "
         @current-change="currentChange"
+        :current-page="pagination.currentPage"
       ></el-pagination>
     </div>
     <template v-for="(item,index) in dataSource">
@@ -31,6 +32,7 @@
         :page-size="pagination.pageSize ? pagination.pageSize: 10 "
         :total="pagination.total ? pagination.total : null "
         @current-change="currentChange"
+        :current-page="pagination.currentPage"
       ></el-pagination>
     </div>
   </div>

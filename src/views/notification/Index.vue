@@ -30,7 +30,8 @@
   border-right: 1px solid #ebebeb;
   .el-menu-item i.icon-like {
     margin-right: 5px;
-    padding-right: 6px;
+    padding-right: 3px;
+    padding-left: 3px;
     text-align: center;
     font-size: 18px;
     vertical-align: middle;

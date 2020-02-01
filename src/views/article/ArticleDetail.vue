@@ -51,7 +51,12 @@
                       style="text-align:right;padding-left:0px;"
                       v-if="user!=null&&model.user_info.id!=user.id"
                     >
-                      <subscribe-button v-if="model.user_info.id" :userId="model.user_info.id"></subscribe-button>
+                      <subscribe-button
+                        v-if="model.user_info.id"
+                        :userId="model.user_info.id"
+                        @subscribe="subscribe"
+                        :is_subscribeed="is_subscribeed"
+                      ></subscribe-button>
                     </el-col>
                   </el-row>
                 </el-col>
@@ -173,7 +178,8 @@ export default {
       nodes: [],
       avatarUrl: "",
       loading: false,
-      deleted: false
+      deleted: false,
+      is_subscribeed: null
     };
   },
   components: {
@@ -366,6 +372,9 @@ export default {
           dom.classList.add("heading_" + domHeadingLevel);
         });
       });
+    },
+    subscribe(is_subscribeed) {
+      this.is_subscribeed = is_subscribeed;
     }
   }
 };
