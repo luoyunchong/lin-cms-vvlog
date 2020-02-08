@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    title="发布文章"
+    title="发布随笔"
     :modal-append-to-body="false"
     :before-close="handleClose"
     :visible.sync="dialogFormVisible"
@@ -132,7 +132,7 @@
     </div>
     <div slot="footer" class="dialog-footer" style="padding-left:5px;">
       <el-button @click="dialogFormVisible = false">取 消</el-button>
-      <el-button type="primary" @click="confirmEdit('form')">发布文章</el-button>
+      <el-button type="primary" @click="confirmEdit('form')" plain>发布随笔</el-button>
     </div>
   </el-dialog>
 </template>
@@ -229,8 +229,8 @@ export default {
     async show() {
       this.dialogFormVisible = true;
       this.thumbnailPreview.length = 0;
-      //   this.$refs["thumbnail"].clear();
-      if (this.id) {
+      // this.$refs["thumbnail"].clear();
+      if (this.id != 0) {
         this.loading = true;
         let res = await articleApi.getArticle(this.id).finally(() => {
           this.loading = false;
@@ -266,9 +266,8 @@ export default {
       });
     },
     resetForm(formName) {
-      this.$refs[formName].resetFields();
       this.form.content = "";
-      this.$refs["thumbnail"].clear();
+      // this.$refs["thumbnail"].clear();
     }
   }
 };

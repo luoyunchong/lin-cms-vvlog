@@ -17,7 +17,10 @@
       <div class="bottom clearfix" style="margin-top:10px;">
         <div class="meta-box">
           <time class="meta subscribe">{{subscribers_count}} 关注</time>
+          •
           <time class="meta">{{article_count}} 随笔</time>
+          •
+          <time class="meta">{{view_hits}} 浏览</time>
         </div>
         <el-button
           type="primary"
@@ -25,12 +28,14 @@
           icon="iconfont icon-heart-fill"
           v-if="is_subscribe"
           @click="deleteSubscribeTag"
+          size="small"
         >已关注</el-button>
         <el-button
           type="plain"
           class="button"
           icon="iconfont icon-heart"
           v-else
+          size="small"
           @click="addSubscribeTag"
         >关注</el-button>
       </div>
@@ -52,7 +57,11 @@ export default {
     thumbnail_display: String,
     article_count: Number,
     is_subscribe: Boolean,
-    subscribers_count: Number
+    subscribers_count: Number,
+    view_hits: {
+      type: Number,
+      default: 0
+    }
   },
   created() {},
   methods: {
@@ -80,9 +89,6 @@ export default {
     width: 100%;
     text-align: center;
     .image {
-      // width: 32px;
-      // height: 32px;
-      // margin: 10px auto;
       .title {
         font-size: 1.2rem;
         line-height: 1.7rem;
@@ -93,6 +99,29 @@ export default {
       }
     }
 
+    .meta-box {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 0.85rem;
+      color: #909090;
+
+      .meta {
+        line-height: 2rem;
+        margin-right: 0.5rem;
+        margin-left: 0.5rem;
+      }
+
+      .article {
+        margin-left: 0.8rem;
+      }
+    }
+    /deep/.el-button--small {
+      .iconfont {
+        font-size: 12px;
+        margin-right: 3px;
+      }
+    }
     .thumb {
       background-size: contain;
       width: 100%;
@@ -107,22 +136,6 @@ export default {
       opacity: 0;
       pointer-events: none;
     }
-  }
-}
-.meta-box {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 1rem;
-  color: #909090;
-  .meta {
-    line-height: 2rem;
-  }
-  .subscribe {
-    margin-right: 0.4rem;
-  }
-  .article {
-    margin-left: 0.8rem;
   }
 }
 </style>

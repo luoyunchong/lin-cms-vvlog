@@ -40,7 +40,7 @@
                 :href="`/user/${item.user_info_id}/article`"
                 target="_blank"
               >{{(item.user_info!=null?item.user_info.nickname:'')}}</a>
-              评论了你的文章
+              评论了你的随笔
               <a
                 v-if="item.article_entry!=null"
                 :href="`/post/${item.article_entry.id}`"

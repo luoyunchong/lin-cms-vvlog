@@ -1,6 +1,6 @@
 <template>
   <el-button
-    :type="!is_subscribe?'primary':'default'"
+    :type="!is_subscribe?'default':'primary'"
     icon="el-icon-plus"
     @click="subscribeClick"
     :loading="subscribeLoading"

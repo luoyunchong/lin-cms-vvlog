@@ -6,6 +6,7 @@
           <tag-item
             :subscribers_count="item.subscribers_count"
             :article_count="item.article_count"
+            :view_hits="item.view_hits"
             :id="item.id"
             :tag_name="item.tag_name"
             :thumbnail_display="item.thumbnail_display"

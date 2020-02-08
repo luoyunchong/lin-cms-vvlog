@@ -120,4 +120,8 @@ export default class User {
   static async updateProfile(params) {
     return await put('cms/user', params)
   }
+
+  static async getNovices() {
+    return await get('cms/user/novices')
+  }
 }

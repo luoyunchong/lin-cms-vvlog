@@ -10,12 +10,18 @@
     >
       <el-row>
         <el-col :lg="12">
-          <el-input size="medium" v-model="form.title" placeholder="请填写标题" style="font-size:2rem;"></el-input>
+          <el-input
+            class="editor-title"
+            size="medium"
+            v-model="form.title"
+            placeholder="请填写随笔标题"
+            style="font-size:1.4rem;"
+          ></el-input>
         </el-col>
-        <el-col :lg="12">
-          <el-form-item>
-            <el-button type="success" @click="confirmEdit('form')" icon="el-icon-edit">发布文章</el-button>
-          </el-form-item>
+        <el-col :lg="6">
+          <div style="line-height:55px;height:55px;margin-left:10px;">
+            <el-button type="primary" @click="confirmEdit('form')" icon="el-icon-edit" plain>发布随笔</el-button>
+          </div>
         </el-col>
       </el-row>
     </el-form>
@@ -27,6 +33,7 @@
 import Vditor from "vditor";
 import EditorDialog from "./EditorDialog";
 import articleApi from "@/models/article";
+import { User as CurrentUser } from "@/components/layout";
 
 export default {
   name: "EditorForm",
@@ -43,11 +50,12 @@ export default {
     };
   },
   components: {
-    EditorDialog
+    EditorDialog,
+    CurrentUser
   },
   async mounted() {
-    this.show();
     this.initVditor();
+    this.show();
   },
   async created() {},
   watch: {
@@ -102,9 +110,7 @@ export default {
             name: "wysiwyg",
             tipPosition: "nw"
           },
-          "format",
-          "devtools",
-          "help"
+          "format"
         ],
         width: this.isMobile ? "100%" : "100%",
         height: "0",
@@ -134,7 +140,7 @@ export default {
       this.vditor.focus();
     },
     async show() {
-      if (this.id) {
+      if (this.id != 0) {
         this.loading = true;
         let res = await articleApi.getArticle(this.id).finally(() => {
           this.loading = false;
@@ -143,6 +149,7 @@ export default {
         this.vditor.setValue(res.content);
       } else {
         this.resetForm("form");
+        this.vditor.setValue("");
       }
     },
     async confirmEdit(formName) {
@@ -159,6 +166,10 @@ export default {
         await articleApi.addArticle(objForm);
       }
       this.$message.success(`发布成功!`);
+    },
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
+      this.form.content = "";
     }
   }
 };
@@ -171,9 +182,19 @@ export default {
   width: 100%;
   height: 100%;
   background-color: #fff;
+
+  .editor-title /deep/ .el-input__inner {
+    font-weight: 700;
+    height: 55px;
+    line-height: 55px;
+  }
+  .header-container {
+    width: 100px;
+  }
+
   .vditor {
     position: absolute;
-    top: 37px;
+    top: 55px;
     height: calc(100vh - 100px);
   }
   #vditor /deep/ {

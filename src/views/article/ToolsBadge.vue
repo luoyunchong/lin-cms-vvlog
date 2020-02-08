@@ -25,7 +25,7 @@
         </el-badge>
       </a>
     </div>
-    <el-divider direction="vertical"></el-divider>
+    <!-- <el-divider direction="vertical"></el-divider>
     <div class="a-badge" title="收藏">
       <a @click="handleCollect">
         <el-badge :type="model.is_collect?'danger':'info'" :value="model.collect_quantity">
@@ -37,7 +37,7 @@
           />
         </el-badge>
       </a>
-    </div>
+    </div>-->
   </div>
 </template>
 

@@ -95,6 +95,22 @@
             </div>
           </el-card>
         </div>
+        <div class="margin-bottom-xs">
+          <el-card
+            :body-style="{ 'padding-bottom': '10px','padding-top':'10px' }"
+            shadow="never"
+            class="tag-card"
+          >
+            <div slot="header" class="clearfix">
+              <span class="tag-title">分享你的创作</span>
+            </div>
+            <div>
+              <a href="/post/editor/0">
+                <el-button type="primary" icon="el-icon-edit" plain>写随笔</el-button>
+              </a>
+            </div>
+          </el-card>
+        </div>
       </el-col>
     </el-row>
   </div>
@@ -297,5 +313,17 @@ export default {
       }
     }
   }
+}
+
+.tag-card {
+  margin-bottom: 10px;
+  border-radius: 8px;
+}
+
+.tag-title {
+  margin-bottom: 1rem;
+  padding: 0 0 0 0.5rem;
+  color: #000;
+  border-left: 4px solid #ec7259;
 }
 </style>

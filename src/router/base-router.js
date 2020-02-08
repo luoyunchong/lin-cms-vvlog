@@ -18,7 +18,7 @@ let baseRouter = [
         meta: { title: '文档' },
     },
     {
-        path: '/tag',
+        path: '/tag/subscribe/:tab',
         name: 'tag-list',
         component: () => import("@/views/tag/TagList.vue"),
         meta: { title: '标签列表页' },
@@ -41,6 +41,12 @@ let baseRouter = [
         component: () => import("@/views/article/ArticleDetail.vue"),
         meta: { title: '随笔详情页' },
         children: []
+    },
+    {
+        path: '/post/editor/:id',
+        name: 'post-editor',
+        component: () => import("@/views/article/EditorForm.vue"),
+        meta: { title: '随笔编辑' },
     },
     {
         path: '/p/:id',
@@ -92,7 +98,7 @@ let baseRouter = [
     {
         path: '/login-result',
         name: 'login-result',
-        component: () => import("@/views/login/LoginResult.vue"),
+        component: () => import("@/views/account/LoginResult.vue"),
         meta: { title: '第三方登录' },
     },
     {

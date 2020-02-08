@@ -32,7 +32,7 @@
                           <el-divider direction="vertical"></el-divider>
                           <el-link
                             type="primary"
-                            :href="`/post/${model.id}/edit`"
+                            :href="`/post/editor/${model.id}`"
                             target="_blank"
                           >编辑</el-link>
                         </template>
@@ -72,16 +72,23 @@
               ></el-alert>
             </div>
             <div id="preview" />
-            <div class="info-box top20">
+            <div class="tag-box top20">
               <h3 class="tag-title">标签</h3>
               <el-tag
                 :hit="false"
                 effect="light"
-                type="success"
+                type="info"
                 v-bind:key="item.id"
                 v-for="item in model.tags"
               >
-                <a :href="'/tag/'+item.id" target="_blank">{{item.tag_name}}</a>
+                <a :href="'/tag/'+item.id" target="_blank">
+                  <div
+                    alt="黑客派"
+                    class="tag-image"
+                    :style="`background-image: url('${item.thumbnail_display}');`"
+                  ></div>
+                  {{item.tag_name}}
+                </a>
               </el-tag>
             </div>
           </el-card>
@@ -416,6 +423,24 @@ export default {
     display: inline-block;
     margin-bottom: 8px;
   }
+}
+
+.tag-box {
+  font-size: 14px;
+  color: #909090;
+  margin-bottom: 10px;
+  .tag-image {
+    border-radius: 2px 2px 2px 2px;
+    height: 16px;
+    width: 16px;
+    float: left;
+    margin: 2px 3px 0 0;
+    background-color: rgba(0, 0, 0, 0.02);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50%;
+  }
+
   .tag-title {
     margin-bottom: 1rem;
     padding: 0 0 0 1rem;

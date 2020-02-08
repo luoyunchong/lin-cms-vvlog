@@ -80,7 +80,6 @@
           </el-row>
         </el-card>
         <div>
-          <!-- class="padding-xs" -->
           <article-list :dataSource="dataSource"></article-list>
         </div>
         <el-backtop></el-backtop>
@@ -94,7 +93,26 @@
           </span>
         </infinite-loading>
       </el-col>
-      <el-col :xs="24" :md="7"></el-col>
+      <el-col :xs="24" :md="7" class="sidebar">
+        <div class="sidebar-block">
+          <el-card
+            :body-style="{ 'padding-bottom': '10px','padding-top':'10px' }"
+            shadow="never"
+            class="lin-card"
+          >
+            <div slot="header" class="clearfix">
+              <span class="lin-title">分享你的创作</span>
+            </div>
+            <div>
+              <a href="/post/editor/0">
+                <el-button type="primary" icon="el-icon-edit" plain>写随笔</el-button>
+              </a>
+            </div>
+          </el-card>
+          <hot-tag-card></hot-tag-card>
+          <novices-card></novices-card>
+        </div>
+      </el-col>
     </el-row>
   </div>
 </template>
@@ -104,10 +122,12 @@ import ArticleList from "@/views/article/ArticleList";
 import InfiniteLoading from "vue-infinite-loading";
 import articleApi from "@/models/article";
 import channelApi from "@/models/channel";
+import HotTagCard from "@/views/tag/HotTagCard";
+import NovicesCard from "@/views/home/NovicesCard";
 
 export default {
   name: "HomeIndex",
-  components: { ArticleList, InfiniteLoading },
+  components: { ArticleList, InfiniteLoading, HotTagCard, NovicesCard },
   data() {
     return {
       count: 20,
@@ -121,11 +141,12 @@ export default {
       },
       loading: false,
       any: new Date(),
-      channels: []
+      channels: [],
+      users: []
     };
   },
   async created() {
-    this.getChannels();
+    await this.getChannels();
   },
   mounted() {},
   computed: {
@@ -182,8 +203,10 @@ export default {
               this.pagination.channel_id = element.id;
               if (this.tag_name != undefined) {
                 element.tags.forEach(tag => {
-                  this.pagination.tag_id = tag.id;
-                  return false;
+                  if (tag.tag_name == this.tag_name) {
+                    this.pagination.tag_id = tag.id;
+                    return false;
+                  }
                 });
               } else {
                 this.pagination.tag_id = null;
@@ -272,6 +295,18 @@ export default {
     padding: 0 0.5rem;
   }
 }
+
+.lin-card {
+  margin-bottom: 10px;
+  border-radius: 8px;
+  .lin-title {
+    margin-bottom: 1rem;
+    padding: 0 0 0 0.5rem;
+    color: #000;
+    border-left: 4px solid #ec7259;
+  }
+}
+
 @media (max-width: 980px) {
   .nav-list {
     max-width: 960px;
