@@ -20,6 +20,7 @@
             ></subscribe-tag-button>
           </li>
           <v-list-item-meta>
+            <span slot="description" class="fn-ellpisis1">{{item.remark}}</span>
             <a slot="title" :href="`/tag/${item.id}`" target="_blank">{{item.tag_name}}</a>
             <el-avatar
               slot="avatar"

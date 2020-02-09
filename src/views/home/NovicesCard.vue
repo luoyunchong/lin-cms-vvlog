@@ -4,6 +4,7 @@
       :body-style="{ 'padding-bottom': '10px','padding-top':'10px' }"
       shadow="never"
       class="lin-card"
+      v-loading="loading"
     >
       <div slot="header" class="clearfix">
         <span class="lin-title">新手</span>
@@ -40,7 +41,7 @@
                       </router-link>
                       <router-link
                         class="ft-gray ft-smaller"
-                        to="{path:`/user/${item.id}/article`}"
+                        :to="{path:`/user/${item.id}/article`}"
                       >
                         <b>{{item.username}}</b>
                       </router-link>
@@ -81,14 +82,17 @@ import userApi from "@/lin/models/user";
 export default {
   name: "NovicesCard",
   data() {
-    return { users: [] };
+    return { users: [], loading: false };
   },
   async created() {
     await this.getNovices();
   },
   methods: {
     async getNovices() {
-      this.users = await userApi.getNovices();
+      this.loading = true;
+      this.users = await userApi.getNovices().finally(() => {
+        this.loading = false;
+      });
     }
   }
 };

@@ -1,13 +1,13 @@
 import Home from "@/views/home/Home";
 import homeRouter from "./home-router";
 import baseRouter from "./base-router";
-import Base from "@/views/home/Base";
+import BaseLayout from "@/views/layout/BaseLayout";
 const routes = [
   {
     path: "/",
     name: "base-index",
     redirect: "/index",
-    component: Base,
+    component: BaseLayout,
     children: baseRouter
   },
   {
@@ -24,6 +24,13 @@ const routes = [
     name: "login",
     component: () => import("@/views/account/Login")
   },
+  {
+    path: '/post/editor/:id',
+    name: 'post-editor',
+    component: () => import("@/views/article/EditorForm.vue"),
+    meta: { title: '随笔编辑' },
+  },
+
   {
     redirect: "/404",
     path: "*"

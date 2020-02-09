@@ -1,11 +1,11 @@
 <template>
   <el-button
-    :type="!is_subscribeed?'default':'primary'"
+    :type="!subscribeed?'default':'primary'"
     icon="el-icon-plus"
     @click="subscribeClick"
     :loading="subscribeLoading"
     size="medium"
-  >{{is_subscribeed?'已关注':'关注他'}}</el-button>
+  >{{subscribeed?'已关注':'关注他'}}</el-button>
 </template>
 
 <script>
@@ -24,7 +24,8 @@ export default {
   },
   data() {
     return {
-      subscribeLoading: false
+      subscribeLoading: false,
+      subscribeed: false
     };
   },
   watch: {
@@ -33,6 +34,7 @@ export default {
     }
   },
   async created() {
+    this.subscribeed = this.is_subscribeed;
     await this.getSubscribe();
   },
   computed: {},
@@ -40,27 +42,30 @@ export default {
     async getSubscribe() {
       if (this.userId == 0) return;
       if (this.is_subscribeed == null) {
-        let is_subscribeed = await subscribeApi.getSubscribe({
+        let subscribeed = await subscribeApi.getSubscribe({
           subscribeUserId: this.userId
         });
-        this.$emit("subscribe", is_subscribeed);
+        this.subscribeed = subscribeed;
+        this.$emit("subscribe", subscribeed);
       }
     },
     async subscribe() {
       await subscribeApi.addSubscribe({
         subscribeUserId: this.userId
       });
+      this.subscribeed = true;
       this.$emit("subscribe", true);
     },
     async unsubscribe() {
       await subscribeApi.deleteSubscribe({
         subscribeUserId: this.userId
       });
+      this.subscribeed = false;
       this.$emit("subscribe", false);
     },
     subscribeClick() {
       this.subscribeLoading = true;
-      this.is_subscribeed ? this.unsubscribe() : this.subscribe();
+      this.subscribeed ? this.unsubscribe() : this.subscribe();
       this.subscribeLoading = false;
     }
   }

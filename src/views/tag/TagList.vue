@@ -167,7 +167,7 @@ export default {
     async infiniteHandler($state) {
       let res;
       const currentPage = this.pagination.currentPage;
-      let sort = this.sort;
+      let sort = this.sortName;
       if (sort == "hottest") {
         sort = "article_count desc";
       } else {

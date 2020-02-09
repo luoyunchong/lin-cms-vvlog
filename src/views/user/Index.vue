@@ -51,7 +51,7 @@
                      info.fans_count=fans_count
                     }"
                     v-on:subscribe="(fans_count)=>{
-                      info.fans_count+=fans_count
+                      info.subscribe_count+=fans_count
                     }"
                   ></subscribe-user-list>
                 </el-tab-pane>

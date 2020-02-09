@@ -1,4 +1,6 @@
 const path = require("path");
+const CompressionPlugin = require('compression-webpack-plugin');//引入gzip压缩插件
+const TerserPlugin = require('terser-webpack-plugin')
 
 function resolve(dir) {
   return path.join(__dirname, dir);
@@ -21,10 +23,50 @@ module.exports = {
       .end()
       .use("vue-markdown-loader")
       .loader("vue-markdown-loader/lib/markdown-compiler");
+
+    /* 添加分析工具*/
+    if (process.env.NODE_ENV === 'production') {
+      if (process.env.npm_config_report) {
+        config
+          .plugin('webpack-bundle-analyzer')
+          .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin)
+          .end();
+        config.plugins.delete('prefetch')
+      }
+    }
   },
-  configureWebpack: {
-    resolve: {
-      extensions: [".js", ".json", ".vue", ".scss", ".html"]
+  configureWebpack: (config) => {
+    if (process.env.NODE_ENV == 'production') {
+      return {
+        resolve: {
+          extensions: [".js", ".json", ".vue", ".scss", ".html"]
+        },
+        plugins: [
+          new CompressionPlugin({//gzip压缩配置
+            test: /\.js$|\.html$|\.css/,//匹配文件名
+            threshold: 10240,//对超过10kb的数据进行压缩
+            deleteOriginalAssets: false,//是否删除原文件
+          }),
+          // 去除console.log
+          new TerserPlugin({
+            terserOptions: {
+              compress: {
+                warnings: false,
+                drop_console: true,
+                drop_debugger: true,
+                pure_funcs: ['console.log']
+              }
+            }
+          })
+        ]
+      }
+    }
+    else {
+      return {
+        resolve: {
+          extensions: [".js", ".json", ".vue", ".scss", ".html"]
+        },
+      }
     }
   },
   css: {
@@ -32,7 +74,7 @@ module.exports = {
       sass: {
         data: '@import "@/assets/styles/share.scss";'
       }
-    }
+    },
   },
   devServer: {
     port: 8081

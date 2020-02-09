@@ -53,5 +53,89 @@ yarn upgrade element-ui
 yarn upgrade element-ui@2.13.0
 ```
 
+## 性能优化
+- 1.gzip压缩
+```
+npm install compression-webpack-plugin -D
+```
+
+修改vue.config.js
+```
+const CompressionPlugin = require('compression-webpack-plugin');//引入gzip压缩插
+configureWebpack: config => {
+    const baseConfig = {
+        name: name,
+        resolve: {
+            alias: {
+                '@': resolve('src')
+            }
+        }
+    }
+    if (process.env.NODE_ENV === 'production') {
+        return {
+            plugins: [
+                // 压缩代码
+                new CompressionPlugin({
+                    test: /\.js$|\.html$|.\css/, // 匹配文件名
+                    threshold: 10240, // 对超过10k的数据压缩
+                    deleteOriginalAssets: false // true 不删除源文件 false 删除源文件
+                })
+            ],
+            ...baseConfig
+        }
+    } else {
+        return { ...baseConfig }
+    }
+}
+```
+
+
+
+- 去除console.log与警告
+```
+npm install compression-webpack-plugin -D
+```
+
+```
+const TerserPlugin = require('terser-webpack-plugin')
+configureWebpack: config => {
+    const baseConfig = {
+        name: name,
+        resolve: {
+            alias: {
+                '@': resolve('src')
+            }
+        }
+    }
+    if (process.env.NODE_ENV === 'production') {
+        return {
+            plugins: [
+                // 压缩代码
+                new CompressionPlugin({
+                    test: /\.js$|\.html$|.\css/, // 匹配文件名
+                    threshold: 10240, // 对超过10k的数据压缩
+                    deleteOriginalAssets: false // 不删除源文件
+                }),
+                // 去除console.log
+                new TerserPlugin({
+                    terserOptions: {
+                        compress: {
+                            warnings: false,
+                            drop_console: true,
+                            drop_debugger: true,
+                            pure_funcs: ['console.log']
+                        }
+                    }
+                })
+            ],
+            ...baseConfig
+        }
+    } else {
+        return { ...baseConfig }
+    }
+}
+
+```
+
 ## 版本日志
 

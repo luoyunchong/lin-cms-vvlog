@@ -5,6 +5,7 @@
       shadow="never"
       style="margin-bottom:10px;border-radius: 8px;"
       class="tag-card"
+      v-loading="loading"
     >
       <div slot="header" class="clearfix">
         <span class="tag-title">热门标签</span>
@@ -42,11 +43,16 @@ export default {
   },
   methods: {
     async getTags() {
-      let res = await tagApi.getTags({
-        count: this.pagination.pageSize,
-        page: this.pagination.currentPage,
-        sort: "article_count desc"
-      });
+      this.loading = true;
+      let res = await tagApi
+        .getTags({
+          count: this.pagination.pageSize,
+          page: this.pagination.currentPage,
+          sort: "article_count desc"
+        })
+        .finally(() => {
+          this.loading = false;
+        });
       this.dataSource = [...res.items];
     }
   }

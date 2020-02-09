@@ -43,12 +43,6 @@ let baseRouter = [
         children: []
     },
     {
-        path: '/post/editor/:id',
-        name: 'post-editor',
-        component: () => import("@/views/article/EditorForm.vue"),
-        meta: { title: '随笔编辑' },
-    },
-    {
         path: '/p/:id',
         name: 'p',
         component: () => import("@/views/article/MavonEditorPreview.vue"),

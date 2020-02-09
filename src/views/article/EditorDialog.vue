@@ -101,7 +101,7 @@
               <el-input size="medium" v-model="form.keywords" placeholder="请填写关键字"></el-input>
             </el-form-item>
           </el-col>-->
-          <el-col :lg="24">
+          <el-col :lg="24" v-show="form.article_type!=0">
             <el-form-item label="来源" prop="source">
               <el-input size="medium" v-model="form.source" placeholder="请填写来源"></el-input>
             </el-form-item>

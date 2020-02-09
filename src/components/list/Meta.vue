@@ -4,11 +4,11 @@
       <slot name="avatar"></slot>
     </div>
     <div class="vv-list-item-meta-content">
-      <h4 class="vv-list-item-meta-title" v-if="title || $slots.title">
+      <h4 class="vv-list-item-meta-title" v-if="title||$slots.title">
         <slot name="title">{{ title }}</slot>
       </h4>
-      <div class="vv-list-item-meta-description" v-if="description  || $slots.description ">
-        <slot name="description ">{{ description }}</slot>
+      <div class="vv-list-item-meta-description" v-if="description||$slots.description">
+        <slot name="description">{{ description }}</slot>
       </div>
     </div>
   </div>

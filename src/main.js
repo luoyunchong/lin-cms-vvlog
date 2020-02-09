@@ -20,7 +20,6 @@ import "@/assets/styles/index.scss";
 import "@/assets/styles/realize/element-variables.scss";
 import "element-ui/lib/theme-chalk/base.css";
 import '@/assets/styles/main.scss';
-import 'vditor/src/assets/scss/classic';
 Vue.config.productionTip = false;
 
 Vue.use(ElementUI);

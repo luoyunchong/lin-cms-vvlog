@@ -32,6 +32,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import "vditor/src/assets/scss";
+
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

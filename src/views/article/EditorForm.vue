@@ -1,37 +1,42 @@
 <template>
-  <div class="editor-container">
-    <el-form
-      :rules="rules"
-      :model="form"
-      status-icon
-      ref="form"
-      label-width="100px"
-      @submit.native.prevent
-    >
-      <el-row>
-        <el-col :lg="12">
-          <el-input
-            class="editor-title"
-            size="medium"
-            v-model="form.title"
-            placeholder="请填写随笔标题"
-            style="font-size:1.4rem;"
-          ></el-input>
-        </el-col>
-        <el-col :lg="6">
+  <div>
+    <head-nav @confirmEdit="confirmEdit"></head-nav>
+    <div class="editor-container">
+      <el-form
+        class="editor-form"
+        :rules="rules"
+        :model="form"
+        status-icon
+        ref="form"
+        label-width="100px"
+        @submit.native.prevent
+      >
+        <el-row>
+          <el-col :lg="24">
+            <el-input
+              class="editor-title"
+              size="medium"
+              v-model="form.title"
+              placeholder="请填写随笔标题"
+              style="font-size:1.4rem;"
+            ></el-input>
+          </el-col>
+          <!-- <el-col :lg="6">
           <div style="line-height:55px;height:55px;margin-left:10px;">
             <el-button type="primary" @click="confirmEdit('form')" icon="el-icon-edit" plain>发布随笔</el-button>
           </div>
-        </el-col>
-      </el-row>
-    </el-form>
-    <div id="vditor" />
-    <editor-dialog ref="editorDialog" :id="id" @submit="submitForm"></editor-dialog>
+          </el-col>-->
+        </el-row>
+      </el-form>
+      <div id="vditor" />
+      <editor-dialog ref="editorDialog" :id="id" @submit="submitForm"></editor-dialog>
+    </div>
   </div>
 </template>
 <script>
 import Vditor from "vditor";
 import EditorDialog from "./EditorDialog";
+import HeadNav from "./HeadNav";
 import articleApi from "@/models/article";
 import { User as CurrentUser } from "@/components/layout";
 
@@ -51,7 +56,8 @@ export default {
   },
   components: {
     EditorDialog,
-    CurrentUser
+    CurrentUser,
+    HeadNav
   },
   async mounted() {
     this.initVditor();
@@ -99,10 +105,6 @@ export default {
               " | 居中 | 右对齐 |\n| :--- | :---: | ---: |\n| TODO | DOING | DONE |\n|  |  |  |",
             tipPosition: "n"
           },
-          // 'table',
-          // 'record',
-          // 'fullscreen',
-          // 'info',
           "both",
           "preview",
           {
@@ -110,7 +112,8 @@ export default {
             name: "wysiwyg",
             tipPosition: "nw"
           },
-          "format"
+          "format",
+          "fullscreen"
         ],
         width: this.isMobile ? "100%" : "100%",
         height: "0",
@@ -152,7 +155,7 @@ export default {
         this.vditor.setValue("");
       }
     },
-    async confirmEdit(formName) {
+    async confirmEdit() {
       this.$refs["editorDialog"].show();
     },
     async submitForm(form) {
@@ -160,7 +163,7 @@ export default {
         title: this.form.title,
         content: this.vditor.getValue()
       });
-      if (this.id) {
+      if (this.id != 0) {
         await articleApi.editArticle(this.id, objForm);
       } else {
         await articleApi.addArticle(objForm);
@@ -179,23 +182,27 @@ export default {
 @import "@/assets/styles/form.scss";
 
 .editor-container {
+  margin-top: 80px;
   width: 100%;
   height: 100%;
-  background-color: #fff;
-
+  .editor-form {
+    width: 80%;
+    margin: 20px auto;
+    max-width: 1440px;
+  }
   .editor-title /deep/ .el-input__inner {
-    font-weight: 700;
-    height: 55px;
-    line-height: 55px;
+    height: 45px;
+    line-height: 45px;
   }
   .header-container {
     width: 100px;
   }
-
   .vditor {
-    position: absolute;
-    top: 55px;
-    height: calc(100vh - 100px);
+    height: calc(100vh - 200px);
+    width: 80%;
+    margin: 20px auto;
+    text-align: left;
+    max-width: 1440px;
   }
   #vditor /deep/ {
     img {
@@ -212,10 +219,15 @@ export default {
 
 @media (max-width: 960px) {
   .editor-container {
+    .editor-form {
+      width: 100%;
+      margin: auto;
+      max-width: 1440px;
+    }
     .vditor {
       height: calc(100vh - 60px);
       padding: auto 10px;
-      margin: 0px auto;
+      margin: 20px auto;
     }
   }
 }

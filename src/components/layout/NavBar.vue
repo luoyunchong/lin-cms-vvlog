@@ -1,7 +1,6 @@
 
 <template>
   <div class="app-nav-bar">
-
     <div class="nav-content">
       <breadcrumb />
       <!-- 暂时放这里 -->
@@ -16,23 +15,23 @@
 </template>
 
 <script>
-import Notify from '@/components/notify/notify'
-import Breadcrumb from './Breadcrumb'
-import Screenfull from './Screenfull'
-import User from './User'
-import ClearTab from './ClearTab'
+import Notify from "@/components/notify/notify";
+import Breadcrumb from "./Breadcrumb";
+import Screenfull from "./Screenfull";
+import User from "./User";
+import ClearTab from "./ClearTab";
 
 export default {
-  name: 'NavBar',
+  name: "NavBar",
   created() {},
   components: {
     Breadcrumb,
     User,
     Notify,
     Screenfull,
-    ClearTab,
-  },
-}
+    ClearTab
+  }
+};
 </script>
 
 <style lang="scss" scoped>

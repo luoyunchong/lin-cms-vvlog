@@ -10,10 +10,12 @@
           <li slot="actions">
             <a>more</a>
           </li>
-          <v-list-item-meta
-            description="Ant Design, a design language for background applications, is refined by Ant UED Team"
-          >
+          <v-list-item-meta>
             <a slot="title" href="https://vue.ant.design/">{{item.title}}</a>
+            <a
+              slot="description"
+              href="https://vue.ant.design/"
+            >Ant Design, a design language for background applications, is refined by Ant UED Team</a>
             <el-avatar
               slot="avatar"
               src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
