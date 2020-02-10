@@ -11,63 +11,58 @@
         <v-list-item>
           <v-list-item-meta :description="item.create_time|filterTimeYmdHms">
             <div slot="title" class="info" v-show="item.notification_type==0">
-              <a
-                :href="`/user/${item.user_info_id}/article`"
+              <router-link
+                :to="{path:`/user/${item.user_info_id}/article`}"
                 target="_blank"
-              >{{(item.user_info!=null?item.user_info.nickname:'')}}</a>
-              点赞了你的随笔
-              <a
+              >{{(item.user_info!=null?item.user_info.nickname:'')}}</router-link>点赞了你的随笔
+              <router-link
                 v-if="item.article_entry!=null"
-                :href="`/post/${item.article_entry.id}`"
+                :to="{path:`/post/${item.article_entry.id}`}"
                 target="_blank"
-              >《{{item.article_entry.title}}》</a>
+              >《{{item.article_entry.title}}》</router-link>
             </div>
             <div slot="title" class="info" v-show="item.notification_type==1">
-              <a
-                :href="`/user/${item.user_info_id}/article`"
+              <router-link
+                :to="{path:`/user/${item.user_info_id}`}"
                 target="_blank"
-              >{{(item.user_info!=null?item.user_info.nickname:'')}}</a>
-              在随笔
-              <a
+              >{{(item.user_info!=null?item.user_info.nickname:'')}}</router-link>在随笔
+              <router-link
                 v-if="item.article_entry!=null"
-                :href="`/post/${item.article_entry.id}`"
+                :to="{path:`/post/${item.article_entry.id}`}"
                 target="_blank"
-              >《{{item.article_entry.title}}》</a>
-              点赞了你的评论
+              >《{{item.article_entry.title}}》</router-link>点赞了你的评论
             </div>
             <div slot="title" class="info" v-show="item.notification_type==2">
-              <a
-                :href="`/user/${item.user_info_id}/article`"
+              <router-link
+                :to="{path:`/user/${item.user_info_id}/article`}"
                 target="_blank"
-              >{{(item.user_info!=null?item.user_info.nickname:'')}}</a>
-              评论了你的随笔
-              <a
+              >{{(item.user_info!=null?item.user_info.nickname:'')}}</router-link>评论了你的随笔
+              <router-link
                 v-if="item.article_entry!=null"
-                :href="`/post/${item.article_entry.id}`"
+                :to="{path:`/post/${item.article_entry.id}`}"
                 target="_blank"
-              >《{{item.article_entry.title}}》</a>
+              >《{{item.article_entry.title}}》</router-link>
             </div>
             <div slot="title" class="info" v-show="item.notification_type==4">
-              <a
-                :href="`/user/${item.user_info_id}/article`"
+              <router-link
+                :to="{path:`/user/${item.user_info_id}/article`}"
                 target="_blank"
-              >{{(item.user_info!=null?item.user_info.nickname:'')}}</a>
-              关注了你
+              >{{(item.user_info!=null?item.user_info.nickname:'')}}</router-link>关注了你
             </div>
             <el-avatar slot="avatar" :src="item.user_info.avatar" />
           </v-list-item-meta>
           <template slot="content">{{item.comment_entry!=null?item.comment_entry.text:''}}</template>
           <li slot="actions" v-show="item.notification_type==1||item.notification_type==2">
-            <a
+            <router-link
               v-if="item.article_entry!=null&&item.comment_entry!=null"
-              :href="`/post/${item.article_entry.id}#comment-list-${item.comment_entry.id}`"
+              :to="{path:`/post/${item.article_entry.id}#comment-list-${item.comment_entry.id}`}"
               target="_blank"
             >
               <span>
                 <i class="iconfont icon-comment"></i>
                 查看对话
               </span>
-            </a>
+            </router-link>
           </li>
         </v-list-item>
       </template>

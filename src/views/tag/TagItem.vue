@@ -10,10 +10,10 @@
                 'padding': '1.5rem 0'}"
   >
     <div class="tag">
-      <a :href="`/tag/${id}`" target="_blank">
+      <router-link :to="{path:'/tag/'+`${id}`}" target="_blank">
         <div class="thumb" :style="`background-image:url(${thumbnail_display})`"></div>
         <div class="title">{{tag_name}}</div>
-      </a>
+      </router-link>
       <div class="bottom clearfix" style="margin-top:10px;">
         <div class="meta-box">
           <time class="meta subscribe">{{subscribers_count}} 关注</time>

@@ -278,7 +278,7 @@ export default {
     handleCommand(command) {
       switch (command) {
         case "main":
-          window.open("/dashboard");
+          window.open("#/dashboard");
           break;
         case "home":
           this.$router.push("/user/" + this.user.id + "/article");

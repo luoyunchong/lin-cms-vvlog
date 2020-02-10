@@ -47,7 +47,7 @@
           <el-col
             :xs=" {span: 24, offset: 0}"
             :md="{span:18,offset:3}"
-            :lg=" {span: 14, offset: 4}"
+            :lg=" {span: 16, offset: 4}"
             :xl="{span: 14, offset: 5}"
           >
             <transition name="fade-transform" mode="out-in">

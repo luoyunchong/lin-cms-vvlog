@@ -21,7 +21,11 @@
                 </li>
                 <li class="item">{{item.time_span}}</li>
                 <li class="item" v-for="(tag,index) in item.tags" v-bind:key="index">
-                  <a :href="'/tag/'+tag.id" class="tag" target="_blank">{{tag.tag_name}}</a>
+                  <router-link
+                    :to="{path:'/tag/'+`${tag.id}`}"
+                    class="tag"
+                    target="_blank"
+                  >{{tag.tag_name}}</router-link>
                 </li>
               </ul>
             </div>
@@ -33,7 +37,7 @@
               >{{item.title}}</router-link>
               <!-- <a class="article-detail-title" @click="()=>toArticle(item)">{{item.title}}</a> -->
             </div>
-            <div class="info-row article-detail-content">{{item.excerpt}}</div>
+            <span class="info-row article-detail-content article-detail-ellpisis3">{{item.excerpt}}</span>
             <div class="info-row">
               <div class="article-tool">
                 <ul class="article-about">
@@ -135,7 +139,6 @@ export default {
         }
         .article-detail {
           flex: 1 1 auto;
-          display: flex;
           flex-direction: column;
           justify-content: center;
           min-width: 0;
@@ -156,6 +159,15 @@ export default {
             font-weight: 400;
             color: rgba(140, 152, 174, 1);
             line-height: 22px;
+          }
+          .article-detail-ellpisis3 {
+            display: -webkit-box;
+            overflow: hidden;
+            white-space: normal !important;
+            text-overflow: ellipsis;
+            word-wrap: break-word;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
           }
         }
         .title-row {

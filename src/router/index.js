@@ -48,7 +48,7 @@ const scrollBehavior = function (to, from, savedPosition) {
 }
 
 const router = new Router({
-  mode: 'history',
+  mode: 'hash',
   scrollBehavior,
   base: process.env.BASE_URL,
   routes

@@ -17,7 +17,7 @@
         </router-link>
       </div>
       <el-tag v-for="tag in dataSource" v-bind:key="tag.id" :hit="false" effect="light" type="info">
-        <a :href="'/tag/'+tag.id" target="_blank">{{tag.tag_name}}</a>
+        <router-link :to="{path:'/tag/'+`${tag.id}`}" target="_blank">{{tag.tag_name}}</router-link>
       </el-tag>
     </el-card>
   </div>

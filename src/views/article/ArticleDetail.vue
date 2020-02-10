@@ -32,7 +32,7 @@
                           <el-divider direction="vertical"></el-divider>
                           <el-link
                             type="primary"
-                            :href="`/post/editor/${model.id}`"
+                            :href="`#/post/editor/${model.id}`"
                             target="_blank"
                           >编辑</el-link>
                         </template>
@@ -72,7 +72,7 @@
               ></el-alert>
             </div>
             <div id="preview" />
-            <div class="tag-box top20">
+            <div class="tag-box top20" v-show="model.tags.length>0">
               <h3 class="tag-title">标签</h3>
               <el-tag
                 :hit="false"
@@ -81,14 +81,14 @@
                 v-bind:key="item.id"
                 v-for="item in model.tags"
               >
-                <a :href="'/tag/'+item.id" target="_blank">
+                <router-link :to="{path:'/tag/'+`${item.id}`}" target="_blank">
                   <div
                     alt="黑客派"
                     class="tag-image"
                     :style="`background-image: url('${item.thumbnail_display}');`"
                   ></div>
                   {{item.tag_name}}
-                </a>
+                </router-link>
               </el-tag>
             </div>
           </el-card>
@@ -102,7 +102,7 @@
           </div>
           <el-backtop class="lin-back-top"></el-backtop>
         </el-col>
-        <el-col :xl="6" :lg="6" :md="24" :sm="24" :xs="24">
+        <el-col :xl="6" :lg="6" :md="24" :sm="24" :xs="24" class="sidebar">
           <el-card style="margin-bottom:20px;" v-show="model.user_info.id!=0">
             <div slot="header" class="clearfix" :body-style="{ padding: '0'}">
               <span>关于作者</span>
@@ -137,7 +137,6 @@
             <!-- <div class="wx_navigation">
               <div class="navigator-item-title">目录</div>
             </div>-->
-
             <div id="navigation" class="wx_navigation" />
           </el-card>
         </el-col>
@@ -175,7 +174,8 @@ export default {
       model: {
         user_info: {
           id: 0
-        }
+        },
+        tags: []
       },
       subscribeLoading: false,
       scroll: 0,
@@ -269,7 +269,7 @@ export default {
           .getElementById("preview")
           .querySelectorAll("h1,h2,h3,h4,h5")
           .forEach((item, index) => {
-            this.heightArr.push(item.offsetTop + 150);
+            this.heightArr.push(item.offsetTop - 30);
           });
         this.nodes = document
           .getElementById("navigation")
@@ -280,7 +280,7 @@ export default {
       this.scroll =
         document.documentElement.scrollTop ||
         document.body.scrollTop ||
-        document.querySelector(".preview").scrollTop;
+        document.querySelector("#preview").scrollTop;
 
       this.aside =
         document.documentElement.scrollTop ||
@@ -328,7 +328,9 @@ export default {
           cloneNode.classList.add("navigator-item");
           const a = document.createElement("a");
 
-          a.href = `/post/${articleId}#${domId}`;
+          // a.href = `/#/post/${articleId}#${domId}`;
+          a.id = domId;
+          a.setAttribute("articleId", articleId);
           a.innerHTML = node.innerText;
           cloneNode.appendChild(a);
           cloneNode.onclick = function() {
@@ -338,12 +340,19 @@ export default {
             }
             cloneNode.classList.add("active");
             let id = this.children[0].id;
-            // if (location.hash == id) {
-            //   return;
-            // }
-            // // location.hash = `${id}`;
-            // // router.replace(`${id}`);
-            // router.push(`${id}`);
+            let articleId = this.children[0].getAttribute("articleId");
+
+            // console.log(id);
+            // console.log(location.hash);
+            // console.log(`#/post/${articleId}#${encodeURIComponent(id)}`);
+
+            if (
+              location.hash == `#/post/${articleId}#${encodeURIComponent(id)}`
+            ) {
+              return;
+            }
+
+            router.replace({ path: `/post/${articleId}#${id}` });
           };
           newDoms.push(cloneNode);
 
@@ -458,6 +467,9 @@ export default {
 }
 
 #preview /deep/ {
+  ul li:not(.vditor-task) {
+    list-style: unset;
+  }
   img {
     width: fit-content;
   }
@@ -586,6 +598,11 @@ export default {
 .mobile {
   .el-backtop {
     bottom: 5rem !important;
+  }
+}
+@media (max-width: 960px) {
+  .aside-list {
+    display: none;
   }
 }
 </style>

@@ -204,7 +204,19 @@ export default {
     text-align: left;
     max-width: 1440px;
   }
-  #vditor /deep/ {
+  .vditor--fullscreen {
+    width: 100%;
+    max-width: 100%;
+    margin: auto;
+  }
+  .vditor /deep/ {
+    .vditor-content {
+      .vditor-preview {
+        ul li:not(.vditor-task) {
+          list-style: unset;
+        }
+      }
+    }
     img {
       width: fit-content;
     }
