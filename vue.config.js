@@ -5,8 +5,14 @@ const TerserPlugin = require('terser-webpack-plugin')
 function resolve(dir) {
   return path.join(__dirname, dir);
 }
+console.log('当前环境', process.env.NODE_ENV)
+
+let publicPath = process.env.VUE_APP_DEPLOY === 'github'
+  ? '/lin-cms-vvlog/'
+  : '/'
 
 module.exports = {
+  publicPath: publicPath,
   lintOnSave: true,
   productionSourceMap: false,
   // assetsDir: 'static',

@@ -183,7 +183,8 @@ export default {
       {
         prop: "is_audit",
         label: "状态",
-        scopedSlots: { customRender: "is_audit", width: 80 }
+        scopedSlots: { customRender: "is_audit" },
+        width: 80
       },
       {
         prop: "keywords",

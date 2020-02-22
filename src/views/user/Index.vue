@@ -105,9 +105,9 @@
               <span class="tag-title">分享你的创作</span>
             </div>
             <div>
-              <a href="/post/editor/0">
+              <router-link :to="{path:`/post/editor/0`}">
                 <el-button type="primary" icon="el-icon-edit" plain>写随笔</el-button>
-              </a>
+              </router-link>
             </div>
           </el-card>
         </div>

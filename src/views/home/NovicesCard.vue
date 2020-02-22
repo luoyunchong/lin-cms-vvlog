@@ -11,14 +11,13 @@
       </div>
       <div>
         <el-row :gutter="24" style="margin-left:0px;margin-right:0px;">
-          <!-- <router-link
+          <router-link
             :to="{path:`/user/${item.id}/article`}"
             v-for="(item,index) in users"
             :key="index"
-          >-->
-          <a v-for="(item,index) in users" :key="index">
-            <el-col :span="6" :xs="12" :md="6">
-              <el-popover placement="top-start" width="360" trigger="click">
+          >
+            <el-col :xs="4" :md="6">
+              <el-popover placement="top-start" width="360" trigger="hover">
                 <el-card shadow="never" style="border:none;" :body-style="{ padding: '10px' }">
                   <router-link :to="{path:`/user/${item.id}/article`}">
                     <div class="avatar-mid">
@@ -69,8 +68,7 @@
                 </el-avatar>
               </el-popover>
             </el-col>
-            <!-- </router-link> -->
-          </a>
+          </router-link>
         </el-row>
       </div>
     </el-card>

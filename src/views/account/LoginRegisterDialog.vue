@@ -207,7 +207,7 @@ export default {
 
     signin(provider) {
       window.open(
-        `${process.env.VUE_APP_BASE_URL}cms/oauth2/signin?provider=${provider}&redirectUrl=${process.env.VUE_APP_CURRENT_URL}login-result`
+        `${process.env.VUE_APP_BASE_URL}cms/oauth2/signin?provider=${provider}&redirectUrl=${process.env.VUE_APP_CURRENT_URL}#login-result`
       );
     }
   }

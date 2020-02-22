@@ -20,11 +20,17 @@
           <v-list-item-meta
             :description="item.subscribeer.introduction?item.subscribeer.introduction:'什么话也没说'"
           >
-            <a
+            <router-link
+              slot="title"
+              :to="{path:`/user/${item.subscribeer.id}/article`}"
+              target="_blank"
+            >{{item.subscribeer.nickname}}</router-link>
+
+            <!-- <a
               slot="title"
               :href="`/user/${item.subscribeer.id}/article`"
               target="_blank"
-            >{{item.subscribeer.nickname}}</a>
+            >{{item.subscribeer.nickname}}</a>-->
             <el-avatar
               slot="avatar"
               icon="el-icon-user"

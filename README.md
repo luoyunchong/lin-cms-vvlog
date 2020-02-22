@@ -24,6 +24,7 @@
 ## 线上 Demo
 - API的swagger地址 [http://47.106.80.39:7000/swagger/index.html](http://47.106.80.39:7000/swagger/index.html)
 - 用户端 lin-cms-vvlog [http://47.106.80.39:8080/index](http://47.106.80.39:8080/index) 
+- 用户端github pages [https://luoyunchong.github.io/lin-cms-vvlog/#/index](https://luoyunchong.github.io/lin-cms-vvlog/#/index)
   - 普通用户：710277267@qq.com
   - 密码：123qwe
 
