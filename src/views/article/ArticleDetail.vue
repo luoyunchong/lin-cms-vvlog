@@ -10,19 +10,19 @@
             <div class="info-box" v-loading="loading">
               <el-row type="flex">
                 <el-col :span="2">
-                  <a :href="`/user/${model.user_info.id}/article`" target="_blank">
+                  <router-link :to="{path:`/user/${model.user_info.id}/article`}" target="_blank">
                     <el-avatar size="large" :src="model.user_info.avatar" icon="el-icon-user-solid"></el-avatar>
-                  </a>
+                  </router-link>
                 </el-col>
                 <el-col>
                   <el-row :gutter="10">
                     <el-col :span="18" :xs="18">
                       <el-col :span="24">
-                        <a
+                        <router-link
                           class="nickname"
-                          :href="`/user/${model.user_info.id}/article`"
+                          :to="{path:`/user/${model.user_info.id}/article`}"
                           target="_blank"
-                        >{{model.user_info.nickname}}</a>
+                        >{{model.user_info.nickname}}</router-link>
                       </el-col>
                       <el-col :span="24">
                         <span>{{model.time_span}}</span>

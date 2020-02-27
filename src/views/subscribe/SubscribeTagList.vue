@@ -22,15 +22,15 @@
           <v-list-item-meta>
             <span slot="description" class="fn-ellpisis1">{{item.remark}}</span>
             <!-- <a slot="title" :href="`/tag/${item.id}`" target="_blank">{{item.tag_name}}</a> -->
-            <router-link slot="title" :to="{path:`/tag/${item.id}`}" target="_blank">
-                  {{item.tag_name}}
-            </router-link>
-            <el-avatar
-              slot="avatar"
-              shape="square"
-              icon="el-icon-user"
-              :src="item.thumbnail_display||defaultAvatar"
-            />
+            <router-link
+              slot="title"
+              :to="{path:`/tag/${item.id}`}"
+              target="_blank"
+            >{{item.tag_name}}</router-link>
+            <el-avatar slot="avatar" :src="item.thumbnail_display">
+              <!-- ||defaultAvatar -->
+              <img src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png" />
+            </el-avatar>
           </v-list-item-meta>
         </v-list-item>
       </template>

@@ -3,13 +3,14 @@
     <div class="profile-wrapper">
       <div class="profile-main">
         <el-avatar
-          icon="el-icon-user"
           :size="160"
           shape="square"
           fit="cover"
-          :src="openUser.avatar||defaultAvatar"
+          :src="openUser.avatar"
           class="profile-avatar"
-        ></el-avatar>
+        >
+          <img src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png" />
+        </el-avatar>
 
         <div class="profile-content">
           <div class="title">

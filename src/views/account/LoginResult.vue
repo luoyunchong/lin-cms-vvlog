@@ -72,7 +72,7 @@ export default {
         console.log(e);
       } finally {
         this.loading = true;
-        location.href = "index";
+        location.href = "/";
       }
     }
   }

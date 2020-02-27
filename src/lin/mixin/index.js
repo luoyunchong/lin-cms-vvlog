@@ -18,8 +18,8 @@ const globalMixin = {
           for (const mod of auths) {
             for (const item in mod) {
               for (const a of mod[item]) {
-                // console.log(a.auth)
-                if (a.auth === _auth) {
+                // console.log(a.permission)
+                if (a.permission === _auth) {
                   return true
                 }
                 // console.log(a.module)

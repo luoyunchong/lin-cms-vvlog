@@ -84,7 +84,7 @@ export default class User {
    * 获取当前用户信息和所拥有的权限
    */
   static async getAuths() {
-    const info = await get('cms/user/auths')
+    const info = await get('cms/user/permissions')
     return new User(info.active, info.email, info.group_id, info.username, info.admin, info.avatar, info.auths, info.nickname, info.group_name, info.id, info.introduction)
   }
 

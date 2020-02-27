@@ -36,7 +36,7 @@ export default {
       for (const key in auths[i]) {
         // console.log(i, state.user.auths[i][key])
         for (let j = 0; j < auths[i][key].length; j++) {
-          _auths.push(auths[i][key][j].auth)
+          _auths.push(auths[i][key][j].permission)
         }
       }
     }

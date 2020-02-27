@@ -31,11 +31,10 @@
               :href="`/user/${item.subscribeer.id}/article`"
               target="_blank"
             >{{item.subscribeer.nickname}}</a>-->
-            <el-avatar
-              slot="avatar"
-              icon="el-icon-user"
-              :src="item.subscribeer.avatar||defaultAvatar"
-            />
+            <el-avatar slot="avatar" :src="item.subscribeer.avatar">
+              <!-- icon="el-icon-user" -->
+              <img src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png" />
+            </el-avatar>
           </v-list-item-meta>
         </v-list-item>
       </template>
