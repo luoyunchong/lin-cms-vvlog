@@ -14,7 +14,7 @@ const vuexLocal = new VuexPersistence({
   reducer: state => ({ // eslint-disable-line
     logined: state.logined,
     user: state.user,
-    auths: state.auths,
+    permissions: state.permissions,
   }),
 })
 

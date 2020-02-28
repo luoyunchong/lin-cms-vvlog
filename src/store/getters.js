@@ -40,11 +40,11 @@ function IterationDelateMenuChildren(arr) {
   return arr
 }
 
-function permissionShaking(stageConfig, auths, user) { // eslint-disable-line
+function permissionShaking(stageConfig, permissions, user) { // eslint-disable-line
   const shookConfig = stageConfig.filter((route) => {
-    if (Util.hasPermission(auths, route, user)) {
+    if (Util.hasPermission(permissions, route, user)) {
       if (route.children && route.children.length) {
-        route.children = permissionShaking(route.children, auths, user) // eslint-disable-line
+        route.children = permissionShaking(route.children, permissions, user) // eslint-disable-line
       }
       return true
     }
@@ -55,9 +55,9 @@ function permissionShaking(stageConfig, auths, user) { // eslint-disable-line
 
 // 获取有权限的舞台配置
 export const authStageConfig = (state) => {
-  const { stageConfig, auths, user } = state // eslint-disable-line
+  const { stageConfig, permissions, user } = state // eslint-disable-line
   const tempStageConfig = Util.deepClone(stageConfig)
-  const shookConfig = permissionShaking(tempStageConfig, auths, user)
+  const shookConfig = permissionShaking(tempStageConfig, permissions, user)
 
   // 设置舞台缓存
   const list = {}
@@ -157,7 +157,7 @@ export const getStageByRoute = () => {
 
 export const stageList = () => stageMap
 
-export const auths = state => state.auths
+export const permissions = state => state.permissions
 
 export const getStageInfo = (state) => {
   const { stageConfig } = state

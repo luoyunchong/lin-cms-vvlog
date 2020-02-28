@@ -318,8 +318,8 @@ export default {
             this.form.thumbnail = "";
           }
           const res = await this.submitForm();
-          if (res.error_code === 0) {
-            this.$message.success(`${res.msg}`);
+          if (res.code === 0) {
+            this.$message.success(`${res.message}`);
             this.$emit("editClose");
           }
         } else {

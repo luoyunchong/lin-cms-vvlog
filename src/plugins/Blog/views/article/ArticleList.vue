@@ -161,7 +161,7 @@ export default {
 
         this.$message({
           type: "success",
-          message: `${res.msg}`
+          message: `${res.message}`
         });
         await this.getArticles();
       });

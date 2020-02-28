@@ -30,17 +30,17 @@ export default {
     unreadMessages.splice(index, 1)
   },
 
-  [types.SET_USER_AUTHS](state, auths) {
+  [types.SET_USER_AUTHS](state, permissions) {
     const _auths = []
-    for (let i = 0; i < auths.length; i++) {
-      for (const key in auths[i]) {
-        // console.log(i, state.user.auths[i][key])
-        for (let j = 0; j < auths[i][key].length; j++) {
-          _auths.push(auths[i][key][j].permission)
+    for (let i = 0; i < permissions.length; i++) {
+      for (const key in permissions[i]) {
+        // console.log(i, state.user.permissions[i][key])
+        for (let j = 0; j < permissions[i][key].length; j++) {
+          _auths.push(permissions[i][key][j].permission)
         }
       }
     }
-    state.auths = _auths
+    state.permissions = _auths
   },
 
   [types.SET_REFERSH_OPTION](state, option) {

@@ -71,7 +71,7 @@ export default {
         subject_id: this.model.id,
         subject_type: 1
       });
-      this.$message.success(`${res.msg}`);
+      this.$message.success(`${res.message}`);
       if (this.model.is_liked) {
         this.$emit("likeChange", { likes_quantity: -1, is_liked: false });
       } else {

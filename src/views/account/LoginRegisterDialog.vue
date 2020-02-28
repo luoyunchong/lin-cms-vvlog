@@ -199,7 +199,7 @@ export default {
         // 尝试获取当前用户信息
         const user = await User.getAuths();
         this.setUserAndState(user);
-        this.setUserAuths(user.auths);
+        this.setUserAuths(user.permissions);
       } catch (e) {
         console.log(e);
       }

@@ -14,8 +14,8 @@ const globalMixin = {
         isAllowed(_auth) {
           /* eslint-disable no-restricted-syntax */
           /* eslint-disable guard-for-in */
-          const { auths } = this.user
-          for (const mod of auths) {
+          const { permissions } = this.user
+          for (const mod of permissions) {
             for (const item in mod) {
               for (const a of mod[item]) {
                 // console.log(a.permission)

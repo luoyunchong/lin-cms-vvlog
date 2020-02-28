@@ -1,14 +1,14 @@
 import Vue from 'vue'
 import store from '@/store'
 
-function isAllowed(_auth, user, auths) {
+function isAllowed(_auth, user, permissions) {
   if (user.isSuper) {
     return true
   }
   if (typeof _auth === 'string') {
-    return auths.includes(_auth)
+    return permissions.includes(_auth)
   } if (_auth instanceof Array) {
-    return _auth.some(permission => auths.indexOf(permission) >= 0)
+    return _auth.some(permission => permissions.indexOf(permission) >= 0)
   }
   return false
 }
@@ -24,7 +24,7 @@ Vue.directive('permission', {
     } else {
       permission = binding.value
     }
-    const isAllow = isAllowed(permission, (store.state.user || {}), store.state.auths)
+    const isAllow = isAllowed(permission, (store.state.user || {}), store.state.permissions)
     const element = el
     if (!isAllow && permission) {
       if (type) {

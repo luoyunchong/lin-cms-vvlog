@@ -74,7 +74,7 @@ export default {
           let res = await commentApi.addComment(
             Object.assign(this.form, { text: text })
           );
-          this.$message.success(`${res.msg}`);
+          this.$message.success(`${res.message}`);
           this.$emit("success");
           this.$refs["form"].resetFields();
         } else {

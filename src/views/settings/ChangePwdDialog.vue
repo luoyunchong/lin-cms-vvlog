@@ -132,8 +132,8 @@ export default {
       this.$refs[formName].validate(async valid => {
         if (valid) {
           const res = await User.updatePassword(this.form);
-          if (res.error_code === 0) {
-            this.$message.success(`${res.msg}`);
+          if (res.code === 0) {
+            this.$message.success(`${res.message}`);
             this.resetForm(formName);
             this.dialogFormVisible = false;
             setTimeout(() => {

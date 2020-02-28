@@ -64,8 +64,8 @@ export default {
           const res = await userApi.updateProfile(this.form).finally(r => {
             this.loading = false;
           });
-          if (res.error_code === 0) {
-            this.$message.success(`${res.msg}`);
+          if (res.code === 0) {
+            this.$message.success(`${res.message}`);
             userApi.getInformation().then(res => {
               this.setUserAndState(res);
             });

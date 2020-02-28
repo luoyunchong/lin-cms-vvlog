@@ -199,7 +199,7 @@ export default {
           return false;
         }
         // TODO: 错误码处理
-        // if (res.error_code === 10110) {
+        // if (res.code === 10110) {
         //   throw new Error('文件体积过大')
         // }
         return this.$axios({
@@ -210,7 +210,7 @@ export default {
           }
         })
           .then(res => {
-            if (res.error_code === 0) {
+            if (res.code === 0) {
               this.$message({
                 type: "success",
                 message: "更新头像成功"
@@ -244,7 +244,7 @@ export default {
             }
           })
             .then(res => {
-              if (res.error_code === 0) {
+              if (res.code === 0) {
                 this.$message({
                   type: "success",
                   message: "更新昵称成功"

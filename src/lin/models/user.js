@@ -26,7 +26,7 @@ export default class User {
   isSuper = null
 
   // 拥有的权限
-  auths = []
+  permissions = []
 
   // 昵称
   nickname = null
@@ -36,14 +36,14 @@ export default class User {
 
   introduction = null
 
-  constructor(active, email, groupId, username, _super, avatar, auths, nickname, groupName, id, introduction) {
+  constructor(active, email, groupId, username, _super, avatar, permissions, nickname, groupName, id, introduction) {
     this.isActive = active === ACTIVE_VALUE
     this.email = email
     this.groupId = groupId
     this.username = username
     this.avatar = avatar
     this.isSuper = _super === SUPER_VALUE
-    this.auths = auths || []
+    this.permissions = permissions || []
     this.nickname = nickname
     this.groupName = groupName
     this.id = id;
@@ -56,6 +56,10 @@ export default class User {
    */
   static register(data) {
     return post('cms/user/register', data)
+  }
+
+  static registerAccount(data) {
+    return post('cms/user/account/register', data)
   }
 
   /**
@@ -77,7 +81,7 @@ export default class User {
    */
   static async getInformation() {
     const info = await get('cms/user/information')
-    return new User(info.active, info.email, info.group_id, info.username, info.admin, info.avatar, info.auths, info.nickname, info.group_name, info.id, info.introduction)
+    return new User(info.active, info.email, info.group_id, info.username, info.admin, info.avatar, info.permissions, info.nickname, info.group_name, info.id, info.introduction)
   }
 
   /**
@@ -85,7 +89,7 @@ export default class User {
    */
   static async getAuths() {
     const info = await get('cms/user/permissions')
-    return new User(info.active, info.email, info.group_id, info.username, info.admin, info.avatar, info.auths, info.nickname, info.group_name, info.id, info.introduction)
+    return new User(info.active, info.email, info.group_id, info.username, info.admin, info.avatar, info.permissions, info.nickname, info.group_name, info.id, info.introduction)
   }
 
   /**

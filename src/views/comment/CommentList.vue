@@ -222,7 +222,7 @@ export default {
     },
     async handleDeleteCommentReply(reply, index, i) {
       let res = await commentApi.delectComment(reply.id);
-      this.$message.success(`${res.msg}`);
+      this.$message.success(`${res.message}`);
       await this.getTopComments(reply.root_comment_id, index);
     },
     async handleClickTool(item, comment, index) {
@@ -240,7 +240,7 @@ export default {
         subject_id: comment.id,
         subject_type: 2
       });
-      this.$message.success(`${res.msg}`);
+      this.$message.success(`${res.message}`);
       if (this.comments[index].is_liked) {
         this.comments[index].is_liked = false;
         this.comments[index].likes_quantity -= 1;
@@ -254,7 +254,7 @@ export default {
         subject_id: reply.id,
         subject_type: 2
       });
-      this.$message.success(`${res.msg}`);
+      this.$message.success(`${res.message}`);
       if (this.comments[index].top_comment[i].is_liked) {
         this.comments[index].top_comment[i].is_liked = false;
         this.comments[index].top_comment[i].likes_quantity -= 1;
