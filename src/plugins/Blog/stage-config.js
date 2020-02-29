@@ -18,17 +18,6 @@ const blogRouter = [
         filePath: "plugins/Blog/views/classify/ClassifyList.vue",
         inNav: true
       },
-      {
-        name: null,
-        title: "我的随笔",
-        type: "view",
-        name: "ArticleList",
-        route: "/article/list",
-        filePath: "plugins/Blog/views/article/ArticleList.vue",
-        inNav: true,
-        icon: "iconfont icon-tushuguanli"
-      },
-
     ]
   }
 ];

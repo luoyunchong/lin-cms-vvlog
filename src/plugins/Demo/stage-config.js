@@ -6,7 +6,7 @@ const DemoRouter = [{
   filePath: 'views/Demo/',
   order: null,
   inNav: true,
-  icon: "iconfont icon-tushuguanli",
+  icon: "iconfont icon-dashboard",
   children: [
     {
       title: 'list组件',

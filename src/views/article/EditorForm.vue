@@ -12,7 +12,7 @@
         @submit.native.prevent
       >
         <el-row>
-          <el-col :lg="24">
+          <el-col :lg="24" class="margin-bottom">
             <el-input
               class="editor-title"
               size="medium"
@@ -21,6 +21,9 @@
               style="font-size:1.4rem;"
             ></el-input>
           </el-col>
+          <el-col :lg="24">
+            <MarkdownPro v-model="form.content" :bordered="true" :height="800" theme="oneDark" />
+          </el-col>
           <!-- <el-col :lg="6">
           <div style="line-height:55px;height:55px;margin-left:10px;">
             <el-button type="primary" @click="confirmEdit('form')" icon="el-icon-edit" plain>发布随笔</el-button>
@@ -28,23 +31,21 @@
           </el-col>-->
         </el-row>
       </el-form>
-      <div id="vditor" />
+      <div class="markdown"></div>
       <editor-dialog ref="editorDialog" :id="id" @submit="submitForm"></editor-dialog>
     </div>
   </div>
 </template>
 <script>
-import Vditor from "vditor";
 import EditorDialog from "./EditorDialog";
 import HeadNav from "./HeadNav";
 import articleApi from "@/models/article";
 import { User as CurrentUser } from "@/components/layout";
-
+import { MarkdownPro } from "vue-meditor";
 export default {
   name: "EditorForm",
   data() {
     return {
-      vditor: null,
       form: {
         content: "",
         title: ""
@@ -57,10 +58,10 @@ export default {
   components: {
     EditorDialog,
     CurrentUser,
-    HeadNav
+    HeadNav,
+    MarkdownPro
   },
   async mounted() {
-    this.initVditor();
     this.show();
   },
   async created() {},
@@ -75,73 +76,6 @@ export default {
     }
   },
   methods: {
-    initVditor() {
-      const that = this;
-      const options = {
-        cache: true,
-        mode: "markdown-show",
-        toolbar: [
-          "emoji",
-          "headings",
-          "bold",
-          "italic",
-          "strike",
-          "line",
-          "quote",
-          "list",
-          "ordered-list",
-          "check",
-          "code",
-          "inline-code",
-          "undo",
-          "redo",
-          "upload",
-          "link",
-          {
-            hotkey: "⌘-m",
-            name: "table",
-            prefix: "| 左对齐",
-            suffix:
-              " | 居中 | 右对齐 |\n| :--- | :---: | ---: |\n| TODO | DOING | DONE |\n|  |  |  |",
-            tipPosition: "n"
-          },
-          "both",
-          "preview",
-          {
-            hotkey: "⌘-⇧-m",
-            name: "wysiwyg",
-            tipPosition: "nw"
-          },
-          "format",
-          "fullscreen"
-        ],
-        width: this.isMobile ? "100%" : "100%",
-        height: "0",
-        tab: "\t",
-        counter: "999999",
-        typewriterMode: true,
-        preview: {
-          delay: 100,
-          show: !this.isMobile
-        },
-        upload: {
-          max: 5 * 1024 * 1024,
-          // linkToImgUrl: 'https://sm.ms/api/upload',
-          handler(file) {
-            let formData = new FormData();
-            for (let i in file) {
-              formData.append("smfile", file[i]);
-            }
-            let request = new XMLHttpRequest();
-            request.open("POST", "https://sm.ms/api/upload");
-            request.onload = that.onloadCallback;
-            request.send(formData);
-          }
-        }
-      };
-      this.vditor = new Vditor("vditor", options);
-      this.vditor.focus();
-    },
     async show() {
       if (this.id != 0) {
         this.loading = true;
@@ -149,24 +83,19 @@ export default {
           this.loading = false;
         });
         this.form = res;
-        this.vditor.setValue(res.content);
       } else {
         this.resetForm("form");
-        this.vditor.setValue("");
       }
     },
     async confirmEdit() {
       this.$refs["editorDialog"].show();
     },
-    async submitForm(form) {
-      let objForm = Object.assign(form, {
-        title: this.form.title,
-        content: this.vditor.getValue()
-      });
+    async submitForm(formDialogData) {
+      let formtData = Object.assign(formDialogData, this.form);
       if (this.id != 0) {
-        await articleApi.editArticle(this.id, objForm);
+        await articleApi.editArticle(this.id, formtData);
       } else {
-        await articleApi.addArticle(objForm);
+        await articleApi.addArticle(formtData);
       }
       this.$message.success(`发布成功!`);
     },
@@ -197,36 +126,6 @@ export default {
   .header-container {
     width: 100px;
   }
-  .vditor {
-    height: calc(100vh - 200px);
-    width: 80%;
-    margin: 20px auto;
-    text-align: left;
-    max-width: 1440px;
-  }
-  .vditor--fullscreen {
-    width: 100%;
-    max-width: 100%;
-    margin: auto;
-  }
-  .vditor /deep/ {
-    .vditor-content {
-      .vditor-preview {
-        ul li:not(.vditor-task) {
-          list-style: unset;
-        }
-      }
-    }
-    img {
-      width: fit-content;
-    }
-    a {
-      color: #4285f4;
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-  }
 }
 
 @media (max-width: 960px) {
@@ -235,11 +134,6 @@ export default {
       width: 100%;
       margin: auto;
       max-width: 1440px;
-    }
-    .vditor {
-      height: calc(100vh - 60px);
-      padding: auto 10px;
-      margin: 20px auto;
     }
   }
 }

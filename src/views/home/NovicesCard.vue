@@ -16,7 +16,7 @@
             v-for="(item,index) in users"
             :key="index"
           >
-            <el-col :xs="4" :md="6">
+            <el-col :sm="4" :xs="4" :md="6" :lg="6" :xl="6">
               <el-popover placement="top-start" width="360" trigger="hover">
                 <el-card shadow="never" style="border:none;" :body-style="{ padding: '10px' }">
                   <router-link :to="{path:`/user/${item.id}/article`}">

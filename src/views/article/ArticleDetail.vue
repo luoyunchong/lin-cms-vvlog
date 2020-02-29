@@ -36,7 +36,6 @@
                             target="_blank"
                           >编辑</el-link>
                         </template>
-
                         <el-divider direction="vertical"></el-divider>
                         <span>
                           <el-tag type="success" v-if="model.article_type==0">原创</el-tag>
@@ -71,7 +70,9 @@
                 type="info"
               ></el-alert>
             </div>
-            <div id="preview" />
+            <div id="preview">
+              <MarkdownPreview :initialValue="model.content" theme="dark" />
+            </div>
             <div class="tag-box top20" v-show="model.tags.length>0">
               <h3 class="tag-title">标签</h3>
               <el-tag
@@ -165,8 +166,7 @@ import ToolsBadge from "./ToolsBadge";
 import CommentList from "@/views/comment/CommentList";
 import { SubscribeButton } from "@/views/subscribe";
 import Error404Page from "@/views/error-page/404";
-import Vditor from "vditor/dist/method.min";
-
+import { MarkdownPreview } from "vue-meditor";
 export default {
   name: "ArticleDetail",
   data() {
@@ -175,7 +175,8 @@ export default {
         user_info: {
           id: 0
         },
-        tags: []
+        tags: [],
+        content: ""
       },
       subscribeLoading: false,
       scroll: 0,
@@ -193,7 +194,8 @@ export default {
     ToolsBadge,
     CommentList,
     SubscribeButton,
-    Error404Page
+    Error404Page,
+    MarkdownPreview
   },
   computed: {
     id() {
@@ -239,12 +241,6 @@ export default {
 
         this.model = await articleApi.getArticle(this.id).finally(() => {
           loading.close();
-        });
-        Vditor.preview(document.getElementById("preview"), this.model.content, {
-          anchor: true,
-          speech: {
-            enable: true
-          }
         });
         if (this.model.word_number == 0) {
           this.model.word_number = this.model.content.length;
@@ -312,10 +308,7 @@ export default {
       var router = this.$router;
       if (nodes.length) {
         for (let i = 0; i < nodes.length; i++) {
-          const id =
-            nodes[i].children && nodes[i].children.length
-              ? nodes[i].children[0].id
-              : "";
+          const id = nodes[i].id;
           let navigationChildren = judageH(nodes[i], i, id);
           navigation.appendChild(navigationChildren);
         }
@@ -467,9 +460,6 @@ export default {
 }
 
 #preview /deep/ {
-  ul li:not(.vditor-task) {
-    list-style: unset;
-  }
   img {
     width: fit-content;
   }

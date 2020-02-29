@@ -111,8 +111,7 @@ _axios.interceptors.request.use(
 // Add a response interceptor
 _axios.interceptors.response.use(
   async res => {
-    let { error_code, msg } = res.data; // eslint-disable-line
-    let message = ""; // 错误提示
+    let { code, message } = res.data; // eslint-disable-line
     if (res.status.toString().charAt(0) === "2") {
       return res.data;
     }
@@ -120,7 +119,7 @@ _axios.interceptors.response.use(
       const { params, url } = res.config;
 
       // refresh_token 异常，直接登出
-      if (error_code === 10000 || error_code === 10100) {
+      if (code === 10000 || code === 10100) {
         // setTimeout(() => {
         store.dispatch("loginOut");
 
@@ -132,7 +131,7 @@ _axios.interceptors.response.use(
         // return;
       }
       // 令牌相关，刷新令牌
-      if (error_code === 10040 || error_code === 10050) {
+      if (code === 10040 || code === 10050) {
         const cache = {};
         if (cache.url !== url) {
           cache.url = url;
@@ -145,27 +144,19 @@ _axios.interceptors.response.use(
       }
       //感觉这种设计好奇怪，暂时不这么搞。
       // 本次请求添加 params 参数：handleError 为 true，用户自己try catch，框架不做处理
-      // if (params && params.handleError) {
-      //   reject(res);
-      //   return;
-      // }
-      console.log("msg", msg);
-      // 本次请求添加 params 参数：showBackend 为 true, 弹出后端返回错误信息
-      //  && params.showBackend 这个好像也更奇怪
-      if (params) {
-        message = msg;
-      } else {
+      if (res.config.handleError) {
+        return reject(res)
+      }
+      console.log("message", message);
+      // 如果本次请求添加了 showBackend: true, 弹出后端返回错误信息
+      if (Config.useFrontEndErrorMsg && !res.config.showBackend) {
         // 弹出前端自定义错误信息
-        const errorArr = Object.entries(ErrorCode).filter(
-          v => v[0] === error_code.toString()
-        );
+        const errorArr = Object.entries(ErrorCode).filter(v => v[0] === code.toString())
         // 匹配到前端自定义的错误码
-        if (errorArr.length > 0) {
-          if (errorArr[0][1] !== "") {
-            message = errorArr[0][1];
-          } else {
-            message = ErrorCode["777"];
-          }
+        if (errorArr.length > 0 && errorArr[0][1] !== '') {
+          message = errorArr[0][1]
+        } else {
+          message = ErrorCode['777']
         }
       }
 

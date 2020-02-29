@@ -43,13 +43,6 @@ let baseRouter = [
         children: []
     },
     {
-        path: '/p/:id',
-        name: 'p',
-        component: () => import("@/views/article/MavonEditorPreview.vue"),
-        meta: { title: 'MavonEditorPreview' },
-        children: []
-    },
-    {
         path: '/user/:id/:name',
         name: 'user',
         component: () => import("@/views/user/Index.vue"),

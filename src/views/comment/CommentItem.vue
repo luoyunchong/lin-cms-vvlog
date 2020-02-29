@@ -26,11 +26,13 @@
           </a>
         </div>
         <strong>
-          <a
-            :href="`/user/${author.id}/article`"
+          <router-link
+            v-if="author.id!=0"
+            :to="{path:`/user/${author.id}/article`}"
             target="_blank"
             @click="handleClickAuthor"
-          >{{author.nickname}}</a>
+          >{{author.nickname}}</router-link>
+          <a v-if="author.id==0" @click="handleClickAuthor">{{author.nickname}}</a>
         </strong>
         <span class="comments-date">· {{time | filterTimeYmdHms}}</span>
       </div>
@@ -124,6 +126,11 @@ export default {
     },
     handleClickAuthor(event) {
       event.stopPropagation();
+      this.$notify({
+        title: "警告",
+        message: "该用户已被系统删除·",
+        type: "warning"
+      });
       this.$emit("clickAuthor", this);
     },
     handleAddReply(event) {
