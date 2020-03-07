@@ -43,6 +43,7 @@
               :id="item.id"
               :tag_name="item.tag_name"
               :thumbnail_display="item.thumbnail_display"
+              :view_hits="item.view_hits"
               :is_subscribe="item.is_subscribe"
               v-on:addSubscribeTag="addSubscribeTag"
               v-on:deleteSubscribeTag="deleteSubscribeTag"

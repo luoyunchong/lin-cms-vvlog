@@ -82,7 +82,10 @@ export default {
         let res = await articleApi.getArticle(this.id).finally(() => {
           this.loading = false;
         });
-        this.form = res;
+        this.form = {
+          title: res.title,
+          content: res.content
+        };
       } else {
         this.resetForm("form");
       }
@@ -91,11 +94,11 @@ export default {
       this.$refs["editorDialog"].show();
     },
     async submitForm(formDialogData) {
-      let formtData = Object.assign(formDialogData, this.form);
+      let formData = Object.assign(formDialogData, this.form);
       if (this.id != 0) {
-        await articleApi.editArticle(this.id, formtData);
+        await articleApi.editArticle(this.id, formData);
       } else {
-        await articleApi.addArticle(formtData);
+        await articleApi.addArticle(formData);
       }
       this.$message.success(`发布成功!`);
     },

@@ -14,7 +14,7 @@
     </div>
     <el-divider direction="vertical"></el-divider>
     <div class="a-badge" title="评论">
-      <a :href="`#/post/${model.id}#comment-list#comment-list`">
+      <a :href="`#/post/${model.id}#comment-list`">
         <el-badge :type="model.is_comment?'danger':'info'" :value="model.comment_quantity">
           <el-avatar
             :size="32"

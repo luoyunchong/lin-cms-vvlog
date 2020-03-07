@@ -26,7 +26,7 @@
             v-if="item.channel_code==channel"
             :effect="channel!=undefined&&tag_name==undefined?'dark':'plain'"
           >
-            <router-link :to="{path:`/index/${item.channel_code}`}">全部</router-link>
+            <router-link :to="{path:`/index/${encodeURIComponent(item.channel_code)}`}">全部</router-link>
           </el-tag>
           <template v-for="tag in item.tags">
             <el-tag
@@ -38,7 +38,7 @@
               class="margin-left-xs"
             >
               <router-link
-                :to="{path:`/index/${item.channel_code}/${tag.tag_name}`}"
+                :to="{path:`/index/${item.channel_code}/${encodeURIComponent(tag.tag_name)}`}"
               >{{tag.tag_name}}</router-link>
             </el-tag>
           </template>
@@ -145,9 +145,7 @@ export default {
       users: []
     };
   },
-  async created() {
-    await this.getChannels();
-  },
+  async created() {},
   mounted() {},
   computed: {
     sort() {
@@ -194,7 +192,9 @@ export default {
     async refresh() {
       this.pagination.currentPage = 0;
       this.any = new Date();
-
+      await this.infiniteHandler();
+    },
+    setPaginationParams() {
       //看起来很复杂，其实就是根据channels，得到选中的channelId值（技术频道），从channel.tags中找到对应的tagid（标签Id）值。
       if (this.channel != undefined) {
         this.channels &&
@@ -217,10 +217,10 @@ export default {
       } else {
         this.pagination.channel_id = null;
       }
-
-      await this.infiniteHandler();
     },
     async infiniteHandler($state) {
+      await this.getNavChannels();
+      this.setPaginationParams();
       let res;
       const currentPage = this.pagination.currentPage;
       res = await articleApi.getQueryArticles({
@@ -263,8 +263,9 @@ export default {
     onChange(val) {
       this.$router.push(this.getSortUrl(val));
     },
-    async getChannels() {
-      let res = await channelApi.getChannels({
+    async getNavChannels() {
+      if (this.channels.length > 0) return;
+      let res = await channelApi.getNavChannels({
         count: 20,
         page: 0
       });

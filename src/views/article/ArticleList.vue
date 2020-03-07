@@ -16,6 +16,7 @@
                     :to="{ 
                         path:`/user/${item.user_info.id}/article`
                       }"
+                    target="_blank"
                   >{{item.user_info.nickname}}</router-link>
                   <!-- <a :href="`/user/${item.user_info.id}/article`">{{item.user_info.nickname}}</a> -->
                 </li>
@@ -30,12 +31,11 @@
               </ul>
             </div>
             <div class="info-row title-row">
-              <!-- 需要注意这里加/# -->
               <router-link
+                target="_blank"
                 class="article-detail-title"
                 :to="{ name: 'post', params: { id: item.id }}"
               >{{item.title}}</router-link>
-              <!-- <a class="article-detail-title" @click="()=>toArticle(item)">{{item.title}}</a> -->
             </div>
             <span class="info-row article-detail-content article-detail-ellpisis3">{{item.excerpt}}</span>
             <div class="info-row">
@@ -45,6 +45,7 @@
                     <router-link
                       class="article-detail-title"
                       :to="{ name: 'post', params: { id: item.id }}"
+                      target="_blank"
                     >
                       <l-icon name="like-fill" v-if="item.is_liked==true" color="#7fccde"></l-icon>
                       <l-icon name="like" v-else color="#b2bac2"></l-icon>
@@ -55,6 +56,7 @@
                   <li>
                     <router-link
                       class="article-detail-title"
+                      target="_blank"
                       :to="{path:'/post/'+item.id+'#comment-list'}"
                     >
                       <l-icon name="comment" color="#b2bac2"></l-icon>
@@ -65,6 +67,7 @@
                   <li>
                     <router-link
                       class="article-detail-title"
+                      target="_blank"
                       :to="{ name: 'post', params: { id: item.id }}"
                     >
                       <l-icon name="eye" color="#b2bac2"></l-icon>
@@ -77,7 +80,9 @@
               </div>
             </div>
           </div>
-          <img class="article-thumb" :src="item.thumbnail_display" alt />
+          <router-link target="_blank" :to="{path:'/post/'+item.id}">
+            <img class="article-thumb" :src="item.thumbnail_display" alt />
+          </router-link>
         </div>
       </div>
     </div>

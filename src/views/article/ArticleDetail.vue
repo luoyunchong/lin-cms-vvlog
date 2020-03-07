@@ -4,10 +4,7 @@
       <el-row :gutter="24">
         <el-col :xl="18" :lg="18" :md="24" :sm="24" :xs="24">
           <el-card class="box-card" shadow="never">
-            <div slot="header">
-              <el-page-header @back="goBack"></el-page-header>
-            </div>
-            <div class="info-box" v-loading="loading">
+            <div class="info-box margin-bottom-xs" v-loading="loading">
               <el-row type="flex">
                 <el-col :span="2">
                   <router-link :to="{path:`/user/${model.user_info.id}/article`}" target="_blank">
@@ -61,7 +58,7 @@
                 </el-col>
               </el-row>
             </div>
-            <div class="info-box">
+            <div class="info-box margin-bottom-xs">
               <h1 class="title">{{model.title}}</h1>
             </div>
             <div class="info-box">
@@ -110,16 +107,24 @@
             </div>
             <div class="info-box" style="display: flex;">
               <div style="flex: 0 0 auto;margin-right: 1rem;">
-                <a :href="`/user/${model.user_info.id}/article`" target="_blank" class="avatar">
+                <router-link
+                  :to="{
+                      path:`/user/${model.user_info.id}/article`
+                 }"
+                  target="_blank"
+                  class="avatar"
+                >
                   <el-avatar size="large" :src="model.user_info.avatar" icon="el-icon-user-solid"></el-avatar>
-                </a>
+                </router-link>
               </div>
               <div style="flex: 1 1 auto;min-width: 0;">
-                <a
+                <router-link
                   class="nickname"
-                  :href="`/user/${model.user_info.id}/article`"
+                  :to="{
+                      path:`/user/${model.user_info.id}/article`
+                 }"
                   target="_blank"
-                >{{model.user_info.nickname}}</a>
+                >{{model.user_info.nickname}}</router-link>
                 <div class="intro-content">{{model.user_info.introduction}}</div>
               </div>
             </div>
@@ -401,10 +406,7 @@ export default {
 .info-box {
   font-size: 14px;
   color: #909090;
-  margin-bottom: 10px;
   .title {
-    margin-top: 1rem;
-    padding: 0 0 0 1rem;
     font-size: 2rem;
     font-weight: 600;
     color: #000;
@@ -418,10 +420,10 @@ export default {
   }
   .nickname {
     max-width: 100%;
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     font-weight: 700;
     line-height: 18px;
-    color: #333;
+    color: #444;
     display: inline-block;
     margin-bottom: 8px;
   }
@@ -462,6 +464,13 @@ export default {
 #preview /deep/ {
   img {
     width: fit-content;
+  }
+  .markdown-theme-dark code,
+  .code-block p {
+    color: #fff;
+  }
+  blockquote p {
+    margin-bottom: 0px;
   }
   a {
     color: #4285f4;
@@ -504,6 +513,8 @@ export default {
 
 .wx_navigation {
   position: relative;
+  max-height: 700px;
+  overflow: auto;
 }
 
 .wx_navigation /deep/ .navigator-item,

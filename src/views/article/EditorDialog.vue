@@ -191,7 +191,7 @@ export default {
   },
   async created() {
     this.classifys = await classifyApi.getClassifys();
-    let res = await channelApi.getChannels({
+    let res = await channelApi.getNavChannels({
       count: 20,
       page: 0
     });
