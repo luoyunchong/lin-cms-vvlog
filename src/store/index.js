@@ -7,8 +7,6 @@ import * as getters from './getters'
 import actions from './actions'
 
 
-Vue.use(Vuex)
-
 const vuexLocal = new VuexPersistence({
   storage: window.localStorage,
   reducer: state => ({ // eslint-disable-line

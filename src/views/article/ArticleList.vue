@@ -152,7 +152,7 @@ export default {
             height: 22px;
             font-size: 18px;
             font-weight: 600;
-            color: rgba(69, 82, 107, 1);
+            color: #45526b;
             line-height: 22px;
           }
           .article-detail-title:hover {
@@ -176,7 +176,7 @@ export default {
           }
         }
         .title-row {
-          margin: 0.5rem 0 1rem;
+          margin: .5rem 0 0.6rem;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;

@@ -14,14 +14,14 @@
           <el-form-item
             prop="username"
             :rules="[
-              { required: true, message: '请输入用户名或手机号', trigger: 'blur' },
+              { required: true, message: '请输入用户名或邮件', trigger: 'blur' },
             ]"
           >
             <el-input
               v-model="form.username"
               prefix-icon="el-icon-user"
               autocomplete="off"
-              placeholder="请输入用户名或手机号"
+              placeholder="请输入用户名或邮件"
               clearable
             ></el-input>
           </el-form-item>

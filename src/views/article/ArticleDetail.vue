@@ -465,7 +465,7 @@ export default {
   img {
     width: fit-content;
   }
-  .markdown-theme-dark code,
+  .markdown-theme-dark pre code,
   .code-block p {
     color: #fff;
   }

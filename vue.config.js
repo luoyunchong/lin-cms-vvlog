@@ -64,7 +64,14 @@ module.exports = {
               }
             }
           })
-        ]
+        ],
+        externals: {
+          'vue': 'Vue',
+          'vue-router': 'VueRouter',
+          'vuex': 'Vuex',
+          'axios': 'axios',
+          'element-ui': 'ELEMENT'
+        }
       }
     }
     else {
@@ -72,6 +79,13 @@ module.exports = {
         resolve: {
           extensions: [".js", ".json", ".vue", ".scss", ".html"]
         },
+        externals: {
+          'vue': 'Vue',
+          'vue-router': 'VueRouter',
+          'vuex': 'Vuex',
+          'axios': 'axios',
+          'element-ui': 'ELEMENT'
+        }
       }
     }
   },

@@ -1,11 +1,10 @@
 import Vue from "vue";
-import Router from "vue-router";
+import VueRouter from "vue-router";
 import routes from "./routes";
 import store from "../store";
 import appConfig from "@/config/index";
 import Util from "@/lin/utils/util";
 
-Vue.use(Router);
 
 // 判断是否需要登录访问, 配置位于 config 文件夹
 let isLoginRequired = routeName => {
@@ -47,7 +46,7 @@ const scrollBehavior = function (to, from, savedPosition) {
   }
 }
 
-const router = new Router({
+const router = new VueRouter({
   mode: 'hash',
   scrollBehavior,
   base: process.env.BASE_URL,

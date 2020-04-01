@@ -19,8 +19,10 @@
           <time class="meta subscribe">{{subscribers_count}} 关注</time>
           •
           <time class="meta">{{article_count}} 随笔</time>
-          •
-          <time class="meta">{{view_hits}} 浏览</time>
+          <span class="meta-hidden">
+            •
+            <time class="meta">{{view_hits}} 浏览</time>
+          </span>
         </div>
         <el-button
           type="primary"
@@ -100,7 +102,6 @@ export default {
     }
 
     .meta-box {
-      display: flex;
       justify-content: center;
       align-items: center;
       font-size: 0.85rem;
@@ -136,6 +137,12 @@ export default {
       opacity: 0;
       pointer-events: none;
     }
+  }
+}
+
+.mobile {
+  .meta-box .meta-hidden {
+    display: none !important;
   }
 }
 </style>

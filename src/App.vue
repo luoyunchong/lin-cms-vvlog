@@ -6,7 +6,6 @@
 
 <script>
 import { mapActions } from "vuex";
-import Vue from "vue";
 import { AppDeviceEnquire } from "@/lin/utils/mixin";
 export default {
   mixins: [AppDeviceEnquire],
