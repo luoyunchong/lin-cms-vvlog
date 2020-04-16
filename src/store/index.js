@@ -9,7 +9,7 @@ import actions from './actions'
 
 const vuexLocal = new VuexPersistence({
   storage: window.localStorage,
-  reducer: state => ({ // eslint-disable-line
+  reducer: state => ({
     logined: state.logined,
     user: state.user,
     permissions: state.permissions,

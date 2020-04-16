@@ -111,11 +111,12 @@ _axios.interceptors.request.use(
 // Add a response interceptor
 _axios.interceptors.response.use(
   async res => {
-    let { code, message } = res.data; // eslint-disable-line
     if (res.status.toString().charAt(0) === "2") {
-      return res.data;
+      return Promise.resolve(res.data);
     }
     return new Promise(async (resolve, reject) => {
+
+      let { code, message } = res.data;
       const { params, url } = res.config;
 
       // refresh_token 异常，直接登出
@@ -192,9 +193,7 @@ _axios.interceptors.response.use(
   }
 );
 
-// eslint-disable-next-line
 Plugin.install = function (Vue, options) {
-  // eslint-disable-next-line
   Vue.axios = _axios;
   window.axios = _axios;
   Object.defineProperties(Vue.prototype, {

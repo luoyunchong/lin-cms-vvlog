@@ -47,6 +47,16 @@ class Article {
     const res = await get("v1/article/subscribe", pagesParmas);
     return res;
   }
+
+
+  async getArticleDraft(id) {
+    const res = await get(`v1/article/draft/${id}`);
+    return res;
+  }
+  async editArticleDraft(id, info) {
+    const res = await put(`v1/article/draft/${id}`, info);
+    return res;
+  }
 }
 
 export default new Article();

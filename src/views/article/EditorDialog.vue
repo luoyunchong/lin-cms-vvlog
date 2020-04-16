@@ -149,7 +149,9 @@ export default {
   name: "EditorDialog",
   components: { UploadImgs },
   props: {
-    id: [String, Number]
+    id: [String, Number],
+    title: [String],
+    content: [String]
   },
   data() {
     return {
@@ -246,7 +248,6 @@ export default {
         }
         this.tags = res.tags;
       } else {
-        this.resetForm("form");
       }
     },
     async confirmEdit(formName) {
@@ -258,16 +259,30 @@ export default {
           } else {
             this.form.thumbnail = "";
           }
-          this.$emit("submit", this.form);
+          await this.submitForm(this.form);
           this.handleClose();
         } else {
           this.$message.error("请填写正确的信息");
         }
       });
     },
-    resetForm(formName) {
-      this.form.content = "";
-      // this.$refs["thumbnail"].clear();
+    async submitForm(formData) {
+      formData.title = this.title;
+      formData.content = this.content;
+      var id = this.id;
+      if (this.id != 0) {
+        await articleApi.editArticle(this.id, formData);
+      } else {
+        id = await articleApi.addArticle(formData);
+      }
+
+      // this.$emit("success", id);
+      this.$message.success(`发布成功!`);
+      if (this.id == 0) {
+        this.$router.replace(`/post/editor/${id}`);
+      } else {
+        this.$router.replace(`/post/${id}`);
+      }
     }
   }
 };

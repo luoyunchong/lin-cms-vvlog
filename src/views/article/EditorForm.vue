@@ -22,7 +22,14 @@
             ></el-input>
           </el-col>
           <el-col :lg="24">
-            <MarkdownPro v-model="form.content" :bordered="true" :height="800" theme="oneDark" />
+            <MarkdownPro
+              v-model="form.content"
+              :bordered="true"
+              :height="800"
+              theme="oneDark"
+              @on-save="handleOnSave"
+              :autoSave="true"
+            />
           </el-col>
           <!-- <el-col :lg="6">
           <div style="line-height:55px;height:55px;margin-left:10px;">
@@ -32,7 +39,7 @@
         </el-row>
       </el-form>
       <div class="markdown"></div>
-      <editor-dialog ref="editorDialog" :id="id" @submit="submitForm"></editor-dialog>
+      <editor-dialog ref="editorDialog" :id="id" :content="form.content" :title="form.title"></editor-dialog>
     </div>
   </div>
 </template>
@@ -79,7 +86,7 @@ export default {
     async show() {
       if (this.id != 0) {
         this.loading = true;
-        let res = await articleApi.getArticle(this.id).finally(() => {
+        let res = await articleApi.getArticleDraft(this.id).finally(() => {
           this.loading = false;
         });
         this.form = {
@@ -93,18 +100,17 @@ export default {
     async confirmEdit() {
       this.$refs["editorDialog"].show();
     },
-    async submitForm(formDialogData) {
-      let formData = Object.assign(formDialogData, this.form);
-      if (this.id != 0) {
-        await articleApi.editArticle(this.id, formData);
-      } else {
-        await articleApi.addArticle(formData);
-      }
-      this.$message.success(`发布成功!`);
-    },
     resetForm(formName) {
       this.$refs[formName].resetFields();
       this.form.content = "";
+    },
+    async handleOnSave({ value, theme }) {
+      if (this.id == 0 || this.form.title == "" || value == "") return;
+      await articleApi.editArticleDraft(this.id, {
+        title: this.form.title,
+        content: value
+      });
+      console.log("自动保存");
     }
   }
 };
