@@ -22,7 +22,7 @@
           <el-tag
             :hit="false"
             type="success"
-            class="margin-left-xs"
+            class="margin-left-xs margin-bottom-xs"
             v-if="item.channel_code==channel"
             :effect="channel!=undefined&&tag_name==undefined?'dark':'plain'"
           >

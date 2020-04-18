@@ -111,6 +111,14 @@
               size="large"
             ></el-avatar>
           </a>
+          <a href @click="()=>signin('QQ')">
+            <el-avatar
+              class="margin-left-xs"
+              icon="iconfont icon-QQ"
+              title="qq登录"
+              size="large"
+            ></el-avatar>
+          </a>
           <!-- <el-button type="primary" @click="()=>signin('GitHub')">GitHub</el-button> -->
         </el-form-item>
       </el-form>
