@@ -30,7 +30,6 @@ const routes = [
     component: () => import("@/views/article/EditorForm.vue"),
     meta: { title: '随笔编辑' },
   },
-
   {
     redirect: "/404",
     path: "*"

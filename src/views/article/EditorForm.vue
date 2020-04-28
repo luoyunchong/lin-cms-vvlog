@@ -23,23 +23,31 @@
           </el-col>
           <el-col :lg="24">
             <MarkdownPro
+              v-if="form.editor==1"
               v-model="form.content"
               :bordered="true"
-              :height="800"
+              :height="750"
               theme="oneDark"
               @on-save="handleOnSave"
               :autoSave="true"
             />
+            <tinymce
+              v-else
+              :height="750"
+              v-model="form.content"
+              upload_url="http://dev.lin.colorful3.com/cms/file/"
+            />
           </el-col>
-          <!-- <el-col :lg="6">
-          <div style="line-height:55px;height:55px;margin-left:10px;">
-            <el-button type="primary" @click="confirmEdit('form')" icon="el-icon-edit" plain>发布随笔</el-button>
-          </div>
-          </el-col>-->
         </el-row>
       </el-form>
       <div class="markdown"></div>
-      <editor-dialog ref="editorDialog" :id="id" :content="form.content" :title="form.title"></editor-dialog>
+      <editor-dialog
+        ref="editorDialog"
+        :editor="form.editor"
+        :id="id"
+        :content="form.content"
+        :title="form.title"
+      ></editor-dialog>
     </div>
   </div>
 </template>
@@ -47,15 +55,19 @@
 import EditorDialog from "./EditorDialog";
 import HeadNav from "./HeadNav";
 import articleApi from "@/models/article";
+import settingApi from "@/models/setting";
 import { User as CurrentUser } from "@/components/layout";
 import { MarkdownPro } from "vue-meditor";
+import Tinymce from "@/components/base/tinymce";
+
 export default {
   name: "EditorForm",
   data() {
     return {
       form: {
         content: "",
-        title: ""
+        title: "",
+        editor: 0
       },
       rules: {
         title: [{ required: true, message: "请输入标题", trigger: "blur" }]
@@ -66,7 +78,8 @@ export default {
     EditorDialog,
     CurrentUser,
     HeadNav,
-    MarkdownPro
+    MarkdownPro,
+    Tinymce
   },
   async mounted() {
     this.show();
@@ -83,17 +96,34 @@ export default {
     }
   },
   methods: {
+    async getSetting() {
+      this.form.editor = await settingApi.getSettingEditor();
+    },
     async show() {
       if (this.id != 0) {
         this.loading = true;
         let res = await articleApi.getArticleDraft(this.id).finally(() => {
           this.loading = false;
         });
-        this.form = {
-          title: res.title,
-          content: res.content
-        };
+        if (res == null || res == undefined || res == "") {
+          let article = await articleApi.getArticle(this.id).finally(() => {
+            this.loading = false;
+          });
+          this.form = {
+            title: article.title,
+            content: article.content,
+            editor: article.editor
+          };
+        } else {
+          this.form = {
+            title: res.title,
+            content: res.content,
+            editor: res.editor
+          };
+        }
+        console.log(this.form.content);
       } else {
+        this.form.editor = await this.getSetting();
         this.resetForm("form");
       }
     },
@@ -111,6 +141,9 @@ export default {
         content: value
       });
       console.log("自动保存");
+    },
+    change(val) {
+      this.form.content = val;
     }
   }
 };

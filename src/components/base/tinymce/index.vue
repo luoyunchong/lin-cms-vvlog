@@ -1,65 +1,66 @@
 <template>
   <div>
-    <editor id="tinymceEditor" :init="tinymceInit" v-model="content" :key="tinymceFlag"></editor>
+    <editor id="tinymceEditor" :init="tinymceInit" v-model="value" :key="tinymceFlag"></editor>
   </div>
 </template>
 <script>
 // eslint-disable-next-line
-import tinymce from 'tinymce/tinymce'
-import Editor from '@tinymce/tinymce-vue'
-import 'tinymce/themes/silver'
-import './importAll'
+import tinymce from "tinymce/tinymce";
+import Editor from "@tinymce/tinymce-vue";
+import "tinymce/themes/silver";
+import "./importAll";
 
 export default {
-  name: 'TinymceEditor',
+  name: "TinymceEditor",
   props: {
-    defaultContent: {
+    value: {
       type: String,
-      default: '',
+      default: ""
     },
     height: {
       type: Number,
-      default: 500,
+      default: 500
     },
     width: {
       type: Number,
-      default: undefined,
+      default: undefined
     },
     upload_url: {
       type: String,
-      default: '',
+      default: ""
     },
     showMenubar: {
       type: Boolean,
-      default: true,
+      default: true
     },
     toolbar: {
       type: String,
       // eslint-disable-next-line
-      default: ' undo redo |formatselect | bold italic strikethrough forecolor backcolor formatpainter | link image | alignleft aligncenter alignright alignjustify | numlist bullist outdent indent | removeformat | preview fullscreen code',
+      default:
+        " undo redo |formatselect | bold italic strikethrough forecolor backcolor formatpainter | link image | alignleft aligncenter alignright alignjustify | numlist bullist outdent indent | removeformat | preview fullscreen code"
     },
     baseUrl: {
       type: String,
-      default: '',
-    },
+      default: ""
+    }
   },
   components: {
-    Editor,
+    Editor
   },
   data() {
     return {
       tinymceFlag: 1,
       tinymceInit: {},
-      content: '',
-    }
+      content: ""
+    };
   },
   created() {
-    const _this = this
+    const _this = this;
     this.tinymceInit = {
       language_url: `${this.baseUrl}/tinymce/langs/zh_CN.js`,
       skin_url: `${this.baseUrl}/tinymce/skins/ui/oxide`,
       content_css: `${this.baseUrl}/tinymce/skins/content/default/content.css`,
-      language: 'zh_CN',
+      language: "zh_CN",
       height: this.height,
       width: undefined,
       browser_spellcheck: true, // 拼写检查
@@ -68,41 +69,38 @@ export default {
       statusbar: false, // 隐藏编辑器底部的状态栏
       paste_data_images: true, // 允许粘贴图像
       menubar: this.showMenubar, // 隐藏最上方menu
-      // eslint-disable-next-line
-      plugins: 'print fullpage searchreplace autolink directionality visualblocks visualchars template codesample charmap hr pagebreak nonbreaking anchor toc insertdatetime wordcount textpattern help advlist table lists paste preview fullscreen image imagetools code link',
+      plugins:
+        "print fullpage searchreplace autolink directionality visualblocks visualchars template codesample charmap hr pagebreak nonbreaking anchor toc insertdatetime wordcount textpattern help advlist table lists paste preview fullscreen image imagetools code link",
       toolbar: this.toolbar,
-      // eslint-disable-next-line
       images_upload_handler: async function(blobInfo, success, failure) {
         const file = new File([blobInfo.blob()], blobInfo.filename(), {
-          type: 'image/*',
-        })
-        _this.$axios({
-          method: 'post',
-          url: '/cms/file',
-          data: {
-            file,
-          },
-        }).then((res) => {
-          if (res[0] && res[0].url) {
-            success(res[0].url)
-          }
-        }).catch(err => failure(err))
-      },
-    }
+          type: "image/*"
+        });
+        _this
+          .$axios({
+            method: "post",
+            url: "/cms/file",
+            data: {
+              file
+            }
+          })
+          .then(res => {
+            if (res[0] && res[0].url) {
+              success(res[0].url);
+            }
+          })
+          .catch(err => failure(err));
+      }
+    };
   },
-  mounted() {
-    if (this.defaultContent) {
-      this.content = this.defaultContent
-    }
-  },
+  mounted() {},
   watch: {
-    // eslint-disable-next-line
-    content: function() {
-      this.$emit('change', this.content)
-    },
+    value: function() {
+      this.$emit("input", this.value);
+    }
   },
   activated() {
-    this.tinymceFlag++
-  },
-}
+    this.tinymceFlag++;
+  }
+};
 </script>

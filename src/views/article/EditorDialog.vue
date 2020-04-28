@@ -151,7 +151,8 @@ export default {
   props: {
     id: [String, Number],
     title: [String],
-    content: [String]
+    content: [String],
+    editor: [Number]
   },
   data() {
     return {
@@ -269,6 +270,7 @@ export default {
     async submitForm(formData) {
       formData.title = this.title;
       formData.content = this.content;
+      formData.editor = this.editor;
       var id = this.id;
       if (this.id != 0) {
         await articleApi.editArticle(this.id, formData);

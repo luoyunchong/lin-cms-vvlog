@@ -4,6 +4,9 @@
       <el-row :gutter="24">
         <el-col :xl="18" :lg="18" :md="24" :sm="24" :xs="24">
           <el-card class="box-card" shadow="never">
+            <div class="info-box margin-bottom-xs">
+              <h1 class="title">{{model.title}}</h1>
+            </div>
             <div class="info-box margin-bottom-xs" v-loading="loading">
               <el-row type="flex">
                 <el-col :span="2">
@@ -59,16 +62,14 @@
               </el-row>
             </div>
             <div class="info-box margin-bottom-xs">
-              <h1 class="title">{{model.title}}</h1>
-            </div>
-            <div class="info-box">
               <el-alert
                 :title="`本文共${model.word_number}字,阅读约需${model.reading_time}分钟。`"
                 type="info"
               ></el-alert>
             </div>
             <div id="preview">
-              <MarkdownPreview :initialValue="model.content" theme="dark" />
+              <MarkdownPreview v-if="model.editor==1" :initialValue="model.content" theme="dark" />
+              <div v-else v-html="model.content"></div>
             </div>
             <div class="tag-box top20" v-show="model.tags.length>0">
               <h3 class="tag-title">标签</h3>
@@ -172,6 +173,7 @@ import CommentList from "@/views/comment/CommentList";
 import { SubscribeButton } from "@/views/subscribe";
 import Error404Page from "@/views/error-page/404";
 import { MarkdownPreview } from "vue-meditor";
+import tinymce from "tinymce/tinymce";
 export default {
   name: "ArticleDetail",
   data() {
@@ -462,6 +464,52 @@ export default {
 }
 
 #preview /deep/ {
+  .markdown-preview {
+    ul li,
+    a,
+    p {
+      letter-spacing: 1.3px;
+      font-size: 16px !important;
+    }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: #333;
+      line-height: 1.5;
+      margin-top: 35px;
+      margin-bottom: 10px;
+      padding-bottom: 5px;
+    }
+    h1 {
+      font-size: 30px;
+      margin-bottom: 5px;
+    }
+    h2 {
+      margin-top: 20px;
+    }
+    h3 {
+      margin-top: 10px;
+    }
+    h4,
+    h5,
+    h6 {
+      margin-top: 5px;
+    }
+    p {
+      line-height: 1.6;
+    }
+    ul li:after {
+      width: 4px;
+      height: 4px;
+    }
+
+    ul li input[type="checkbox"]:before {
+      z-index: 199 !important;
+    }
+  }
   img {
     width: fit-content;
   }

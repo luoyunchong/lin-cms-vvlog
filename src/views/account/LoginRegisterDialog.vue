@@ -112,12 +112,7 @@
             ></el-avatar>
           </a>
           <a href @click="()=>signin('QQ')">
-            <el-avatar
-              class="margin-left-xs"
-              icon="iconfont icon-QQ"
-              title="qq登录"
-              size="large"
-            ></el-avatar>
+            <el-avatar class="margin-left-xs" icon="iconfont icon-QQ" title="qq登录" size="large"></el-avatar>
           </a>
           <!-- <el-button type="primary" @click="()=>signin('GitHub')">GitHub</el-button> -->
         </el-form-item>
@@ -215,7 +210,7 @@ export default {
 
     signin(provider) {
       window.open(
-        `${process.env.VUE_APP_BASE_URL}cms/oauth2/signin?provider=${provider}&redirectUrl=${process.env.VUE_APP_CURRENT_URL}#login-result`
+        `${process.env.VUE_APP_BASE_URL}cms/oauth2/signin?provider=${provider}&redirectUrl=${process.env.VUE_APP_CURRENT_URL}`
       );
     }
   }
