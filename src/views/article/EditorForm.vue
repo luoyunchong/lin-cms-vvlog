@@ -82,7 +82,7 @@ export default {
     Tinymce
   },
   async mounted() {
-    this.show();
+    await this.show();
   },
   async created() {},
   watch: {
@@ -97,7 +97,8 @@ export default {
   },
   methods: {
     async getSetting() {
-      this.form.editor = await settingApi.getSettingEditor();
+      let editor = await settingApi.getSettingEditor();
+      this.form.editor = editor;
     },
     async show() {
       if (this.id != 0) {
@@ -123,7 +124,7 @@ export default {
         }
         console.log(this.form.content);
       } else {
-        this.form.editor = await this.getSetting();
+        await this.getSetting();
         this.resetForm("form");
       }
     },
