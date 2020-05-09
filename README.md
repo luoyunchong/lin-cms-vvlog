@@ -21,16 +21,17 @@
 - 管理后台UI [https://github.com/luoyunchong/lin-cms-vue](https://github.com/luoyunchong/lin-cms-vue)
 - 前端UI[https://github.com/luoyunchong/lin-cms-vvlog](https://github.com/luoyunchong/lin-cms-vvlog)
 
+
 ## 线上 Demo
-- API的swagger地址 [http://47.106.80.39:7000/swagger/index.html](http://47.106.80.39:7000/swagger/index.html)
-- 用户端 lin-cms-vvlog [http://47.106.80.39:8080/index](http://47.106.80.39:8080/index) 
-- 用户端github pages [https://luoyunchong.github.io/lin-cms-vvlog/#/index](https://luoyunchong.github.io/lin-cms-vvlog/#/index)
+- 本项目swagger地址 [https://baimocore.cn/swagger/index.html](https://baimocore.cn/swagger/index.html)
+- 用户端 lin-cms-vvlog [http://vvlog.baimocore.cn](http://vvlog.baimocore.cn) 
   - 普通用户：710277267@qq.com
   - 密码：123qwe
 
-- 管理员 lin-cms-vue [http://47.106.80.39:8081/#/](http://47.106.80.39:8081/#/)
+- 管理员 lin-cms-vue [http://cms.baimocore.cn/](http://cms.baimocore.cn)
   - 管理员： admin
   - 密码：123qwe
+
 
 ## 线上文档地址(完善中)
 - [https://luoyunchong.github.io/vuepress-docs/dotnetcore/lin-cms/](https://luoyunchong.github.io/vuepress-docs/dotnetcore/lin-cms/)
