@@ -185,7 +185,7 @@ export default {
     },
     async register() {
       this.loading = true;
-      await User.register({
+      await User.registerAccount({
         nickname: this.form.nickname,
         password: this.form.password,
         email: this.form.email
