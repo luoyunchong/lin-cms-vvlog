@@ -31,7 +31,7 @@ module.exports = {
       .loader("vue-markdown-loader/lib/markdown-compiler");
 
     /* 添加分析工具*/
-    if (process.env.NODE_ENV === 'production') {
+    if (process.env.NODE_ENV !== 'production') {
       if (process.env.npm_config_report) {
         config
           .plugin('webpack-bundle-analyzer')

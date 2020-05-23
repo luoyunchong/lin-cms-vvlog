@@ -54,6 +54,11 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
+  if (to.path) {
+    if (window._hmt) {
+      window._hmt.push(['_trackPageview', '/#' + to.fullPath])
+    }
+  }
   // 登录验证
   if (isLoginRequired(to.name) && !store.state.logined) {
     next({ path: "/login", query: { redirect: to.fullPath } });

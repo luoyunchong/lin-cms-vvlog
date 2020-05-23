@@ -70,8 +70,8 @@ export const authStageConfig = (state) => {
 
 // 获取侧边栏配置
 export const sideBarList = (state, getter) => {
-  const { sideBarLevel } = state // eslint-disable-line
-  const { authStageConfig } = getter // eslint-disable-line
+  const { sideBarLevel } = state
+  const { authStageConfig } = getter
 
   function deepGetSideBar(target, level = 3) {
     // 集合节点处理

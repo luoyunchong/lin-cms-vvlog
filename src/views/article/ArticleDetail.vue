@@ -9,14 +9,14 @@
             </div>
             <div class="info-box margin-bottom-xs" v-loading="loading">
               <el-row type="flex">
-                <el-col :span="2">
+                <el-col :span="2" :xs="4">
                   <router-link :to="{path:`/user/${model.user_info.id}/article`}" target="_blank">
                     <el-avatar size="large" :src="model.user_info.avatar" icon="el-icon-user-solid"></el-avatar>
                   </router-link>
                 </el-col>
-                <el-col>
+                <el-col :span="22" :xs="20">
                   <el-row :gutter="10">
-                    <el-col :span="18" :xs="18">
+                    <el-col :span="20" :xs="18">
                       <el-col :span="24">
                         <router-link
                           class="nickname"
@@ -45,8 +45,8 @@
                       </el-col>
                     </el-col>
                     <el-col
-                      :span="5"
-                      :xs="5"
+                      :span="4"
+                      :xs="4"
                       style="text-align:right;padding-left:0px;"
                       v-if="user!=null&&model.user_info.id!=user.id"
                     >
@@ -465,11 +465,16 @@ export default {
 
 #preview /deep/ {
   .markdown-preview {
+    color: #24292e;
+    padding: 0px 12px 20px 12px !important;
     ul li,
     a,
     p {
-      letter-spacing: 1.3px;
-      font-size: 16px !important;
+      line-height: 1.6;
+      font-size: 15px !important;
+      font-family: "-apple-system", BlinkMacSystemFont, "\5FAE\8F6F\96C5\9ED1",
+        "PingFang SC", Helvetica, Arial, "Hiragino Sans GB", "Microsoft YaHei",
+        SimSun, "\5B8B\4F53", Heiti, "\9ED1\4F53", sans-serif;
     }
     h1,
     h2,
@@ -478,10 +483,20 @@ export default {
     h5,
     h6 {
       color: #333;
-      line-height: 1.5;
-      margin-top: 35px;
-      margin-bottom: 10px;
+      line-height: 1.25;
+      margin-top: 24px;
+      margin-bottom: 16px;
       padding-bottom: 5px;
+    }
+    p,
+    blockquote,
+    ul,
+    ol,
+    dl,
+    table,
+    pre {
+      margin-top: 0;
+      margin-bottom: 16px;
     }
     h1 {
       font-size: 30px;
@@ -489,6 +504,7 @@ export default {
     }
     h2 {
       margin-top: 20px;
+      border-bottom: 1px solid #eaecef;
     }
     h3 {
       margin-top: 10px;
@@ -498,9 +514,9 @@ export default {
     h6 {
       margin-top: 5px;
     }
-    p {
-      line-height: 1.6;
-    }
+    // table tr:nth-of-type(even) td {
+    //   background-color: #f6f8fa;
+    // }
     ul li:after {
       width: 4px;
       height: 4px;
@@ -510,9 +526,7 @@ export default {
       z-index: 199 !important;
     }
   }
-  img {
-    width: fit-content;
-  }
+
   .markdown-theme-dark pre code,
   .code-block p {
     color: #fff;
@@ -525,6 +539,9 @@ export default {
     &:hover {
       text-decoration: underline;
     }
+  }
+  .preview-img .close {
+    right: 22px;
   }
 }
 

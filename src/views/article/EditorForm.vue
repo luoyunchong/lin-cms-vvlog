@@ -67,7 +67,7 @@ export default {
       form: {
         content: "",
         title: "",
-        editor: 0
+        editor: 1
       },
       rules: {
         title: [{ required: true, message: "请输入标题", trigger: "blur" }]
@@ -98,7 +98,9 @@ export default {
   methods: {
     async getSetting() {
       let editor = await settingApi.getSettingEditor();
-      this.form.editor = editor;
+      if (editor != "" && editor != null) {
+        this.form.editor = editor;
+      }
     },
     async show() {
       if (this.id != 0) {
@@ -152,6 +154,88 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/assets/styles/form.scss";
+
+.markdown /deep/ {
+  .markdown-preview {
+    color: #24292e;
+    ul li,
+    a,
+    p {
+      line-height: 1.6;
+      font-size: 15px !important;
+
+      font-family: "-apple-system", BlinkMacSystemFont, "\5FAE\8F6F\96C5\9ED1",
+        "PingFang SC", Helvetica, Arial, "Hiragino Sans GB", "Microsoft YaHei",
+        SimSun, "\5B8B\4F53", Heiti, "\9ED1\4F53", sans-serif;
+    }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: #333;
+      line-height: 1.25;
+      margin-top: 24px;
+      margin-bottom: 16px;
+      padding-bottom: 5px;
+    }
+    p,
+    blockquote,
+    ul,
+    ol,
+    dl,
+    table,
+    pre {
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    h1 {
+      font-size: 30px;
+      margin-bottom: 5px;
+    }
+    h2 {
+      margin-top: 20px;
+      border-bottom: 1px solid #eaecef;
+    }
+    h3 {
+      margin-top: 10px;
+    }
+    h4,
+    h5,
+    h6 {
+      margin-top: 5px;
+    }
+    // table tr:nth-of-type(even) td {
+    //   background-color: #f6f8fa;
+    // }
+    ul li:after {
+      width: 4px;
+      height: 4px;
+    }
+
+    ul li input[type="checkbox"]:before {
+      z-index: 199 !important;
+    }
+  }
+
+  .markdown-theme-dark pre code,
+  .code-block p {
+    color: #fff;
+  }
+  blockquote p {
+    margin-bottom: 0px;
+  }
+  a {
+    color: #4285f4;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  .preview-img .close {
+    right: 22px;
+  }
+}
 
 .editor-container {
   margin-top: 80px;
