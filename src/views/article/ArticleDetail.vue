@@ -476,6 +476,30 @@ export default {
         "PingFang SC", Helvetica, Arial, "Hiragino Sans GB", "Microsoft YaHei",
         SimSun, "\5B8B\4F53", Heiti, "\9ED1\4F53", sans-serif;
     }
+    img {
+      width: auto;
+    }
+    .code-pre {
+      color: #333;
+      border-radius: 2px;
+      .hljs-keyword {
+        color: #00f;
+      }
+      .hljs-title,
+      .hljs-params,
+      .hljs-function {
+        color: #333;
+      }
+      .hljs-number {
+        color: #361da3;
+      }
+      .hljs-meta {
+        color: #2b91af;
+      }
+      .hljs-string {
+        color: #a31515;
+      }
+    }
     h1,
     h2,
     h3,
@@ -527,10 +551,10 @@ export default {
     }
   }
 
-  .markdown-theme-dark pre code,
-  .code-block p {
-    color: #fff;
-  }
+  // .markdown-theme-dark pre code,
+  // .code-block p {
+  //   color: #fff;
+  // }
   blockquote p {
     margin-bottom: 0px;
   }

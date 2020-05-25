@@ -168,6 +168,15 @@ export default {
         "PingFang SC", Helvetica, Arial, "Hiragino Sans GB", "Microsoft YaHei",
         SimSun, "\5B8B\4F53", Heiti, "\9ED1\4F53", sans-serif;
     }
+    img {
+      width: auto;
+    }
+    pre {
+      color: #333;
+      background-color: #f5f5f5;
+      border: 1px solid #ccc;
+      border-radius: 2px;
+    }
     h1,
     h2,
     h3,
