@@ -1,7 +1,7 @@
-import Home from "@/views/home/Home";
+import Home from "@/view/home/home";
 import homeRouter from "./home-router";
 import baseRouter from "./base-router";
-import BaseLayout from "@/views/layout/BaseLayout";
+import BaseLayout from "@/view/layout/base-layout";
 const routes = [
   {
     path: "/",
@@ -22,12 +22,12 @@ const routes = [
   {
     path: "/login",
     name: "login",
-    component: () => import("@/views/account/Login")
+    component: () => import("@/view/account/login")
   },
   {
     path: '/post/editor/:id',
     name: 'post-editor',
-    component: () => import("@/views/article/EditorForm.vue"),
+    component: () => import("@/view/article/editor-form.vue"),
     meta: { title: '随笔编辑' },
   },
   {

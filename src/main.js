@@ -4,17 +4,17 @@ import ElementUI from "element-ui";
 
 import "@/lin/mixin";
 import "@/lin/filter";
-import "@/lin/plugins";
-import "@/lin/directives";
+import "@/lin/plugin";
+import "@/lin/directive";
 
 import CollapseTransition from "element-ui/lib/transitions/collapse-transition";
 import router from "@/router";
 import store from "@/store";
 import App from "@/App.vue";
 
-import StickyTop from "@/components/base/sticky-top/sticky-top";
-import LIcon from "@/components/base/icon/lin-icon";
-import SourceCode from "@/components/base/source-code/source-code";
+import StickyTop from "@/component/base/sticky-top/sticky-top";
+import LIcon from "@/component/base/icon/lin-icon";
+import SourceCode from "@/component/base/source-code/source-code";
 
 import "@/assets/styles/index.scss";
 import "@/assets/styles/realize/element-variables.scss";

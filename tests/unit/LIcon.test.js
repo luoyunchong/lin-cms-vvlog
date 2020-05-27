@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import LIcon from '@/components/base/icon/lin-icon.vue'
+import LIcon from '@/component/base/icon/lin-icon.vue'
 
 describe('LIcon', () => {
   const wrapper

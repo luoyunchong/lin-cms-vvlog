@@ -29,7 +29,7 @@ questions.push({
         return
       }
 
-      const filePath = path.resolve(__dirname, `../src/plugins/${value}`)
+      const filePath = path.resolve(__dirname, `../src/plugin/${value}`)
       if (fs.existsSync(filePath)) {
         done('项目中已存在该插件, 请更换其他插件名')
         return
@@ -155,7 +155,7 @@ inquirer.prompt(questions).then((answers) => {
 }).then((answers) => {
   // 复制 .cache 到 plugin
   const sourcePath = path.resolve(__dirname, './.cache/plugin')
-  const targetPath = path.resolve(__dirname, `../src/plugins/${answers.camelCaseName}`)
+  const targetPath = path.resolve(__dirname, `../src/plugin/${answers.camelCaseName}`)
   fs.copySync(sourcePath, targetPath)
 
   console.log(chalk.green(`创建插件 ${answers.name}: ${targetPath}`))

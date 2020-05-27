@@ -3,7 +3,7 @@ import VueRouter from "vue-router";
 import routes from "./routes";
 import store from "../store";
 import appConfig from "@/config/index";
-import Util from "@/lin/utils/util";
+import Util from "@/lin/util/util";
 
 
 // 判断是否需要登录访问, 配置位于 config 文件夹

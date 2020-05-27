@@ -1,4 +1,4 @@
-import Util from '@/lin/utils/util'
+import Util from '@/lin/util/util'
 
 let stageMap = {}
 

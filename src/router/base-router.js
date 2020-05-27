@@ -2,82 +2,82 @@ let baseRouter = [
     {
         path: '/index/:channel?/:tag_name?',
         name: 'index',
-        component: () => import("@/views/home/Index.vue"),
+        component: () => import("@/view/home/index.vue"),
         meta: { title: '首页' },
     },
     {
         path: '/subscribe',
         name: 'subscribe',
-        component: () => import("@/views/subscribe/SubscribeArticle.vue"),
+        component: () => import("@/view/subscribe/subscribe-article.vue"),
         meta: { title: '关注' },
     },
     {
         path: '/docs',
         name: 'docs',
-        component: () => import("@/views/home/Docs.vue"),
+        component: () => import("@/view/home/docs.vue"),
         meta: { title: '文档' },
     },
     {
         path: '/tag/subscribe/:tab',
         name: 'tag-list',
-        component: () => import("@/views/tag/TagList.vue"),
+        component: () => import("@/view/tag/tag-list.vue"),
         meta: { title: '标签列表页' },
     },
     {
         path: '/tag/:id',
         name: 'tag-detail',
-        component: () => import("@/views/tag/TagDetail.vue"),
+        component: () => import("@/view/tag/tag-detail.vue"),
         meta: { title: '标签详情页' },
     },
     {
         path: '/comment',
         name: 'comment',
-        component: () => import("@/views/comment/CommentList.vue"),
+        component: () => import("@/view/comment/comment-list.vue"),
         meta: { title: '评论' },
     },
     {
         path: '/post/:id',
         name: 'post',
-        component: () => import("@/views/article/ArticleDetail.vue"),
+        component: () => import("@/view/article/article-detail.vue"),
         meta: { title: '随笔详情页' },
         children: []
     },
     {
         path: '/user/:id/:name',
         name: 'user',
-        component: () => import("@/views/user/Index.vue"),
+        component: () => import("@/view/user/index.vue"),
         meta: { title: '我的主页' },
     },
     {
         path: '/notifications/:notification_type',
         name: 'notifications',
-        component: () => import("@/views/notification/Index.vue"),
+        component: () => import("@/view/notification/index.vue"),
         meta: { title: '消息' },
         children: []
     },
     {
         path: '/settings',
         name: 'settings',
-        component: () => import("@/views/settings/Index.vue"),
+        component: () => import("@/view/settings/index.vue"),
         redirect: '/settings/profile',
         meta: { title: '设置' },
         children: [
             {
                 path: '/settings/profile',
                 name: 'settings-profile',
-                component: () => import("@/views/settings/Profile.vue"),
+                component: () => import("@/view/settings/profile.vue"),
                 meta: { title: '个人资料' },
             },
             {
                 path: '/settings/security',
                 name: 'settings-security',
-                component: () => import("@/views/settings/Security.vue"),
+                component: () => import("@/view/settings/security.vue"),
                 meta: { title: '安全设置' },
             },
             {
                 path: '/settings/blog',
                 name: 'settings-blog',
-                component: () => import("@/views/settings/Blog.vue"),
+                component: () => import("@/view/settings/blog.vue"),
                 meta: { title: '博客设置' },
             }
         ]
@@ -85,13 +85,13 @@ let baseRouter = [
     {
         path: '/login-result',
         name: 'login-result',
-        component: () => import("@/views/account/LoginResult.vue"),
+        component: () => import("@/view/account/login-result.vue"),
         meta: { title: '第三方登录' },
     },
     {
         path: '/404',
         name: '404',
-        component: () => import("@/views/error-page/404.vue"),
+        component: () => import("@/view/error-page/404.vue"),
         meta: { title: '404' },
     }
 ]

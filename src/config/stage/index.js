@@ -1,5 +1,5 @@
 import pluginsConfig from "./plugins";
-import Utils from "@/lin/utils/util";
+import Utils from "@/lin/util/util";
 
 let homeRouter = [
   {
@@ -7,7 +7,7 @@ let homeRouter = [
     type: "view",
     name: Symbol("about"),
     route: "/about",
-    filePath: "views/about/About.vue",
+    filePath: "view/about/about.vue",
     inNav: true,
     icon: 'iconfont icon-send',
     order: 0
@@ -17,7 +17,7 @@ let homeRouter = [
     type: "view",
     name: Symbol("dashboard"),
     route: "/dashboard",
-    filePath: "views/home/Dashboard.vue",
+    filePath: "view/home/Dashboard.vue",
     inNav: true,
     icon: 'iconfont icon-appstoreadd',
     order: 1
@@ -27,7 +27,7 @@ let homeRouter = [
     type: "view",
     name: Symbol("404"),
     route: "/404",
-    filePath: "views/error-page/404.vue",
+    filePath: "view/error-page/404.vue",
     inNav: false,
     icon: "iconfont icon-Batchfolding"
   }
