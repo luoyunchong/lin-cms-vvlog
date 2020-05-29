@@ -10,8 +10,8 @@
 const axios = require("axios");
 function parseUrlParams() {
   if (window.location.search.length <= 0) return false;
-  var info = window.location.search.slice(1);
-  var result = {};
+  let info = window.location.search.slice(1);
+  let result = {};
   info.split("&").forEach(item => {
     result[decodeURIComponent(item.split("=")[0])] = decodeURIComponent(
       item.split("=")[1]
@@ -31,7 +31,7 @@ export default {
   },
   created() {
     this.loading = true;
-    var result = parseUrlParams();
+    let result = parseUrlParams();
     if (!(result && result.token)) {
       alert("无效的登录");
       this.loading = false;

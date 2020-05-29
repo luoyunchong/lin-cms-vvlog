@@ -225,7 +225,7 @@ export default {
       if (this.user && this.user.id) {
         userId = this.user.id;
       }
-      var res = await userTagApi.getSubscribeTags({
+      let res = await userTagApi.getSubscribeTags({
         user_id: userId,
         count: 1000
       });

@@ -83,7 +83,7 @@ export default {
   methods: {
     async show(id) {
       if (id != 0) {
-        var classify = await classifyApi.getClassify(id);
+        let classify = await classifyApi.getClassify(id);
         this.form = classify;
         this.thumbnailPreview.length = 0;
         if (classify.thumbnail) {
@@ -108,7 +108,7 @@ export default {
       }
     },
     async confirmEdit(formName) {
-      var thumbnail = await this.$refs["thumbnail"].getValue();
+      let thumbnail = await this.$refs["thumbnail"].getValue();
       if (thumbnail.length > 0) {
         this.form.thumbnail = thumbnail[0].src;
       } else {

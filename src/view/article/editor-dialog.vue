@@ -254,7 +254,7 @@ export default {
     async confirmEdit(formName) {
       this.$refs[formName].validate(async valid => {
         if (valid) {
-          var thumbnail = await this.$refs["thumbnail"].getValue();
+          let thumbnail = await this.$refs["thumbnail"].getValue();
           if (thumbnail.length > 0) {
             this.form.thumbnail = thumbnail[0].src;
           } else {
@@ -271,7 +271,7 @@ export default {
       formData.title = this.title;
       formData.content = this.content;
       formData.editor = this.editor;
-      var id = this.id;
+      let id = this.id;
       if (this.id != 0) {
         await articleApi.editArticle(this.id, formData);
       } else {

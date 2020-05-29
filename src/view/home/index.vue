@@ -179,14 +179,14 @@ export default {
       return this.$route.query.sort;
     },
     hotType() {
-      var sortArray = [
+      let sortArray = [
         "THREE_DAYS_HOTTEST",
         "WEEKLY_HOTTEST",
         "MONTHLY_HOTTEST",
         "HOTTEST"
       ];
-      var that = this;
-      var hot = sortArray.filter(r => {
+      let that = this;
+      let hot = sortArray.filter(r => {
         return r == this.$route.query.sort;
       });
 

@@ -29,11 +29,11 @@ export default {
       });
     },
     buildNavigation() {
-      //   var a = document.getElementById("navigation");
+      //   let a = document.getElementById("navigation");
       //   a.innerHTML = this.$refs.mavon.d_render; // mavmon根据marodown内容生成的dom
 
       const nodes = a.children;
-      var newDoms = [];
+      let newDoms = [];
 
       if (nodes.length) {
         for (let i = 0; i < nodes.length; i++) {
@@ -58,8 +58,8 @@ export default {
           const id = domId;
           const content = nodeArr[1];
 
-          var childs = node.childNodes;
-          for (var index = childs.length - 1; index >= 0; index--) {
+          let childs = node.childNodes;
+          for (let index = childs.length - 1; index >= 0; index--) {
             node.removeChild(childs[index]);
           }
 

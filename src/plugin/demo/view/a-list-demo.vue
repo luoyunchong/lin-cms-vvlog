@@ -98,7 +98,7 @@ export default {
       this.loading = true;
 
       let listData = [];
-      for (var i = 1; i <= 5; i++) {
+      for (let i = 1; i <= 5; i++) {
         listData.push({
           actions: [
             {

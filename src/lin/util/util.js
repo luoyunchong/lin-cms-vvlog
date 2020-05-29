@@ -244,8 +244,8 @@ export function getScrollBarSize(fresh) {
 }
 
 Utils.formatHyperLink = (value) => {
-  var reg = /(http[s]?:\/\/([\w-]+.)+([:\d+])?(\/[\w-\.\/\?%&=]*)?)/gi;
-  var result = value.replace(reg, function (a) {
+  let reg = /(http[s]?:\/\/([\w-]+.)+([:\d+])?(\/[\w-\.\/\?%&=]*)?)/gi;
+  let result = value.replace(reg, function (a) {
     let text = a
     // let text = a.replace("http://", "").replace("https://");
     if (text.length > 22) {

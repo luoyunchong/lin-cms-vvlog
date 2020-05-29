@@ -62,7 +62,7 @@ export default {
     addComment() {
       this.$refs["form"].validate(async valid => {
         if (valid) {
-          var text = this.model.text.trim();
+          let text = this.model.text.trim();
           if (text == "") {
             this.$message({
               message: "发布内容为空!",

@@ -291,7 +291,7 @@ export default {
         document.querySelector(".aside-list").scrollTop;
     },
     loadSroll() {
-      var self = this;
+      let self = this;
       for (let i = 0; i < this.heightArr.length - 1; i++) {
         if (this.nodes[i] && this.nodes[i].classList != undefined) {
           if (
@@ -306,13 +306,13 @@ export default {
       }
     },
     buildNavigation() {
-      var navigation = document.getElementById("navigation");
+      let navigation = document.getElementById("navigation");
       let articleId = this.id;
       const nodes = document
         .getElementById("preview")
         .querySelectorAll("h1,h2,h3,h4,h5");
-      var newDoms = [];
-      var router = this.$router;
+      let newDoms = [];
+      let router = this.$router;
       if (nodes.length) {
         for (let i = 0; i < nodes.length; i++) {
           const id = nodes[i].id;
@@ -323,7 +323,7 @@ export default {
       function judageH(node, i, domId) {
         const reg = /^H[1-5]{1}$/;
         if (reg.exec(node.tagName)) {
-          var cloneNode = node.cloneNode();
+          let cloneNode = node.cloneNode();
 
           cloneNode.classList.add("navigator-item");
           const a = document.createElement("a");
@@ -334,7 +334,7 @@ export default {
           a.innerHTML = node.innerText;
           cloneNode.appendChild(a);
           cloneNode.onclick = function() {
-            var parents = cloneNode.parentElement.children;
+            let parents = cloneNode.parentElement.children;
             for (let j = 0; j < parents.length; j++) {
               parents[j].classList.remove("active");
             }
