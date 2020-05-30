@@ -16,10 +16,10 @@ import StickyTop from "@/component/base/sticky-top/sticky-top";
 import LIcon from "@/component/base/icon/lin-icon";
 import SourceCode from "@/component/base/source-code/source-code";
 
-import "@/assets/styles/index.scss";
-import "@/assets/styles/realize/element-variables.scss";
+import "@/assets/style/index.scss";
+import "@/assets/style/realize/element-variable.scss";
 import "element-ui/lib/theme-chalk/base.css";
-import '@/assets/styles/main.scss';
+import '@/assets/style/main.scss';
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
 

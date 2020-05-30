@@ -24,7 +24,7 @@ $--font-path: "~element-ui/lib/theme-chalk/fonts";
 
 @import "~element-ui/packages/theme-chalk/src/index";
 
-@import "./lin-variables.scss";
+@import "./lin-variable.scss";
 
 // button
 .el-button {
@@ -204,7 +204,7 @@ $--font-path: "~element-ui/lib/theme-chalk/fonts";
   border: none !important;
 }
 
-.el-radio__input.is-checked + .el-radio__label {
+.el-radio__input.is-checked+.el-radio__label {
   color: $theme;
 }
 
@@ -248,13 +248,16 @@ $--font-path: "~element-ui/lib/theme-chalk/fonts";
   border: 1px solid $theme;
   color: #fff;
 }
+
 .el-input .el-input--suffix {
   background: $theme;
   color: #fff;
+
   input::placeholder {
     color: #fff;
   }
 }
+
 // table
 .el-table {
   border-top: 1px solid $table-border-color;
@@ -317,11 +320,11 @@ thead tr {
   background: #fff;
 }
 
-.el-table__body tr.current-row > td,
-.el-table__body tr.hover-row.current-row > td,
-.el-table__body tr.hover-row.el-table__row--striped.current-row > td,
-.el-table__body tr.hover-row.el-table__row--striped > td,
-.el-table__body tr.hover-row > td {
+.el-table__body tr.current-row>td,
+.el-table__body tr.hover-row.current-row>td,
+.el-table__body tr.hover-row.el-table__row--striped.current-row>td,
+.el-table__body tr.hover-row.el-table__row--striped>td,
+.el-table__body tr.hover-row>td {
   background-color: #ecf5ff;
 }
 
@@ -330,12 +333,14 @@ thead tr {
   font-size: 18px;
   top: -5px;
 }
+
 // el-dialog
 .el-dialog__title {
   color: $parent-title-color;
   font-size: 16px;
   font-weight: 500;
 }
+
 // tab
 .el-tabs__item.is-active {
   color: $theme;
@@ -387,6 +392,7 @@ thead tr {
     }
 
     &.third {
+
       // 3级
       .el-menu-item {
         position: relative;
@@ -557,6 +563,7 @@ thead tr {
 }
 
 .el-menu--collapse {
+
   // margin-left: -2px;
   .el-submenu.is-active {
     .el-submenu__title {
@@ -622,7 +629,8 @@ thead tr {
 .el-link.is-underline:hover:after {
   border-bottom: 1px solid $--link-default-active-color;
 }
-.el-link [class*="el-icon-"] + span {
+
+.el-link [class*="el-icon-"]+span {
   margin-left: 4px;
 }
 
@@ -642,26 +650,31 @@ thead tr {
   color: $--link-disabled-font-color;
 }
 
-$typeMap: (
-  primary: #3963bc,
+$typeMap: (primary: #3963bc,
   success: #00c292,
   danger: #e46a76,
   warning: #ffbe4d,
-  info: #8c98ae
-);
+  info: #8c98ae);
+
 .el-link {
-  @each $type, $primaryColor in $typeMap {
+
+  @each $type,
+  $primaryColor in $typeMap {
     &.el-link--#{$type} {
       color: $primaryColor;
+
       &:hover {
         color: mix($primaryColor, $--color-white, 80%);
       }
+
       &:after {
         border-color: $primaryColor;
       }
+
       @include when(disabled) {
         color: mix($primaryColor, $--color-white, 50%);
       }
+
       @include when(underline) {
         &:hover:after {
           border-color: $primaryColor;
@@ -698,6 +711,34 @@ $typeMap: (
     &:hover {
       background-color: rgba(255, 255, 255, 1);
       color: #3963bc;
+    }
+  }
+
+  @include m(dark) {
+    background-color: #3963bc; //#0a1949;
+    color: rgba(255, 255, 255, 1);
+
+    .el-tag__close {
+      color: rgba(255, 255, 255, 1);
+    }
+
+    .el-tag__close:hover {
+      color: #FFFFFF;
+      background-color: #3963bc; //  #0a1949;
+    }
+  }
+
+  @include m(plain) {
+    background-color: rgba(255, 255, 255, 1);
+    color: #3963BC;
+
+    .el-tag__close {
+      color: #3963BC;
+    }
+
+    .el-tag__close:hover {
+      background-color: #3963BC;
+      color: rgba(255, 255, 255, 1);
     }
   }
 
@@ -813,10 +854,12 @@ $typeMap: (
   @include m(info) {
     background-color: #ecf1ff;
     border-color: #97b8ff;
+
     .el-message__content {
       color: #3963bc;
     }
   }
+
   & .el-icon-info {
     color: #3963bc;
   }
@@ -826,6 +869,7 @@ $typeMap: (
 @include b(notification) {
   border: 1px solid #97b8ff;
   background-color: #ecf1ff;
+
   @include e(title) {
     color: #3963bc;
   }
@@ -833,6 +877,7 @@ $typeMap: (
   @include e(content) {
     color: #3963bc;
   }
+
   .el-icon-info {
     color: #3963bc;
   }
@@ -842,9 +887,11 @@ $typeMap: (
 @include b(select) {
   .el-tag {
     background-color: #3963bc !important;
+
     &--info {
       color: white;
     }
+
     &__close.el-icon-close {
       background-color: #3963bc;
       right: -7px;
@@ -871,5 +918,21 @@ $typeMap: (
 @include b(dropdown) {
   & .el-dropdown__caret-button {
     border-left: none !important;
+  }
+}
+
+/* dialog */
+@include b(dialog) {
+  box-shadow: 0px 0px 14px 0px rgba(38, 38, 38, 0.5);
+  border-radius: 12px;
+
+  @include e(header) {
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    // background:rgba(206,218,240,1);
+  }
+
+  @include e(title) {
+    color: #333333;
   }
 }

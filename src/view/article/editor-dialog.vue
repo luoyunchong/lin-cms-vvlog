@@ -138,7 +138,7 @@
 </template>
 
 <script>
-import UploadImgs from "@/component/base/upload-imgs";
+import UploadImgs from "@/component/base/upload-image";
 import articleApi from "@/model/article";
 import classifyApi from "@/model/classify";
 import tagApi from "@/model/tag";

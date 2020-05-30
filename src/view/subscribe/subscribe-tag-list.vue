@@ -43,7 +43,7 @@
 import { SubscribeTagButton } from "@/view/subscribe";
 import VList from "@/component/list";
 import "@/component/list/index.css";
-import defaultAvatar from "@/assets/img/user/user.png";
+import defaultAvatar from "@/assets/image/user/user.png";
 import userTagApi from "@/model/user-tag";
 
 export default {

@@ -4,8 +4,9 @@ const Config = {
   openAutoJumpOut: true, // 是否开启无操作跳出
   notLoginRoute: ["login", "index", "docs", 'post', 'comment', 'tag-list', 'tag-detail', 'user', 'login-result'], // 无需登录即可访问的路由 name,
   sideBarLevel: 3, // 侧边栏层级限制, 3表示三级, 可设置 2 和 3
-  showSidebarSearch: false, // 默认打开侧边栏搜索
-  defaultRoute: "/index" // 默认打开的路由
-};
+  showSidebarSearch: true, // 默认打开侧边栏搜索
+  defaultRoute: '/about', // 默认打开的路由
+  useFrontEndErrorMsg: false, // 默认采用后端返回异常
+}
 
 export default Config;

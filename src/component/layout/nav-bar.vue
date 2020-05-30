@@ -16,10 +16,10 @@
 
 <script>
 import Notify from "@/component/notify/notify";
-import Breadcrumb from "./Breadcrumb";
-import Screenfull from "./Screenfull";
-import User from "./User";
-import ClearTab from "./ClearTab";
+import Breadcrumb from "./breadcrumb";
+import Screenfull from "./screen-full";
+import User from "./user";
+import ClearTab from "./clear-tab";
 
 export default {
   name: "NavBar",

@@ -92,7 +92,7 @@ module.exports = {
   css: {
     loaderOptions: {
       sass: {
-        data: '@import "@/assets/styles/share.scss";'
+        data: '@import "@/assets/style/share.scss";'
       }
     },
   },

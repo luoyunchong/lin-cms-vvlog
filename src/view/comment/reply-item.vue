@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import defaultAvatar from "@/assets/img/user/user.png";
+import defaultAvatar from "@/assets/image/user/user.png";
 import Utils from "@/lin/util/util";
 export default {
   name: "ReplyItem",

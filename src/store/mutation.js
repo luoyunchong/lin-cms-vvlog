@@ -1,4 +1,4 @@
-import * as types from './mutation-types'
+import * as types from './mutation-type'
 
 export default {
   [types.SET_LOGINED](state) {
@@ -30,17 +30,17 @@ export default {
     unreadMessages.splice(index, 1)
   },
 
-  [types.SET_USER_AUTHS](state, permissions) {
-    const _auths = []
+  [types.SET_USER_PERMISSIONS](state, permissions) {
+    const _permissions = []
     for (let i = 0; i < permissions.length; i++) {
       for (const key in permissions[i]) {
         // console.log(i, state.user.permissions[i][key])
         for (let j = 0; j < permissions[i][key].length; j++) {
-          _auths.push(permissions[i][key][j].permission)
+          _permissions.push(permissions[i][key][j].permission)
         }
       }
     }
-    state.permissions = _auths
+    state.permissions = _permissions
   },
 
   [types.SET_REFERSH_OPTION](state, option) {

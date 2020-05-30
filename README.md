@@ -14,6 +14,8 @@
 ![](https://img.shields.io/badge/脚手架-vuecli3-3963bc.svg)
 ![](https://img.shields.io/badge/license-MIT-3963bc.svg)
 
+![](https://img.shields.io/badge/developer-@igeekfan-3963bc.svg)
+
 ## 简介
 - 功能简介 [https://github.com/luoyunchong/lin-cms-dotnetcore/issues/3](https://github.com/luoyunchong/lin-cms-dotnetcore/issues/3)
 ## 开源

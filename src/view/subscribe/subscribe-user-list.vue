@@ -48,7 +48,7 @@ import subscribeApi from "@/model/subscribe";
 import { SubscribeButton } from "@/view/subscribe";
 import VList from "@/component/list";
 import "@/component/list/index.css";
-import defaultAvatar from "@/assets/img/user/user.png";
+import defaultAvatar from "@/assets/image/user/user.png";
 
 export default {
   name: "SubscribeUserList",

@@ -152,5 +152,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/styles/list.scss";
+@import "@/assets/style/list.scss";
 </style>

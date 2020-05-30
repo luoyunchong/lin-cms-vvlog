@@ -1,4 +1,4 @@
-import * as types from "./mutation-types";
+import * as types from "./mutation-type";
 import { removeToken } from "@/lin/util/token";
 
 export default {

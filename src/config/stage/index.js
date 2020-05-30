@@ -15,9 +15,9 @@ let homeRouter = [
   {
     title: "首页",
     type: "view",
-    name: Symbol("dashboard"),
+    name: 'dashboard',
     route: "/dashboard",
-    filePath: "view/home/Dashboard.vue",
+    filePath: "view/home/dashboard.vue",
     inNav: true,
     icon: 'iconfont icon-appstoreadd',
     order: 1

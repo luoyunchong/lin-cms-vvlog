@@ -21,7 +21,7 @@
         <div v-for="(item,index) in channels" v-bind:key="index">
           <el-tag
             :hit="false"
-            type="success"
+            type="primary"
             class="margin-left-xs margin-bottom-xs"
             v-if="item.channel_code==channel"
             :effect="channel!=undefined&&tag_name==undefined?'dark':'plain'"
@@ -32,7 +32,7 @@
             <el-tag
               :hit="false"
               :effect="tag_name==tag.tag_name?'dark':'plain'"
-              type="success"
+              type="primary"
               v-bind:key="tag.id"
               v-if="item.channel_code==channel"
               class="margin-left-xs"

@@ -49,7 +49,7 @@
 
 <script>
 import classifyApi from "../../model/classify";
-import UploadImgs from "@/component/base/upload-imgs";
+import UploadImgs from "@/component/base/upload-image";
 export default {
   name: "ClassifyForm",
   components: { UploadImgs },
@@ -143,5 +143,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/styles/form.scss";
+@import "@/assets/style/form.scss";
 </style>

@@ -3,15 +3,19 @@
     <div class="lin-info">
       <div class="lin-info-left">
         <div class="welcome">
-          <img src="../../assets/img/about/welcome.png" class="welcome-title" alt />
+          <img src="../../assets/image/about/welcome.png" class="welcome-title" alt />
           <div class="subtitle">
             <div class="guide">您还可以点击林间有风官方网站，查看更多作品</div>
             <div class="link">
-              <a href="http://www.7yue.pro" target="_blank">http://www.7yue.pro</a>
+              <a href="https://www.talelin.com" target="_blank">https://talelin.com</a>
             </div>
           </div>
         </div>
-        <img class="welcome-bg" src="../../assets/img/about/header-bg.png" alt />
+        <img
+          class="welcome-bg"
+          src="../../assets/image/about/header-bg.png"
+          alt
+        />
       </div>
       <div class="lin-info-right">
         <div class="team-detail">
@@ -39,6 +43,7 @@
                     <li>家乐</li>
                     <li>Jocky</li>
                     <li>流乔</li>
+                    <li>西麦</li>
                   </ul>
                   <ul v-else>
                     <li>林间有风 CMS 组</li>
@@ -55,7 +60,7 @@
             </ul>
           </div>
           <div class="team-icon">
-            <img src="../../assets/img/about/qrcode.jpg" alt />
+            <img src="../../assets/image/about/qrcode.jpg" alt />
           </div>
           <p class="team-label">林间有风公众号</p>
         </div>
@@ -71,7 +76,7 @@
           </div>
         </div>
         <div class="quantity-icon">
-          <img src="../../assets/img/about/icon.png" alt />
+          <img src="../../assets/image/about/icon.png" alt />
         </div>
       </div>
       <div class="quantity-item">
@@ -83,7 +88,7 @@
           </div>
         </div>
         <div class="quantity-icon">
-          <img src="../../assets/img/about/icon.png" alt />
+          <img src="../../assets/image/about/icon.png" alt />
         </div>
       </div>
       <div class="quantity-item">
@@ -95,7 +100,7 @@
           </div>
         </div>
         <div class="quantity-icon">
-          <img src="../../assets/img/about/icon.png" alt />
+          <img src="../../assets/image/about/icon.png" alt />
         </div>
       </div>
       <div class="quantity-item">
@@ -107,14 +112,14 @@
           </div>
         </div>
         <div class="quantity-icon">
-          <img src="../../assets/img/about/icon.png" alt />
+          <img src="../../assets/image/about/icon.png" alt />
         </div>
       </div>
     </div>
     <div class="information">
       <div class="personal">
         <div class="personal-title">个人信息</div>
-        <img src="../../assets/img/about/avatar.png" class="personal-avatar" />
+        <img src="../../assets/image/about/avatar.png" class="personal-avatar" />
         <div class="personal-influence">
           <div class="personal-influence-item">
             <div class="personal-influence-num color1">5411</div>
@@ -139,19 +144,20 @@
         </el-tabs>
       </div>
       <div class="article">
-        <div class="article-title">随笔</div>
+        <div class="article-title">文章</div>
         <div class="article-list">
           <div
             class="article-item"
             @click="handleArticle('https://opensource.guide/how-to-contribute/')"
           >
-            <img class="article-thumb" src="../../assets/img/about/open-source.jpg" alt />
+            <img class="article-thumb" src="../../assets/image/about/open-source.jpg" alt />
             <div class="article-detail">
               <p class="article-detail-title">How to Contribute to Open Source?</p>
               <div class="article-detail-content">
-                Whether you just made your first open source contribution, or you’re looking for new ways to contribute, we hope you’re inspired to take action.
-                Even if your contribution wasn’t accepted, don’t forget to say thanks when a maintainer put effort into helping you.
-                Open source is made by people like you: one issue, pull request, comment, or high-five at a time.
+                Whether you just made your first open source contribution, or you’re looking for new ways to contribute,
+                we hope you’re inspired to take action. Even if your contribution wasn’t accepted, don’t forget to say
+                thanks when a maintainer put effort into helping you. Open source is made by people like you: one issue,
+                pull request, comment, or high-five at a time.
               </div>
               <div class="article-tool">
                 <div class="pubdate">一天前</div>
@@ -175,7 +181,7 @@
             class="article-item"
             @click="handleArticle('https://www.zhihu.com/question/269033309')"
           >
-            <img class="article-thumb" src="../../assets/img/about/open-source.jpg" alt />
+            <img class="article-thumb" src="../../assets/image/about/open-source.jpg" alt />
             <div class="article-detail article-last">
               <p class="article-detail-title">为什么程序员们愿意在GitHub上开源自己的成果给别人免费使用和学习？</p>
               <div

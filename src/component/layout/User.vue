@@ -26,7 +26,7 @@
               @blur="blur"
             ></el-input>
           </div>
-          <img src="../../assets/img/user/corner.png" class="corner" />
+          <img src="../../assets/image/user/corner.png" class="corner" />
           <div class="info">
             <div class="username">{{ username }}</div>
             <div class="mid">|</div>
@@ -83,7 +83,7 @@ import Vue from "vue";
 import Croppa from "vue-croppa";
 import User from "@/lin/model/user";
 import "vue-croppa/dist/vue-croppa.css";
-import defaultAvatar from "@/assets/img/user/user.png";
+import defaultAvatar from "@/assets/image/user/user.png";
 
 Vue.use(Croppa);
 
@@ -323,7 +323,7 @@ export default {
   border: none;
 
   .user-info {
-    background-image: url("../../assets/img/user/user-bg.png");
+    background-image: url("../../assets/image/user/user-bg.png");
     background-size: 100% 100%;
     transform: translateY(-10px);
     border-top-left-radius: 4px;

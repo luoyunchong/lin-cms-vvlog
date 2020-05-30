@@ -40,11 +40,12 @@ function IterationDelateMenuChildren(arr) {
   return arr
 }
 
-function permissionShaking(stageConfig, permissions, user) { // eslint-disable-line
-  const shookConfig = stageConfig.filter((route) => {
-    if (Util.hasPermission(permissions, route, user)) {
+function permissionShaking(stageConfig, permissions, currentUser) {
+  // eslint-disable-line
+  const shookConfig = stageConfig.filter(route => {
+    if (Util.hasPermission(permissions, route, currentUser)) {
       if (route.children && route.children.length) {
-        route.children = permissionShaking(route.children, permissions, user) // eslint-disable-line
+        route.children = permissionShaking(route.children, permissions, currentUser) // eslint-disable-line
       }
       return true
     }
@@ -54,7 +55,7 @@ function permissionShaking(stageConfig, permissions, user) { // eslint-disable-l
 }
 
 // 获取有权限的舞台配置
-export const authStageConfig = (state) => {
+export const permissionStageConfig = state => {
   const { stageConfig, permissions, user } = state // eslint-disable-line
   const tempStageConfig = Util.deepClone(stageConfig)
   const shookConfig = permissionShaking(tempStageConfig, permissions, user)
@@ -70,8 +71,8 @@ export const authStageConfig = (state) => {
 
 // 获取侧边栏配置
 export const sideBarList = (state, getter) => {
-  const { sideBarLevel } = state
-  const { authStageConfig } = getter
+  const { sideBarLevel } = state // eslint-disable-line
+  const { permissionStageConfig } = getter // eslint-disable-line
 
   function deepGetSideBar(target, level = 3) {
     // 集合节点处理
@@ -91,8 +92,8 @@ export const sideBarList = (state, getter) => {
       sideConfig.title = target.title
       sideConfig.icon = target.icon
       sideConfig.path = target.route || Util.getRandomStr(6)
-      sideConfig.children = target.children.map(item => deepGetSideBar(item, (level - 1)))
-      sideConfig.children = sideConfig.children.filter(item => (item !== null))
+      sideConfig.children = target.children.map(item => deepGetSideBar(item, level - 1))
+      sideConfig.children = sideConfig.children.filter(item => item !== null)
       return sideConfig
     }
 
@@ -136,7 +137,7 @@ export const sideBarList = (state, getter) => {
     return null
   }
 
-  const sideBar = deepGetSideBar(authStageConfig, sideBarLevel)
+  const sideBar = deepGetSideBar(permissionStageConfig, sideBarLevel)
   return sideBar
 }
 

@@ -79,7 +79,7 @@
 
 <script>
 import Utils from "@/lin/util/util";
-import defaultAvatar from "@/assets/img/user/user.png";
+import defaultAvatar from "@/assets/image/user/user.png";
 export default {
   name: "CommentItem",
   props: {
