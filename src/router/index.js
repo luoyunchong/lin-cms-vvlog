@@ -1,11 +1,11 @@
 import Vue from "vue";
-import VueRouter from "vue-router";
+import Router from "vue-router";
 import routes from "./routes";
 import store from "../store";
 import appConfig from "@/config/index";
 import Util from "@/lin/util/util";
 
-
+Vue.use(Router)
 // 判断是否需要登录访问, 配置位于 config 文件夹
 let isLoginRequired = routeName => {
   // 首次执行时缓存配置
@@ -46,7 +46,7 @@ const scrollBehavior = function (to, from, savedPosition) {
   }
 }
 
-const router = new VueRouter({
+const router = new Router({
   mode: 'hash',
   scrollBehavior,
   base: process.env.BASE_URL,

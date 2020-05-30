@@ -1,4 +1,4 @@
-import pluginsConfig from "./plugins";
+import pluginsConfig from "./plugin";
 import Utils from "@/lin/util/util";
 
 let homeRouter = [

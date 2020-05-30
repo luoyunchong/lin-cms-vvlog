@@ -76,6 +76,7 @@
               :tag_name="item.tag_name"
               :thumbnail_display="item.thumbnail_display"
               :is_subscribe="item.is_subscribe"
+              :status="item.status"
               v-on:addSubscribeTag="addSubscribeDataTag"
               v-on:deleteSubscribeTag="deleteSubscribeDataTag"
             ></tag-item>

@@ -38,9 +38,9 @@
                         </template>
                         <el-divider direction="vertical"></el-divider>
                         <span>
-                          <el-tag type="success" v-if="model.article_type==0">原创</el-tag>
-                          <el-tag type="info" v-else-if="model.article_type==1">转载</el-tag>
-                          <el-tag type="danger" v-else-if="model.article_type==2">翻译</el-tag>
+                          <el-tag type="primary" v-if="model.article_type==0">原创</el-tag>
+                          <el-tag type="success" v-else-if="model.article_type==1">转载</el-tag>
+                          <el-tag type="info" v-else-if="model.article_type==2">翻译</el-tag>
                         </span>
                       </el-col>
                     </el-col>

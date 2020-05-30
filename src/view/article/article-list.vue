@@ -7,9 +7,9 @@
             <div class="info-row">
               <ul class="meta-list">
                 <li class="item clickable">
-                  <el-tag type="success" v-if="item.article_type==0">原创</el-tag>
-                  <el-tag type="info" v-else-if="item.article_type==1">转载</el-tag>
-                  <el-tag type="danger" v-else-if="item.article_type==2">翻译</el-tag>
+                  <el-tag type="primary" effect v-if="item.article_type==0">原创</el-tag>
+                  <el-tag type="success" effect v-else-if="item.article_type==1">转载</el-tag>
+                  <el-tag type="info" effect v-else-if="item.article_type==2">翻译</el-tag>
                 </li>
                 <li class="item username clickable" v-if="item.user_info!=undefined">
                   <router-link
@@ -176,7 +176,7 @@ export default {
           }
         }
         .title-row {
-          margin: .5rem 0 0.6rem;
+          margin: 0.5rem 0 0.6rem;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;

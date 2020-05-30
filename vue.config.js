@@ -21,6 +21,7 @@ module.exports = {
       .set("@", resolve("src"))
       .set("lin", resolve("src/lin"))
       .set("assets", resolve("src/assets"));
+
     config.module
       .rule("md")
       .test(/\.md$/)
@@ -30,15 +31,23 @@ module.exports = {
       .use("vue-markdown-loader")
       .loader("vue-markdown-loader/lib/markdown-compiler");
 
+    // config.module
+    //   .rule("image-webpack-loader")
+    //   .test(/\.(gif|png|jpe?g|svg)$/i)
+    //   .use("file-loader")
+    //   .loader("image-webpack-loader")
+    //   .tap(() => ({
+    //     disable: process.env.NODE_ENV !== "production"
+    //   }))
+    //   .end();
+
     /* 添加分析工具*/
     if (process.env.NODE_ENV !== 'production') {
-      if (process.env.npm_config_report) {
-        config
-          .plugin('webpack-bundle-analyzer')
-          .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin)
-          .end();
-        config.plugins.delete('prefetch')
-      }
+      config
+        .plugin('webpack-bundle-analyzer')
+        .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin)
+        .end();
+      config.plugins.delete('prefetch')
     }
   },
   configureWebpack: (config) => {

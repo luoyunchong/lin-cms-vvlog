@@ -148,7 +148,7 @@ export default {
       });
     },
     filterIcon(icon) {
-      return icon.indexOf("/") !== -1;
+      return icon && icon.indexOf("/") !== -1;
     },
     handleChange(val) {
       this.groups = [];

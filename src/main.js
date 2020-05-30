@@ -10,7 +10,7 @@ import "@/lin/directive";
 import CollapseTransition from "element-ui/lib/transitions/collapse-transition";
 import router from "@/router";
 import store from "@/store";
-import App from "@/App.vue";
+import App from "@/app.vue";
 
 import StickyTop from "@/component/base/sticky-top/sticky-top";
 import LIcon from "@/component/base/icon/lin-icon";
@@ -21,6 +21,7 @@ import "@/assets/style/realize/element-variable.scss";
 import "element-ui/lib/theme-chalk/base.css";
 import '@/assets/style/main.scss';
 Vue.config.productionTip = false;
+
 Vue.use(ElementUI);
 
 Vue.component(CollapseTransition.name, CollapseTransition);

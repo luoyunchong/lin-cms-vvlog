@@ -11,7 +11,7 @@
   >
     <div class="tag">
       <router-link :to="{path:'/tag/'+`${id}`}" target="_blank">
-        <div class="thumb" :style="`background-image:url(${thumbnail_display})`"></div>
+        <div class="thumb" :style="`background-image:url(${thumbnail_display_url})`"></div>
         <div class="title">{{tag_name}}</div>
       </router-link>
       <div class="bottom clearfix" style="margin-top:10px;">
@@ -63,9 +63,22 @@ export default {
     view_hits: {
       type: Number,
       default: 0
+    },
+    status: {
+      type: Boolean,
+      default: true
     }
   },
   created() {},
+  computed: {
+    thumbnail_display_url() {
+      if (this.status == true) {
+        return this.thumbnail_display;
+      } else {
+        return "https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png";
+      }
+    }
+  },
   methods: {
     async addSubscribeTag() {
       await userTagApi.addSubscribeTag({
