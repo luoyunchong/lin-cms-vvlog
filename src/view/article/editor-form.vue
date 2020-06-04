@@ -34,8 +34,9 @@
             <tinymce
               v-else
               :height="750"
-              v-model="form.content"
-              upload_url="http://dev.lin.colorful3.com/cms/file/"
+              :defaultContent="form.content"
+              @change="changeTinymce"
+              upload_url="/cms/file"
             />
           </el-col>
         </el-row>
@@ -145,7 +146,8 @@ export default {
       });
       console.log("自动保存");
     },
-    change(val) {
+    changeTinymce(val) {
+      console.log(val);
       this.form.content = val;
     }
   }

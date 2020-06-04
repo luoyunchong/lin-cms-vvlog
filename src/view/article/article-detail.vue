@@ -69,7 +69,7 @@
             </div>
             <div id="preview">
               <MarkdownPreview v-if="model.editor==1" :initialValue="model.content" theme="dark" />
-              <div v-else v-html="model.content"></div>
+              <div class="tinymce" v-else v-html="model.content"></div>
             </div>
             <div class="tag-box top20" v-show="model.tags.length>0">
               <h3 class="tag-title">标签</h3>
@@ -464,7 +464,8 @@ export default {
 }
 
 #preview /deep/ {
-  .markdown-preview {
+  .markdown-preview,
+  .tinymce {
     color: #24292e;
     padding: 0px 12px 20px 12px !important;
     ul li,
@@ -511,6 +512,9 @@ export default {
       margin-top: 24px;
       margin-bottom: 16px;
       padding-bottom: 5px;
+    }
+    strong{
+      font-weight: 600;
     }
     p,
     blockquote,

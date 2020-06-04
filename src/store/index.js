@@ -26,6 +26,6 @@ export default new Vuex.Store({
   getters,
   mutations,
   actions,
-  // plugins: debug ? [vuexLocal.plugin, createLogger()] : [vuexLocal.plugin],
+  plugins: debug ? [vuexLocal.plugin, createLogger()] : [vuexLocal.plugin],
   strict: debug,
 })

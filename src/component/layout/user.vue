@@ -285,8 +285,7 @@ export default {
           // window.open("/user/" + this.user.id + "/article");
           break;
         case "settings":
-          this.$router.push("/settings");
-          // window.open("/settings");
+          this.$router.push("/setting");
           break;
         case "outLogin":
           this.outLogin();
