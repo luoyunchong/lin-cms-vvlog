@@ -1,4 +1,4 @@
-// import Vue from 'vue'
+import Vue from "vue"
 import { deviceEnquire, DEVICE_TYPE } from '@/lin/util/device'
 import { mapState } from 'vuex'
 

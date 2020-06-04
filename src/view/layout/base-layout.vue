@@ -23,8 +23,8 @@
                 <!-- <el-menu-item index="/tag" class="block">
                   <router-link :to="{path:'/tag'}">标签</router-link>
                 </el-menu-item>-->
-                <el-menu-item v-if="logined" index="/notifications/userComment" class="block">
-                  <router-link :to="{path:'/notifications/userComment'}">
+                <el-menu-item v-if="logined" index="/notification/userComment" class="block">
+                  <router-link :to="{path:'/notification/userComment'}">
                     <i class="el-icon-bell"></i>消息
                   </router-link>
                 </el-menu-item>

@@ -49,35 +49,35 @@ let baseRouter = [
         meta: { title: '我的主页' },
     },
     {
-        path: '/notifications/:notification_type',
-        name: 'notifications',
+        path: '/notification/:notification_type',
+        name: 'notification',
         component: () => import("@/view/notification/index.vue"),
         meta: { title: '消息' },
         children: []
     },
     {
-        path: '/settings',
-        name: 'settings',
-        component: () => import("@/view/settings/index.vue"),
-        redirect: '/settings/profile',
+        path: '/setting',
+        name: 'setting',
+        component: () => import("@/view/setting/index.vue"),
+        redirect: '/setting/profile',
         meta: { title: '设置' },
         children: [
             {
-                path: '/settings/profile',
-                name: 'settings-profile',
-                component: () => import("@/view/settings/profile.vue"),
+                path: '/setting/profile',
+                name: 'setting-profile',
+                component: () => import("@/view/setting/profile.vue"),
                 meta: { title: '个人资料' },
             },
             {
-                path: '/settings/security',
-                name: 'settings-security',
-                component: () => import("@/view/settings/security.vue"),
+                path: '/setting/security',
+                name: 'setting-security',
+                component: () => import("@/view/setting/security.vue"),
                 meta: { title: '安全设置' },
             },
             {
-                path: '/settings/blog',
-                name: 'settings-blog',
-                component: () => import("@/view/settings/blog.vue"),
+                path: '/setting/blog',
+                name: 'setting-blog',
+                component: () => import("@/view/setting/blog.vue"),
                 meta: { title: '博客设置' },
             }
         ]

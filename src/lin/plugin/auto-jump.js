@@ -1,5 +1,5 @@
 // 定时自动登出功能, 启用后一段时间无用户操作, 则自动登出. 需在项目 config 中配置
-import Vue from 'vue'
+import Vue from "vue"
 import Config from '@/config'
 import store from '@/store'
 

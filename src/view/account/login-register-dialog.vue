@@ -200,7 +200,7 @@ export default {
     async getInformation() {
       try {
         // 尝试获取当前用户信息
-        const user = await User.getAuths();
+        const user = await User.getPermissions();
         this.setUserAndState(user);
         this.setUserAuths(user.permissions);
       } catch (e) {

@@ -1,17 +1,13 @@
-import {
-  post,
-  get,
-  put,
-} from '@/lin/plugin/axios'
+import { post, get, put } from '@/lin/plugin/axios'
 import Config from '../../config'
 import Sse from '../util/sse'
 
 export default class Notify {
-  url = null;
+  url = null
 
-  events = null;
+  events = null
 
-  sse = null;
+  sse = null
 
   constructor(url) {
     this.url = url

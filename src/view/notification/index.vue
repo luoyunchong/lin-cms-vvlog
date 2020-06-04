@@ -51,7 +51,7 @@
 </style>
 
 <script>
-import "../settings/index.scss";
+import "../setting/index.scss";
 import NotificationList from "./notification-list";
 
 export default {

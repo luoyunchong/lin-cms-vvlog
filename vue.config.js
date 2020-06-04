@@ -31,16 +31,6 @@ module.exports = {
       .use("vue-markdown-loader")
       .loader("vue-markdown-loader/lib/markdown-compiler");
 
-    // config.module
-    //   .rule("image-webpack-loader")
-    //   .test(/\.(gif|png|jpe?g|svg)$/i)
-    //   .use("file-loader")
-    //   .loader("image-webpack-loader")
-    //   .tap(() => ({
-    //     disable: process.env.NODE_ENV !== "production"
-    //   }))
-    //   .end();
-
     /* 添加分析工具*/
     if (process.env.NODE_ENV !== 'production') {
       config
@@ -87,8 +77,8 @@ module.exports = {
       return {
         resolve: {
           extensions: [".js", ".json", ".vue", ".scss", ".html"]
-        },
-        externals: {
+        }
+        , externals: {
           'vue': 'Vue',
           'vue-router': 'VueRouter',
           'vuex': 'Vuex',

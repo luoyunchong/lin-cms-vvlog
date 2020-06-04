@@ -4,9 +4,9 @@
       <el-menu class="el-menu-profile" :default-active="activeIndex" :router="true">
         <el-menu-item-group>
           <template slot="title">设置</template>
-          <el-menu-item index="/settings/profile">个人资料</el-menu-item>
-          <el-menu-item index="/settings/security">安全设置</el-menu-item>
-          <el-menu-item index="/settings/blog">博客设置</el-menu-item>
+          <el-menu-item index="/setting/profile">个人资料</el-menu-item>
+          <el-menu-item index="/setting/security">安全设置</el-menu-item>
+          <el-menu-item index="/setting/blog">博客设置</el-menu-item>
         </el-menu-item-group>
       </el-menu>
     </el-aside>

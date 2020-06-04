@@ -1,6 +1,6 @@
-import List from './List.vue';
-import Item from './Item.vue';
-import Meta from './Meta.vue';
+import List from './list.vue';
+import Item from './item.vue';
+import Meta from './meta.vue';
 List.Item = Item;
 List.Item.Meta = Meta;
 

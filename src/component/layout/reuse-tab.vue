@@ -1,19 +1,27 @@
 <template>
-  <div v-if="histories.length > 1" ref="resueTab">
+  <div v-if="histories.length > 1" ref="resueTab" class="reuse-tab">
     <swiper :options="swiperOption" class="reuse-tab-wrap">
       <swiper-slide v-for="(item, index) in histories" :key="item.path">
         <router-link
           class="reuse-tab-item"
           :class="item.path === $route.path ? 'active' : ''"
           :to="item.path"
-          @contextmenu.prevent.native="onTags">
+          @contextmenu.prevent.native="onTags(index, $event)"
+        >
           <i v-if="!filterIcon(stageList[item.stageId].icon)" :class="stageList[item.stageId].icon"></i>
           <img v-else :src="stageList[item.stageId].icon" style="width:16px;" />
-          <span style="padding: 0 5px;">{{ stageList[item.stageId].title | filterTitle }}</span>
+          <span style="padding: 0 5px;">{{ stageList[item.stageId].title }}</span>
           <span class="el-icon-close" @click.prevent.stop="close(index)" />
         </router-link>
       </swiper-slide>
     </swiper>
+
+    <ul v-show="visible" :style="{ left: left + 'px', top: top + 'px' }" class="contextmenu">
+      <li @click="closeAll">关闭所有</li>
+      <li @click="closeOthers">关闭其他</li>
+      <li @click="closeLeft" v-if="hasLeft">关闭左侧</li>
+      <li @click="closeRight" v-if="hasRight">关闭右侧</li>
+    </ul>
   </div>
 </template>
 
@@ -21,8 +29,7 @@
 import { mapGetters } from 'vuex'
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
 
-import "swiper/dist/css/swiper.css" // eslint-disable-line
-
+import 'swiper/dist/css/swiper.css' // eslint-disable-line
 
 export default {
   components: { swiper, swiperSlide },
@@ -30,9 +37,11 @@ export default {
     return {
       histories: [],
       visible: false,
+      hasLeft: true,
+      hasRight: true,
       top: 0,
       left: 0,
-      selectedTag: {},
+      index: 0,
       swiperOption: {
         slidesPerView: 'auto',
         initialSlide: 0,
@@ -50,7 +59,7 @@ export default {
     $route(to) {
       // 对路由变化作出响应...
       const { histories } = this
-      const flag = histories.find(item => (item.path === to.path))
+      const flag = histories.find(item => item.path === to.path)
       if (flag) {
         return
       }
@@ -65,6 +74,13 @@ export default {
         return
       }
       this.closeAll()
+    },
+    visible(value) {
+      if (value) {
+        document.body.addEventListener('click', this.closeMenu)
+      } else {
+        document.body.removeEventListener('click', this.closeMenu)
+      }
     },
     // 舞台改变时触发
     stageList() {
@@ -114,7 +130,7 @@ export default {
         localHistory = JSON.parse(localHistory)
       }
 
-      localHistory.forEach((item) => {
+      localHistory.forEach(item => {
         let findResult
         if (item.name) {
           findResult = this.getStageByName(item.name)
@@ -141,6 +157,47 @@ export default {
       this.histories = []
       this.$router.push(this.defaultRoute)
     },
+    closeOthers() {
+      this.$router.push(this.histories[this.index].path)
+      this.histories = []
+    },
+    closeLeft() {
+      this.histories.splice(0, this.index)
+    },
+    closeRight() {
+      this.histories.splice(this.index + 1, this.histories.length - this.index - 1)
+    },
+    onTags(index, event) {
+      this.closeMenu()
+      const menuMinWidth = 126
+      const offsetLeft = this.$el.getBoundingClientRect().left
+      const { offsetWidth } = this.$el
+      const maxLeft = offsetWidth - menuMinWidth
+      const left = event.clientX - offsetLeft + 15
+
+      if (left > maxLeft) {
+        this.left = maxLeft
+      } else {
+        this.left = left
+      }
+
+      if (index === 0) {
+        this.hasLeft = false
+      }
+
+      if (index + 1 === this.histories.length) {
+        this.hasRight = false
+      }
+
+      this.top = 18
+      this.index = index
+      this.visible = true
+    },
+    closeMenu() {
+      this.visible = false
+      this.hasLeft = true
+      this.hasRight = true
+    },
     close(index) {
       // 检测是否是当前页, 如果是当前页则自动切换路由
       if (this.$route.path === this.histories[index].path) {
@@ -162,9 +219,10 @@ export default {
 
 <style lang="scss" scoped>
 .swiper-slide {
-  width: 126px;
+  width: auto;
+  min-width: 126px;
   display: flex;
-  height: 26px;
+  height: $reusetab-height;
   flex-direction: column;
   justify-content: center;
   background-color: $reuse-tab-item-background;
@@ -174,8 +232,8 @@ export default {
 .reuse-tab-wrap {
   bottom: 0;
   left: 0;
-  // width: calc(100% -40px);
-  height: 26px;
+  user-select: none;
+  height: $reusetab-height;
   background: $header-background;
   font-size: 14px;
   color: #8c98ae;
@@ -186,15 +244,19 @@ export default {
   .reuse-tab-item {
     box-sizing: border-box;
     width: auto;
-    height: 26px;
-    width: 126px;
+    height: $reusetab-height;
+    min-width: 126px;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 0 1em;
     margin-right: 1px;
     position: relative;
-    white-space:nowrap;
+    white-space: nowrap;
+
+    > i {
+      color: $theme;
+    }
 
     .el-icon-close {
       opacity: 0;
@@ -205,6 +267,10 @@ export default {
       background: $theme;
       border: none;
       color: #fff;
+
+      > i {
+        color: #fff;
+      }
 
       .el-icon-close {
         position: absolute;
@@ -229,11 +295,15 @@ export default {
 
   .active {
     box-sizing: border-box;
-    height: 30px;
+    height: 40px;
     color: #ffffff;
     background: $theme;
     border: none;
     position: relative;
+
+    > i {
+      color: #fff;
+    }
 
     .el-icon-close {
       position: absolute;
@@ -257,6 +327,31 @@ export default {
 
   .reuse-tab-wrap {
     height: 100%;
+  }
+}
+.reuse-tab {
+  position: relative;
+  .contextmenu {
+    margin: 0;
+    background: #ffffff;
+    z-index: 3000;
+    position: absolute;
+    list-style-type: none;
+    padding: 5px 0;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #596c8e;
+    box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.3);
+    li {
+      margin: 0;
+      padding: 10px 20px;
+      cursor: pointer;
+      &:hover {
+        background: #ebeff8;
+        color: #6182c9;
+      }
+    }
   }
 }
 </style>

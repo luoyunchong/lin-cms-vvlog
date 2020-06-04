@@ -1,5 +1,5 @@
 // ajax 封装插件, 使用 axios
-import Vue from "vue";
+import Vue from "vue";;
 import axios from "axios";
 import Config from "@/config";
 import ErrorCode from "@/config/error-code";

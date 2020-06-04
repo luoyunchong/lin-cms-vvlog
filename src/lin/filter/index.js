@@ -1,4 +1,4 @@
-import Vue from "vue";
+import Vue from "vue";;
 import Utils from "../util/util";
 /*
  * 全局的过滤函数
@@ -87,8 +87,8 @@ const globalFilter = {
 
   dateTimeFormatter(t) {
     if (!t) return "";
-    t = new Date(t).getTime(); // eslint-disable-line
-    t = new Date(t); // eslint-disable-line
+    t = new Date(t).getTime();
+    t = new Date(t);
     const year = t.getFullYear();
     let month = t.getMonth() + 1;
     month = checkAddZone(month);

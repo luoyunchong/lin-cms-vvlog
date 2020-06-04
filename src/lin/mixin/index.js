@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import Vue from "vue"
 import { mapGetters } from 'vuex'
 
 
@@ -11,7 +11,7 @@ const globalMixin = {
           /* eslint-disable no-unused-expressions */
           window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/')
         },
-        isAllowed(_auth) {
+        isAllowed(_permission) {
           /* eslint-disable no-restricted-syntax */
           /* eslint-disable guard-for-in */
           const { permissions } = this.user
@@ -19,7 +19,7 @@ const globalMixin = {
             for (const item in mod) {
               for (const a of mod[item]) {
                 // console.log(a.permission)
-                if (a.permission === _auth) {
+                if (a.permission === _permission) {
                   return true
                 }
                 // console.log(a.module)
@@ -33,9 +33,7 @@ const globalMixin = {
         // ...filter,
       },
       computed: {
-        ...mapGetters([
-          'user',
-        ]),
+        ...mapGetters(['user']),
       },
     })
   },

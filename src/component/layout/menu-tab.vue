@@ -1,15 +1,11 @@
 <template>
   <div>
-    <div v-if="menuTabs.length || show" >
+    <div v-if="menuTabs.length || show">
       <ul class="menu-tab">
-        <router-link
-          :to="tab.path"
-          v-for="(tab) in menuTabs"
-          :key="tab.path"
-          ref="menuTabs">
+        <router-link :to="tab.path" v-for="tab in menuTabs" :key="tab.path" ref="menuTabs">
           <li ref="tabList" class="menu-li">
-            <i :class="tab.icon"/>
-            <span class="title">{{tab.title | filterTitle}}</span>
+            <i :class="tab.icon" />
+            <span class="title">{{ tab.title | filterTitle }}</span>
           </li>
         </router-link>
       </ul>
@@ -21,33 +17,39 @@
 export default {
   data() {
     return {
-      show: false,
-    }
+      show: false
+    };
   },
   computed: {
     stageInfo() {
-      return this.$store.getters.getStageInfo(this.$route.name)
+      return this.$store.getters.getStageInfo(this.$route.name);
     },
     menuTabs() {
       if (this.stageInfo.length < 2) {
-        return []
+        return [];
       }
-      const father = this.stageInfo[this.stageInfo.length - 2]
-      if (father.type === 'tab') {
-        return father.children.map(item => ({
-          icon: item.icon || '',
-          title: item.title,
-          path: item.route,
-        }))
+      const father = this.stageInfo[this.stageInfo.length - 2];
+      if (father.type === "tab") {
+        console.log(father.children);
+        const menus = [];
+        father.children.forEach(item => {
+          if (item.inNav) {
+            menus.push({
+              icon: item.icon || "",
+              title: item.title,
+              path: item.route
+            });
+          }
+        });
+        return menus;
       }
-      return []
-    },
-  },
-}
+      return [];
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>
-
 .router-link-active {
   background: black;
 }

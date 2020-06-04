@@ -208,7 +208,6 @@ export default {
     },
     // 单击某一行
     rowClick(row, column, event) {
-      // eslint-disable-line
       // 选中-多选
       if (!this.oldKey.includes(row.key)) {
         this.oldKey.push(row.key);
@@ -250,7 +249,7 @@ export default {
         (item, index) =>
           index >= (this.currentPage - 1) * this.pagination.pageSize &&
           index < this.currentPage * this.pagination.pageSize
-      ); // eslint-disable-line
+      );
       this.$emit("currentChange", page);
       // 已选中的数据打勾
       this.selectedTableData.forEach(item => {
@@ -349,7 +348,6 @@ export default {
   watch: {
     fixedLeftList: {
       handler(val, oldVal) {
-        // eslint-disable-line
         this.filterTableColumn.map((item, index) => {
           if (this.fixedLeftList.indexOf(item.label) > -1) {
             this.$set(this.filterTableColumn[index], "fixed", "left");
@@ -364,7 +362,6 @@ export default {
     },
     fixedRightList: {
       handler(val, oldVal) {
-        // eslint-disable-line
         this.filterTableColumn.map((item, index) => {
           if (this.fixedRightList.indexOf(item.label) > -1) {
             this.$set(this.filterTableColumn[index], "fixed", "right");

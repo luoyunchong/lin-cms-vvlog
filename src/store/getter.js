@@ -31,7 +31,7 @@ function IterationDelateMenuChildren(arr) {
   if (arr.length) {
     for (const i in arr) {
       if (arr[i].children && !arr[i].children.length) {
-        delete arr[i] // eslint-disable-line
+        delete arr[i]
       } else if (arr[i].children && !arr[i].children.length) {
         IterationDelateMenuChildren(arr[i].children)
       }
@@ -41,11 +41,11 @@ function IterationDelateMenuChildren(arr) {
 }
 
 function permissionShaking(stageConfig, permissions, currentUser) {
-  // eslint-disable-line
+
   const shookConfig = stageConfig.filter(route => {
     if (Util.hasPermission(permissions, route, currentUser)) {
       if (route.children && route.children.length) {
-        route.children = permissionShaking(route.children, permissions, currentUser) // eslint-disable-line
+        route.children = permissionShaking(route.children, permissions, currentUser)
       }
       return true
     }
@@ -56,7 +56,7 @@ function permissionShaking(stageConfig, permissions, currentUser) {
 
 // 获取有权限的舞台配置
 export const permissionStageConfig = state => {
-  const { stageConfig, permissions, user } = state // eslint-disable-line
+  const { stageConfig, permissions, user } = state
   const tempStageConfig = Util.deepClone(stageConfig)
   const shookConfig = permissionShaking(tempStageConfig, permissions, user)
 
@@ -71,8 +71,8 @@ export const permissionStageConfig = state => {
 
 // 获取侧边栏配置
 export const sideBarList = (state, getter) => {
-  const { sideBarLevel } = state // eslint-disable-line
-  const { permissionStageConfig } = getter // eslint-disable-line
+  const { sideBarLevel } = state
+  const { permissionStageConfig } = getter
 
   function deepGetSideBar(target, level = 3) {
     // 集合节点处理
@@ -142,13 +142,11 @@ export const sideBarList = (state, getter) => {
 }
 
 // 获取有权限的所有节点配置对象
-// eslint-disable-next-line
 export const getStageByName = () => {
   return name => stageMap[name]
 }
 
 // 获取有权限的所有节点配置对象
-// eslint-disable-next-line
 export const getStageByRoute = () => {
   return (path) => {
     const result = Object.getOwnPropertySymbols(stageMap).find(key => (stageMap[key].route === path))

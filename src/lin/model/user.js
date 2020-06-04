@@ -1,55 +1,8 @@
-import {
-  post,
-  get,
-  put,
-} from '@/lin/plugin/axios'
-import { saveTokens, saveAccessToken } from '../util/token'
-
-const SUPER_VALUE = 2
-const ACTIVE_VALUE = 1
+import _axios, { post, get, put } from '@/lin/plugin/axios'
+import { saveTokens } from '../util/token'
+import store from '@/store'
 
 export default class User {
-  id = null;
-  // 当前用户是否在激活状态
-  isActive = null
-
-  // 邮箱
-  email = null
-
-  // 权限分组id
-  groupId = null
-
-  // 用户名
-  username = null
-
-  // 是否为超级管理员
-  isSuper = null
-
-  // 拥有的权限
-  permissions = []
-
-  // 昵称
-  nickname = null
-
-  // 分组名称
-  groupName = null
-
-  introduction = null
-
-  constructor(active, email, groupId, username, _super, avatar, permissions, nickname, groupName, id, introduction) {
-    this.isActive = active === ACTIVE_VALUE
-    this.email = email
-    this.groupId = groupId
-    this.username = username
-    this.avatar = avatar
-    this.isSuper = _super === SUPER_VALUE
-    this.permissions = permissions || []
-    this.nickname = nickname
-    this.groupName = groupName
-    this.id = id;
-    this.introduction = introduction
-  }
-
   /**
    * 分配用户
    * @param {object} data 注册信息
@@ -80,24 +33,18 @@ export default class User {
    * 获取当前用户信息，并返回User实例
    */
   static async getInformation() {
-    const info = await get('cms/user/information')
-    return new User(info.active, info.email, info.group_id, info.username, info.admin, info.avatar, info.permissions, info.nickname, info.group_name, info.id, info.introduction)
+    const info = await get('cms/user/information');
+    const storeUser = store.getters.user === null ? {} : store.getters.user
+    return Object.assign({ ...storeUser }, info)
   }
 
   /**
    * 获取当前用户信息和所拥有的权限
    */
-  static async getAuths() {
+  static async getPermissions() {
     const info = await get('cms/user/permissions')
-    return new User(info.active, info.email, info.group_id, info.username, info.admin, info.avatar, info.permissions, info.nickname, info.group_name, info.id, info.introduction)
-  }
-
-  /**
-   * 刷新令牌
-   */
-  static async getRefreshToken() {
-    const res = await get('cms/user/refresh')
-    saveAccessToken(res.access_token)
+    const storeUser = store.getters.user === null ? {} : store.getters.user
+    return Object.assign({ ...storeUser }, info)
   }
 
 

@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import Vue from "vue"
 // import EventSourcePolyfill from 'event-source-polyfill'
 import 'event-source-polyfill/src/eventsource'
 import { getToken } from './cookie'

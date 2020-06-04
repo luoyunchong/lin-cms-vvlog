@@ -16,7 +16,7 @@ Utils.cutString = (str, len) => {
   let strlen = 0
   let s = ''
   for (let i = 0; i < str.length; i++) {
-    // eslint-disable-line
+
     s += str.charAt(i)
     if (str.charCodeAt(i) > 128) {
       strlen += 2
@@ -198,7 +198,7 @@ Utils.came = str => {
  * 判断权限
  */
 Utils.hasPermission = (permissions, route, user) => {
-  // eslint-disable-line
+
   if (user && user.admin) {
     return true
   }

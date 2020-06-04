@@ -65,7 +65,7 @@ export default {
     }),
     async getInformation() {
       try {
-        const user = await User.getAuths();
+        const user = await User.getPermissions();
         this.setUserAndState(user);
         this.setUserAuths(user.permissions);
       } catch (e) {

@@ -35,7 +35,7 @@
         text-color="rgba(196,201,210,1)"
         active-text-color="#1890ff"
       >
-        <template v-for="(item) in sideBarList">
+        <template v-for="item in sideBarList">
           <el-submenu
             class="subMenuContent"
             v-if="item.children"
@@ -46,11 +46,11 @@
             <template slot="title">
               <i v-if="!filterIcon(item.icon)" :class="item.icon"></i>
               <img v-else :src="item.icon" class="imgIcon" />
-              <span slot="title">{{item.title}}</span>
+              <span slot="title">{{ item.title }}</span>
             </template>
 
             <!-- 二级菜单 -->
-            <template v-for="(subItem) in item.children">
+            <template v-for="subItem in item.children">
               <el-submenu
                 v-if="subItem.children"
                 :key="idMap[subItem.name]"
@@ -59,12 +59,12 @@
               >
                 <template slot="title">
                   <i class="iconfont icon-erjizhibiao"></i>
-                  <span slot="title" class="two-folder">{{subItem.title}}</span>
+                  <span slot="title" class="two-folder">{{ subItem.title }}</span>
                 </template>
 
                 <!-- 三级菜单 -->
                 <router-link
-                  v-for="(grandchildItem) in subItem.children"
+                  v-for="grandchildItem in subItem.children"
                   :key="idMap[grandchildItem.name]"
                   :to="grandchildItem.path"
                   class="circle third"
@@ -73,7 +73,7 @@
                     :index="idMap[grandchildItem.name]"
                     style="padding-left: 80px;"
                     class="subMenuContent"
-                  >{{grandchildItem.title}}</el-menu-item>
+                  >{{ grandchildItem.title }}</el-menu-item>
                 </router-link>
               </el-submenu>
               <!-- 二级else -->
@@ -82,7 +82,7 @@
                   :index="idMap[subItem.name]"
                   style="padding-left: 60px;"
                   class="subMenuContent"
-                >{{subItem.title}}</el-menu-item>
+                >{{ subItem.title }}</el-menu-item>
               </router-link>
             </template>
           </el-submenu>
@@ -97,7 +97,7 @@
           >
             <i v-if="!filterIcon(item.icon)" :class="item.icon"></i>
             <img v-else :src="item.icon" class="imgIcon" />
-            <span slot="title">{{item.title}}</span>
+            <span slot="title">{{ item.title }}</span>
           </el-menu-item>
         </template>
       </el-menu>
@@ -148,7 +148,7 @@ export default {
       });
     },
     filterIcon(icon) {
-      return icon && icon.indexOf("/") !== -1;
+      return icon.indexOf("/") !== -1;
     },
     handleChange(val) {
       this.groups = [];
@@ -238,7 +238,7 @@ export default {
       };
       deepTravel(sideBarList, item => {
         mapData[item.name] = item.name.toString();
-        // mapData[item.name] = Utils.getRandomStr();
+        // mapData[item.name] = Utils.getRandomStr()
       });
 
       return mapData;
@@ -289,14 +289,14 @@ export default {
     z-index: 99;
 
     img {
-      width: 110px;
+      width: 120px;
       transition: all 0.3s linear;
     }
   }
 
   .mobile-logo {
     width: 64px;
-    height: 72px;
+    height: 86px;
     display: flex;
     justify-content: center;
     align-items: center;

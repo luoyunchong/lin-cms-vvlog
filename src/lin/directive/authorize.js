@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import Vue from "vue"
 import store from '@/store'
 
 function isAllowed(_auth, user, permissions) {

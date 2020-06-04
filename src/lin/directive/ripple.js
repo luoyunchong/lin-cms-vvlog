@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import Vue from "vue"
 
 /* eslint-disable func-names */
 Vue.directive('ripple', {

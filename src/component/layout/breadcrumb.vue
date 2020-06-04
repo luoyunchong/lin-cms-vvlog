@@ -1,13 +1,9 @@
 <template>
   <div class="nav-title">
-    <a
-      class="item"
-      v-for="(item, index) in titleArr"
-      style="cursor: default;"
-      :key="index">
+    <a class="item" v-for="(item, index) in titleArr" style="cursor: default;" :key="index">
       <!-- <i v-if="index===0"
-         :class="item.meta.icon"></i> -->
-      <p>{{item}}</p>
+      :class="item.meta.icon"></i>-->
+      <p>{{ item }}</p>
     </a>
   </div>
 </template>
@@ -15,21 +11,21 @@
 <script>
 export default {
   data() {
-    return {}
+    return {};
   },
   computed: {
     stageInfo() {
-      return this.$store.getters.getStageInfo(this.$route.name)
+      return this.$store.getters.getStageInfo(this.$route.name);
     },
     titleArr() {
-      return this.stageInfo.map(item => item.title).filter(item => !!item)
-    },
-  },
+      return this.stageInfo.map(item => item.title).filter(item => !!item);
+    }
+  }
   // created() {},
   // mounted() {},
   // watch: {},
   // components: {},
-}
+};
 </script>
 
 <style lang="scss">

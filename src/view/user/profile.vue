@@ -25,7 +25,7 @@
             <span>{{openUser.username}}</span>
           </p>
           <div class="info-box item-button">
-            <router-link :to="{path:'/settings/profile'}">
+            <router-link :to="{path:'/setting/profile'}">
               <el-button
                 type="primary"
                 icon="el-icon-edit"

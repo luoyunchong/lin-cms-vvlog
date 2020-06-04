@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import Vue from "vue"
 import Preview from '@/component/base/preview/preview'
 
 
