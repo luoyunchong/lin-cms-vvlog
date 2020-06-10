@@ -11,8 +11,9 @@
       <template v-slot:renderItem="{item,index}">
         <v-list-item class="item">
           <li slot="actions" v-show="showActions">
+            <!-- 如果是粉丝列表，列表上的用户id为粉丝的id，即创建者id -->
             <subscribe-button
-              :userId="item.subscribeer.id"
+              :userId="userType=='fans'?item.create_user_id:item.subscribe_user_id"
               :is_subscribeed="item.is_subscribeed"
               @subscribe="(is_subscribeed)=>subscribe(is_subscribeed,index)"
             ></subscribe-button>
@@ -22,7 +23,7 @@
           >
             <router-link
               slot="title"
-              :to="{path:`/user/${item.subscribeer.id}/article`}"
+              :to="{path:`/user/${userType=='fans'?item.create_user_id:item.subscribe_user_id}/article`}"
               target="_blank"
             >{{item.subscribeer.nickname}}</router-link>
 

@@ -1,8 +1,11 @@
 <template>
-  <div v-loading.fullscreen.lock="loading">
+  <div>
     <router-link :to="{path:'/index'}">
       <el-button type="primary">回到首页</el-button>
     </router-link>
+    <div class="margin-top-lg">
+      <el-alert :title="errorMsg" type="error" v-if="error==true"></el-alert>
+    </div>
   </div>
 </template>
 
@@ -23,18 +26,26 @@ function parseUrlParams() {
 import { mapActions, mapMutations } from "vuex";
 import User from "@/lin/model/user";
 import { saveTokens } from "@/lin/util/token";
+import { Loading } from "element-ui";
 export default {
   data() {
     return {
-      loading: false
+      error: false,
+      errorMsg: ""
     };
   },
   created() {
-    this.loading = true;
+    var loading = Loading.service({
+      fullscreen: true,
+      text: "登录中。。。",
+      lock: true
+      // spinner: "el-icon-loadings"
+    });
     let result = parseUrlParams();
     if (!(result && result.token)) {
-      alert("无效的登录");
-      this.loading = false;
+      this.errorMsg = "无效的登录";
+      this.error = true;
+      loading.close();
       return;
     }
     saveTokens(result.token);
@@ -72,7 +83,9 @@ export default {
         console.log(e);
       } finally {
         this.loading = true;
-        location.href = "/";
+        var url = window.localStorage.getItem("OAUTH_LOGIN_URL");
+
+        location.href = url;
       }
     }
   }

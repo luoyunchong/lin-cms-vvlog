@@ -513,7 +513,7 @@ export default {
       margin-bottom: 16px;
       padding-bottom: 5px;
     }
-    strong{
+    strong {
       font-weight: 600;
     }
     p,

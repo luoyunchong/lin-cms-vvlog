@@ -16,16 +16,14 @@
                     :to="{path:'/tag/subscribe/all?sort=newest'}"
                     :class="sortName=='newest'?'el-link el-link--primary is-underline':'el-link el-link--info'"
                   >最新</router-link>
-                  <!-- <el-link :type="sort=='newest'?'primary':'info'" href="/tag?sort=newest">最新</el-link>
-                  <el-divider direction="vertical"></el-divider>
-                  <el-link :type="sort=='hottest'?'primary':'info'" href="/tag?sort=hottest">最热</el-link>-->
                 </el-form-item>
                 <el-form-item class="search-input">
                   <el-input
                     v-model="form.tag_name"
-                    placeholder="根据标签名查询"
+                    placeholder="根据标签名查询/回车查询"
                     clearable
                     size="small"
+                    @keyup.enter.native="refresh"
                     @clear="refresh"
                   ></el-input>
                 </el-form-item>

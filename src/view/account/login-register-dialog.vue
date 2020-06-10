@@ -103,7 +103,7 @@
 
         <el-form-item label="第三方账号登录" class="oauth lin-form-item">
           <!-- <el-avatar icon="iconfont icon-QQ" title="qq登录" size="large"></el-avatar> -->
-          <a href @click="()=>signin('GitHub')">
+          <a href="javascript:void(0);" @click="()=>signin('GitHub')">
             <el-avatar
               class="margin-left-xs"
               icon="iconfont icon-github-fill"
@@ -111,7 +111,7 @@
               size="large"
             ></el-avatar>
           </a>
-          <a href @click="()=>signin('QQ')">
+          <a href="javascript:void(0);" @click="()=>signin('QQ')">
             <el-avatar class="margin-left-xs" icon="iconfont icon-QQ" title="qq登录" size="large"></el-avatar>
           </a>
           <!-- <el-button type="primary" @click="()=>signin('GitHub')">GitHub</el-button> -->
@@ -209,9 +209,18 @@ export default {
     },
 
     signin(provider) {
+      window.localStorage.setItem("OAUTH_LOGIN_URL", window.location.href);
       window.open(
         `${process.env.VUE_APP_BASE_URL}cms/oauth2/signin?provider=${provider}&redirectUrl=${process.env.VUE_APP_CURRENT_URL}`
       );
+      // var t = window.open(
+      //   `${process.env.VUE_APP_BASE_URL}cms/oauth2/signin?provider=${provider}&redirectUrl=${process.env.VUE_APP_CURRENT_URL}`,
+      //   "_blank",
+      //   "toolbar=yes, location=yes, directories=no, status=no, menubar=yes, scrollbars=yes, resizable=no, copyhistory=yes, width=800, height=600"
+      // );
+      // var n = window.setInterval(function() {
+      //   (t && !t.closed) || (window.clearInterval(n), window.location.reload());
+      // }, 300);
     }
   }
 };

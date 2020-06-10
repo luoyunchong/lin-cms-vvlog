@@ -7,7 +7,7 @@
       itemLayout="vertical"
       :pagination="pagination"
     >
-      <template v-slot:renderItem="{item,index}">
+      <template v-slot:renderItem="{item}">
         <v-list-item>
           <v-list-item-meta :description="item.create_time|filterTimeYmdHms">
             <div slot="title" class="info" v-show="item.notification_type==0">
@@ -49,7 +49,9 @@
                 target="_blank"
               >{{(item.user_info!=null?item.user_info.nickname:'')}}</router-link>关注了你
             </div>
-            <el-avatar slot="avatar" :src="item.user_info.avatar" />
+            <div slot="avatar">
+              <el-avatar :src="item.user_info!=null?item.user_info.avatar:defaultAvatar" />
+            </div>
           </v-list-item-meta>
           <template slot="content">{{item.comment_entry!=null?item.comment_entry.text:''}}</template>
           <li slot="actions" v-show="item.notification_type==1||item.notification_type==2">
@@ -75,6 +77,7 @@
 import notificationApi from "../../model/notification";
 import VList from "@/component/list";
 import "@/component/list/index.css";
+import defaultAvatar from "@/assets/image/user/user.png";
 export default {
   name: "NotificationList",
   components: {
@@ -103,7 +106,8 @@ export default {
         }
       },
       listData: [],
-      loading: false
+      loading: false,
+      defaultAvatar
     };
   },
   props: {

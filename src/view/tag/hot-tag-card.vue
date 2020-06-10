@@ -17,7 +17,14 @@
         </router-link>
       </div>
       <el-tag v-for="tag in dataSource" v-bind:key="tag.id" :hit="false" effect="light" type="info">
-        <router-link :to="{path:'/tag/'+`${tag.id}`}" target="_blank">{{tag.tag_name}}</router-link>
+        <router-link :to="{path:'/tag/'+`${tag.id}`}" target="_blank">
+          <div
+            alt="黑客派"
+            class="tag-image"
+            :style="`background-image: url('${tag.thumbnail_display}');`"
+          ></div>
+          {{tag.tag_name}}
+        </router-link>
       </el-tag>
     </el-card>
   </div>
@@ -66,11 +73,21 @@ export default {
   color: #000;
   border-left: 4px solid #ec7259;
 }
+.tag-image {
+  border-radius: 2px 2px 2px 2px;
+  height: 16px;
+  width: 16px;
+  float: left;
+  margin: 2px 3px 0 0;
+  background-color: rgba(0, 0, 0, 0.02);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50%;
+}
+
 .el-tag {
-  margin-bottom: 8px;
-  margin-right: 12px;
-  height: 26px;
-  line-height: 26px;
+  margin-right: 10px;
+  margin-bottom: 10px;
   &:hover {
     opacity: 0.8;
   }

@@ -23,32 +23,6 @@
     </el-main>
   </el-container>
 </template>
-<style lang="scss" scoped>
-.vv-aside {
-  background: #fff;
-  overflow-x: hidden;
-  border-right: 1px solid #ebebeb;
-  .el-menu-item i.icon-like {
-    margin-right: 5px;
-    padding-right: 3px;
-    padding-left: 3px;
-    text-align: center;
-    font-size: 18px;
-    vertical-align: middle;
-  }
-}
-.vv-main {
-  background: #fff;
-  padding: 0px;
-  .vv-main-title {
-    margin: 20px 0px 0px 20px;
-    span {
-      line-height: 1.4;
-      font-size: 19px;
-    }
-  }
-}
-</style>
 
 <script>
 import "../setting/index.scss";
@@ -89,3 +63,30 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.vv-aside {
+  background: #fff;
+  overflow-x: hidden;
+  border-right: 1px solid #ebebeb;
+  .el-menu-item i.icon-like {
+    margin-right: 5px;
+    padding-right: 3px;
+    padding-left: 3px;
+    text-align: center;
+    font-size: 18px;
+    vertical-align: middle;
+  }
+}
+.vv-main {
+  background: #fff;
+  padding: 0px;
+  .vv-main-title {
+    margin: 20px 0px 0px 20px;
+    span {
+      line-height: 1.4;
+      font-size: 19px;
+    }
+  }
+}
+</style>

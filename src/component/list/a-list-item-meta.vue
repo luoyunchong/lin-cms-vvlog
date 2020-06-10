@@ -1,10 +1,10 @@
 <template>
   <div class="vv-list-item-meta">
     <div class="vv-list-item-meta-avatar" v-if="avatar || $slots.avatar">
-      <slot name="avatar"></slot>
+      <slot name="avatar">{{ avatar }}</slot>
     </div>
     <div class="vv-list-item-meta-content">
-      <h4 class="vv-list-item-meta-title" v-if="title||$slots.title">
+      <h4 class="vv-list-item-meta-title" v-if="title || $slots.title">
         <slot name="title">{{ title }}</slot>
       </h4>
       <div class="vv-list-item-meta-description" v-if="description||$slots.description">
