@@ -4,7 +4,7 @@
       <el-form-item prop="text">
         <el-input
           type="textarea"
-          :autosize="true"
+          :autosize="{ minRows: 2, maxRows: 4}"
           placeholder="请输入评论内容"
           v-model="model.text"
           minlength="1"

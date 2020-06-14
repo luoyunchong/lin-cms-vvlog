@@ -226,7 +226,6 @@ export default {
       }
       let res = await userTagApi.getSubscribeTags({
         user_id: userId,
-        count: 1000
       });
       this.subscribeDataSource = [...res.items];
     }

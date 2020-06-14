@@ -6,6 +6,7 @@
     :before-close="handleClose"
     :visible.sync="dialogFormVisible"
     class="user-dialog"
+    :close-on-click-modal="false"
   >
     <el-form
       :model="form"
@@ -21,7 +22,7 @@
           v-model="form.old_password"
           autocomplete="off"
           show-password
-          clearable
+          placeholder="请输入原密码（初次设置时可留空）"
         ></el-input>
       </el-form-item>
       <el-form-item label="新密码" prop="new_password">
@@ -30,7 +31,6 @@
           v-model="form.new_password"
           autocomplete="off"
           show-password
-          clearable
           placeholder="请输入新密码"
         ></el-input>
       </el-form-item>
@@ -40,15 +40,15 @@
           v-model="form.confirm_password"
           autocomplete="off"
           show-password
-          clearable
           placeholder="请重新输入新密码"
         ></el-input>
       </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="submitForm('form')">保存</el-button>
-        <el-button @click="resetForm('form')">重置</el-button>
-      </el-form-item>
     </el-form>
+
+    <span slot="footer" class="dialog-footer">
+      <el-button type="primary" @click="submitForm('form')">保存</el-button>
+      <el-button @click="dialogFormVisible=false">取消</el-button>
+    </span>
   </el-dialog>
 </template>
 
@@ -92,9 +92,9 @@ export default {
         confirm_password: ""
       },
       rules: {
-        old_password: [
-          { validator: oldPassword, trigger: "blur", required: true }
-        ],
+        // old_password: [
+        //   { validator: oldPassword, trigger: "blur", required: true }
+        // ],
         new_password: [
           { validator: validatePassword, trigger: "blur", required: true }
         ],
@@ -110,31 +110,21 @@ export default {
     show() {
       this.dialogFormVisible = true;
     },
-    // 弹框 右上角 X
     handleClose(done) {
       this.dialogFormVisible = false;
       done();
     },
-
     submitForm(formName) {
-      if (
-        this.form.old_password === "" &&
-        this.form.new_password === "" &&
-        this.form.confirm_password === ""
-      ) {
-        this.dialogFormVisible = false;
-        return;
-      }
-      if (this.form.old_password === this.form.new_password) {
-        this.$message.error("新密码不能与原始密码一样");
-        return;
-      }
       this.$refs[formName].validate(async valid => {
         if (valid) {
+          if (this.form.old_password === this.form.new_password) {
+            this.$message.error("新密码不能与原始密码一样");
+            return false;
+          }
           const res = await User.updatePassword(this.form);
           if (res.code === 0) {
             this.$message.success(`${res.message}`);
-            this.resetForm(formName);
+            this.$refs[formName].resetFields();
             this.dialogFormVisible = false;
             setTimeout(() => {
               this.loginOut();
@@ -148,10 +138,6 @@ export default {
           return false;
         }
       });
-    },
-    // 重置表单
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
     }
   }
 };

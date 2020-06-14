@@ -26,13 +26,15 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import { swiper, swiperSlide } from 'vue-awesome-swiper'
-
-import 'swiper/dist/css/swiper.css' // eslint-disable-line
+import { mapGetters } from "vuex";
+import { Swiper, SwiperSlide, directive } from "vue-awesome-swiper";
+import "swiper/css/swiper.css";
 
 export default {
-  components: { swiper, swiperSlide },
+  components: { Swiper, SwiperSlide },
+  directives: {
+    swiper: directive
+  },
   data() {
     return {
       histories: [],
@@ -43,178 +45,181 @@ export default {
       left: 0,
       index: 0,
       swiperOption: {
-        slidesPerView: 'auto',
+        slidesPerView: "auto",
         initialSlide: 0,
-        effect: 'slide',
+        effect: "slide",
         spaceBetween: 1,
         preventClicks: false,
         freeMode: true,
         mousewheel: {
-          sensitivity: 1.5,
-        },
-      },
-    }
+          sensitivity: 1.5
+        }
+      }
+    };
   },
   watch: {
     $route(to) {
       // 对路由变化作出响应...
-      const { histories } = this
-      const flag = histories.find(item => item.path === to.path)
+      const { histories } = this;
+      const flag = histories.find(item => item.path === to.path);
       if (flag) {
-        return
+        return;
       }
-      const ele = {}
-      ele.stageId = to.name
-      ele.path = to.path
-      ele.routePath = to.matched[to.matched.length - 1].path
-      this.histories = [ele, ...histories]
+      const ele = {};
+      ele.stageId = to.name;
+      ele.path = to.path;
+      ele.routePath = to.matched[to.matched.length - 1].path;
+      this.histories = [ele, ...histories];
     },
     logined(val) {
       if (val) {
-        return
+        return;
       }
-      this.closeAll()
+      this.closeAll();
     },
     visible(value) {
       if (value) {
-        document.body.addEventListener('click', this.closeMenu)
+        document.body.addEventListener("click", this.closeMenu);
       } else {
-        document.body.removeEventListener('click', this.closeMenu)
+        document.body.removeEventListener("click", this.closeMenu);
       }
     },
     // 舞台改变时触发
     stageList() {
-      this.init()
+      this.init();
     },
     histories(arr) {
       if (arr.length < 2) {
-        this.eventBus.$emit('noReuse')
+        this.eventBus.$emit("noReuse");
       } else {
-        this.eventBus.$emit('hasReuse')
+        this.eventBus.$emit("hasReuse");
       }
-    },
+    }
   },
-  inject: ['eventBus'],
+  inject: ["eventBus"],
   created() {
     // 关闭窗口时执行
     window.onbeforeunload = () => {
       // 缓存历史记录
-      window.localStorage.setItem('history', JSON.stringify(this.histories))
-    }
+      window.localStorage.setItem("history", JSON.stringify(this.histories));
+    };
   },
   computed: {
     logined() {
-      return this.$store.state.logined
+      return this.$store.state.logined;
     },
     defaultRoute() {
-      return this.$store.state.defaultRoute
+      return this.$store.state.defaultRoute;
     },
-    ...mapGetters(['getStageByRoute', 'getStageByName', 'stageList']),
+    ...mapGetters(["getStageByRoute", "getStageByName", "stageList"])
   },
   mounted() {
-    this.init()
-    this.eventBus.$on('clearTap', () => {
-      this.histories = []
-    })
+    this.init();
+    this.eventBus.$on("clearTap", () => {
+      this.histories = [];
+    });
   },
   methods: {
     init() {
-      const histories = []
+      const histories = [];
 
       // 获取当前的历史记录, 可能从本地存储, 可能直接获取当前的
-      let localHistory
+      let localHistory;
       if (this.histories.length > 0) {
-        localHistory = [...this.histories]
+        localHistory = [...this.histories];
       } else {
-        localHistory = window.localStorage.getItem('history') || '[]'
-        localHistory = JSON.parse(localHistory)
+        localHistory = window.localStorage.getItem("history") || "[]";
+        localHistory = JSON.parse(localHistory);
       }
 
       localHistory.forEach(item => {
-        let findResult
+        let findResult;
         if (item.name) {
-          findResult = this.getStageByName(item.name)
+          findResult = this.getStageByName(item.name);
         } else {
-          findResult = this.getStageByRoute(item.routePath)
+          findResult = this.getStageByRoute(item.routePath);
         }
         if (!findResult) {
-          return
+          return;
         }
         histories.push({
           ...item,
-          stageId: findResult.name,
-        })
-        this.histories = histories
-      })
+          stageId: findResult.name
+        });
+        this.histories = histories;
+      });
     },
     filterIcon(icon) {
       if (!icon) {
-        return false
+        return false;
       }
-      return icon.indexOf('/') !== -1
+      return icon.indexOf("/") !== -1;
     },
     closeAll() {
-      this.histories = []
-      this.$router.push(this.defaultRoute)
+      this.histories = [];
+      this.$router.push(this.defaultRoute);
     },
     closeOthers() {
-      this.$router.push(this.histories[this.index].path)
-      this.histories = []
+      this.$router.push(this.histories[this.index].path);
+      this.histories = [];
     },
     closeLeft() {
-      this.histories.splice(0, this.index)
+      this.histories.splice(0, this.index);
     },
     closeRight() {
-      this.histories.splice(this.index + 1, this.histories.length - this.index - 1)
+      this.histories.splice(
+        this.index + 1,
+        this.histories.length - this.index - 1
+      );
     },
     onTags(index, event) {
-      this.closeMenu()
-      const menuMinWidth = 126
-      const offsetLeft = this.$el.getBoundingClientRect().left
-      const { offsetWidth } = this.$el
-      const maxLeft = offsetWidth - menuMinWidth
-      const left = event.clientX - offsetLeft + 15
+      this.closeMenu();
+      const menuMinWidth = 126;
+      const offsetLeft = this.$el.getBoundingClientRect().left;
+      const { offsetWidth } = this.$el;
+      const maxLeft = offsetWidth - menuMinWidth;
+      const left = event.clientX - offsetLeft + 15;
 
       if (left > maxLeft) {
-        this.left = maxLeft
+        this.left = maxLeft;
       } else {
-        this.left = left
+        this.left = left;
       }
 
       if (index === 0) {
-        this.hasLeft = false
+        this.hasLeft = false;
       }
 
       if (index + 1 === this.histories.length) {
-        this.hasRight = false
+        this.hasRight = false;
       }
 
-      this.top = 18
-      this.index = index
-      this.visible = true
+      this.top = 18;
+      this.index = index;
+      this.visible = true;
     },
     closeMenu() {
-      this.visible = false
-      this.hasLeft = true
-      this.hasRight = true
+      this.visible = false;
+      this.hasLeft = true;
+      this.hasRight = true;
     },
     close(index) {
       // 检测是否是当前页, 如果是当前页则自动切换路由
       if (this.$route.path === this.histories[index].path) {
         if (index > 0) {
-          this.$router.push(this.histories[index - 1].path)
+          this.$router.push(this.histories[index - 1].path);
         } else if (this.histories.length > 1) {
-          this.$router.push(this.histories[1].path)
+          this.$router.push(this.histories[1].path);
         } else {
-          this.$router.push(this.defaultRoute)
+          this.$router.push(this.defaultRoute);
         }
       }
       // 删除该历史记录
-      this.histories.splice(index, 1)
-      this.histories = [...this.histories]
-    },
-  },
-}
+      this.histories.splice(index, 1);
+      this.histories = [...this.histories];
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>
