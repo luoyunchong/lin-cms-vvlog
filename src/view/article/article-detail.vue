@@ -249,6 +249,7 @@ export default {
         this.model = await articleApi.getArticle(this.id).finally(() => {
           loading.close();
         });
+        document.title = this.model.title;
         if (this.model.word_number == 0) {
           this.model.word_number = this.model.content.length;
           this.model.reading_time = Number(

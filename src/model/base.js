@@ -9,24 +9,24 @@ class Base {
 
 
     async getItem(id) {
-        const res = await get(`v1/item/${id}`)
+        const res = await get(`api/base/item/${id}`)
         return res
     }
 
 
     async getItems(params) {
-        const res = await get('v1/item', params)
+        const res = await get('api/base/item', params)
         return res
     }
 
     async getType(id) {
-        const res = await get(`v1/type/${id}`)
+        const res = await get(`api/base/type/${id}`)
         return res
     }
 
 
     async getTypes(params) {
-        const res = await get('v1/type', params)
+        const res = await get('api/base/type', params)
         return res
     }
 }

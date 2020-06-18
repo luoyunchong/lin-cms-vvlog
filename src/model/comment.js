@@ -4,27 +4,27 @@ class Comment {
   // constructor() {}
 
   async addComment(info) {
-    const res = await post("v1/comment/", info);
+    const res = await post("api/blog/comments/", info);
     return res;
   }
 
   async getComment(id) {
-    const res = await get(`v1/comment/${id}`);
+    const res = await get(`api/blog/comments/${id}`);
     return res;
   }
 
   async editComment(id, info) {
-    const res = await put(`v1/comment/${id}`, info);
+    const res = await put(`api/blog/comments/${id}`, info);
     return res;
   }
 
   async delectComment(id) {
-    const res = await _delete(`v1/comment/${id}`);
+    const res = await _delete(`api/blog/comments/${id}`);
     return res;
   }
 
   async getPublicComments(pagesParmas) {
-    const res = await get("v1/comment/public", pagesParmas);
+    const res = await get("api/blog/comments/public", pagesParmas);
     return res;
   }
 }

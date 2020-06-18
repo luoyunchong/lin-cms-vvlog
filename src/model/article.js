@@ -4,57 +4,58 @@ class Article {
   // constructor() {}
 
   async addArticle(info) {
-    const res = await post("v1/article/", info);
+    const res = await post("api/blog/articles/", info);
     return res;
   }
 
   async getArticle(id) {
-    const res = await get(`v1/article/${id}`);
+    const res = await get(`api/blog/articles/${id}`);
     return res;
   }
 
   async editArticle(id, info) {
-    const res = await put(`v1/article/${id}`, info);
+    const res = await put(`api/blog/articles/${id}`, info);
     return res;
   }
 
   async deleteArticle(id) {
-    const res = await _delete(`v1/article/${id}`);
+    const res = await _delete(`api/blog/articles/${id}`);
     return res;
   }
 
   async deleteCmsArticle(id) {
-    const res = await _delete(`v1/article/cms/${id}`);
+    const res = await _delete(`api/blog/articles/cms/${id}`);
     return res;
   }
 
   async getArticles(pagesParmas) {
-    const res = await get("v1/article/", pagesParmas);
+    const res = await get("api/blog/articles/", pagesParmas);
     return res;
   }
 
   async getAllArticles(pagesParmas) {
-    const res = await get("v1/article/all", pagesParmas);
+    const res = await get("api/blog/articles/all", pagesParmas);
     return res;
   }
 
   async getQueryArticles(pagesParmas) {
-    const res = await get("v1/article/query", pagesParmas);
+    const res = await get("api/blog/articles/query", pagesParmas);
     return res;
   }
 
   async getSubscribeArticles(pagesParmas) {
-    const res = await get("v1/article/subscribe", pagesParmas);
+    const res = await get("api/blog/articles/subscribe", pagesParmas);
     return res;
   }
 
 
   async getArticleDraft(id) {
-    const res = await get(`v1/article/draft/${id}`);
+    const res = await get(`api/blog/articles/draft/${id}`);
     return res;
   }
+
   async editArticleDraft(id, info) {
-    const res = await put(`v1/article/draft/${id}`, info);
+    const res = await put(`api/blog/articles/draft/${id}`, info);
     return res;
   }
 }

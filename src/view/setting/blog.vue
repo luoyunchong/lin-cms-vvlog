@@ -34,11 +34,12 @@ export default {
         editor: 1
       },
       rules: {},
-      loading: false
+      loading: false,
+      key: "Article.Editor"
     };
   },
   async created() {
-    let val = await settingApi.getEditorSetting();
+    let val = await settingApi.getSettingByKey({ key: "Article.Editor" });
     if (val) {
       this.form.editor = val;
     }
@@ -49,7 +50,7 @@ export default {
         if (valid) {
           this.loading = true;
           const res = await settingApi
-            .editEditor(this.form.editor)
+            .setSettingValues({ "Article.Editor": this.form.editor })
             .finally(r => {
               this.loading = false;
             });

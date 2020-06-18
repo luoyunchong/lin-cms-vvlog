@@ -1,6 +1,6 @@
 import "@babel/polyfill";
 import Vue from "vue";;
-// import ElementUI from "element-ui";
+import ElementUI from "element-ui";
 
 import "@/lin/mixin";
 import "@/lin/filter";
@@ -18,11 +18,11 @@ import SourceCode from "@/component/base/source-code/source-code";
 
 import "@/assets/style/index.scss";
 import "@/assets/style/realize/element-variable.scss";
-import "element-ui/lib/theme-chalk/base.css";
+import "element-ui/lib/theme-chalk/display.css";
 import '@/assets/style/main.scss';
 Vue.config.productionTip = false;
 
-// Vue.use(ElementUI);
+Vue.use(ElementUI);
 
 Vue.component(CollapseTransition.name, CollapseTransition);
 

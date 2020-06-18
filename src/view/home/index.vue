@@ -123,19 +123,44 @@
             <div>
               <div class="margin-bottom-xs">
                 <a href="https://github.com/luoyunchong/lin-cms-dotnetcore" target="_blank">
-                  <el-button type="primary" icon="iconfont icon-github-fill">lin-cms-dotnetcore</el-button>
+                  <el-button type="danger" plain icon="iconfont icon-github-fill">lin-cms-dotnetcore</el-button>
                 </a>
               </div>
               <div class="margin-bottom-xs">
                 <a href="https://github.com/luoyunchong/lin-cms-vue" target="_blank">
-                  <el-button type="default" icon="iconfont icon-github-fill">lin-cms-vue</el-button>
+                  <el-button type="primary" plain icon="iconfont icon-github-fill">lin-cms-vue</el-button>
                 </a>
               </div>
               <div class="margin-bottom-xs">
                 <a href="https://github.com/luoyunchong/lin-cms-vvlog" target="_blank">
-                  <el-button type="warning" icon="iconfont icon-github-fill">lin-cms-vvlog</el-button>
+                  <el-button type="success" plain icon="iconfont icon-github-fill">lin-cms-vvlog</el-button>
                 </a>
               </div>
+            </div>
+          </el-card>
+          <el-card
+            :body-style="{ 'padding-bottom': '10px','padding-top':'10px' }"
+            shadow="never"
+            class="lin-card"
+          >
+            <div slot="header" class="clearfix">
+              <span class="lin-title">服务器配置</span>
+            </div>
+            <div>
+              <ul class="server-info">
+                <li>已运行：{{serverInfo.working_time}}</li>
+                <li>环境：{{serverInfo.environment_name}}</li>
+                <li>OS_架构：{{serverInfo.os_architecture}}</li>
+                <li>内存占用：{{serverInfo.memory_footprint}}</li>
+                <li>
+                  <el-alert
+                    type="success"
+                    effect="dark"
+                    :title="'Powered by '+serverInfo.framework_description"
+                    :closable="false"
+                  ></el-alert>
+                </li>
+              </ul>
             </div>
           </el-card>
         </div>
@@ -149,6 +174,7 @@ import ArticleList from "@/view/article/article-list";
 import InfiniteLoading from "vue-infinite-loading";
 import articleApi from "@/model/article";
 import channelApi from "@/model/channel";
+import monitorApi from "@/model/monitor";
 import HotTagCard from "@/view/tag/hot-tag-card";
 import NovicesCard from "@/view/home/novices-card";
 
@@ -169,11 +195,14 @@ export default {
       loading: false,
       any: new Date(),
       channels: [],
-      users: []
+      users: [],
+      serverInfo: {}
     };
   },
   async created() {},
-  mounted() {},
+  async mounted() {
+    this.serverInfo = await monitorApi.getServerInfo();
+  },
   computed: {
     sort() {
       return this.$route.query.sort;
@@ -332,6 +361,12 @@ export default {
     padding: 0 0 0 0.5rem;
     color: #000;
     border-left: 4px solid #ec7259;
+  }
+}
+ul.server-info {
+  li {
+    margin-bottom: 14px;
+    font-size: 14px;
   }
 }
 

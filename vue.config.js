@@ -78,13 +78,13 @@ module.exports = {
         resolve: {
           extensions: [".js", ".json", ".vue", ".scss", ".html"]
         }
-        , externals: {
-          'vue': 'Vue',
-          'vue-router': 'VueRouter',
-          'vuex': 'Vuex',
-          'axios': 'axios',
-          'element-ui': 'ELEMENT'
-        }
+        // , externals: {
+        //   'vue': 'Vue',
+        //   'vue-router': 'VueRouter',
+        //   'vuex': 'Vuex',
+        //   'axios': 'axios',
+        //   'element-ui': 'ELEMENT'
+        // }
       }
     }
   },

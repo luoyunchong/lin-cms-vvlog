@@ -74,10 +74,10 @@ const deepReduceName = target => {
     return;
   }
   if (typeof target === "object") {
-    // if (typeof target.name !== 'symbol') {
-    //   target.name = target.name || Utils.getRandomStr()
-    //   target.name = Symbol(target.name)
-    // }
+    if (typeof target.name !== 'symbol') {
+      target.name = target.name || Utils.getRandomStr()
+      target.name = Symbol(target.name)
+    }
 
     if (!target.name) {
       target.name = target.name || Utils.getRandomStr();

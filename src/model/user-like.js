@@ -4,7 +4,7 @@ class UserLike {
     // constructor() {}
 
     async likeOrCancel(info) {
-        const res = await post("v1/user-like/", info);
+        const res = await post("api/blog/user-like/", info);
         return res;
     }
 }

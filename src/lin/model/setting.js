@@ -1,13 +1,13 @@
 import { post, get, put, _delete } from "@/lin/plugin/axios";
 
 class Setting {
-    async editEditor(value) {
-        const res = await post(`cms/setting/editor?value=${value}`);
+    async getSettingByKey(params) {
+        const res = await get(`cms/settings/by-key`, params);
         return res;
     }
 
-    async getEditorSetting() {
-        const res = await get(`cms/setting/editor`);
+    async setSettingValues(params) {
+        const res = await post(`cms/settings/set-values`, params);
         return res;
     }
 
