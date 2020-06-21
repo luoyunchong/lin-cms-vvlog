@@ -7,9 +7,9 @@
             <div class="info-row">
               <ul class="meta-list">
                 <li class="item clickable">
-                  <el-tag type="primary" effect v-if="item.article_type==0">原创</el-tag>
-                  <el-tag type="success" effect v-else-if="item.article_type==1">转载</el-tag>
-                  <el-tag type="info" effect v-else-if="item.article_type==2">翻译</el-tag>
+                  <el-tag type="primary" effect="light" v-if="item.article_type==0">原</el-tag>
+                  <el-tag type="success" effect="light" v-else-if="item.article_type==1">转</el-tag>
+                  <el-tag type="info" effect="light" v-else-if="item.article_type==2">译</el-tag>
                 </li>
                 <li class="item username clickable" v-if="item.user_info!=undefined">
                   <router-link
@@ -91,7 +91,7 @@
 
 <script>
 export default {
-  name: "ArticleList",
+  name: 'ArticleList',
   data() {
     return {};
   },
@@ -106,7 +106,7 @@ export default {
   mounted() {},
   methods: {
     toArticle(item) {
-      this.$router.push({ name: "p", params: { id: item.id } });
+      this.$router.push({ name: 'p', params: { id: item.id } });
     }
   }
 };
@@ -192,6 +192,10 @@ export default {
             display: flex;
             align-items: baseline;
             white-space: nowrap;
+            .item .el-tag {
+              border-radius: 4px;
+              padding: 0 5px;
+            }
             .item.clickable:hover {
               color: #007fff;
             }
@@ -200,12 +204,12 @@ export default {
               align-items: baseline;
             }
             .item:not(:last-child)::after {
-              content: "·";
+              content: '·';
               color: rgb(178, 186, 194);
               margin: 0px 0.4em;
             }
             .item a.tag:not(:last-child):after {
-              content: "/";
+              content: '/';
               margin: 0 0.2em;
               color: #b2bac2;
             }

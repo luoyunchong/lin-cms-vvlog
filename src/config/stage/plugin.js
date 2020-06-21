@@ -7,4 +7,15 @@ const pluginsConfig = [
   demo,
 ]
 
-export default pluginsConfig
+let pluginsNewConfig = [];
+pluginsConfig.forEach(stageConfig => {
+  if (Array.isArray(stageConfig)) {
+    stageConfig.forEach(config => {
+      pluginsNewConfig.push(config)
+    })
+  } else {
+    pluginsNewConfig.push(stageConfig)
+  }
+})
+
+export default pluginsNewConfig

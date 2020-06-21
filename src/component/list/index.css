@@ -113,15 +113,16 @@
   font-size: 14px;
   line-height: 22px;
   text-align: center;
-  cursor: pointer;
 }
 
 .vv-list-item-action>li a {
   color: #1890ff;
+  cursor: pointer;
 }
 
 .vv-list-item-action>li a:hover {
   color: #40a9ff;
+  text-decoration: underline;
 }
 
 .vv-list-item-action>li:first-child {

@@ -13,24 +13,20 @@
       >
         <el-row>
           <el-col :lg="24" class="margin-bottom">
-            <el-input
-              class="editor-title"
-              size="medium"
-              v-model="form.title"
-              placeholder="请填写随笔标题"
-              style="font-size:1.4rem;"
-            ></el-input>
+            <el-form-item prop="title">
+              <el-input
+                class="editor-title"
+                size="medium"
+                v-model="form.title"
+                placeholder="请填写随笔标题"
+                style="font-size:1.4rem;"
+              ></el-input>
+            </el-form-item>
           </el-col>
           <el-col :lg="24">
-            <MarkdownPro
-              v-if="form.editor==1"
-              v-model="form.content"
-              :bordered="true"
-              :height="750"
-              theme="oneDark"
-              @on-save="handleOnSave"
-              :autoSave="true"
-            />
+            <div class="index-page" v-loading="isLoading" v-if="form.editor==1">
+              <div id="vditor" class="vditor" />
+            </div>
             <tinymce
               v-else
               :height="750"
@@ -53,37 +49,42 @@
   </div>
 </template>
 <script>
-import EditorDialog from "./editor-dialog";
-import HeadNav from "./head-nav";
-import articleApi from "@/model/article";
-import settingApi from "@/model/setting";
-import { User as CurrentUser } from "@/component/layout";
-import { MarkdownPro } from "vue-meditor";
-import Tinymce from "@/component/base/tinymce";
+import EditorDialog from './editor-dialog';
+import HeadNav from './head-nav';
+import articleApi from '@/model/article';
+import settingApi from '@/model/setting';
+import { User as CurrentUser } from '@/component/layout';
+import Tinymce from '@/component/base/tinymce';
+import Vditor from 'vditor';
 
 export default {
-  name: "EditorForm",
+  name: 'EditorForm',
   data() {
     return {
+      isLoading: true,
       form: {
-        content: "",
-        title: "",
+        content: '',
+        title: '',
         editor: 1
       },
+      codeTheme: 'github',
       rules: {
-        title: [{ required: true, message: "请输入标题", trigger: "blur" }]
-      }
+        title: [{ required: true, message: '请输入标题', trigger: 'blur' }]
+      },
+      vditor: null
     };
   },
   components: {
     EditorDialog,
     CurrentUser,
     HeadNav,
-    MarkdownPro,
     Tinymce
   },
   async mounted() {
-    await this.show();
+    this.initVditor();
+    this.$nextTick(() => {
+      this.isLoading = false;
+    });
   },
   async created() {},
   watch: {
@@ -97,9 +98,83 @@ export default {
     }
   },
   methods: {
+    initVditor() {
+      const that = this;
+      const options = {
+        width: '100%',
+        height: '0',
+        tab: '\t',
+        counter: '999999',
+        typewriterMode: true,
+        mode: 'sv', //ir 即时渲染，sv 分屏预览 wysiwyg 所见即所得
+        preview: {
+          delay: 100,
+          show: true,
+          markdown: {
+            toc: true,
+            theme: 'light'
+          },
+          hljs: {
+            enable: true,
+            style: 'github',
+            lineNumber: true
+          },
+          mode: 'both'
+        },
+        upload: {
+          accept: 'image/*',
+          max: 8 * 1024 * 1024,
+          // linkToImgUrl: '/cms/file',
+          handler(files) {
+            console.log(files);
+            const data = {};
+            files.forEach((item, index) => {
+              data[`file_${index}`] = item;
+            });
+            that
+              .$axios({
+                method: 'post',
+                url: '/cms/file',
+                data
+              })
+              .then(res => {
+                if (!Array.isArray(res) || res.length === 0) {
+                  throw new Error('图像上传失败');
+                }
+                if (res.length > 0) {
+                  var imgMdStr = ``;
+                  res.forEach((re, i) => {
+                    if (files[i].type == 'video/webm') {
+                      imgMdStr = `<audio controls="controls" src="${re.url}"></audio>`;
+                    } else {
+                      imgMdStr = `![${files[i].name}](${re.url})`;
+                    }
+                    that.vditor.insertValue(imgMdStr);
+                  });
+
+                  that.vditor.enable();
+                }
+              });
+          }
+        },
+        outline: true,
+        after: () => {
+          this.show();
+        },
+        cache: {
+          enable: false
+        },
+        theme: 'light',
+        blur(value) {
+          that.handleOnSave(value);
+        }
+      };
+      this.vditor = new Vditor('vditor', options);
+      this.vditor.focus();
+    },
     async getSetting() {
-      let editor = await settingApi.getSettingEditor();
-      if (editor != "" && editor != null) {
+      let editor = await settingApi.getSettingByKey({ key: 'Article.Editor' });
+      if (editor != '' && editor != null) {
         this.form.editor = editor;
       }
     },
@@ -109,7 +184,7 @@ export default {
         let res = await articleApi.getArticleDraft(this.id).finally(() => {
           this.loading = false;
         });
-        if (res == null || res == undefined || res == "") {
+        if (res == null || res == undefined || res == '') {
           let article = await articleApi.getArticle(this.id).finally(() => {
             this.loading = false;
           });
@@ -119,6 +194,7 @@ export default {
             editor: article.editor
           };
         } else {
+          this.vditor.setValue(res.content);
           this.form = {
             title: res.title,
             content: res.content,
@@ -128,126 +204,88 @@ export default {
         console.log(this.form.content);
       } else {
         await this.getSetting();
-        this.resetForm("form");
+        this.resetForm('form');
+      }
+
+      let codeTheme = await settingApi.getSettingByKey({
+        key: 'Article.CodeTheme'
+      });
+      if (codeTheme != '' && codeTheme != null) {
+        this.codeTheme = codeTheme;
+        this.vditor.setTheme('classic', 'light', this.codeTheme);
       }
     },
     async confirmEdit() {
-      this.$refs["editorDialog"].show();
+      var that = this;
+      this.$refs['form'].validate(async valid => {
+        if (valid) {
+          if (that.form.editor == 1) {
+            that.form.content = that.vditor.getValue();
+          }
+          that.$refs['editorDialog'].show();
+        }
+      });
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
-      this.form.content = "";
+      this.form.content = '';
     },
-    async handleOnSave({ value, theme }) {
-      if (this.id == 0 || this.form.title == "" || value == "") return;
+    async handleOnSave(value) {
+      if (
+        this.id == 0 ||
+        this.form.title == '' ||
+        value == '' ||
+        value.trim() == ''
+      )
+        return;
       await articleApi.editArticleDraft(this.id, {
         title: this.form.title,
         content: value
       });
-      console.log("自动保存");
+      console.log('自动保存');
     },
     changeTinymce(val) {
-      console.log(val);
       this.form.content = val;
+      this.handleOnSave(val);
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/style/form.scss";
-
-.markdown /deep/ {
-  .markdown-preview {
-    color: #24292e;
-    ul li,
-    a,
-    p {
-      line-height: 1.6;
-      font-size: 15px !important;
-
-      font-family: "-apple-system", BlinkMacSystemFont, "\5FAE\8F6F\96C5\9ED1",
-        "PingFang SC", Helvetica, Arial, "Hiragino Sans GB", "Microsoft YaHei",
-        SimSun, "\5B8B\4F53", Heiti, "\9ED1\4F53", sans-serif;
-    }
-    img {
-      width: auto;
-    }
-    pre {
-      color: #333;
-      background-color: #f5f5f5;
-      border: 1px solid #ccc;
-      border-radius: 2px;
-    }
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-      color: #333;
-      line-height: 1.25;
-      margin-top: 24px;
-      margin-bottom: 16px;
-      padding-bottom: 5px;
-    }
-    p,
-    blockquote,
-    ul,
-    ol,
-    dl,
-    table,
-    pre {
-      margin-top: 0;
-      margin-bottom: 16px;
-    }
-    h1 {
-      font-size: 30px;
-      margin-bottom: 5px;
-    }
-    h2 {
-      margin-top: 20px;
-      border-bottom: 1px solid #eaecef;
-    }
-    h3 {
-      margin-top: 10px;
-    }
-    h4,
-    h5,
-    h6 {
-      margin-top: 5px;
-    }
-    // table tr:nth-of-type(even) td {
-    //   background-color: #f6f8fa;
-    // }
-    ul li:after {
-      width: 4px;
-      height: 4px;
-    }
-
-    ul li input[type="checkbox"]:before {
-      z-index: 199 !important;
-    }
+@import '@/assets/style/form.scss';
+@import '~vditor/dist/index.css';
+.index-page {
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  .vditor {
+    position: absolute;
+    top: 60px;
+    max-width: 1440px;
+    width: 80%;
+    height: calc(100vh - 100px);
+    margin: 20px auto;
+    text-align: left;
   }
-
-  .markdown-theme-dark pre code,
-  .code-block p {
-    color: #fff;
+  .vditor-reset {
+    font-size: 14px;
   }
-  blockquote p {
-    margin-bottom: 0px;
-  }
-  a {
-    color: #4285f4;
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-  .preview-img .close {
-    right: 22px;
+  .vditor-textarea {
+    font-size: 14px;
+    height: 100% !important;
   }
 }
 
+@media (max-width: 960px) {
+  .index-page {
+    .vditor {
+      height: calc(100vh - 60px);
+      padding: auto 10px;
+      margin: 0px auto;
+    }
+  }
+}
 .editor-container {
   margin-top: 80px;
   width: 100%;
@@ -256,6 +294,9 @@ export default {
     width: 80%;
     margin: 20px auto;
     max-width: 1440px;
+    /deep/ .el-form-item__content {
+      margin-left: 0px !important;
+    }
   }
   .editor-title /deep/ .el-input__inner {
     height: 45px;

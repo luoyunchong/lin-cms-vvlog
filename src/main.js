@@ -8,6 +8,7 @@ import "@/lin/plugin";
 import "@/lin/directive";
 
 import CollapseTransition from "element-ui/lib/transitions/collapse-transition";
+import LinNotify from '@/component/notify'
 import router from "@/router";
 import store from "@/store";
 import App from "@/app.vue";
@@ -23,7 +24,11 @@ import '@/assets/style/main.scss';
 Vue.config.productionTip = false;
 
 Vue.use(ElementUI);
-
+Vue.use(LinNotify, {
+  reconnection: true,
+  reconnectionAttempts: 5,
+  reconnectionDelay: 3000,
+})
 Vue.component(CollapseTransition.name, CollapseTransition);
 
 // base 组件注册

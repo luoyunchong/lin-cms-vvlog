@@ -88,17 +88,13 @@
           </el-submenu>
 
           <!-- 一级else -->
-          <el-menu-item
-            class="subMenuContent"
-            :index="idMap[item.name]"
-            @click="goto(item.path)"
-            v-else
-            :key="idMap[item.name]"
-          >
-            <i v-if="!filterIcon(item.icon)" :class="item.icon"></i>
-            <img v-else :src="item.icon" class="imgIcon" />
-            <span slot="title">{{ item.title }}</span>
-          </el-menu-item>
+          <router-link :to="item.path" :key="item.name" class v-else>
+            <el-menu-item class="subMenuContent" :index="idMap[item.name]" :key="idMap[item.name]">
+              <i v-if="!filterIcon(item.icon)" :class="item.icon"></i>
+              <img v-else :src="item.icon" class="imgIcon" />
+              <span slot="title">{{ item.title }}</span>
+            </el-menu-item>
+          </router-link>
         </template>
       </el-menu>
     </div>
@@ -106,20 +102,20 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import Utils from "@/lin/util/util";
-import Config from "../../config/index";
+import { mapGetters } from 'vuex';
+import Utils from '@/lin/util/util';
+import Config from '../../config/index';
 
 export default {
   data() {
     return {
-      sidebar: "",
+      sidebar: '',
       groups: [],
       showSidebarSearch: Config.showSidebarSearch,
       showSearchList: false
     };
   },
-  inject: ["eventBus"],
+  inject: ['eventBus'],
   props: {
     isPhone: {
       type: Boolean,
@@ -132,10 +128,10 @@ export default {
   },
   created() {},
   mounted() {
-    this.eventBus.$on("removeSidebarSearch", () => {
+    this.eventBus.$on('removeSidebarSearch', () => {
       this.showSidebarSearch = false;
     });
-    this.eventBus.$on("showSidebarSearch", () => {
+    this.eventBus.$on('showSidebarSearch', () => {
       if (Config.showSidebarSearch) {
         this.showSidebarSearch = true;
       }
@@ -148,11 +144,11 @@ export default {
       });
     },
     filterIcon(icon) {
-      return icon && icon.indexOf("/") !== -1;
+      return icon && icon.indexOf('/') !== -1;
     },
     handleChange(val) {
       this.groups = [];
-      this.sidebar = "";
+      this.sidebar = '';
       this.showSearchList = false;
       this.$router.push(val);
     },
@@ -211,7 +207,7 @@ export default {
           return this.idMap[this.stageInfo[i].name];
         }
       }
-      return "";
+      return '';
     },
     stageInfo() {
       return this.$store.getters.getStageInfo(this.$route.name);
@@ -245,10 +241,10 @@ export default {
     },
     imgSrc() {
       return this.elMenuCollapse === false
-        ? "../../assets/image/left-logo.png"
-        : "../../assets/image/logo.png";
+        ? '../../assets/image/left-logo.png'
+        : '../../assets/image/logo.png';
     },
-    ...mapGetters(["sideBarList"])
+    ...mapGetters(['sideBarList'])
   }
 };
 </script>

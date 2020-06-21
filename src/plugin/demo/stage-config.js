@@ -1,4 +1,4 @@
-const DemoRouter = [{
+const DemoRouter = {
   route: null,
   name: null,
   title: '插件Demo',
@@ -19,6 +19,6 @@ const DemoRouter = [{
       icon: "iconfont icon-tushuguanli"
     },
   ],
-}]
+}
 
 export default DemoRouter

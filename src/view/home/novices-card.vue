@@ -76,9 +76,9 @@
 </template>
 
 <script>
-import userApi from "@/lin/model/user";
+import userApi from '@/lin/model/user';
 export default {
-  name: "NovicesCard",
+  name: 'NovicesCard',
   data() {
     return { users: [], loading: false };
   },

@@ -68,8 +68,12 @@
               ></el-alert>
             </div>
             <div id="preview">
-              <MarkdownPreview v-if="model.editor==1" :initialValue="model.content" theme="dark" />
-              <div class="tinymce" v-else v-html="model.content"></div>
+              <div id="previewWrap">
+                <div id="preview" class="preview"></div>
+              </div>
+              <div id="outline"></div>
+              <!-- <MarkdownPreview v-if="model.editor==1" :initialValue="model.content" theme="dark" /> -->
+              <!-- <div class="tinymce" v-else v-html="model.content"></div> -->
             </div>
             <div class="tag-box top20" v-show="model.tags.length>0">
               <h3 class="tag-title">标签</h3>
@@ -101,8 +105,8 @@
           </div>
           <el-backtop class="lin-back-top"></el-backtop>
         </el-col>
-        <el-col :xl="6" :lg="6" :md="24" :sm="24" :xs="24" class="sidebar">
-          <el-card style="margin-bottom:20px;" v-show="model.user_info.id!=0">
+        <el-col :xl="6" :lg="6" :md="24" :sm="24" :xs="24" class="sidebar-user">
+          <el-card v-show="model.user_info.id!=0" style="margin-bottom:20px;">
             <div slot="header" class="clearfix" :body-style="{ padding: '0'}">
               <span>关于作者</span>
             </div>
@@ -129,8 +133,33 @@
                 <div class="intro-content">{{model.user_info.introduction}}</div>
               </div>
             </div>
+            <div class="info-box" style="display: flex;">
+              <v-list
+                itemLayout="vertical"
+                :dataSource="latestArticles"
+                :bordered="false"
+                class="lastest-articles"
+                v-loading="latestLoading"
+              >
+                <template v-slot:renderItem="{item}">
+                  <v-list-item>
+                    <li slot="actions">
+                      <span style="font-size: 12px; color: #969696;">阅读 {{item.view_hits}}</span>
+                    </li>
+                    <v-list-item-meta>
+                      <a
+                        slot="description"
+                        target="_blank"
+                        :title="item.title"
+                        :href="'/#/post/'+item.id"
+                        style="color:rgb(45, 45, 45);"
+                      >{{item.title}}</a>
+                    </v-list-item-meta>
+                  </v-list-item>
+                </template>
+              </v-list>
+            </div>
           </el-card>
-          <!--  -->
 
           <el-card
             class="aside-list"
@@ -141,9 +170,6 @@
             <div slot="header" class="clearfix">
               <span>目录</span>
             </div>
-            <!-- <div class="wx_navigation">
-              <div class="navigator-item-title">目录</div>
-            </div>-->
             <div id="navigation" class="wx_navigation" />
           </el-card>
         </el-col>
@@ -166,16 +192,19 @@
 </template>
 
 <script>
-import articleApi from "../../model/article";
-import subscribeApi from "../../model/subscribe";
-import ToolsBadge from "./tools-badge";
-import CommentList from "@/view/comment/comment-list";
-import { SubscribeButton } from "@/view/subscribe";
-import Error404Page from "@/view/error-page/404";
-import { MarkdownPreview } from "vue-meditor";
-import tinymce from "tinymce/tinymce";
+import articleApi from '../../model/article';
+import subscribeApi from '../../model/subscribe';
+import ToolsBadge from './tools-badge';
+import CommentList from '@/view/comment/comment-list';
+import { SubscribeButton } from '@/view/subscribe';
+import Error404Page from '@/view/error-page/404';
+import Vditor from 'vditor';
+import VList from '@/component/list';
+import '@/component/list/index.css';
+import settingApi from '@/model/setting';
+
 export default {
-  name: "ArticleDetail",
+  name: 'ArticleDetail',
   data() {
     return {
       model: {
@@ -183,7 +212,8 @@ export default {
           id: 0
         },
         tags: [],
-        content: ""
+        content: '',
+        codeTheme: 'github'
       },
       subscribeLoading: false,
       scroll: 0,
@@ -191,10 +221,12 @@ export default {
       currentIndex: 0,
       heightArr: [],
       nodes: [],
-      avatarUrl: "",
+      avatarUrl: '',
       loading: false,
+      latestLoading: false,
       deleted: false,
-      is_subscribeed: null
+      is_subscribeed: null,
+      latestArticles: []
     };
   },
   components: {
@@ -202,7 +234,9 @@ export default {
     CommentList,
     SubscribeButton,
     Error404Page,
-    MarkdownPreview
+    VList,
+    VListItem: VList.Item,
+    VListItemMeta: VList.Item.Meta
   },
   computed: {
     id() {
@@ -211,12 +245,12 @@ export default {
   },
   async created() {
     await this.getData();
-    this.init();
+
     this.activeIndex = 0;
   },
   mounted() {
     this.$nextTick(function() {
-      window.addEventListener("scroll", this.dataScroll, true);
+      window.addEventListener('scroll', this.dataScroll, true);
     });
   },
   watch: {
@@ -231,9 +265,6 @@ export default {
     getCommentSuccess(total) {
       this.model.comment_quantity = total;
     },
-    goBack() {
-      this.$router.replace("/index");
-    },
     likeChange({ likes_quantity, is_liked }) {
       this.model.likes_quantity += likes_quantity;
       this.model.is_liked = is_liked;
@@ -241,11 +272,10 @@ export default {
     async getData() {
       const loading = this.$loading({
         lock: true,
-        text: "Loading"
+        text: 'Loading'
       });
       try {
         this.deleted = false;
-
         this.model = await articleApi.getArticle(this.id).finally(() => {
           loading.close();
         });
@@ -256,10 +286,22 @@ export default {
             this.model.word_number / 800
           ).toFixed(0);
         }
+
+        this.render(this.model.content);
+
+        let codeTheme = await settingApi.getSettingByKey({
+          key: 'Article.CodeTheme'
+        });
+        if (codeTheme != '' && codeTheme != null) {
+          this.model.codeTheme = codeTheme;
+        }
+        Vditor.setCodeTheme(this.model.codeTheme);
         if (this.model.user_info == undefined) {
           this.model.user_info = {
             id: 0
           };
+        } else {
+          await this.getQueryArticles();
         }
       } catch (ex) {
         console.log(ex);
@@ -270,26 +312,30 @@ export default {
       this.$nextTick(() => {
         this.buildNavigation();
         document
-          .getElementById("preview")
-          .querySelectorAll("h1,h2,h3,h4,h5")
+          .getElementById('preview')
+          .querySelectorAll('h1,h2,h3,h4,h5')
           .forEach((item, index) => {
             this.heightArr.push(item.offsetTop - 30);
           });
         this.nodes = document
-          .getElementById("navigation")
-          .getElementsByClassName("navigator-item");
+          .getElementById('navigation')
+          .getElementsByClassName('navigator-item');
       });
     },
     dataScroll: function() {
-      this.scroll =
-        document.documentElement.scrollTop ||
-        document.body.scrollTop ||
-        document.querySelector("#preview").scrollTop;
+      try {
+        this.scroll =
+          document.documentElement.scrollTop ||
+          document.body.scrollTop ||
+          document.querySelector('#preview').scrollTop;
 
-      this.aside =
-        document.documentElement.scrollTop ||
-        document.body.scrollTop ||
-        document.querySelector(".aside-list").scrollTop;
+        this.aside =
+          document.documentElement.scrollTop ||
+          document.body.scrollTop ||
+          document.querySelector('.aside-list').scrollTop;
+      } catch (ex) {
+        console.error(ex);
+      }
     },
     loadSroll() {
       let self = this;
@@ -299,19 +345,19 @@ export default {
             this.scroll >= this.heightArr[i] &&
             this.scroll <= this.heightArr[i + 1]
           ) {
-            this.nodes[i].classList.add("active");
+            this.nodes[i].classList.add('active');
           } else {
-            this.nodes[i].classList.remove("active");
+            this.nodes[i].classList.remove('active');
           }
         }
       }
     },
     buildNavigation() {
-      let navigation = document.getElementById("navigation");
+      let navigation = document.getElementById('navigation');
       let articleId = this.id;
       const nodes = document
-        .getElementById("preview")
-        .querySelectorAll("h1,h2,h3,h4,h5");
+        .getElementById('preview')
+        .querySelectorAll('h1,h2,h3,h4,h5');
       let newDoms = [];
       let router = this.$router;
       if (nodes.length) {
@@ -326,22 +372,22 @@ export default {
         if (reg.exec(node.tagName)) {
           let cloneNode = node.cloneNode();
 
-          cloneNode.classList.add("navigator-item");
-          const a = document.createElement("a");
+          cloneNode.classList.add('navigator-item');
+          const a = document.createElement('a');
 
           // a.href = `/#/post/${articleId}#${domId}`;
           a.id = domId;
-          a.setAttribute("articleId", articleId);
+          a.setAttribute('articleId', articleId);
           a.innerHTML = node.innerText;
           cloneNode.appendChild(a);
           cloneNode.onclick = function() {
             let parents = cloneNode.parentElement.children;
             for (let j = 0; j < parents.length; j++) {
-              parents[j].classList.remove("active");
+              parents[j].classList.remove('active');
             }
-            cloneNode.classList.add("active");
+            cloneNode.classList.add('active');
             let id = this.children[0].id;
-            let articleId = this.children[0].getAttribute("articleId");
+            let articleId = this.children[0].getAttribute('articleId');
 
             // console.log(id);
             // console.log(location.hash);
@@ -359,14 +405,14 @@ export default {
 
           return cloneNode;
         }
-        return "";
+        return '';
       }
       const sliceDoms = []; // 归类好的节点树
 
       newDoms.forEach((dom, i) => {
         // 把标题归类 每部分的标题组合到一起
         const level = dom.tagName.substr(1);
-        const upLevel = newDoms[i - 1] ? newDoms[i - 1].tagName.substr(1) : "";
+        const upLevel = newDoms[i - 1] ? newDoms[i - 1].tagName.substr(1) : '';
 
         if (upLevel) {
           if (level > upLevel) {
@@ -386,18 +432,76 @@ export default {
         const thisTitleMaxId = doms[0].tagName.substr(1);
         doms.forEach(dom => {
           const domHeadingLevel = dom.tagName.substr(1) - thisTitleMaxId + 1;
-          dom.classList.add("heading_" + domHeadingLevel);
+          dom.classList.add('heading_' + domHeadingLevel);
         });
       });
     },
     subscribe(is_subscribeed) {
       this.is_subscribeed = is_subscribeed;
+    },
+    render(markdown) {
+      var that = this;
+      Vditor.preview(document.getElementById('preview'), markdown, {
+        markdown: {
+          toc: true,
+          theme: 'dark'
+          // linkBase: `#/post/${that.id}`
+        },
+        hljs: {
+          enable: true,
+          style: 'tango',
+          lineNumber: true
+        },
+        speech: {
+          enable: true
+        },
+        anchor: 1,
+        after() {
+          that.init();
+          if (window.innerWidth <= 768) {
+            return;
+          }
+        },
+        lazyLoadImage:
+          'https://cdn.jsdelivr.net/npm/vditor/dist/images/img-loading.svg',
+        renderers: {
+          renderHeading: (node, entering) => {
+            const id = Lute.GetHeadingID(node);
+            if (entering) {
+              return [
+                `<h${node.__internal_object__.HeadingLevel} id="${id}" class="vditor__heading">
+<span class="prefix"></span><span>`,
+                Lute.WalkContinue
+              ];
+            } else {
+              return [
+                `</span><a id="vditorAnchor-${id}" class="vditor-anchor" href="#${id}"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h${node.__internal_object__.HeadingLevel}>`,
+                Lute.WalkContinue
+              ];
+            }
+          }
+        }
+      });
+    },
+    async getQueryArticles() {
+      this.latestLoading = true;
+      var data = await articleApi
+        .getQueryArticles({
+          count: 3,
+          page: 0,
+          user_id: this.model.user_info.id
+        })
+        .finally(() => {
+          this.latestLoading = false;
+        });
+      this.latestArticles = data.items;
     }
   }
 };
 </script>
 
 <style  lang="scss" scoped>
+@import '~vditor/dist/index.css';
 .page-header-index-wide {
   max-width: 1200px;
   margin: 0 auto;
@@ -465,95 +569,93 @@ export default {
 }
 
 #preview /deep/ {
-  .markdown-preview,
-  .tinymce {
-    color: #24292e;
-    padding: 0px 12px 20px 12px !important;
-    ul li,
-    a,
-    p {
-      line-height: 1.6;
-      font-size: 15px !important;
-      font-family: "-apple-system", BlinkMacSystemFont, "\5FAE\8F6F\96C5\9ED1",
-        "PingFang SC", Helvetica, Arial, "Hiragino Sans GB", "Microsoft YaHei",
-        SimSun, "\5B8B\4F53", Heiti, "\9ED1\4F53", sans-serif;
+  color: #24292e;
+  padding: 0px 12px 20px 12px !important;
+  ul li,
+  a,
+  p {
+    line-height: 1.6;
+    font-size: 15px !important;
+    font-family: '-apple-system', BlinkMacSystemFont, '\5FAE\8F6F\96C5\9ED1',
+      'PingFang SC', Helvetica, Arial, 'Hiragino Sans GB', 'Microsoft YaHei',
+      SimSun, '\5B8B\4F53', Heiti, '\9ED1\4F53', sans-serif;
+  }
+  img {
+    width: auto !important;
+    height: auto !important;
+  }
+  .code-pre {
+    color: #333;
+    border-radius: 2px;
+    .hljs-keyword {
+      color: #00f;
     }
-    img {
-      width: auto;
-    }
-    .code-pre {
+    .hljs-title,
+    .hljs-params,
+    .hljs-function {
       color: #333;
-      border-radius: 2px;
-      .hljs-keyword {
-        color: #00f;
-      }
-      .hljs-title,
-      .hljs-params,
-      .hljs-function {
-        color: #333;
-      }
-      .hljs-number {
-        color: #361da3;
-      }
-      .hljs-meta {
-        color: #2b91af;
-      }
-      .hljs-string {
-        color: #a31515;
-      }
     }
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-      color: #333;
-      line-height: 1.25;
-      margin-top: 24px;
-      margin-bottom: 16px;
-      padding-bottom: 5px;
+    .hljs-number {
+      color: #361da3;
     }
-    strong {
-      font-weight: 600;
+    .hljs-meta {
+      color: #2b91af;
     }
-    p,
-    blockquote,
-    ul,
-    ol,
-    dl,
-    table,
-    pre {
-      margin-top: 0;
-      margin-bottom: 16px;
+    .hljs-string {
+      color: #a31515;
     }
-    h1 {
-      font-size: 30px;
-      margin-bottom: 5px;
-    }
-    h2 {
-      margin-top: 20px;
-      border-bottom: 1px solid #eaecef;
-    }
-    h3 {
-      margin-top: 10px;
-    }
-    h4,
-    h5,
-    h6 {
-      margin-top: 5px;
-    }
-    // table tr:nth-of-type(even) td {
-    //   background-color: #f6f8fa;
-    // }
-    ul li:after {
-      width: 4px;
-      height: 4px;
-    }
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: #333;
+    line-height: 1.25;
+    margin-top: 24px;
+    margin-bottom: 16px;
+    padding-bottom: 5px;
+  }
+  strong {
+    font-weight: 600;
+  }
+  p,
+  blockquote,
+  ul,
+  ol,
+  dl,
+  table,
+  pre {
+    margin-top: 0;
+    margin-bottom: 16px;
+  }
+  h1 {
+    font-size: 30px;
+    margin-bottom: 5px;
+  }
+  h2 {
+    margin-top: 20px;
+    border-bottom: 1px solid #eaecef;
+  }
+  h3 {
+    margin-top: 10px;
+  }
+  h4,
+  h5,
+  h6 {
+    margin-top: 5px;
+  }
+  // table tr:nth-of-type(even) td {
+  //   background-color: #f6f8fa;
+  // }
+  ul li:after {
+    width: 4px;
+    height: 4px;
+  }
 
-    ul li input[type="checkbox"]:before {
-      z-index: 199 !important;
-    }
+  ul li input[type='checkbox']:before {
+    z-index: 199 !important;
   }
 
   // .markdown-theme-dark pre code,
@@ -571,6 +673,12 @@ export default {
   }
   .preview-img .close {
     right: 22px;
+  }
+}
+
+.sidebar-user .info-box .lastest-articles /deep/ {
+  a:hover {
+    text-decoration: underline;
   }
 }
 
@@ -675,7 +783,7 @@ export default {
 }
 
 .wx_navigation > .navigator-item > a::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 50%;
   left: 0;

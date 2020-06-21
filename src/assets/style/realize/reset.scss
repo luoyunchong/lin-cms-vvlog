@@ -84,12 +84,12 @@ input {
   border: 0;
   font-size: 100%;
   font-family: Helvetica Neue,
-  Helvetica,
-  PingFang SC,
-  Hiragino Sans GB,
-  Microsoft YaHei,
-  SimSun,
-  sans-serif;
+    Helvetica,
+    PingFang SC,
+    Hiragino Sans GB,
+    Microsoft YaHei,
+    SimSun,
+    sans-serif;
   font-weight: normal;
   vertical-align: baseline;
 }
@@ -106,9 +106,11 @@ nav,
 section {
   display: block;
 }
-body{
-    background-color: #f4f5f5;
+
+body {
+  background-color: #f4f5f5;
 }
+
 html,
 body,
 #app {
@@ -131,6 +133,7 @@ table {
 input,
 button {
   padding: 0;
+
   &:focus {
     outline: -webkit-focus-ring-color auto 0px;
   }

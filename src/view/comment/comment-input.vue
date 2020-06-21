@@ -20,18 +20,18 @@
 </template>
 
 <script>
-import commentApi from "@/model/comment";
+import commentApi from '@/model/comment';
 export default {
-  name: "CommentInput",
+  name: 'CommentInput',
   props: {
     form: {
       type: Object,
       default() {
         return {
-          subject_id: "",
+          subject_id: '',
           subject_type: 1,
           resp_id: null,
-          text: "",
+          text: '',
           root_comment_id: null,
           resp_user_id: null
         };
@@ -43,14 +43,14 @@ export default {
       disabled: true,
       surplus: 500,
       model: {
-        text: ""
+        text: ''
       },
       rules: {
         text: [
           {
             required: true,
-            message: "请输入评论内容",
-            trigger: "blur"
+            message: '请输入评论内容',
+            trigger: 'blur'
           }
         ]
       }
@@ -60,13 +60,13 @@ export default {
   computed: {},
   methods: {
     addComment() {
-      this.$refs["form"].validate(async valid => {
+      this.$refs['form'].validate(async valid => {
         if (valid) {
           let text = this.model.text.trim();
-          if (text == "") {
+          if (text == '') {
             this.$message({
-              message: "发布内容为空!",
-              type: "warning"
+              message: '发布内容为空!',
+              type: 'warning'
             });
             return;
           }
@@ -75,10 +75,10 @@ export default {
             Object.assign(this.form, { text: text })
           );
           this.$message.success(`${res.message}`);
-          this.$emit("success");
-          this.$refs["form"].resetFields();
+          this.$emit('success');
+          this.$refs['form'].resetFields();
         } else {
-          console.log("error submit!!");
+          console.log('error submit!!');
           return false;
         }
       });

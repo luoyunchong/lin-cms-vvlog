@@ -24,14 +24,14 @@
             type="primary"
             class="margin-left-xs margin-bottom-xs"
             v-if="item.channel_code==channel"
-            :effect="channel!=undefined&&tag_name==undefined?'dark':'plain'"
+            :effect="(channel!=undefined&&tag_name==undefined?'dark':'plain')"
           >
             <router-link :to="{path:`/index/${encodeURIComponent(item.channel_code)}`}">全部</router-link>
           </el-tag>
           <template v-for="tag in item.tags">
             <el-tag
               :hit="false"
-              :effect="tag_name==tag.tag_name?'dark':'plain'"
+              :effect="(tag_name==tag.tag_name?'dark':'plain')"
               type="primary"
               v-bind:key="tag.id"
               v-if="item.channel_code==channel"
@@ -56,13 +56,11 @@
                 :to="{path:latestArticle}"
                 :class="['el-link is-underline',sort=='CreateTime'?'el-link--primary':'el-link--info']"
               >最新</router-link>
-              <!-- <el-link :type="sort=='CreateTime'?'primary':'info'" :href="latestArticle">最新</el-link> -->
               <el-divider direction="vertical"></el-divider>
               <router-link
                 :to="{path:threeDaysHottest}"
                 :class="['el-link is-underline','el-link--'+hotType]"
               >热榜</router-link>
-              <!-- <el-link :type="hotType" :href="threeDaysHottest">热榜</el-link> -->
               <el-select
                 :value="sort"
                 size="mini"
@@ -152,15 +150,32 @@
                 <li>环境：{{serverInfo.environment_name}}</li>
                 <li>OS_架构：{{serverInfo.os_architecture}}</li>
                 <li>内存占用：{{serverInfo.memory_footprint}}</li>
-                <li>
-                  <el-alert
-                    type="success"
-                    effect="dark"
-                    :title="'Powered by '+serverInfo.framework_description"
-                    :closable="false"
-                  ></el-alert>
-                </li>
+                <li>Powered by ：{{serverInfo.framework_description}}</li>
               </ul>
+            </div>
+          </el-card>
+
+          <el-card
+            :body-style="{ 'padding-bottom': '10px','padding-top':'10px' }"
+            shadow="never"
+            class="lin-card"
+          >
+            <div slot="header" class="clearfix">
+              <span class="lin-title">社区</span>
+            </div>
+            <div class="community">
+              <el-image
+                fit="cover"
+                style="width: 376px; height: 120px"
+                :src="wechaturl"
+                :preview-src-list="wechatsrcList"
+              ></el-image>
+              <el-image
+                fit="cover"
+                style="width: 376px; height: 516px"
+                :src="url"
+                :preview-src-list="srcList"
+              ></el-image>
             </div>
           </el-card>
         </div>
@@ -170,16 +185,16 @@
 </template>
 
 <script>
-import ArticleList from "@/view/article/article-list";
-import InfiniteLoading from "vue-infinite-loading";
-import articleApi from "@/model/article";
-import channelApi from "@/model/channel";
-import monitorApi from "@/model/monitor";
-import HotTagCard from "@/view/tag/hot-tag-card";
-import NovicesCard from "@/view/home/novices-card";
+import ArticleList from '@/view/article/article-list';
+import InfiniteLoading from 'vue-infinite-loading';
+import articleApi from '@/model/article';
+import channelApi from '@/model/channel';
+import monitorApi from '@/model/monitor';
+import HotTagCard from '@/view/tag/hot-tag-card';
+import NovicesCard from '@/view/home/novices-card';
 
 export default {
-  name: "HomeIndex",
+  name: 'HomeIndex',
   components: { ArticleList, InfiniteLoading, HotTagCard, NovicesCard },
   data() {
     return {
@@ -196,7 +211,11 @@ export default {
       any: new Date(),
       channels: [],
       users: [],
-      serverInfo: {}
+      serverInfo: {},
+      url: 'https://pic.downk.cc/item/5eef6f3114195aa59494de99.jpg',
+      srcList: ['https://pic.downk.cc/item/5eef6f3114195aa59494de99.jpg'],
+      wechaturl: 'https://pic.downk.cc/item/5eef6d4e14195aa594925b91.jpg',
+      wechatsrcList: ['https://pic.downk.cc/item/5eef6d4e14195aa594925b91.jpg']
     };
   },
   async created() {},
@@ -209,10 +228,10 @@ export default {
     },
     hotType() {
       let sortArray = [
-        "THREE_DAYS_HOTTEST",
-        "WEEKLY_HOTTEST",
-        "MONTHLY_HOTTEST",
-        "HOTTEST"
+        'THREE_DAYS_HOTTEST',
+        'WEEKLY_HOTTEST',
+        'MONTHLY_HOTTEST',
+        'HOTTEST'
       ];
       let that = this;
       let hot = sortArray.filter(r => {
@@ -220,9 +239,9 @@ export default {
       });
 
       if (hot.length > 0) {
-        return "primary";
+        return 'primary';
       } else {
-        return "info";
+        return 'info';
       }
     },
     channel() {
@@ -232,10 +251,10 @@ export default {
       return this.$route.params.tag_name;
     },
     latestArticle() {
-      return this.getSortUrl("CreateTime");
+      return this.getSortUrl('CreateTime');
     },
     threeDaysHottest() {
-      return this.getSortUrl("THREE_DAYS_HOTTEST");
+      return this.getSortUrl('THREE_DAYS_HOTTEST');
     }
   },
   watch: {
@@ -306,7 +325,7 @@ export default {
       }
     },
     getSortUrl(val) {
-      let url = "";
+      let url = '';
       if (this.channel && this.tag_name) {
         url = `/index/${this.channel}/${this.tag_name}?sort=${val}`;
       } else if (this.channel) {

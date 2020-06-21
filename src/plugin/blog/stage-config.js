@@ -1,5 +1,5 @@
-const blogRouter = [
-  {
+const blogRouter =
+  [{
     route: null,
     name: null,
     title: "工作台",
@@ -19,7 +19,7 @@ const blogRouter = [
         inNav: true
       },
     ]
-  }
-];
+  }]
+  ;
 
 export default blogRouter;

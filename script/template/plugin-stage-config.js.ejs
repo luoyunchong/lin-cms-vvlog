@@ -5,4 +5,15 @@ const pluginsConfig = [
 <% plugins.forEach(function(plugin){ %>  <%= plugin.camelCaseName %>,
 <% }); %>]
 
-export default pluginsConfig
+let pluginsNewConfig = [];
+pluginsConfig.forEach(stageConfig => {
+  if (Array.isArray(stageConfig)) {
+    stageConfig.forEach(config => {
+      pluginsNewConfig.push(config)
+    })
+  } else {
+    pluginsNewConfig.push(stageConfig)
+  }
+})
+
+export default pluginsNewConfig

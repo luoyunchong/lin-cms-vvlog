@@ -26,11 +26,11 @@
 
 ## 线上 Demo
 - 本项目swagger地址 [https://baimocore.cn/swagger/index.html](https://baimocore.cn/swagger/index.html)
-- 用户端 lin-cms-vvlog [http://vvlog.baimocore.cn](http://vvlog.baimocore.cn) 
+- 用户端 lin-cms-vvlog [https://vvlog.baimocore.cn](https://vvlog.baimocore.cn) 
   - 普通用户：710277267@qq.com
   - 密码：123qwe
 
-- 管理员 lin-cms-vue [http://cms.baimocore.cn/](http://cms.baimocore.cn)
+- 管理员 lin-cms-vue [https://cms.baimocore.cn/](https://cms.baimocore.cn)
   - 管理员： admin
   - 密码：123qwe
 
