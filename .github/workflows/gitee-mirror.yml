@@ -15,5 +15,5 @@ jobs:
               env:
                   SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
               with:
-                  source-repo: "git@github.com:luoyunchong/lin-cms-dotnetcore.git"
+                  source-repo: "git@github.com:luoyunchong/lin-cms-vvlog.git"
                   destination-repo: "git@gitee.com:igeekfan/lin-cms-vvlog.git"
