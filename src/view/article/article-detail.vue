@@ -67,14 +67,10 @@
                 type="info"
               ></el-alert>
             </div>
-            <div id="preview">
-              <div id="previewWrap">
-                <div id="preview" class="preview"></div>
-              </div>
-              <div id="outline"></div>
-              <!-- <MarkdownPreview v-if="model.editor==1" :initialValue="model.content" theme="dark" /> -->
-              <!-- <div class="tinymce" v-else v-html="model.content"></div> -->
-            </div>
+            <div id="preview" class="preview" @click="handleHtml($event)"></div>
+            <div id="outline"></div>
+            <!-- <MarkdownPreview v-if="model.editor==1" :initialValue="model.content" theme="dark" /> -->
+            <!-- <div class="tinymce" v-else v-html="model.content"></div> -->
             <div class="tag-box top20" v-show="model.tags.length>0">
               <h3 class="tag-title">标签</h3>
               <el-tag
@@ -444,7 +440,7 @@ export default {
       Vditor.preview(document.getElementById('preview'), markdown, {
         markdown: {
           toc: true,
-          theme: 'dark'
+          theme: 'light'
           // linkBase: `#/post/${that.id}`
         },
         hljs: {
@@ -455,7 +451,7 @@ export default {
         speech: {
           enable: true
         },
-        anchor: 1,
+        anchor: 2,
         after() {
           that.init();
           if (window.innerWidth <= 768) {
@@ -466,6 +462,7 @@ export default {
           'https://cdn.jsdelivr.net/npm/vditor/dist/images/img-loading.svg',
         renderers: {
           renderHeading: (node, entering) => {
+            //https://hacpai.com/article/1588412297062
             const id = Lute.GetHeadingID(node);
             if (entering) {
               return [
@@ -495,6 +492,16 @@ export default {
           this.latestLoading = false;
         });
       this.latestArticles = data.items;
+    },
+    handleHtml($event) {
+      if ($event.target) {
+        if ($event.target.nodeName == 'IMG') {
+          console.log($event.target.currentSrc);
+          this.$imagePreview({
+            images: [$event.target.currentSrc]
+          });
+        }
+      }
     }
   }
 };

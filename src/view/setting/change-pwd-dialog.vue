@@ -46,40 +46,40 @@
     </el-form>
 
     <span slot="footer" class="dialog-footer">
-      <el-button type="primary" @click="submitForm('form')">保存</el-button>
+      <el-button type="primary" :loading="saveLoading" @click="submitForm('form')">保存</el-button>
       <el-button @click="dialogFormVisible=false">取消</el-button>
     </span>
   </el-dialog>
 </template>
 
 <script>
-import User from "@/lin/model/user";
-import { mapActions, mapGetters } from "vuex";
+import User from '@/lin/model/user';
+import { mapActions, mapGetters } from 'vuex';
 export default {
   data() {
     const oldPassword = (rule, value, callback) => {
       if (!value) {
-        return callback(new Error("原始密码不能为空"));
+        return callback(new Error('原始密码不能为空'));
       }
       callback();
     };
     const validatePassword = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请输入密码"));
+      if (value === '') {
+        callback(new Error('请输入密码'));
       } else if (value.length < 6) {
-        callback(new Error("密码长度不能少于6位数"));
+        callback(new Error('密码长度不能少于6位数'));
       } else {
-        if (this.form.checkPassword !== "") {
-          this.$refs.form.validateField("confirm_password");
+        if (this.form.checkPassword !== '') {
+          this.$refs.form.validateField('confirm_password');
         }
         callback();
       }
     };
     const validatePassword2 = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请再次输入密码"));
+      if (value === '') {
+        callback(new Error('请再次输入密码'));
       } else if (value !== this.form.new_password) {
-        callback(new Error("两次输入密码不一致!"));
+        callback(new Error('两次输入密码不一致!'));
       } else {
         callback();
       }
@@ -87,26 +87,27 @@ export default {
     return {
       dialogFormVisible: false,
       form: {
-        old_password: "",
-        new_password: "",
-        confirm_password: ""
+        old_password: '',
+        new_password: '',
+        confirm_password: ''
       },
       rules: {
         // old_password: [
         //   { validator: oldPassword, trigger: "blur", required: true }
         // ],
         new_password: [
-          { validator: validatePassword, trigger: "blur", required: true }
+          { validator: validatePassword, trigger: 'blur', required: true }
         ],
         confirm_password: [
-          { validator: validatePassword2, trigger: "blur", required: true }
+          { validator: validatePassword2, trigger: 'blur', required: true }
         ]
-      }
+      },
+      saveLoading: false
     };
   },
   created() {},
   methods: {
-    ...mapActions(["loginOut", "setUserAndState"]),
+    ...mapActions(['loginOut', 'setUserAndState']),
     show() {
       this.dialogFormVisible = true;
     },
@@ -118,9 +119,10 @@ export default {
       this.$refs[formName].validate(async valid => {
         if (valid) {
           if (this.form.old_password === this.form.new_password) {
-            this.$message.error("新密码不能与原始密码一样");
+            this.$message.error('新密码不能与原始密码一样');
             return false;
           }
+          this.saveLoading = true;
           const res = await User.updatePassword(this.form);
           if (res.code === 0) {
             this.$message.success(`${res.message}`);
@@ -132,9 +134,10 @@ export default {
               window.location.href = origin;
             }, 1000);
           }
+          this.saveLoading = false;
         } else {
-          console.log("error submit!!");
-          this.$message.error("请填写正确的信息");
+          console.log('error submit!!');
+          this.$message.error('请填写正确的信息');
           return false;
         }
       });

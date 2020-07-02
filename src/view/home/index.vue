@@ -164,18 +164,8 @@
               <span class="lin-title">社区</span>
             </div>
             <div class="community">
-              <el-image
-                fit="cover"
-                style="width: 376px; height: 120px"
-                :src="wechaturl"
-                :preview-src-list="wechatsrcList"
-              ></el-image>
-              <el-image
-                fit="cover"
-                style="width: 376px; height: 516px"
-                :src="url"
-                :preview-src-list="srcList"
-              ></el-image>
+              <el-image fit="cover" :src="wechaturl" :preview-src-list="wechatsrcList"></el-image>
+              <el-image fit="cover" :src="url" :preview-src-list="srcList"></el-image>
             </div>
           </el-card>
         </div>
@@ -213,7 +203,10 @@ export default {
       users: [],
       serverInfo: {},
       url: 'https://pic.downk.cc/item/5eef6f3114195aa59494de99.jpg',
-      srcList: ['https://pic.downk.cc/item/5eef6f3114195aa59494de99.jpg'],
+      srcList: [
+        'https://pic.downk.cc/item/5eef6f3114195aa59494de99.jpg',
+        'https://pic.downk.cc/item/5eef6d4e14195aa594925b91.jpg'
+      ],
       wechaturl: 'https://pic.downk.cc/item/5eef6d4e14195aa594925b91.jpg',
       wechatsrcList: ['https://pic.downk.cc/item/5eef6d4e14195aa594925b91.jpg']
     };
