@@ -75,6 +75,12 @@ let baseRouter = [
                 meta: { title: '安全设置' },
             },
             {
+                path: '/setting/binding',
+                name: 'setting-binding',
+                component: () => import("@/view/setting/binding.vue"),
+                meta: { title: '第三方帐号绑定' },
+            },
+            {
                 path: '/setting/blog',
                 name: 'setting-blog',
                 component: () => import("@/view/setting/blog.vue"),
@@ -87,6 +93,12 @@ let baseRouter = [
         name: 'login-result',
         component: () => import("@/view/account/login-result.vue"),
         meta: { title: '第三方登录' },
+    },
+    {
+        path: '/bind-result',
+        name: 'bind-result',
+        component: () => import("@/view/account/bind-result.vue"),
+        meta: { title: '第三方账号绑定' },
     },
     {
         path: '/404',

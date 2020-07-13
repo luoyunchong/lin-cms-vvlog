@@ -13,6 +13,13 @@
             </el-row>
             <el-row>
               <el-col :lg="12">
+                <el-form-item label="个人网站" prop="blog_address">
+                  <el-input size="medium" v-model="form.blog_address" placeholder="http(s)://您的网站"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :lg="12">
                 <el-form-item label="个人简介" prop="introduction">
                   <el-input
                     type="textarea"
@@ -35,18 +42,19 @@
 </template>
 
 <script>
-import userApi from "@/lin/model/user";
-import { mapActions } from "vuex";
+import userApi from '@/lin/model/user';
+import { mapActions } from 'vuex';
 export default {
-  name: "Profile",
+  name: 'Profile',
   data() {
     return {
       form: {
-        nickname: "",
-        introduction: ""
+        nickname: '',
+        introduction: '',
+        blog_address: ''
       },
       rules: {
-        nickname: [{ required: true, message: "昵称为必填项", trigger: "blur" }]
+        nickname: [{ required: true, message: '昵称为必填项', trigger: 'blur' }]
       },
       loading: false
     };
@@ -54,9 +62,10 @@ export default {
   created() {
     this.form.nickname = this.user.nickname;
     this.form.introduction = this.user.introduction;
+    this.form.blog_address = this.user.blog_address;
   },
   methods: {
-    ...mapActions(["setUserAndState"]),
+    ...mapActions(['setUserAndState']),
     async confirmEdit(formName) {
       this.$refs[formName].validate(async valid => {
         if (valid) {
@@ -78,5 +87,5 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import "@/assets/style/form.scss";
+@import '@/assets/style/form.scss';
 </style>

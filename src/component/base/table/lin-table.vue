@@ -31,6 +31,8 @@
         :sortable="item.sortable ? item.sortable : false"
         :fixed="item.fixed ? item.fixed : false"
         :width="item.width ? item.width : ''"
+        :align="item.align ? item.align:'center'"
+        :header-align="item.headerAlign?item.headerAlign:'left'"
       >
         <template slot-scope="scope">
           <!-- solt 自定义列-->
@@ -115,7 +117,7 @@ export default {
     index: {
       // 是否显示索引
       index: String,
-      default: ""
+      default: ''
     },
     highlightCurrentRow: {
       // 是否开启表格单选
@@ -130,17 +132,17 @@ export default {
     loadingText: {
       // 动画提示
       type: String,
-      default: ""
+      default: ''
     },
     loadingIcon: {
       // 动画图标
       type: String,
-      default: "el-icon-loading"
+      default: 'el-icon-loading'
     },
     loadingBG: {
       // 动画背景色
       type: String,
-      default: "rgba(255,255,255,0.5)"
+      default: 'rgba(255,255,255,0.5)'
     },
     pagination: {
       // 分页
@@ -163,13 +165,13 @@ export default {
       oldVal: [], // 上一次选中的数据
       oldKey: [], // 上一次选中数据的key
       currentIndex: 1, // 当前索引，切换页面的时候需要重新计算
-      rowClassName: "" // 行样式
+      rowClassName: '' // 行样式
     };
   },
   created() {},
   beforeMount() {
     // 先放在session里，因为每次切换页码table都会重新渲染，之前选中都数据就丢失了  sessionstorage在create里面打包会提示undefined
-    sessionStorage.setItem("selectedTableData", JSON.stringify([]));
+    sessionStorage.setItem('selectedTableData', JSON.stringify([]));
   },
   methods: {
     // 开发者自定义的函数
@@ -181,11 +183,11 @@ export default {
     },
     // 行内编辑
     handleEdit(_this, index, row) {
-      _this.$emit("handleEdit", { index, row });
+      _this.$emit('handleEdit', { index, row });
     },
     // 行内删除
     handleDelete(_this, index, row) {
-      _this.$emit("handleDelete", { index, row });
+      _this.$emit('handleDelete', { index, row });
     },
     // 多选-选中checkbox
     toggleSelection(rows, flag) {
@@ -204,7 +206,7 @@ export default {
     // 单选
     handleCurrentChange(val, oldVal) {
       this.currentRow = val;
-      this.$emit("handleCurrentChange", { val, oldVal });
+      this.$emit('handleCurrentChange', { val, oldVal });
     },
     // 单击某一行
     rowClick(row, column, event) {
@@ -235,7 +237,7 @@ export default {
         return;
       }
       this.currentOldRow = row;
-      this.$emit("row-click", row);
+      this.$emit('row-click', row);
     },
     // 切换当前页
     currentChange(page) {
@@ -243,14 +245,14 @@ export default {
       this.oldVal = [];
       this.currentPage = page;
       this.selectedTableData = JSON.parse(
-        sessionStorage.getItem("selectedTableData")
+        sessionStorage.getItem('selectedTableData')
       );
       this.currentData = this.tableData.filter(
         (item, index) =>
           index >= (this.currentPage - 1) * this.pagination.pageSize &&
           index < this.currentPage * this.pagination.pageSize
       );
-      this.$emit("currentChange", page);
+      this.$emit('currentChange', page);
       // 已选中的数据打勾
       this.selectedTableData.forEach(item => {
         for (let i = 0; i < this.currentData.length; i++) {
@@ -273,15 +275,15 @@ export default {
       const valKeys = val.map(item => item.key);
       const oldValKeys = this.oldVal.map(item => item.key);
       this.selectedTableData = JSON.parse(
-        sessionStorage.getItem("selectedTableData")
+        sessionStorage.getItem('selectedTableData')
       );
       // 一条数据都没选中
       if (this.selectedTableData.length === 0) {
         this.selectedTableData = this.selectedTableData.concat(val);
-        this.$emit("selection-change", this.selectedTableData);
+        this.$emit('selection-change', this.selectedTableData);
         this.oldVal = [...val];
         sessionStorage.setItem(
-          "selectedTableData",
+          'selectedTableData',
           JSON.stringify(this.selectedTableData)
         );
         return;
@@ -292,15 +294,15 @@ export default {
         this.selectedTableData = this.selectedTableData.filter(
           item => !delKey.includes(item.key)
         );
-        this.$emit("selection-change", this.selectedTableData);
+        this.$emit('selection-change', this.selectedTableData);
       } else {
         const addKey = valKeys.filter(item => !oldValKeys.includes(item));
         const addVal = val.filter(item => addKey.includes(item.key));
         this.selectedTableData = this.selectedTableData.concat(addVal);
-        this.$emit("selection-change", this.selectedTableData);
+        this.$emit('selection-change', this.selectedTableData);
       }
       sessionStorage.setItem(
-        "selectedTableData",
+        'selectedTableData',
         JSON.stringify(this.selectedTableData)
       );
       this.oldVal = [...val];
@@ -350,11 +352,11 @@ export default {
       handler(val, oldVal) {
         this.filterTableColumn.map((item, index) => {
           if (this.fixedLeftList.indexOf(item.label) > -1) {
-            this.$set(this.filterTableColumn[index], "fixed", "left");
+            this.$set(this.filterTableColumn[index], 'fixed', 'left');
           } else if (this.fixedRightList.indexOf(item.label) === -1) {
-            this.$set(this.filterTableColumn[index], "fixed", false);
+            this.$set(this.filterTableColumn[index], 'fixed', false);
           }
-          return "";
+          return '';
         });
       },
       deep: true,
@@ -364,11 +366,11 @@ export default {
       handler(val, oldVal) {
         this.filterTableColumn.map((item, index) => {
           if (this.fixedRightList.indexOf(item.label) > -1) {
-            this.$set(this.filterTableColumn[index], "fixed", "right");
+            this.$set(this.filterTableColumn[index], 'fixed', 'right');
           } else if (this.fixedLeftList.indexOf(item.label) === -1) {
-            this.$set(this.filterTableColumn[index], "fixed", false);
+            this.$set(this.filterTableColumn[index], 'fixed', false);
           }
-          return "";
+          return '';
         });
       },
       deep: true,

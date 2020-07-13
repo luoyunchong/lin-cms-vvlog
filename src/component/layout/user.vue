@@ -29,8 +29,8 @@
           <img src="../../assets/image/user/corner.png" class="corner" />
           <div class="info">
             <div class="username">{{ username }}</div>
-            <div class="mid">|</div>
-            <div class="desc">{{ groupName }}</div>
+            <!-- <div class="mid">|</div> -->
+            <!-- <div class="desc">{{ groupName }}</div> -->
           </div>
         </div>
         <el-dropdown-item command="home" icon="el-icon-user">我的主页</el-dropdown-item>
@@ -264,12 +264,13 @@ export default {
     init() {
       const { user } = this.$store.state;
       this.username = user ? user.username : '未登录';
-      this.groupName = user && user.groupName ? user.groupName : '无角色';
+      // this.groupName = user && user.groupName ? user.groupName : '无角色';
       this.nickname = user && user.nickname ? user.nickname : '佚名';
     },
     outLogin() {
       this.loginOut();
-      window.location.reload(true);
+      location.href = '/';
+      // window.location.reload(true);
     },
 
     clearFileInput(ele) {
@@ -351,7 +352,9 @@ export default {
       cursor: pointer;
       overflow: hidden;
       position: relative;
-
+      img {
+        width: 100%;
+      }
       .mask {
         opacity: 0;
         transition: all 0.2s;

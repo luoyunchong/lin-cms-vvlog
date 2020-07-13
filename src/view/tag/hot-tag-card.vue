@@ -31,9 +31,9 @@
 </template>
 
 <script>
-import tagApi from "@/model/tag";
+import tagApi from '@/model/tag';
 export default {
-  name: "HotTagCard",
+  name: 'HotTagCard',
   data() {
     return {
       dataSource: [],
@@ -55,7 +55,7 @@ export default {
         .getTags({
           count: this.pagination.pageSize,
           page: this.pagination.currentPage,
-          sort: "article_count desc"
+          sort: 'article_count desc'
         })
         .finally(() => {
           this.loading = false;

@@ -32,6 +32,9 @@
         <template v-slot:thumbnail_display="scope">
           <div class="thumb" :style="'background-image: url('+scope.row.thumbnail_display+');'"></div>
         </template>
+        <template v-slot:create_time="scope">
+          <span>{{scope.row.create_time|filterTimeYmdHms}}</span>
+        </template>
       </lin-table>
       <!--表格结束-->
     </div>
@@ -40,14 +43,13 @@
 </template>
 
 <script>
-import classifyApi from "../../model/classify";
-import LinTable from "@/component/base/table/lin-table";
-import ClassifyForm from "./classify-form";
-import Vue from "vue";
+import classifyApi from '../../model/classify';
+import LinTable from '@/component/base/table/lin-table';
+import ClassifyForm from './classify-form';
 export default {
-  name: "ClassifyList",
+  name: 'ClassifyList',
   components: { LinTable, ClassifyForm },
-  inject: ["eventBus"],
+  inject: ['eventBus'],
   data() {
     return {
       id: 0,
@@ -80,10 +82,10 @@ export default {
     },
     handleDelete(val) {
       let res;
-      this.$confirm("此操作将永久删除该分类专栏项, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
+      this.$confirm('此操作将永久删除该分类专栏项, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
       }).then(async () => {
         try {
           this.loading = true;
@@ -96,7 +98,7 @@ export default {
           await this.getClassifys();
 
           this.$message({
-            type: "success",
+            type: 'success',
             message: `${res.message}`
           });
         } else {
@@ -123,26 +125,23 @@ export default {
   },
   async created() {
     this.tableColumn = [
-      { prop: "classify_name", label: "分类专栏" },
-      { prop: "article_count", label: "随笔数量" },
+      { prop: 'classify_name', label: '分类专栏' },
+      { prop: 'article_count', label: '随笔数量' },
       {
-        prop: "thumbnail_display",
-        label: "封面",
-        scopedSlots: { customRender: "thumbnail_display" }
+        prop: 'thumbnail_display',
+        label: '封面',
+        scopedSlots: { customRender: 'thumbnail_display' }
       },
-      { prop: "sort_code", label: "排序码" },
+      { prop: 'sort_code', label: '排序码' },
       {
-        prop: "create_time",
-        label: "创建时间",
-        scope: "create_time",
-        customRender: function(row, column) {
-          return Vue.filter("filterTimeYmdHms")(column);
-        }
+        prop: 'create_time',
+        label: '创建时间',
+        scopedSlots: { customRender: 'create_time' }
       }
     ];
     this.operate = [
-      { name: "编辑", func: "handleEdit", type: "primary" },
-      { name: "删除", func: "handleDelete", type: "danger" }
+      { name: '编辑', func: 'handleEdit', type: 'primary' },
+      { name: '删除', func: 'handleDelete', type: 'danger' }
     ];
 
     await this.getClassifys();
@@ -152,5 +151,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/style/list.scss";
+@import '@/assets/style/list.scss';
 </style>

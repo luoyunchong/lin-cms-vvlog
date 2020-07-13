@@ -114,6 +114,14 @@
           <a href="javascript:void(0);" @click="()=>signin('QQ')">
             <el-avatar class="margin-left-xs" icon="iconfont icon-QQ" title="qq登录" size="large"></el-avatar>
           </a>
+          <a href="javascript:void(0);" @click="()=>signin('Gitee')">
+            <el-avatar
+              class="margin-left-xs"
+              icon="iconfont icon-gitee-fill-round"
+              title="码云登录"
+              size="large"
+            ></el-avatar>
+          </a>
           <!-- <el-button type="primary" @click="()=>signin('GitHub')">GitHub</el-button> -->
         </el-form-item>
       </el-form>
@@ -122,43 +130,47 @@
 </template>
 
 <script>
-import { mapActions, mapMutations } from "vuex";
-import User from "@/lin/model/user";
-import Utils from "@/lin/util/util";
+import { mapActions, mapMutations } from 'vuex';
+import User from '@/lin/model/user';
+import oauth2 from '@/model/oauth2';
+import Utils from '@/lin/util/util';
 export default {
-  name: "LoginRegisterDialog",
+  name: 'LoginRegisterDialog',
   data() {
     return {
       dialogTableVisible: false,
       form: {
-        username: "",
-        password: ""
+        username: '',
+        password: ''
       },
-      activeIndex: "", ///index
-      formLabelWidth: "120px",
-      loading: false
+      activeIndex: '', ///index
+      formLabelWidth: '120px',
+      loading: false,
+      externalProviders: []
     };
   },
-
+  async created() {
+    this.externalProviders = await oauth2.getExternalProviders();
+  },
   methods: {
-    ...mapActions(["setUserAndState"]),
+    ...mapActions(['setUserAndState']),
     ...mapMutations({
-      setUserAuths: "SET_USER_AUTHS"
+      setUserAuths: 'SET_USER_AUTHS'
     }),
     show(key) {
       this.dialogTableVisible = true;
       this.activeIndex = key;
     },
     submitForm() {
-      this.$refs["form"].validate(valid => {
+      this.$refs['form'].validate(valid => {
         if (valid) {
-          if (this.activeIndex == "login") {
+          if (this.activeIndex == 'login') {
             this.login();
           } else {
             this.register();
           }
         } else {
-          console.log("error submit!!");
+          console.log('error submit!!');
           return false;
         }
       });
@@ -175,9 +187,9 @@ export default {
           this.$route.query.redirect || this.$route.path
         );
 
-        this.$router.push(redirect + "?d=" + Utils.getRandomStr());
+        this.$router.push(redirect + '?d=' + Utils.getRandomStr());
 
-        this.$message.success("登录成功");
+        this.$message.success('登录成功');
       } catch (e) {
         this.loading = false;
         console.log(e);
@@ -193,7 +205,7 @@ export default {
         this.loading = false;
       });
       this.form.username = this.form.email;
-      this.$message.success("注册成功");
+      this.$message.success('注册成功');
 
       await this.login();
     },
@@ -209,7 +221,7 @@ export default {
     },
 
     signin(provider) {
-      window.localStorage.setItem("OAUTH_LOGIN_URL", window.location.href);
+      window.localStorage.setItem('OAUTH_LOGIN_URL', window.location.href);
       window.open(
         `${process.env.VUE_APP_BASE_URL}cms/oauth2/signin?provider=${provider}&redirectUrl=${process.env.VUE_APP_CURRENT_URL}`
       );
@@ -249,9 +261,8 @@ export default {
     }
   }
   .oauth .el-form-item__content {
-    .el-avatar /deep/ i.icon-QQ,
-    .el-avatar /deep/ i.icon-github-fill {
-      font-size: 30px !important;
+    .el-avatar /deep/ i {
+      font-size: 27px !important;
       &:hover {
         cursor: pointer !important;
       }

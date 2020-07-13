@@ -2,8 +2,8 @@ import { post, get, put, _delete } from "@/lin/plugin/axios";
 
 class Setting {
 
-    async getSettingByKey(params) {
-        const res = await get(`cms/settings/by-key`, params);
+    async getSettingByKey(key) {
+        const res = await get(`cms/settings/key/${key}`);
         return res;
     }
 

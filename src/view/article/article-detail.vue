@@ -285,9 +285,7 @@ export default {
 
         this.render(this.model.content);
 
-        let codeTheme = await settingApi.getSettingByKey({
-          key: 'Article.CodeTheme'
-        });
+        let codeTheme = await settingApi.getSettingByKey('Article.CodeTheme');
         if (codeTheme != '' && codeTheme != null) {
           this.model.codeTheme = codeTheme;
         }
@@ -588,8 +586,12 @@ export default {
       SimSun, '\5B8B\4F53', Heiti, '\9ED1\4F53', sans-serif;
   }
   img {
+    max-width: 100%;
     width: auto !important;
     height: auto !important;
+    &:hover {
+      cursor: zoom-in;
+    }
   }
   .code-pre {
     color: #333;

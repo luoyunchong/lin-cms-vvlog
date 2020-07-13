@@ -1,11 +1,12 @@
 <template>
-  <el-container style="height: 500px;">
+  <el-container style="height: 800px;">
     <el-aside class="vv-aside" width="190px">
       <el-menu class="el-menu-profile" :default-active="activeIndex" :router="true">
         <el-menu-item-group>
           <template slot="title">设置</template>
           <el-menu-item index="/setting/profile">个人资料</el-menu-item>
           <el-menu-item index="/setting/security">安全设置</el-menu-item>
+          <el-menu-item index="/setting/binding">第三方帐号绑定</el-menu-item>
           <el-menu-item index="/setting/blog">博客设置</el-menu-item>
         </el-menu-item-group>
       </el-menu>
@@ -38,12 +39,12 @@
 </style>
 
 <script>
-import "./index.scss";
+import './index.scss';
 export default {
-  name: "SettingsIndex",
+  name: 'SettingsIndex',
   data() {
     return {
-      activeIndex: ""
+      activeIndex: ''
     };
   },
   created() {

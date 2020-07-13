@@ -12,8 +12,8 @@
         @submit.native.prevent
       >
         <el-row>
-          <el-col :lg="24" class="margin-bottom">
-            <el-form-item prop="title">
+          <el-col :lg="24">
+            <el-form-item prop="title" style="margin-bottom:0px !important">
               <el-input
                 class="editor-title"
                 size="medium"
@@ -25,7 +25,7 @@
           </el-col>
           <el-col :lg="24">
             <div class="index-page" v-loading="isLoading" v-if="form.editor==1">
-              <div id="vditor" class="vditor" />
+              <div id="vditor" class="vditor" style="margin-top:0px !important" />
             </div>
             <tinymce
               v-else
@@ -173,7 +173,7 @@ export default {
       this.vditor.focus();
     },
     async getSetting() {
-      let editor = await settingApi.getSettingByKey({ key: 'Article.Editor' });
+      let editor = await settingApi.getSettingByKey('Article.Editor');
       if (editor != '' && editor != null) {
         this.form.editor = editor;
       }
@@ -207,9 +207,7 @@ export default {
         this.resetForm('form');
       }
 
-      let codeTheme = await settingApi.getSettingByKey({
-        key: 'Article.CodeTheme'
-      });
+      let codeTheme = await settingApi.getSettingByKey('Article.CodeTheme');
       if (codeTheme != '' && codeTheme != null) {
         this.codeTheme = codeTheme;
         this.vditor.setTheme('classic', 'light', this.codeTheme);
@@ -261,7 +259,6 @@ export default {
   background-color: #fff;
   .vditor {
     position: absolute;
-    top: 60px;
     max-width: 1440px;
     width: 80%;
     height: calc(100vh - 100px);

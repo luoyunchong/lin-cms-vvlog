@@ -5,13 +5,14 @@
     </router-link>
     <div class="margin-top-lg">
       <el-alert :title="errorMsg" type="error" v-if="error==true"></el-alert>
+      <el-alert :title="errorMsg" type="success" v-else></el-alert>
     </div>
   </div>
 </template>
 
 <script>
 const axios = require('axios');
-import { mapActions, mapMutations } from 'vuex';
+
 import User from '@/lin/model/user';
 import { saveTokens } from '@/lin/util/token';
 import { Loading } from 'element-ui';
@@ -25,26 +26,22 @@ export default {
   created() {
     var loading = Loading.service({
       fullscreen: true,
-      text: '登录中。。。',
+      text: '绑定中。。。',
       lock: true
-      // spinner: "el-icon-loadings"
+      //  spinner: 'el-icon-loadings'
     });
-    var result = this.$route.query;
-    if (!(result && result.token)) {
-      this.errorMsg = '无效的登录';
+
+    var query = this.$route.query;
+    if (query.code == 'Success') {
+      this.errorMsg = query.message;
+      this.error = false;
+    } else {
+      this.errorMsg = query.message;
       this.error = true;
-      loading.close();
-      return;
     }
-    saveTokens(result.token);
     loading.close();
-    this.getInformation();
   },
   methods: {
-    ...mapActions(['loginOut', 'setUserAndState']),
-    ...mapMutations({
-      setUserAuths: 'SET_USER_AUTHS'
-    }),
     async getInformation() {
       try {
         const user = await User.getPermissions();
@@ -53,7 +50,9 @@ export default {
       } catch (e) {
         console.log(e);
       } finally {
+        this.loading = true;
         var url = window.localStorage.getItem('OAUTH_LOGIN_URL');
+
         location.href = url;
       }
     }

@@ -13,6 +13,17 @@
                   </el-radio-group>
                 </el-form-item>
               </el-col>
+              <el-col :lg="12">
+                <el-form-item label="是否开启评论" prop="commentable">
+                  <el-switch
+                    v-model="form.commentable"
+                    active-text="开启"
+                    active-value="true"
+                    inactive-value="false"
+                    inactive-text="关闭"
+                  ></el-switch>
+                </el-form-item>
+              </el-col>
               <el-col :lg="24">
                 <el-form-item label="代码风格" prop="codeTheme">
                   <el-radio-group v-model="form.codeTheme">
@@ -43,8 +54,9 @@ export default {
   data() {
     return {
       form: {
-        editor: 1,
-        codeTheme: 'github'
+        editor: '1',
+        codeTheme: 'github',
+        commentable: 'true'
       },
       model: {},
       rules: {},
@@ -53,15 +65,19 @@ export default {
     };
   },
   async created() {
-    let val = await settingApi.getSettingByKey({ key: 'Article.Editor' });
-    if (val) {
-      this.form.editor = val;
-    }
-    let codeTheme = await settingApi.getSettingByKey({
-      key: 'Article.CodeTheme'
+    let values = await settingApi.getSettingByKeys({
+      keys: ['Article.Editor', 'Article.CodeTheme', 'Article.Commentable']
     });
-    if (codeTheme) {
-      this.form.codeTheme = codeTheme;
+    if (values) {
+      values['Article.Editor'] != null
+        ? (this.form.editor = Number(values['Article.Editor']))
+        : '';
+      values['Article.CodeTheme'] != null
+        ? (this.form.codeTheme = values['Article.CodeTheme'])
+        : '';
+      values['Article.Commentable'] != null
+        ? (this.form.commentable = values['Article.Commentable'])
+        : '';
     }
   },
   methods: {
@@ -69,15 +85,14 @@ export default {
       this.$refs[formName].validate(async valid => {
         if (valid) {
           this.loading = true;
-          await settingApi.setSettingValues({
-            'Article.Editor': this.form.editor
+          var settingsValue = {
+            'Article.Editor': this.form.editor,
+            'Article.CodeTheme': this.form.codeTheme,
+            'Article.Commentable': this.form.commentable
+          };
+          await settingApi.setSettingValues(settingsValue).finally(r => {
+            this.loading = false;
           });
-
-          await settingApi
-            .setSettingValues({ 'Article.CodeTheme': this.form.codeTheme })
-            .finally(r => {
-              this.loading = false;
-            });
           this.$message.success(`配置成功`);
         } else {
         }
