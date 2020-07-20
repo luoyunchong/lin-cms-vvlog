@@ -6,6 +6,10 @@ class Setting {
         const res = await get(`cms/settings/key/${key}`);
         return res;
     }
+    async getSettingByKeys(params) {
+        const res = await get(`cms/settings/keys`, params);
+        return res;
+    }
 
     async setSettingValues(params) {
         const res = await post(`cms/settings/set-values`, params);

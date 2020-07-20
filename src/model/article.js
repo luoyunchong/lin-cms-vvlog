@@ -58,6 +58,10 @@ class Article {
     const res = await put(`api/blog/articles/draft/${id}`, info);
     return res;
   }
+  async updateCommentable(id, commetable) {
+    const res = await put(`api/blog/articles/${id}/comment-able/${commetable}`);
+    return res;
+  }
 }
 
 export default new Article();

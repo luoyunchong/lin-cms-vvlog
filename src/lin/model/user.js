@@ -21,7 +21,7 @@ export default class User {
    * @param {string} password 密码
    */
   static async getToken(username, password) {
-    const tokens = await post('cms/user/login', {
+    const tokens = await post('cms/user/login', {//jwt-
       username,
       password,
     })
@@ -29,6 +29,10 @@ export default class User {
     return tokens
   }
 
+  static async logout() {
+    const result = await get('cms/user/logout')
+    return result
+  }
   /**
    * 获取当前用户信息，并返回User实例
    */

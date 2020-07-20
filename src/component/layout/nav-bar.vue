@@ -14,20 +14,20 @@
           class="lin-notify"
           :value="value"
           :hidden="hidden"
-        >
-        </lin-notify>
+        ></lin-notify>
         <clear-tab></clear-tab>
-        <screenfull /> <user></user>
+        <screenfull />
+        <user></user>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Breadcrumb from './breadcrumb'
-import Screenfull from './screen-full'
-import User from './user'
-import ClearTab from './clear-tab'
+import Breadcrumb from './breadcrumb';
+import Screenfull from './screen-full';
+import User from './user';
+import ClearTab from './clear-tab';
 // import { getToken } from '@/lin/util/token'
 // import store from '@/store'
 
@@ -50,42 +50,42 @@ export default {
   watch: {
     messages: {
       handler() {
-        this.value = this.messages.filter(msg => msg.is_read === false).length
+        this.value = this.messages.filter(msg => msg.is_read === false).length;
         if (this.value === 0) {
-          this.hidden = true
+          this.hidden = true;
         } else {
-          this.hidden = false
+          this.hidden = false;
         }
       },
-      immediate: true,
-    },
+      immediate: true
+    }
   },
   data() {
     return {
       value: 0,
       hidden: true,
-      messages: [],
+      messages: []
       // path: `//api.s.colorful3.com/ws/message?token=${getToken('access_token').split(' ')[1]}`,
-    }
+    };
   },
   methods: {
     readAll() {
-      console.log('点击了readAll')
+      console.log('点击了readAll');
     },
     viewAll() {
-      console.log('点击了viewAll')
+      console.log('点击了viewAll');
     },
     readMessages(msg, index) {
-      this.messages[index].is_read = true
-    },
+      this.messages[index].is_read = true;
+    }
   },
   components: {
     Breadcrumb,
     User,
     Screenfull,
-    ClearTab,
-  },
-}
+    ClearTab
+  }
+};
 </script>
 
 <style lang="scss" scoped>

@@ -5,24 +5,7 @@
         <img class="avatar-32" :src="author.avatar||defaultAvatar" alt @click="handleClickAvatar" />
       </div>
       <div class="reply-content-block">
-        <div class="reply-content">
-          <p v-html="commentContent"></p>
-        </div>
         <div class="comment-func">
-          <span class="pull-right comment-tools ml15">
-            <a
-              href="javascript:void(0)"
-              class="ml10"
-              data-placement="top"
-              :title="item.title"
-              v-for="item in tools"
-              :key="item.name"
-              @click="handleClickTool($event, item)"
-            >
-              <i :class="item.icon" v-if="item.icon"></i>
-              <span v-if="item.text">{{item.text}}</span>
-            </a>
-          </span>
           <span class="comment-meta inline-block">
             <a
               target="_blank"
@@ -38,24 +21,44 @@
             </template>
             <span class="comments-date">· {{time | filterTimeYmdHms}}</span>
           </span>
+          <span class="pull-right comment-tools ml15">
+            <a
+              href="javascript:void(0)"
+              class="ml10"
+              data-placement="top"
+              :title="item.title"
+              v-for="item in tools"
+              :key="item.name"
+              @click="handleClickTool($event, item)"
+            >
+              <i :class="item.icon" v-if="item.icon"></i>
+              <span v-if="item.text">{{item.text}}</span>
+            </a>
+          </span>
+        </div>
+        <div class="reply-content">
+          <p v-html="commentContent"></p>
         </div>
       </div>
-      <p class="comments-ops">
-        <span class="comments-reply-btn ml15" @click="handleAddReply">
-          <i class="iconfont icon-comment coments-ops-icon"></i>
-          {{replyText}}
-        </span>
-        <el-popconfirm
-          title="确认删除此评论"
-          @onConfirm="handleDeleteReply"
-          v-show="user!=null&&author.id==user.id"
-        >
-          <span class="comments-reply-btn ml15" slot="reference">
-            <i class="iconfont icon-delete coments-ops-icon"></i>
-            删除
+      <div class="comments-ops">
+        <div class="coments-ops-item">
+          <span class="comments-reply-btn ml15" @click="handleAddReply">
+            <i class="iconfont icon-comment coments-ops-icon"></i>
+            {{replyText}}
           </span>
-        </el-popconfirm>
-      </p>
+          <el-popconfirm
+            class="comments-reply-btn"
+            title="确认删除此评论"
+            @onConfirm="handleDeleteReply"
+            v-show="user!=null&&author.id==user.id"
+          >
+            <span class="ml15" slot="reference">
+              <i class="iconfont icon-delete coments-ops-icon"></i>
+              删除
+            </span>
+          </el-popconfirm>
+        </div>
+      </div>
       <div class="comment-input" v-show="replyVisible">
         <slot name="reply-item-input"></slot>
       </div>
@@ -64,10 +67,10 @@
 </template>
 
 <script>
-import defaultAvatar from "@/assets/image/user/user.png";
-import Utils from "@/lin/util/util";
+import defaultAvatar from '@/assets/image/user/user.png';
+import Utils from '@/lin/util/util';
 export default {
-  name: "ReplyItem",
+  name: 'ReplyItem',
   props: {
     author: Object,
     content: String,
@@ -86,7 +89,7 @@ export default {
   },
   computed: {
     replyText() {
-      return this.replyVisible == true ? "取消回复" : "回复";
+      return this.replyVisible == true ? '取消回复' : '回复';
     },
     commentContent() {
       return Utils.formatHtml(Utils.formatHyperLink(this.content));
@@ -95,22 +98,22 @@ export default {
   methods: {
     handleClickAvatar(event) {
       event.stopPropagation();
-      this.$emit("clickAvatar", this);
+      this.$emit('clickAvatar', this);
     },
     handleClickTool(event, tool) {
       event.stopPropagation();
-      this.$emit("clickTool", this, tool);
+      this.$emit('clickTool', this, tool);
     },
     handleClickAuthor(event) {
       event.stopPropagation();
-      this.$emit("clickAuthor", this);
+      this.$emit('clickAuthor', this);
     },
     handleAddReply(event) {
       event.stopPropagation();
-      this.$emit("addReply", this);
+      this.$emit('addReply', this);
     },
     handleDeleteReply(event) {
-      this.$emit("deleteReply", this);
+      this.$emit('deleteReply', this);
     }
   },
   filters: {}
@@ -151,6 +154,10 @@ export default {
   .reply-content-block {
     margin-bottom: 10px !important;
     padding-left: 47px;
+    .reply-content {
+      display: inline-block;
+      margin-top: 0.5rem;
+    }
   }
 }
 .reply-item a {

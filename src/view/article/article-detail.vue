@@ -82,7 +82,7 @@
               >
                 <router-link :to="{path:'/tag/'+`${item.id}`}" target="_blank">
                   <div
-                    alt="黑客派"
+                    alt="天上有木月"
                     class="tag-image"
                     :style="`background-image: url('${item.thumbnail_display}');`"
                   ></div>
@@ -91,12 +91,15 @@
               </el-tag>
             </div>
           </el-card>
-          <div id="comment-list">
+          <div id="comment-list" class="margin-bottom-xs">
             <comment-list
               :subject_id="id"
               :subject_type="1"
               :resp_user_id="model.create_user_id"
+              :commentable="model.commentable"
+              :authorid="model.user_info.id"
               v-on:success="getCommentSuccess"
+              v-on:updateCommentable="updateCommentable"
             ></comment-list>
           </div>
           <el-backtop class="lin-back-top"></el-backtop>
@@ -209,7 +212,8 @@ export default {
         },
         tags: [],
         content: '',
-        codeTheme: 'github'
+        codeTheme: 'github',
+        commentable: true
       },
       subscribeLoading: false,
       scroll: 0,
@@ -284,12 +288,16 @@ export default {
         }
 
         this.render(this.model.content);
-
-        let codeTheme = await settingApi.getSettingByKey('Article.CodeTheme');
-        if (codeTheme != '' && codeTheme != null) {
-          this.model.codeTheme = codeTheme;
+        let setting = await settingApi.getSettingByKeys({
+          keys: ['Article.CodeTheme', 'Article.Commentable']
+        });
+        if (setting['Article.CodeTheme'] != undefined) {
+          this.model.codeTheme = setting['Article.CodeTheme'];
+          Vditor.setCodeTheme(this.model.codeTheme);
         }
-        Vditor.setCodeTheme(this.model.codeTheme);
+        // if (setting['Article.Commentable'] != undefined) {
+        //   this.model.commentable = setting['Article.Commentable'];
+        // }
         if (this.model.user_info == undefined) {
           this.model.user_info = {
             id: 0
@@ -500,6 +508,10 @@ export default {
           });
         }
       }
+    },
+    async updateCommentable(commentable) {
+      await articleApi.updateCommentable(this.id, commentable);
+      this.model.commentable = commentable;
     }
   }
 };
@@ -686,6 +698,7 @@ export default {
 }
 
 .sidebar-user .info-box .lastest-articles /deep/ {
+  width: 100%;
   a:hover {
     text-decoration: underline;
   }
@@ -808,6 +821,9 @@ export default {
   height: 6px;
 }
 .mobile {
+  .sidebar-user {
+    margin-bottom: 40px;
+  }
   .el-backtop {
     bottom: 5rem !important;
   }

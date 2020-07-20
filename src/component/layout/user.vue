@@ -267,8 +267,10 @@ export default {
       // this.groupName = user && user.groupName ? user.groupName : '无角色';
       this.nickname = user && user.nickname ? user.nickname : '佚名';
     },
-    outLogin() {
+    async outLogin() {
+      // await User.logout();
       this.loginOut();
+      debugger;
       location.href = '/';
       // window.location.reload(true);
     },

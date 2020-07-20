@@ -71,6 +71,7 @@
             ]"
           >
             <el-input
+              type="email"
               v-model="form.email"
               prefix-icon="el-icon-user"
               autocomplete="off"
