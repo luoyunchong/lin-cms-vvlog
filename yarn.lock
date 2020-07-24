@@ -839,12 +839,10 @@
     error-stack-parser "^2.0.0"
     string-width "^2.0.0"
 
-"@tinymce/tinymce-vue@^2.0.0":
-  version "2.1.0"
-  resolved "https://registry.npm.taobao.org/@tinymce/tinymce-vue/download/@tinymce/tinymce-vue-2.1.0.tgz#cac3e935b217a277424f2258f3235824aa3c17c0"
-  integrity sha1-ysPpNbIXondCTyJY8yNYJKo8F8A=
-  dependencies:
-    vue "^2.5.17"
+"@tinymce/tinymce-vue@3.2.2":
+  version "3.2.2"
+  resolved "https://registry.npm.taobao.org/@tinymce/tinymce-vue/download/@tinymce/tinymce-vue-3.2.2.tgz#a16500fbeebfec4ae43f4e9fe5bd739aeb66a3d6"
+  integrity sha1-oWUA++6/7ErkP06f5b1zmutmo9Y=
 
 "@types/babel__core@^7.1.0":
   version "7.1.3"
@@ -3629,7 +3627,7 @@ detect-node@^2.0.4:
   resolved "https://registry.npm.taobao.org/detect-node/download/detect-node-2.0.4.tgz#014ee8f8f669c5c58023da64b8179c083a28c46c"
   integrity sha1-AU7o+PZpxcWAI9pkuBecCDooxGw=
 
-diff-match-patch@^1.0.4:
+diff-match-patch@^1.0.5:
   version "1.0.5"
   resolved "https://registry.npm.taobao.org/diff-match-patch/download/diff-match-patch-1.0.5.tgz#abb584d5f10cd1196dfc55aa03701592ae3f7b37"
   integrity sha1-q7WE1fEM0Rlt/FWqA3AVkq4/ezc=
@@ -6639,9 +6637,9 @@ js-beautify@^1.6.12, js-beautify@^1.6.14:
     mkdirp "~0.5.1"
     nopt "~4.0.1"
 
-js-cookie@^2.2.0:
+js-cookie@2.2.1:
   version "2.2.1"
-  resolved "https://registry.npm.taobao.org/js-cookie/download/js-cookie-2.2.1.tgz?cache=0&sync_timestamp=1576845736524&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fjs-cookie%2Fdownload%2Fjs-cookie-2.2.1.tgz#69e106dc5d5806894562902aa5baec3744e9b2b8"
+  resolved "https://registry.npm.taobao.org/js-cookie/download/js-cookie-2.2.1.tgz#69e106dc5d5806894562902aa5baec3744e9b2b8"
   integrity sha1-aeEG3F1YBolFYpAqpbrsN0Tpsrg=
 
 js-levenshtein@^1.1.3:
@@ -10593,10 +10591,10 @@ timsort@^0.3.0:
   resolved "https://registry.npm.taobao.org/timsort/download/timsort-0.3.0.tgz#405411a8e7e6339fe64db9a234de11dc31e02bd4"
   integrity sha1-QFQRqOfmM5/mTbmiNN4R3DHgK9Q=
 
-tinymce@^5.2.2:
-  version "5.2.2"
-  resolved "https://registry.yarnpkg.com/tinymce/-/tinymce-5.2.2.tgz#1ac77cce1565b54932b4e612d2fd9c07b687f238"
-  integrity sha512-G1KZOxHIrokeP/rhJuvwctmeAuHDAeH8AI1ubnVcdMZtmC6mUh3SfESqFJrFWoiF143OUMC61GkVhi920pIP0A==
+tinymce@5.4.1:
+  version "5.4.1"
+  resolved "https://registry.npm.taobao.org/tinymce/download/tinymce-5.4.1.tgz#4c101e78cbd22c148d6013f7c66eb0cb480723db"
+  integrity sha1-TBAeeMvSLBSNYBP3xm6wy0gHI9s=
 
 tmp@^0.0.33:
   version "0.0.33"
@@ -11002,12 +11000,12 @@ vary@~1.1.2:
   resolved "https://registry.npm.taobao.org/vary/download/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=
 
-vditor@3.3.3:
-  version "3.3.3"
-  resolved "https://registry.npm.taobao.org/vditor/download/vditor-3.3.3.tgz#fbab16bf259e060a9502aa8a146943a70cd757f1"
-  integrity sha1-+6sWvyWeBgqVAqqKFGlDpwzXV/E=
+vditor@^3.3.10:
+  version "3.3.10"
+  resolved "https://registry.npm.taobao.org/vditor/download/vditor-3.3.10.tgz#cced557ec25587d78436cec5ca63c27582945da9"
+  integrity sha1-zO1VfsJVh9eENs7FymPCdYKUXak=
   dependencies:
-    diff-match-patch "^1.0.4"
+    diff-match-patch "^1.0.5"
 
 vendors@^1.0.0:
   version "1.0.4"
@@ -11138,7 +11136,7 @@ vue-template-es2015-compiler@^1.6.0, vue-template-es2015-compiler@^1.9.0:
   resolved "https://registry.npm.taobao.org/vue-template-es2015-compiler/download/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
   integrity sha1-HuO8mhbsv1EYvjNLsV+cRvgvWCU=
 
-vue@2.6.11, vue@^2.5.17:
+vue@2.6.11:
   version "2.6.11"
   resolved "https://registry.npm.taobao.org/vue/download/vue-2.6.11.tgz#76594d877d4b12234406e84e35275c6d514125c5"
   integrity sha1-dllNh31LEiNEBuhONSdcbVFBJcU=

@@ -9,7 +9,7 @@ import tinymce from 'tinymce/tinymce';
 import Editor from '@tinymce/tinymce-vue';
 import 'tinymce/themes/silver';
 import './import-all';
-
+import 'tinymce/icons/default/icons'
 export default {
   name: 'TinymceEditor',
   props: {
