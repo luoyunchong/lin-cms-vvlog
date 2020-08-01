@@ -65,20 +65,20 @@ export default {
       form: {
         content: '',
         title: '',
-        editor: 1
+        editor: 1,
       },
       codeTheme: 'github',
       rules: {
-        title: [{ required: true, message: '请输入标题', trigger: 'blur' }]
+        title: [{ required: true, message: '请输入标题', trigger: 'blur' }],
       },
-      vditor: null
+      vditor: null,
     };
   },
   components: {
     EditorDialog,
     CurrentUser,
     HeadNav,
-    Tinymce
+    Tinymce,
   },
   async mounted() {
     this.initVditor();
@@ -90,12 +90,12 @@ export default {
   watch: {
     $route(to, from) {
       this.show();
-    }
+    },
   },
   computed: {
     id() {
       return this.$route.params.id;
-    }
+    },
   },
   methods: {
     initVditor() {
@@ -112,14 +112,14 @@ export default {
           show: true,
           markdown: {
             toc: true,
-            theme: 'light'
+            theme: 'light',
           },
           hljs: {
             enable: true,
             style: 'github',
-            lineNumber: true
+            lineNumber: true,
           },
-          mode: 'both'
+          mode: 'both',
         },
         upload: {
           accept: 'image/*',
@@ -135,9 +135,9 @@ export default {
               .$axios({
                 method: 'post',
                 url: '/cms/file',
-                data
+                data,
               })
-              .then(res => {
+              .then((res) => {
                 if (!Array.isArray(res) || res.length === 0) {
                   throw new Error('图像上传失败');
                 }
@@ -155,19 +155,20 @@ export default {
                   that.vditor.enable();
                 }
               });
-          }
+          },
         },
         outline: true,
         after: () => {
           this.show();
         },
         cache: {
-          enable: false
+          enable: false,
         },
         theme: 'light',
         blur(value) {
           that.handleOnSave(value);
-        }
+        },
+        icon: 'material',
       };
       this.vditor = new Vditor('vditor', options);
       this.vditor.focus();
@@ -191,14 +192,14 @@ export default {
           this.form = {
             title: article.title,
             content: article.content,
-            editor: article.editor
+            editor: article.editor,
           };
         } else {
           this.vditor.setValue(res.content);
           this.form = {
             title: res.title,
             content: res.content,
-            editor: res.editor
+            editor: res.editor,
           };
         }
         console.log(this.form.content);
@@ -215,7 +216,7 @@ export default {
     },
     async confirmEdit() {
       var that = this;
-      this.$refs['form'].validate(async valid => {
+      this.$refs['form'].validate(async (valid) => {
         if (valid) {
           if (that.form.editor == 1) {
             that.form.content = that.vditor.getValue();
@@ -238,15 +239,15 @@ export default {
         return;
       await articleApi.editArticleDraft(this.id, {
         title: this.form.title,
-        content: value
+        content: value,
       });
       console.log('自动保存');
     },
     changeTinymce(val) {
       this.form.content = val;
       this.handleOnSave(val);
-    }
-  }
+    },
+  },
 };
 </script>
 

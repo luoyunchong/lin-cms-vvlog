@@ -21,7 +21,7 @@ export default class User {
    * @param {string} password 密码
    */
   static async getToken(username, password) {
-    const tokens = await post('cms/user/login', {//jwt-
+    const tokens = await post('cms/user/login', {
       username,
       password,
     })

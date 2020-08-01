@@ -195,7 +195,7 @@ export default {
         pageSize: 10,
         pageTotal: 0,
         channel_id: null,
-        tag_id: null
+        tag_id: null,
       },
       loading: false,
       any: new Date(),
@@ -205,10 +205,10 @@ export default {
       url: 'https://pic.downk.cc/item/5eef6f3114195aa59494de99.jpg',
       srcList: [
         'https://pic.downk.cc/item/5eef6f3114195aa59494de99.jpg',
-        'https://pic.downk.cc/item/5eef6d4e14195aa594925b91.jpg'
+        'https://pic.downk.cc/item/5eef6d4e14195aa594925b91.jpg',
       ],
       wechaturl: 'https://pic.downk.cc/item/5eef6d4e14195aa594925b91.jpg',
-      wechatsrcList: ['https://pic.downk.cc/item/5eef6d4e14195aa594925b91.jpg']
+      wechatsrcList: ['https://pic.downk.cc/item/5eef6d4e14195aa594925b91.jpg'],
     };
   },
   async created() {},
@@ -224,10 +224,10 @@ export default {
         'THREE_DAYS_HOTTEST',
         'WEEKLY_HOTTEST',
         'MONTHLY_HOTTEST',
-        'HOTTEST'
+        'HOTTEST',
       ];
       let that = this;
-      let hot = sortArray.filter(r => {
+      let hot = sortArray.filter((r) => {
         return r == this.$route.query.sort;
       });
 
@@ -248,29 +248,25 @@ export default {
     },
     threeDaysHottest() {
       return this.getSortUrl('THREE_DAYS_HOTTEST');
-    }
+    },
   },
   watch: {
     $route(v) {
-      console.log(v);
-      this.refresh();
-    }
-  },
-  methods: {
-    async refresh() {
+      this.dataSource = [];
       this.pagination.currentPage = 0;
       this.any = new Date();
-      await this.infiniteHandler();
     },
+  },
+  methods: {
     setPaginationParams() {
       //看起来很复杂，其实就是根据channels，得到选中的channelId值（技术频道），从channel.tags中找到对应的tagid（标签Id）值。
       if (this.channel != undefined) {
         this.channels &&
-          this.channels.forEach(element => {
+          this.channels.forEach((element) => {
             if (this.channel == element.channel_code) {
               this.pagination.channel_id = element.id;
               if (this.tag_name != undefined) {
-                element.tags.forEach(tag => {
+                element.tags.forEach((tag) => {
                   if (tag.tag_name == this.tag_name) {
                     this.pagination.tag_id = tag.id;
                     return false;
@@ -287,6 +283,7 @@ export default {
       }
     },
     async infiniteHandler($state) {
+      this.loading = true;
       await this.getNavChannels();
       this.setPaginationParams();
       let res;
@@ -296,7 +293,7 @@ export default {
         page: currentPage,
         sort: this.sort,
         channel_id: this.pagination.channel_id,
-        tag_id: this.pagination.tag_id
+        tag_id: this.pagination.tag_id,
       });
       let items = [...res.items];
 
@@ -316,6 +313,7 @@ export default {
 
         $state && $state.loaded();
       }
+      this.loading = false;
     },
     getSortUrl(val) {
       let url = '';
@@ -335,11 +333,11 @@ export default {
       if (this.channels.length > 0) return;
       let res = await channelApi.getNavChannels({
         count: 20,
-        page: 0
+        page: 0,
       });
       this.channels = res.items;
-    }
-  }
+    },
+  },
 };
 </script>
 

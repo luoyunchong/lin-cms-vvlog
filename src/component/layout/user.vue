@@ -101,22 +101,22 @@ export default {
       groupName: null,
       cropRule: {
         width,
-        height
+        height,
       },
       imgRule: {
         minWidth: width,
-        minHeight: height
+        minHeight: height,
       },
       cropVisible: false,
       cropImg: '',
       croppa: {},
       imgInfo: null,
       quality: 1,
-      defaultAvatar
+      defaultAvatar,
     };
   },
   computed: {
-    ...mapGetters(['user'])
+    ...mapGetters(['user']),
   },
   watch: {
     cropVisible(val) {
@@ -125,7 +125,7 @@ export default {
         this.cropImg = '';
         this.imgInfo = null;
       }
-    }
+    },
   },
   created() {
     this.init();
@@ -182,16 +182,16 @@ export default {
       const blob = await this.$refs.croppa.promisedBlob('image/jpeg', 0.8);
       // 构造为文件对象
       const file = new File([blob], 'avatar.jpg', {
-        type: 'image/jpeg'
+        type: 'image/jpeg',
       });
 
       return this.$axios({
         method: 'post',
         url: '/cms/file',
         data: {
-          file
-        }
-      }).then(res => {
+          file,
+        },
+      }).then((res) => {
         // 清空输入框
         this.clearFileInput(this.$refs.avatarInput);
         if (!Array.isArray(res) || res.length !== 1) {
@@ -206,14 +206,14 @@ export default {
           method: 'put',
           url: '/cms/user/avatar',
           data: {
-            avatar: res[0].path
-          }
+            avatar: res[0].path,
+          },
         })
-          .then(res => {
+          .then((res) => {
             if (res.code === 0) {
               this.$message({
                 type: 'success',
-                message: '更新头像成功'
+                message: '更新头像成功',
               });
               this.cropVisible = false;
               // 触发重新获取用户信息
@@ -221,7 +221,7 @@ export default {
             }
             return Promise.reject(new Error('更新头像失败'));
           })
-          .then(res => {
+          .then((res) => {
             this.setUserAndState(res);
           });
       });
@@ -240,21 +240,21 @@ export default {
             method: 'put',
             url: '/cms/user/nickname',
             data: {
-              nickname: this.nickname
-            }
+              nickname: this.nickname,
+            },
           })
-            .then(res => {
+            .then((res) => {
               if (res.code === 0) {
                 this.$message({
                   type: 'success',
-                  message: '更新昵称成功'
+                  message: '更新昵称成功',
                 });
                 // 触发重新获取用户信息
                 return User.getInformation();
               }
               this.nickname = user.nickname;
             })
-            .then(res => {
+            .then((res) => {
               this.setUserAndState(res);
             });
         }
@@ -268,9 +268,8 @@ export default {
       this.nickname = user && user.nickname ? user.nickname : '佚名';
     },
     async outLogin() {
-      // await User.logout();
+      await User.logout();
       this.loginOut();
-      debugger;
       location.href = '/';
       // window.location.reload(true);
     },
@@ -294,8 +293,8 @@ export default {
           this.outLogin();
           break;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

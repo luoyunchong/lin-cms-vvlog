@@ -1,6 +1,7 @@
 <template>
   <div>
     <el-row :gutter="24">
+      <el-col>
         <div>
           <article-list :dataSource="dataSource"></article-list>
         </div>
