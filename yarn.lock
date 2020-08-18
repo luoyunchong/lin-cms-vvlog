@@ -9233,6 +9233,11 @@ realpath-native@^1.0.0, realpath-native@^1.1.0:
   dependencies:
     util.promisify "^1.0.0"
 
+recaptcha-v3@^1.8.0:
+  version "1.8.0"
+  resolved "https://registry.npm.taobao.org/recaptcha-v3/download/recaptcha-v3-1.8.0.tgz#b39ae7cba5322ed7027359c3f14502e44e909f83"
+  integrity sha1-s5rny6UyLtcCc1nD8UUC5E6Qn4M=
+
 rechoir@^0.6.2:
   version "0.6.2"
   resolved "https://registry.npm.taobao.org/rechoir/download/rechoir-0.6.2.tgz#85204b54dba82d5742e28c96756ef43af50e3384"
@@ -11069,10 +11074,10 @@ vary@~1.1.2:
   resolved "https://registry.npm.taobao.org/vary/download/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=
 
-vditor@3.4.1:
-  version "3.4.1"
-  resolved "https://registry.npm.taobao.org/vditor/download/vditor-3.4.1.tgz#170cfac67dbc20b08179b25ce3792b87f7d6b311"
-  integrity sha1-Fwz6xn28ILCBebJc43krh/fWsxE=
+vditor@3.4.4:
+  version "3.4.4"
+  resolved "https://registry.npm.taobao.org/vditor/download/vditor-3.4.4.tgz#4f130b807b943431a74bcd4143119818a17686d3"
+  integrity sha1-TxMLgHuUNDGnS81BQxGYGKF2htM=
   dependencies:
     diff-match-patch "^1.0.5"
 
@@ -11179,6 +11184,13 @@ vue-markdown-loader@^2.4.1:
     highlight.js "^9.4.0"
     loader-utils "^1.1.0"
     markdown-it "^8.4.0"
+
+vue-recaptcha-v3@^1.9.0:
+  version "1.9.0"
+  resolved "https://registry.npm.taobao.org/vue-recaptcha-v3/download/vue-recaptcha-v3-1.9.0.tgz#6315ea07e2ae34abbb11e840ab9f18a427c5d53b"
+  integrity sha1-YxXqB+KuNKu7EehAq58YpCfF1Ts=
+  dependencies:
+    recaptcha-v3 "^1.8.0"
 
 vue-router@3.3.4:
   version "3.3.4"

@@ -135,6 +135,7 @@ import { mapActions, mapMutations } from 'vuex';
 import User from '@/lin/model/user';
 import oauth2 from '@/model/oauth2';
 import Utils from '@/lin/util/util';
+
 export default {
   name: 'LoginRegisterDialog',
   data() {
@@ -142,29 +143,39 @@ export default {
       dialogTableVisible: false,
       form: {
         username: '',
-        password: ''
+        password: '',
+      },
+      headers: {
+        'Google-RecaptchaToken': '',
       },
       activeIndex: '', ///index
       formLabelWidth: '120px',
       loading: false,
-      externalProviders: []
+      externalProviders: [],
     };
   },
+  components: {},
   async created() {
     this.externalProviders = await oauth2.getExternalProviders();
   },
   methods: {
     ...mapActions(['setUserAndState']),
     ...mapMutations({
-      setUserAuths: 'SET_USER_AUTHS'
+      setUserAuths: 'SET_USER_AUTHS',
     }),
     show(key) {
       this.dialogTableVisible = true;
       this.activeIndex = key;
     },
     submitForm() {
-      this.$refs['form'].validate(valid => {
+      this.$refs['form'].validate(async (valid) => {
         if (valid) {
+          // Show reCAPTCHA badge:
+          await this.$recaptchaLoaded();
+          // Execute reCAPTCHA with action "login".
+          this.headers['Google-RecaptchaToken'] = await this.$recaptcha(
+            'login'
+          );
           if (this.activeIndex == 'login') {
             this.login();
           } else {
@@ -179,7 +190,7 @@ export default {
     async login() {
       try {
         this.loading = true;
-        await User.getToken(this.form.username, this.form.password);
+        await User.getToken(this.form, this.headers);
         this.dialogTableVisible = false;
         await this.getInformation();
         this.loading = false;
@@ -198,11 +209,14 @@ export default {
     },
     async register() {
       this.loading = true;
-      await User.registerAccount({
-        nickname: this.form.nickname,
-        password: this.form.password,
-        email: this.form.email
-      }).finally(() => {
+      await User.registerAccount(
+        {
+          nickname: this.form.nickname,
+          password: this.form.password,
+          email: this.form.email,
+        },
+        this.headers
+      ).finally(() => {
         this.loading = false;
       });
       this.form.username = this.form.email;
@@ -234,8 +248,8 @@ export default {
       // var n = window.setInterval(function() {
       //   (t && !t.closed) || (window.clearInterval(n), window.location.reload());
       // }, 300);
-    }
-  }
+    },
+  },
 };
 </script>
 

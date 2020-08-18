@@ -23,23 +23,23 @@
 </template>
 
 <script>
-import { mapActions, mapMutations } from "vuex";
-import User from "@/lin/model/user";
-import Utils from "@/lin/util/util";
+import { mapActions, mapMutations } from 'vuex';
+import User from '@/lin/model/user';
+import Utils from '@/lin/util/util';
 
 export default {
-  name: "login",
+  name: 'login',
   data() {
     return {
       loading: false, // 加载动画
       wait: 2000, // 2000ms之内不能重复发起请求
       throttleLogin: null, // 节流登录
       form: {
-        username: "",
-        password: "",
-        confirm_password: "",
-        email: ""
-      }
+        username: '',
+        password: '',
+        confirm_password: '',
+        email: '',
+      },
     };
   },
   methods: {
@@ -55,12 +55,12 @@ export default {
           this.$route.query.redirect || this.$route.path
         );
         if (this.$route.path === redirect) {
-          this.$router.push("/index");
+          this.$router.push('/index');
         } else {
           this.$router.push(redirect);
         }
         // this.$router.push("/index");
-        this.$message.success("登录成功");
+        this.$message.success('登录成功');
       } catch (e) {
         this.loading = false;
         console.log(e);
@@ -76,32 +76,16 @@ export default {
         console.log(e);
       }
     },
-    async register() {
-      const obj = {
-        data: {
-          username: this.username,
-          password: this.password,
-          confirm_password: this.confirm_password,
-          email: this.email
-        }
-      };
-      try {
-        await User.registerAccount(obj);
-        this.$message.success("注册成功！");
-      } catch (e) {
-        console.log(e);
-      }
-    },
-    ...mapActions(["setUserAndState"]),
+    ...mapActions(['setUserAndState']),
     ...mapMutations({
-      setUserAuths: "SET_USER_AUTHS"
-    })
+      setUserAuths: 'SET_USER_AUTHS',
+    }),
   },
   created() {
     // 节流登录
     this.throttleLogin = Utils.throttle(this.login, this.wait);
   },
-  components: {}
+  components: {},
 };
 </script>
 
@@ -110,7 +94,7 @@ export default {
   width: 100%;
   height: 100%;
   background-size: auto;
-  background: #1b2c5f url("../../assets/image/login/login-ba.png") no-repeat
+  background: #1b2c5f url('../../assets/image/login/login-ba.png') no-repeat
     center center;
 
   .team-name {
@@ -164,13 +148,13 @@ export default {
       }
 
       .form-item.nickname {
-        background: url("../../assets/image/login/nickname.png") no-repeat;
+        background: url('../../assets/image/login/nickname.png') no-repeat;
         background-size: 100% auto;
         background-position: left bottom;
       }
 
       .form-item.password {
-        background: url("../../assets/image/login/password.png") no-repeat;
+        background: url('../../assets/image/login/password.png') no-repeat;
         background-size: 100% auto;
         background-position: left bottom;
       }
@@ -184,7 +168,7 @@ export default {
         box-sizing: border-box;
         padding: 0 10px;
         padding-left: 74px;
-        background: url("../../assets/image/login/login-btn.png") no-repeat;
+        background: url('../../assets/image/login/login-btn.png') no-repeat;
         background-size: 90% auto;
         background-position: center bottom;
         border: none;

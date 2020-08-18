@@ -11,20 +11,18 @@ export default class User {
     return post('cms/user/register', data)
   }
 
-  static registerAccount(data) {
-    return post('cms/user/account/register', data)
+  static registerAccount(data, headers) {
+    return post('cms/user/account/register', data, {}, headers)
   }
 
   /**
    * 登陆获取tokens
    * @param {string} username 用户名
    * @param {string} password 密码
+   * @param {string} 'g-recaptcha-response' google验证码
    */
-  static async getToken(username, password) {
-    const tokens = await post('cms/user/login', {
-      username,
-      password,
-    })
+  static async getToken(data, headers) {
+    const tokens = await post('cms/user/login', data, {}, headers)
     saveTokens(tokens.access_token, tokens.refresh_token)
     return tokens
   }

@@ -80,7 +80,7 @@
         <div>
           <article-list :dataSource="dataSource"></article-list>
         </div>
-        <el-backtop></el-backtop>
+        <el-backtop class="lin-back-top"></el-backtop>
 
         <infinite-loading @infinite="infiniteHandler" spinner="bubbles" :identifier="any">
           <span slot="no-more">
@@ -379,6 +379,7 @@ ul.server-info {
     font-size: 14px;
   }
 }
+
 
 @media (max-width: 980px) {
   .nav-list {

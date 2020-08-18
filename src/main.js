@@ -36,6 +36,15 @@ Vue.component("sticky-top", StickyTop);
 Vue.component("l-icon", LIcon);
 Vue.component("source-code", SourceCode);
 
+import { VueReCaptcha } from 'vue-recaptcha-v3'
+
+Vue.use(VueReCaptcha, {
+  siteKey: '6Le2mr4ZAAAAAP-83AhlTnJ3jaU9hiwniQ80nI7d',
+  loaderOptions: {
+    useRecaptchaNet: true
+  }
+})
+
 const AppInstance = new Vue({
   router,
   store,
