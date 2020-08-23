@@ -41,7 +41,7 @@
             ></el-input>
           </el-form-item>
           <el-form-item class="dialog-footer lin-form-item">
-            <el-button type="primary" @click="submitForm" v-loading="loading">登录</el-button>
+            <el-button type="primary" @click="submitForm" :disabled="loading">登录</el-button>
           </el-form-item>
           <el-form-item class="lin-form-item">
             没有账号？
@@ -95,7 +95,7 @@
             ></el-input>
           </el-form-item>
           <el-form-item class="dialog-footer lin-form-item">
-            <el-button type="primary" @click="submitForm" v-loading="loading">注册</el-button>
+            <el-button type="primary" @click="submitForm" :disabled="loading">注册</el-button>
           </el-form-item>
           <el-form-item class="lin-form-item to-login">
             <el-link type="primary" @click="activeIndex='login'">已有账号,去登录</el-link>
@@ -170,18 +170,18 @@ export default {
     submitForm() {
       this.$refs['form'].validate(async (valid) => {
         if (valid) {
-          try {
-            // Show reCAPTCHA badge:
-            await this.$recaptchaLoaded();
-            // Execute reCAPTCHA with action "login".
-            this.headers['Google-RecaptchaToken'] = await this.$recaptcha(
-              'login'
-            );
-          } catch (e) {
-            this.$message.error('验证码加载失败！');
-            console.log(e);
-            return;
-          }
+          // try {
+          //   // Show reCAPTCHA badge:
+          //   await this.$recaptchaLoaded();
+          //   // Execute reCAPTCHA with action "login".
+          //   this.headers['Google-RecaptchaToken'] = await this.$recaptcha(
+          //     'login'
+          //   );
+          // } catch (e) {
+          //   this.$message.error('验证码加载失败！');
+          //   console.log(e);
+          //   return;
+          // }
           if (this.activeIndex == 'login') {
             await this.login();
           } else {
@@ -227,9 +227,9 @@ export default {
       });
       this.form.username = this.form.email;
       this.$message.success('注册成功');
-      // Show reCAPTCHA badge:
-      await this.$recaptchaLoaded();
-      this.headers['Google-RecaptchaToken'] = await this.$recaptcha('login');
+      // // Show reCAPTCHA badge:
+      // await this.$recaptchaLoaded();
+      // this.headers['Google-RecaptchaToken'] = await this.$recaptcha('login');
       await this.login();
     },
     async getInformation() {
