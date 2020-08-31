@@ -25,7 +25,7 @@ const routes = [
     component: () => import("@/view/account/login")
   },
   {
-    path: '/post/editor/:id',
+    path: '/p/editor/:id',
     name: 'post-editor',
     component: () => import("@/view/article/editor-form.vue"),
     meta: { title: '随笔编辑' },

@@ -38,6 +38,14 @@ let baseRouter = [
     {
         path: '/post/:id',
         name: 'post',
+        component: () => import("@/view/article/vditor-detail.vue"),
+        meta: { title: '随笔详情页' },
+        children: []
+    },
+
+    {
+        path: '/p/:id',
+        name: 'p',
         component: () => import("@/view/article/article-detail.vue"),
         meta: { title: '随笔详情页' },
         children: []

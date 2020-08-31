@@ -17,7 +17,7 @@
               >{{(item.user_info!=null?item.user_info.nickname:'')}}</router-link>点赞了你的随笔
               <router-link
                 v-if="item.article_entry!=null"
-                :to="{path:`/post/${item.article_entry.id}`}"
+                :to="{path:`/p/${item.article_entry.id}`}"
                 target="_blank"
               >《{{item.article_entry.title}}》</router-link>
             </div>
@@ -28,7 +28,7 @@
               >{{(item.user_info!=null?item.user_info.nickname:'')}}</router-link>在随笔
               <router-link
                 v-if="item.article_entry!=null"
-                :to="{path:`/post/${item.article_entry.id}`}"
+                :to="{path:`/p/${item.article_entry.id}`}"
                 target="_blank"
               >《{{item.article_entry.title}}》</router-link>点赞了你的评论
             </div>
@@ -39,7 +39,7 @@
               >{{(item.user_info!=null?item.user_info.nickname:'')}}</router-link>评论了你的随笔
               <router-link
                 v-if="item.article_entry!=null"
-                :to="{path:`/post/${item.article_entry.id}`}"
+                :to="{path:`/p/${item.article_entry.id}`}"
                 target="_blank"
               >《{{item.article_entry.title}}》</router-link>
             </div>
@@ -57,7 +57,7 @@
           <li slot="actions" v-show="item.notification_type==1||item.notification_type==2">
             <router-link
               v-if="item.article_entry!=null&&item.comment_entry!=null"
-              :to="{path:`/post/${item.article_entry.id}#comment-list-${item.comment_entry.id}`}"
+              :to="{path:`/p/${item.article_entry.id}#comment-list-${item.comment_entry.id}`}"
               target="_blank"
             >
               <span>
@@ -74,16 +74,16 @@
 
 
 <script>
-import notificationApi from "../../model/notification";
-import VList from "@/component/list";
-import "@/component/list/index.css";
-import defaultAvatar from "@/assets/image/user/user.png";
+import notificationApi from '../../model/notification';
+import VList from '@/component/list';
+import '@/component/list/index.css';
+import defaultAvatar from '@/assets/image/user/user.png';
 export default {
-  name: "NotificationList",
+  name: 'NotificationList',
   components: {
     VList,
     VListItem: VList.Item,
-    VListItemMeta: VList.Item.Meta
+    VListItemMeta: VList.Item.Meta,
   },
   data() {
     return {
@@ -91,9 +91,9 @@ export default {
         small: false,
         background: true,
         currentPage: 1,
-        position: "bottom",
+        position: 'bottom',
         total: 0,
-        currentChange: page => {
+        currentChange: (page) => {
           console.log(page);
           this.pagination.currentPage = page;
           this.getNotifications();
@@ -103,18 +103,18 @@ export default {
           this.pagination.pageSize = pageSize;
           this.pagination.currentPage = currentPage;
           this.getNotifications();
-        }
+        },
       },
       listData: [],
       loading: false,
-      defaultAvatar
+      defaultAvatar,
     };
   },
   props: {
     notification_type: {
       type: Number,
-      default: 1
-    }
+      default: 1,
+    },
   },
   async created() {
     await this.getNotifications();
@@ -123,7 +123,7 @@ export default {
     notification_type(newVal, oldVal) {
       this.pagination.currentPage = 1;
       this.getNotifications();
-    }
+    },
   },
   methods: {
     async getNotifications() {
@@ -133,15 +133,15 @@ export default {
         .getNotifications({
           count: this.pagination.pageSize,
           page: currentPage,
-          notification_search_type: this.notification_type
+          notification_search_type: this.notification_type,
         })
-        .finally(r => {
+        .finally((r) => {
           this.loading = false;
         });
       this.listData = res.items;
       this.pagination.total = res.total;
-    }
-  }
+    },
+  },
 };
 </script>
 

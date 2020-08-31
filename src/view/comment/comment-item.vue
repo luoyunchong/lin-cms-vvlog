@@ -40,15 +40,6 @@
         <p v-html="commentContent"></p>
       </div>
       <p class="comments-ops">
-        <span
-          class="coments-ops-item ml15"
-          v-for="item in ops"
-          :key="item.name"
-          @click="()=>item.click()"
-        >
-          <i :class="item.icon + ' coments-ops-icon'" v-if="item.icon"></i>
-          <span class="coments-ops-text">{{item.count}}</span>
-        </span>
         <span class="comments-reply-btn ml15" @click="handleAddReply" v-show="isAudit">
           <i class="iconfont icon-comment coments-ops-icon"></i>
           {{replyText}}
@@ -69,9 +60,6 @@
       </div>
       <div class="reply-list" v-show="hasReply">
         <slot name="reply-list"></slot>
-        <!-- <div class="reply-item reply-item--ops">
-          <a class="reply-inner-btn" href="javascript:void(0);" @click="handleAddReply">添加回复</a>
-        </div>-->
       </div>
     </div>
   </div>
@@ -88,7 +76,6 @@ export default {
       type: Object
     },
     content: String,
-    ops: Array,
     tools: Array,
     time: [String, Number],
     hasReply: Boolean,

@@ -14,7 +14,7 @@
     </div>
     <el-divider direction="vertical"></el-divider>
     <div class="a-badge" title="评论">
-      <a :href="`#/post/${model.id}#comment-list`">
+      <a :href="`#/p/${model.id}#comment-list`">
         <el-badge :type="model.is_comment?'danger':'info'" :value="model.comment_quantity">
           <el-avatar
             :size="32"
@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import userLike from "@/model/user-like";
+import userLike from '@/model/user-like';
 export default {
   data() {
     return {};
@@ -58,10 +58,10 @@ export default {
           is_comment: false,
           comment_quantity: 0,
           is_collect: false,
-          collect_quantity: 0
+          collect_quantity: 0,
         };
-      }
-    }
+      },
+    },
   },
   computed: {},
   created() {},
@@ -69,17 +69,17 @@ export default {
     async handleLike() {
       let res = await userLike.likeOrCancel({
         subject_id: this.model.id,
-        subject_type: 1
+        subject_type: 1,
       });
       this.$message.success(`${res.message}`);
       if (this.model.is_liked) {
-        this.$emit("likeChange", { likes_quantity: -1, is_liked: false });
+        this.$emit('likeChange', { likes_quantity: -1, is_liked: false });
       } else {
-        this.$emit("likeChange", { likes_quantity: 1, is_liked: true });
+        this.$emit('likeChange', { likes_quantity: 1, is_liked: true });
       }
     },
     handleCollect() {
-      console.log("");
+      console.log('');
 
       if (this.model.isCollect) {
         this.model.isCollect = 0;
@@ -88,8 +88,8 @@ export default {
         this.model.isCollect = 1;
         this.model.collectCount += 1;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

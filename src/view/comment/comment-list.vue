@@ -163,33 +163,33 @@ export default {
       form: {
         resp_id: null,
         root_comment_id: null,
-        resp_user_id: null
+        resp_user_id: null,
       },
       pagination: {
         currentPage: 0,
         pageSize: 10,
-        pageTotal: 0
+        pageTotal: 0,
       },
-      any: 'any' + new Date()
+      any: 'any' + new Date(),
     };
   },
   props: {
     subject_id: {
-      type: String
+      type: String,
     },
     subject_type: {
       type: Number,
-      default: 1
+      default: 1,
     },
     resp_user_id: {
-      type: [String, Number]
+      type: [String, Number],
     },
     commentable: {
-      type: [Boolean]
+      type: [Boolean],
     },
     authorid: {
-      type: [String, Number]
-    }
+      type: [String, Number],
+    },
   },
   computed: {},
   async created() {},
@@ -200,16 +200,15 @@ export default {
       await this.infiniteHandler();
     },
     async infiniteHandler($state) {
-      console.log($state);
       const currentPage = this.pagination.currentPage;
       let res = await commentApi.getPublicComments({
         subject_id: this.subject_id,
         count: this.pagination.pageSize,
-        page: currentPage
+        page: currentPage,
       });
-      res.items.forEach(item => {
+      res.items.forEach((item) => {
         item.replyVisible = false;
-        item.top_comment.forEach(val => {
+        item.top_comment.forEach((val) => {
           val.replyVisible = false;
         });
       });
@@ -237,9 +236,9 @@ export default {
     async getTopComments(root_comment_id, index) {
       let res = await commentApi.getPublicComments({
         subject_id: this.subject_id,
-        root_comment_id: root_comment_id
+        root_comment_id: root_comment_id,
       });
-      res.items.forEach(item => {
+      res.items.forEach((item) => {
         item.replyVisible = false;
       });
       this.comments[index].top_comment = res.items;
@@ -276,7 +275,7 @@ export default {
     async handleLike(comment, index) {
       let res = await userLike.likeOrCancel({
         subject_id: comment.id,
-        subject_type: 2
+        subject_type: 2,
       });
       this.$message.success(`${res.message}`);
       if (this.comments[index].is_liked) {
@@ -290,7 +289,7 @@ export default {
     async handleReplyLike(reply, index, i) {
       let res = await userLike.likeOrCancel({
         subject_id: reply.id,
-        subject_type: 2
+        subject_type: 2,
       });
       this.$message.success(`${res.message}`);
       if (this.comments[index].top_comment[i].is_liked) {
@@ -303,8 +302,8 @@ export default {
     },
     updateCommentable(commentable) {
       this.$emit('updateCommentable', commentable);
-    }
-  }
+    },
+  },
 };
 </script>
 

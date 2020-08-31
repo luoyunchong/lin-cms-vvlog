@@ -105,7 +105,7 @@
               <span class="tag-title">分享你的创作</span>
             </div>
             <div>
-              <router-link :to="{path:`/post/editor/0`}">
+              <router-link :to="{path:`/p/editor/0`}">
                 <el-button type="primary" icon="el-icon-edit" plain>写随笔</el-button>
               </router-link>
             </div>
@@ -117,41 +117,41 @@
 </template>
 
 <script>
-import { SubscribeUserList, SubscribeTagList } from "@/view/subscribe";
-import Profile from "@/view/user/profile";
-import articleApi from "@/model/article";
-import subscribeApi from "@/model/subscribe";
-import InfiniteLoading from "vue-infinite-loading";
-import ArticleList from "@/view/article/article-list";
-import MyCreateClassify from "./my-create-classify";
+import { SubscribeUserList, SubscribeTagList } from '@/view/subscribe';
+import Profile from '@/view/user/profile';
+import articleApi from '@/model/article';
+import subscribeApi from '@/model/subscribe';
+import InfiniteLoading from 'vue-infinite-loading';
+import ArticleList from '@/view/article/article-list';
+import MyCreateClassify from './my-create-classify';
 export default {
-  name: "UserIndex",
+  name: 'UserIndex',
   components: {
     SubscribeUserList,
     SubscribeTagList,
     Profile,
     ArticleList,
     InfiniteLoading,
-    MyCreateClassify
+    MyCreateClassify,
   },
   data() {
     return {
-      tab: "article",
-      activeName: "subscribe",
+      tab: 'article',
+      activeName: 'subscribe',
       dataSource: [],
       pagination: {
         currentPage: 0,
         pageSize: 10,
-        pageTotal: 0
+        pageTotal: 0,
       },
       loading: false,
       any: new Date(),
       info: {
         subscribe_count: 0,
         fans_count: 0,
-        tag_count: 0
+        tag_count: 0,
       },
-      classifys: []
+      classifys: [],
     };
   },
   computed: {
@@ -163,7 +163,7 @@ export default {
     },
     classify_id() {
       return this.$route.query.classify_id;
-    }
+    },
   },
   watch: {
     name(newVal) {
@@ -172,13 +172,13 @@ export default {
     },
     async $route(v) {
       switch (v.params.name) {
-        case "article":
+        case 'article':
           this.refresh();
           break;
-        case "subscribe":
+        case 'subscribe':
           let key = v.query.key;
           if (key == null || key == undefined) {
-            key = "subscribe";
+            key = 'subscribe';
           }
           this.activeName = key;
           break;
@@ -186,24 +186,24 @@ export default {
           break;
       }
       await this.getUserSubscribe();
-    }
+    },
   },
   async created() {
     await this.getUserSubscribe();
   },
   mounted() {
     switch (this.name) {
-      case "article":
-      case "subscribe":
+      case 'article':
+      case 'subscribe':
         this.tab = this.name;
         break;
       default:
-        this.tab = "article";
+        this.tab = 'article';
         break;
     }
     let key = this.$route.query.key;
     if (key == null || key == undefined) {
-      key = "subscribe";
+      key = 'subscribe';
     }
     this.activeName = key;
   },
@@ -220,7 +220,7 @@ export default {
     handleClick(tab, event) {
       if (tab.name == this.$route.query.key) return;
       this.$router.push({
-        path: `/user/${this.userId}/subscribe?key=${tab.name}`
+        path: `/user/${this.userId}/subscribe?key=${tab.name}`,
       });
     },
     async infiniteHandler($state) {
@@ -231,7 +231,7 @@ export default {
         page: currentPage,
         sort: this.sort,
         user_id: this.userId,
-        classify_id: this.classify_id
+        classify_id: this.classify_id,
       });
       let items = [...res.items];
 
@@ -254,11 +254,11 @@ export default {
     },
     async getUserSubscribe() {
       let res = await subscribeApi.getUserSubscribe({
-        userId: this.userId
+        userId: this.userId,
       });
       this.info = res;
-    }
-  }
+    },
+  },
 };
 </script>
 

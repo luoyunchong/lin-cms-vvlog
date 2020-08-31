@@ -34,7 +34,7 @@
               <router-link
                 target="_blank"
                 class="article-detail-title"
-                :to="{ name: 'post', params: { id: item.id }}"
+                :to="{ name: 'p', params: { id: item.id }}"
               >{{item.title}}</router-link>
             </div>
             <span class="info-row article-detail-content article-detail-ellpisis3">{{item.excerpt}}</span>
@@ -44,7 +44,7 @@
                   <li>
                     <router-link
                       class="article-detail-title"
-                      :to="{ name: 'post', params: { id: item.id }}"
+                      :to="{ name: 'p', params: { id: item.id }}"
                       target="_blank"
                     >
                       <l-icon name="like-fill" v-if="item.is_liked==true" color="#7fccde"></l-icon>
@@ -57,7 +57,7 @@
                     <router-link
                       class="article-detail-title"
                       target="_blank"
-                      :to="{path:'/post/'+item.id+'#comment-list'}"
+                      :to="{path:'/p/'+item.id+'#comment-list'}"
                     >
                       <l-icon name="comment" color="#b2bac2"></l-icon>
                       <!-- <i class="el-icon-s-comment"></i> -->
@@ -68,10 +68,9 @@
                     <router-link
                       class="article-detail-title"
                       target="_blank"
-                      :to="{ name: 'post', params: { id: item.id }}"
+                      :to="{ name: 'p', params: { id: item.id }}"
                     >
                       <l-icon name="eye" color="#b2bac2"></l-icon>
-                      <!-- <i class="iconfont icon-fenxiang"></i> -->
                       <!-- <i class="el-icon-view"></i> -->
                       <span class="count">{{item.view_hits}}</span>
                     </router-link>
@@ -80,7 +79,7 @@
               </div>
             </div>
           </div>
-          <router-link target="_blank" :to="{path:'/post/'+item.id}">
+          <router-link target="_blank" :to="{path:'/p/'+item.id}">
             <img class="article-thumb" :src="item.thumbnail_display" alt />
           </router-link>
         </div>
@@ -100,15 +99,15 @@ export default {
       type: Array,
       default: () => {
         return [];
-      }
-    }
+      },
+    },
   },
   mounted() {},
   methods: {
     toArticle(item) {
       this.$router.push({ name: 'p', params: { id: item.id } });
-    }
-  }
+    },
+  },
 };
 </script>
 

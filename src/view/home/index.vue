@@ -102,7 +102,7 @@
               <span class="lin-title">分享你的创作</span>
             </div>
             <div>
-              <router-link :to="{path:`/post/editor/0`}">
+              <router-link :to="{path:`/p/editor/0`}">
                 <el-button type="primary" icon="el-icon-edit" plain>写随笔</el-button>
               </router-link>
             </div>
@@ -379,7 +379,6 @@ ul.server-info {
     font-size: 14px;
   }
 }
-
 
 @media (max-width: 980px) {
   .nav-list {

@@ -138,45 +138,45 @@
 </template>
 
 <script>
-import UploadImgs from "@/component/base/upload-image";
-import articleApi from "@/model/article";
-import classifyApi from "@/model/classify";
-import tagApi from "@/model/tag";
-import baseApi from "@/model/base";
-import channelApi from "@/model/channel";
+import UploadImgs from '@/component/base/upload-image';
+import articleApi from '@/model/article';
+import classifyApi from '@/model/classify';
+import tagApi from '@/model/tag';
+import baseApi from '@/model/base';
+import channelApi from '@/model/channel';
 
 export default {
-  name: "EditorDialog",
+  name: 'EditorDialog',
   components: { UploadImgs },
   props: {
     id: [String, Number],
     title: [String],
     content: [String],
-    editor: [Number]
+    editor: [Number],
   },
   data() {
     return {
       dialogFormVisible: false,
       form: {
-        archive: "",
+        archive: '',
         comment_quantity: 0,
         editor: 0,
-        excerpt: "",
+        excerpt: '',
         classify_id: null,
         is_audit: true,
         is_new: true,
         is_stickie: true,
-        author: "",
-        keywords: "",
+        author: '',
+        keywords: '',
         nick_name: null,
         likes_quantity: 0,
         recommend: true,
-        source: "",
-        thumbnail: "",
+        source: '',
+        thumbnail: '',
         type_code: null,
         type_name: null,
         view_hits: 0,
-        article_type: 0
+        article_type: 0,
       },
       thumbnailPreview: [],
       classifys: [],
@@ -187,20 +187,20 @@ export default {
       tagLoading: false,
       rules: {
         channel_id: [
-          { required: true, message: "请选择技术频道", trigger: "blur" }
-        ]
-      }
+          { required: true, message: '请选择技术频道', trigger: 'blur' },
+        ],
+      },
     };
   },
   async created() {
     this.classifys = await classifyApi.getClassifys();
     let res = await channelApi.getNavChannels({
       count: 20,
-      page: 0
+      page: 0,
     });
     this.channels = res.items;
     this.article_types = await baseApi.getItems({
-      typeCode: "Article.Type"
+      typeCode: 'Article.Type',
     });
     let tags = await tagApi.getTags();
     this.tags = tags.items;
@@ -211,16 +211,16 @@ export default {
       done && done();
     },
     async remoteMethod(query) {
-      if (query !== "") {
+      if (query !== '') {
         this.tagLoading = true;
         let tags = await tagApi.getTags({
-          tagName: query
+          tagName: query,
         });
         this.tagLoading = false;
         this.tags = tags.items;
         let filterTags = [];
-        tags.items.forEach(r => {
-          if (!this.tags.filter(u => u.id == r.id)) {
+        tags.items.forEach((r) => {
+          if (!this.tags.filter((u) => u.id == r.id)) {
             filterTags.push(r);
           }
         });
@@ -244,7 +244,7 @@ export default {
             id: res.id,
             display: res.thumbnail_display,
             src: res.thumbnail,
-            imgId: res.id
+            imgId: res.id,
           });
         }
         this.tags = res.tags;
@@ -252,18 +252,18 @@ export default {
       }
     },
     async confirmEdit(formName) {
-      this.$refs[formName].validate(async valid => {
+      this.$refs[formName].validate(async (valid) => {
         if (valid) {
-          let thumbnail = await this.$refs["thumbnail"].getValue();
+          let thumbnail = await this.$refs['thumbnail'].getValue();
           if (thumbnail.length > 0) {
             this.form.thumbnail = thumbnail[0].src;
           } else {
-            this.form.thumbnail = "";
+            this.form.thumbnail = '';
           }
           await this.submitForm(this.form);
           this.handleClose();
         } else {
-          this.$message.error("请填写正确的信息");
+          this.$message.error('请填写正确的信息');
         }
       });
     },
@@ -281,12 +281,12 @@ export default {
       // this.$emit("success", id);
       this.$message.success(`发布成功!`);
       if (this.id == 0) {
-        this.$router.replace(`/post/editor/${id}`);
+        this.$router.replace(`/p/editor/${id}`);
       } else {
-        this.$router.replace(`/post/${id}`);
+        this.$router.replace(`/p/${id}`);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

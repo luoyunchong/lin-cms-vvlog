@@ -32,7 +32,7 @@
                           <el-divider direction="vertical"></el-divider>
                           <el-link
                             type="primary"
-                            :href="`#/post/editor/${model.id}`"
+                            :href="`#/p/editor/${model.id}`"
                             target="_blank"
                           >编辑</el-link>
                         </template>
@@ -67,10 +67,8 @@
                 type="info"
               ></el-alert>
             </div>
-            <div id="preview" class="preview" @click="handleHtml($event)"></div>
+            <div id="preview" class="preview" @click="handlePreview($event)"></div>
             <div id="outline"></div>
-            <!-- <MarkdownPreview v-if="model.editor==1" :initialValue="model.content" theme="dark" /> -->
-            <!-- <div class="tinymce" v-else v-html="model.content"></div> -->
             <div class="tag-box top20" v-show="model.tags.length>0">
               <h3 class="tag-title">标签</h3>
               <el-tag
@@ -150,7 +148,7 @@
                         slot="description"
                         target="_blank"
                         :title="item.title"
-                        :href="'/#/post/'+item.id"
+                        :href="'/#/p/'+item.id"
                         style="color:rgb(45, 45, 45);"
                       >{{item.title}}</a>
                     </v-list-item-meta>
@@ -208,12 +206,12 @@ export default {
     return {
       model: {
         user_info: {
-          id: 0
+          id: 0,
         },
         tags: [],
         content: '',
         codeTheme: 'github',
-        commentable: true
+        commentable: true,
       },
       subscribeLoading: false,
       scroll: 0,
@@ -226,7 +224,7 @@ export default {
       latestLoading: false,
       deleted: false,
       is_subscribeed: null,
-      latestArticles: []
+      latestArticles: [],
     };
   },
   components: {
@@ -236,30 +234,26 @@ export default {
     Error404Page,
     VList,
     VListItem: VList.Item,
-    VListItemMeta: VList.Item.Meta
+    VListItemMeta: VList.Item.Meta,
   },
   computed: {
     id() {
       return this.$route.params.id;
-    }
+    },
   },
   async created() {
     await this.getData();
-
     this.activeIndex = 0;
   },
   mounted() {
-    this.$nextTick(function() {
+    this.$nextTick(function () {
       window.addEventListener('scroll', this.dataScroll, true);
     });
   },
   watch: {
-    scroll: function() {
+    scroll: function () {
       this.loadSroll();
     },
-    $route(to, from) {
-      // this.getData();
-    }
   },
   methods: {
     getCommentSuccess(total) {
@@ -272,7 +266,7 @@ export default {
     async getData() {
       const loading = this.$loading({
         lock: true,
-        text: 'Loading'
+        text: 'Loading',
       });
       try {
         this.deleted = false;
@@ -289,24 +283,23 @@ export default {
 
         this.render(this.model.content);
         let setting = await settingApi.getSettingByKeys({
-          keys: ['Article.CodeTheme', 'Article.Commentable']
+          keys: ['Article.CodeTheme', 'Article.Commentable'],
         });
         if (setting['Article.CodeTheme'] != undefined) {
           this.model.codeTheme = setting['Article.CodeTheme'];
           Vditor.setCodeTheme(this.model.codeTheme);
         }
-        // if (setting['Article.Commentable'] != undefined) {
-        //   this.model.commentable = setting['Article.Commentable'];
-        // }
+        if (setting['Article.Commentable'] != undefined) {
+          this.model.commentable = Boolean(setting['Article.Commentable']);
+        }
         if (this.model.user_info == undefined) {
           this.model.user_info = {
-            id: 0
+            id: 0,
           };
         } else {
           await this.getQueryArticles();
         }
       } catch (ex) {
-        console.log(ex);
         this.deleted = true;
       }
     },
@@ -324,20 +317,15 @@ export default {
           .getElementsByClassName('navigator-item');
       });
     },
-    dataScroll: function() {
-      try {
-        this.scroll =
-          document.documentElement.scrollTop ||
-          document.body.scrollTop ||
-          document.querySelector('#preview').scrollTop;
-
-        this.aside =
-          document.documentElement.scrollTop ||
-          document.body.scrollTop ||
-          document.querySelector('.aside-list').scrollTop;
-      } catch (ex) {
-        console.error(ex);
-      }
+    dataScroll: function () {
+      this.scroll =
+        document.documentElement.scrollTop ||
+        document.body.scrollTop ||
+        document.querySelector('#preview').scrollTop;
+      this.aside =
+        document.documentElement.scrollTop ||
+        document.body.scrollTop ||
+        document.querySelector('.aside-list').scrollTop;
     },
     loadSroll() {
       let self = this;
@@ -377,12 +365,11 @@ export default {
           cloneNode.classList.add('navigator-item');
           const a = document.createElement('a');
 
-          // a.href = `/#/post/${articleId}#${domId}`;
           a.id = domId;
           a.setAttribute('articleId', articleId);
           a.innerHTML = node.innerText;
           cloneNode.appendChild(a);
-          cloneNode.onclick = function() {
+          cloneNode.onclick = function () {
             let parents = cloneNode.parentElement.children;
             for (let j = 0; j < parents.length; j++) {
               parents[j].classList.remove('active');
@@ -391,17 +378,11 @@ export default {
             let id = this.children[0].id;
             let articleId = this.children[0].getAttribute('articleId');
 
-            // console.log(id);
-            // console.log(location.hash);
-            // console.log(`#/post/${articleId}#${encodeURIComponent(id)}`);
-
-            if (
-              location.hash == `#/post/${articleId}#${encodeURIComponent(id)}`
-            ) {
+            if (location.hash == `#/p/${articleId}#${encodeURIComponent(id)}`) {
               return;
             }
 
-            router.replace({ path: `/post/${articleId}#${id}` });
+            router.replace({ path: `/p/${articleId}#${id}` });
           };
           newDoms.push(cloneNode);
 
@@ -430,9 +411,9 @@ export default {
           sliceDoms.push([dom]);
         }
       });
-      sliceDoms.forEach(doms => {
+      sliceDoms.forEach((doms) => {
         const thisTitleMaxId = doms[0].tagName.substr(1);
-        doms.forEach(dom => {
+        doms.forEach((dom) => {
           const domHeadingLevel = dom.tagName.substr(1) - thisTitleMaxId + 1;
           dom.classList.add('heading_' + domHeadingLevel);
         });
@@ -446,16 +427,15 @@ export default {
       Vditor.preview(document.getElementById('preview'), markdown, {
         markdown: {
           toc: true,
-          theme: 'light'
-          // linkBase: `#/post/${that.id}`
+          theme: 'light',
         },
         hljs: {
           enable: true,
           style: 'tango',
-          lineNumber: true
+          lineNumber: true,
         },
         speech: {
-          enable: true
+          enable: true,
         },
         anchor: 2,
         after() {
@@ -466,24 +446,6 @@ export default {
         },
         lazyLoadImage:
           'https://cdn.jsdelivr.net/npm/vditor/dist/images/img-loading.svg',
-        renderers: {
-          renderHeading: (node, entering) => {
-            //https://hacpai.com/article/1588412297062
-            const id = Lute.GetHeadingID(node);
-            if (entering) {
-              return [
-                `<h${node.__internal_object__.HeadingLevel} id="${id}" class="vditor__heading">
-<span class="prefix"></span><span>`,
-                Lute.WalkContinue
-              ];
-            } else {
-              return [
-                `</span><a id="vditorAnchor-${id}" class="vditor-anchor" href="#${id}"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a></h${node.__internal_object__.HeadingLevel}>`,
-                Lute.WalkContinue
-              ];
-            }
-          }
-        }
       });
     },
     async getQueryArticles() {
@@ -492,19 +454,18 @@ export default {
         .getQueryArticles({
           count: 3,
           page: 0,
-          user_id: this.model.user_info.id
+          user_id: this.model.user_info.id,
         })
         .finally(() => {
           this.latestLoading = false;
         });
       this.latestArticles = data.items;
     },
-    handleHtml($event) {
+    handlePreview($event) {
       if ($event.target) {
         if ($event.target.nodeName == 'IMG') {
-          console.log($event.target.currentSrc);
           this.$imagePreview({
-            images: [$event.target.currentSrc]
+            images: [$event.target.currentSrc],
           });
         }
       }
@@ -512,8 +473,8 @@ export default {
     async updateCommentable(commentable) {
       await articleApi.updateCommentable(this.id, commentable);
       this.model.commentable = commentable;
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -593,9 +554,6 @@ export default {
   p {
     line-height: 1.6;
     font-size: 15px !important;
-    font-family: '-apple-system', BlinkMacSystemFont, '\5FAE\8F6F\96C5\9ED1',
-      'PingFang SC', Helvetica, Arial, 'Hiragino Sans GB', 'Microsoft YaHei',
-      SimSun, '\5B8B\4F53', Heiti, '\9ED1\4F53', sans-serif;
   }
   img {
     max-width: 100%;
@@ -667,9 +625,7 @@ export default {
   h6 {
     margin-top: 5px;
   }
-  // table tr:nth-of-type(even) td {
-  //   background-color: #f6f8fa;
-  // }
+
   ul li:after {
     width: 4px;
     height: 4px;
@@ -679,10 +635,6 @@ export default {
     z-index: 199 !important;
   }
 
-  // .markdown-theme-dark pre code,
-  // .code-block p {
-  //   color: #fff;
-  // }
   blockquote p {
     margin-bottom: 0px;
   }
