@@ -33,40 +33,40 @@ export default {
           resp_id: null,
           text: '',
           root_comment_id: null,
-          resp_user_id: null
+          resp_user_id: null,
         };
-      }
-    }
+      },
+    },
   },
   data() {
     return {
       disabled: true,
       surplus: 500,
       model: {
-        text: ''
+        text: '',
       },
       rules: {
         text: [
           {
             required: true,
             message: '请输入评论内容',
-            trigger: 'blur'
-          }
-        ]
-      }
+            trigger: 'blur',
+          },
+        ],
+      },
     };
   },
   created() {},
   computed: {},
   methods: {
     addComment() {
-      this.$refs['form'].validate(async valid => {
+      this.$refs['form'].validate(async (valid) => {
         if (valid) {
           let text = this.model.text.trim();
           if (text == '') {
             this.$message({
               message: '发布内容为空!',
-              type: 'warning'
+              type: 'warning',
             });
             return;
           }
@@ -82,8 +82,8 @@ export default {
           return false;
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

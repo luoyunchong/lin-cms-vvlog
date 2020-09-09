@@ -78,13 +78,13 @@ export default {
     time: [String, Number],
     replyVisible: {
       type: Boolean,
-      default: false
+      default: false,
     },
-    resp_user_info: Object
+    resp_user_info: Object,
   },
   data() {
     return {
-      defaultAvatar
+      defaultAvatar,
     };
   },
   computed: {
@@ -93,7 +93,7 @@ export default {
     },
     commentContent() {
       return Utils.formatHtml(Utils.formatHyperLink(this.content));
-    }
+    },
   },
   methods: {
     handleClickAvatar(event) {
@@ -114,9 +114,9 @@ export default {
     },
     handleDeleteReply(event) {
       this.$emit('deleteReply', this);
-    }
+    },
   },
-  filters: {}
+  filters: {},
 };
 </script>
 
@@ -181,7 +181,6 @@ export default {
 }
 
 .comments-ops {
-  .coments-ops-item,
   .comments-reply-btn {
     &:hover {
       cursor: pointer;

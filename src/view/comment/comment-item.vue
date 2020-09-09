@@ -66,14 +66,14 @@
 </template>
 
 <script>
-import Utils from "@/lin/util/util";
-import defaultAvatar from "@/assets/image/user/user.png";
+import Utils from '@/lin/util/util';
+import defaultAvatar from '@/assets/image/user/user.png';
 export default {
-  name: "CommentItem",
+  name: 'CommentItem',
   props: {
     avatar: String,
     author: {
-      type: Object
+      type: Object,
     },
     content: String,
     tools: Array,
@@ -81,54 +81,54 @@ export default {
     hasReply: Boolean,
     replyVisible: {
       type: Boolean,
-      default: false
+      default: false,
     },
     isAudit: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   data() {
     return {
       // replyVisible: false
-      defaultAvatar
+      defaultAvatar,
     };
   },
   computed: {
     replyText() {
-      return this.replyVisible == true ? "取消回复" : "回复";
+      return this.replyVisible == true ? '取消回复' : '回复';
     },
     commentContent() {
       return Utils.formatHtml(Utils.formatHyperLink(this.content));
-    }
+    },
   },
   methods: {
     handleClickAvatar(event) {
       event.stopPropagation();
-      this.$emit("clickAvatar", this);
+      this.$emit('clickAvatar', this);
     },
     handleClickTool(event, tool) {
       event.stopPropagation();
-      this.$emit("clickTool", this, tool);
+      this.$emit('clickTool', this, tool);
     },
     handleClickAuthor(event) {
       event.stopPropagation();
       this.$notify({
-        title: "警告",
-        message: "该用户已被系统删除·",
-        type: "warning"
+        title: '警告',
+        message: '该用户已被系统删除·',
+        type: 'warning',
       });
-      this.$emit("clickAuthor", this);
+      this.$emit('clickAuthor', this);
     },
     handleAddReply(event) {
       event.stopPropagation();
-      this.$emit("addReply", this);
+      this.$emit('addReply', this);
     },
     handleDeleteReply(event) {
-      this.$emit("deleteReply", this);
-    }
+      this.$emit('deleteReply', this);
+    },
   },
-  filters: {}
+  filters: {},
 };
 </script>
 
@@ -189,12 +189,9 @@ img {
   font-size: 13px;
 }
 .comments-ops {
-  .coments-ops-item,
-  .comments-reply-btn {
-    &:hover {
-      cursor: pointer;
-      color: #5cb6ff;
-    }
+  .comments-reply-btn:hover {
+    cursor: pointer;
+    color: #5cb6ff;
   }
 }
 .comments-content {
@@ -207,7 +204,7 @@ img {
   display: table;
 }
 .comments-content::after {
-  content: "";
+  content: '';
   clear: both;
 }
 .comments-ops {
