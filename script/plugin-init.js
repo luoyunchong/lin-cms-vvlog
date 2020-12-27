@@ -1,6 +1,5 @@
 // 手动添加完插件后执行此脚本进行初始化动作
 const fs = require('fs-extra')
- import /no-extraneous-dependencies
 const path = require('path')
 const chalk = require('chalk')
 const shell = require('shelljs')

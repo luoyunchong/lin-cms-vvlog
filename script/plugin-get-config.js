@@ -1,5 +1,4 @@
 const fs = require('fs-extra')
- import /no-extraneous-dependencies
 const path = require('path')
 const chalk = require('chalk')
 const ejs = require('ejs')
