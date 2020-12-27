@@ -66,6 +66,7 @@ $--font-path: "~element-ui/lib/theme-chalk/fonts";
   &:hover,
   &:focus {
     background: #0037ad;
+    color: #fff;
     border: 1px solid #0037ad;
   }
 }
@@ -244,9 +245,121 @@ $--font-path: "~element-ui/lib/theme-chalk/fonts";
 // input
 .el-input-group__append,
 .el-input-group__prepend {
-  background: $theme;
-  border: 1px solid $theme;
-  color: #fff;
+  // background: $theme;
+  // border: 1px solid $theme;
+  // color: #fff;
+
+  .el-button {
+    height: 40px;
+  }
+
+  .el-button--primary.is-plain,
+  .el-button--success.is-plain,
+  .el-button--info.is-plain,
+  .el-button--danger.is-plain,
+  .el-button--warning.is-plain {
+    background: #fff;
+  }
+
+  .el-button--primary {
+    &.is-plain {
+      color: #3963bc;
+      background: #fff;
+      border: 1px solid #3963bc;
+    }
+
+    &:hover,
+    &:focus {
+      color: #fff;
+      background: #0037ad;
+      border: 1px solid #0037ad;
+    }
+  }
+
+  .el-button--success {
+    &.is-plain {
+      color: #34bfa3;
+      background: #fff;
+      border: 1px solid #34bfa3;
+    }
+
+    &:hover,
+    &:focus {
+      color: #fff;
+      background: #009d72;
+      border: 1px solid #009d72;
+    }
+  }
+
+  .el-button--danger {
+    &.is-plain {
+      color: #f4516c;
+      background: #fff;
+      border: 1px solid #f4516c;
+    }
+
+    &:hover,
+    &:focus {
+      color: #fff;
+      background: #d62f40;
+      border: 1px solid #d62f40;
+    }
+  }
+
+  .el-button--warning {
+    color: #ffffff;
+
+    &.is-plain {
+      color: #ffcb71;
+      background: #fff;
+      border: 1px solid #ffcb71;
+
+      &:hover,
+      &:focus {
+        background: #ffcb71;
+        color: #fff;
+        border: 1px solid #ffcb71;
+      }
+
+      &.is-disabled {
+        color: #fff;
+        background: #ffbe4d;
+        border: 1px solid #ffbe4d;
+        opacity: 0.5;
+
+        &:hover,
+        &:focus {
+          color: #fff;
+          background: #ffcb71;
+          border: 1px solid #ffcb71;
+          opacity: 0.5;
+        }
+      }
+    }
+
+    &:hover,
+    &:focus {
+      color: #fff;
+      background: #ffbe4d;
+      border: 1px solid #ffbe4d;
+    }
+
+    &.is-disabled {
+      background: #ffcb71;
+      color: #fff;
+      border: 1px solid #ffcb71;
+      opacity: 0.5;
+
+      &:hover,
+      &:focus {
+        background: #ffcb71;
+        color: #fff;
+        border: 1px solid #ffcb71;
+        opacity: 0.5;
+      }
+    }
+  }
+
 }
 
 .el-input .el-input--suffix {
@@ -283,7 +396,7 @@ $--font-path: "~element-ui/lib/theme-chalk/fonts";
   display: flex;
   margin-top: 2px;
   margin-bottom: 2px;
-//padding-left: 20px;
+  //padding-left: 20px;
 }
 
 .el-table thead tr th .cell {

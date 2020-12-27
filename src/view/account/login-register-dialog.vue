@@ -8,13 +8,17 @@
       v-loading="loading"
       element-loading-background="rgba(0, 0, 0, 0)"
     >
-      <span slot="title">{{activeIndex=='login'?'登录':'注册'}}</span>
+      <span slot="title">{{ activeIndex == 'login' ? '登录' : '注册' }}</span>
       <el-form :model="form" label-position="top" ref="form">
-        <template v-if="activeIndex=='login'">
+        <template v-if="activeIndex == 'login'">
           <el-form-item
             prop="username"
             :rules="[
-              { required: true, message: '请输入用户名或邮件', trigger: 'blur' },
+              {
+                required: true,
+                message: '请输入用户名或邮件',
+                trigger: 'blur',
+              },
             ]"
           >
             <el-input
@@ -45,11 +49,17 @@
           </el-form-item>
           <el-form-item class="lin-form-item">
             没有账号？
-            <el-link type="primary" @click="activeIndex='register'">注册</el-link>
-            <el-link href="/reset-password" style="float:right;">忘记密码</el-link>
+            <el-link type="primary" @click="activeIndex = 'register'">注册</el-link>
+            <el-link
+              style="float: right"
+              @click="
+                dialogTableVisible = false;
+                $router.replace({ name: 'password-reset' });
+              "
+            >忘记密码</el-link>
           </el-form-item>
         </template>
-        <template v-else-if="activeIndex=='register'">
+        <template v-else-if="activeIndex == 'register'">
           <el-form-item
             prop="nickname"
             :rules="[
@@ -98,13 +108,13 @@
             <el-button type="primary" @click="submitForm" :disabled="loading">注册</el-button>
           </el-form-item>
           <el-form-item class="lin-form-item to-login">
-            <el-link type="primary" @click="activeIndex='login'">已有账号,去登录</el-link>
+            <el-link type="primary" @click="activeIndex = 'login'">已有账号,去登录</el-link>
           </el-form-item>
         </template>
 
         <el-form-item label="第三方账号登录" class="oauth lin-form-item">
           <!-- <el-avatar icon="iconfont icon-QQ" title="qq登录" size="large"></el-avatar> -->
-          <a href="javascript:void(0);" @click="()=>signin('GitHub')">
+          <a href="javascript:void(0);" @click="() => signin('GitHub')">
             <el-avatar
               class="margin-left-xs"
               icon="iconfont icon-github-fill"
@@ -112,10 +122,10 @@
               size="large"
             ></el-avatar>
           </a>
-          <a href="javascript:void(0);" @click="()=>signin('QQ')">
+          <a href="javascript:void(0);" @click="() => signin('QQ')">
             <el-avatar class="margin-left-xs" icon="iconfont icon-QQ" title="qq登录" size="large"></el-avatar>
           </a>
-          <a href="javascript:void(0);" @click="()=>signin('Gitee')">
+          <a href="javascript:void(0);" @click="() => signin('Gitee')">
             <el-avatar
               class="margin-left-xs"
               icon="iconfont icon-gitee-fill-round"
@@ -131,10 +141,10 @@
 </template>
 
 <script>
-import { mapActions, mapMutations } from 'vuex';
-import User from '@/lin/model/user';
-import oauth2 from '@/model/oauth2';
-import Utils from '@/lin/util/util';
+import { mapActions, mapMutations } from 'vuex'
+import User from '@/lin/model/user'
+import oauth2 from '@/model/oauth2'
+import Utils from '@/lin/util/util'
 
 export default {
   name: 'LoginRegisterDialog',
@@ -152,11 +162,11 @@ export default {
       formLabelWidth: '120px',
       loading: false,
       externalProviders: [],
-    };
+    }
   },
   components: {},
   async created() {
-    this.externalProviders = await oauth2.getExternalProviders();
+    this.externalProviders = await oauth2.getExternalProviders()
   },
   methods: {
     ...mapActions(['setUserAndState']),
@@ -164,11 +174,11 @@ export default {
       setUserAuths: 'SET_USER_AUTHS',
     }),
     show(key) {
-      this.dialogTableVisible = true;
-      this.activeIndex = key;
+      this.dialogTableVisible = true
+      this.activeIndex = key
     },
     submitForm() {
-      this.$refs['form'].validate(async (valid) => {
+      this.$refs['form'].validate(async valid => {
         if (valid) {
           // try {
           //   // Show reCAPTCHA badge:
@@ -183,71 +193,67 @@ export default {
           //   return;
           // }
           if (this.activeIndex == 'login') {
-            await this.login();
+            await this.login()
           } else {
-            await this.register();
+            await this.register()
           }
         } else {
-          console.log('error submit!!');
-          return false;
+          console.log('error submit!!')
+          return false
         }
-      });
+      })
     },
     async login() {
       try {
-        this.loading = true;
-        await User.getToken(this.form, this.headers);
-        this.dialogTableVisible = false;
-        await this.getInformation();
-        this.loading = false;
+        this.loading = true
+        await User.getToken(this.form, this.headers)
+        this.dialogTableVisible = false
+        await this.getInformation()
+        this.loading = false
         // this.$router.push("/index");
-        const redirect = decodeURIComponent(
-          this.$route.query.redirect || this.$route.path
-        );
+        const redirect = decodeURIComponent(this.$route.query.redirect || this.$route.path)
 
-        this.$router.push(redirect + '?d=' + Utils.getRandomStr());
+        this.$router.push(redirect + '?d=' + Utils.getRandomStr())
 
-        this.$message.success('登录成功');
+        this.$message.success('登录成功')
       } catch (e) {
-        this.loading = false;
-        console.log(e);
+        this.loading = false
+        console.log(e)
       }
     },
     async register() {
-      this.loading = true;
+      this.loading = true
       await User.registerAccount(
         {
           nickname: this.form.nickname,
           password: this.form.password,
           email: this.form.email,
         },
-        this.headers
+        this.headers,
       ).finally(() => {
-        this.loading = false;
-      });
-      this.form.username = this.form.email;
-      this.$message.success('注册成功');
+        this.loading = false
+      })
+      this.form.username = this.form.email
+      this.$message.success('注册成功')
       // // Show reCAPTCHA badge:
       // await this.$recaptchaLoaded();
       // this.headers['Google-RecaptchaToken'] = await this.$recaptcha('login');
-      await this.login();
+      await this.login()
     },
     async getInformation() {
       try {
         // 尝试获取当前用户信息
-        const user = await User.getPermissions();
-        this.setUserAndState(user);
-        this.setUserAuths(user.permissions);
+        const user = await User.getPermissions()
+        this.setUserAndState(user)
+        this.setUserAuths(user.permissions)
       } catch (e) {
-        console.log(e);
+        console.log(e)
       }
     },
 
     signin(provider) {
-      window.localStorage.setItem('OAUTH_LOGIN_URL', window.location.href);
-      window.open(
-        `${process.env.VUE_APP_BASE_URL}cms/oauth2/signin?provider=${provider}&redirectUrl=${process.env.VUE_APP_CURRENT_URL}`
-      );
+      window.localStorage.setItem('OAUTH_LOGIN_URL', window.location.href)
+      window.open(`${process.env.VUE_APP_BASE_URL}cms/oauth2/signin?provider=${provider}&redirectUrl=${process.env.VUE_APP_CURRENT_URL}`)
       // var t = window.open(
       //   `${process.env.VUE_APP_BASE_URL}cms/oauth2/signin?provider=${provider}&redirectUrl=${process.env.VUE_APP_CURRENT_URL}`,
       //   "_blank",
@@ -258,7 +264,7 @@ export default {
       // }, 300);
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>

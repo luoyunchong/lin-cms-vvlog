@@ -13,7 +13,10 @@
       >
         <el-row>
           <el-col :lg="24">
-            <el-form-item prop="title" style="margin-bottom:0px !important">
+            <el-form-item
+              prop="title"
+              style="margin-bottom:0px !important"
+            >
               <el-input
                 class="editor-title"
                 size="medium"
@@ -24,8 +27,16 @@
             </el-form-item>
           </el-col>
           <el-col :lg="24">
-            <div class="index-page" v-loading="isLoading" v-if="form.editor==1">
-              <div id="vditor" class="vditor" style="margin-top:0px !important" />
+            <div
+              class="index-page"
+              v-loading="isLoading"
+              v-if="form.editor==1"
+            >
+              <div
+                id="vditor"
+                class="vditor"
+                style="margin-top:0px !important"
+              />
             </div>
             <tinymce
               v-else

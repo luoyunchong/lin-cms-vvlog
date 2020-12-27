@@ -15,6 +15,14 @@ export default class User {
     return post('cms/user/account/register', data, {}, headers)
   }
 
+  static async sendPasswordResetCode(data) {
+    return await post('cms/user/account/send_password_reset_code', data)
+  }
+
+  static async resetPassword(data) {
+    return await post('cms/user/account/reset_password', data)
+  }
+
   /**
    * 登陆获取tokens
    * @param {string} username 用户名

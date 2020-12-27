@@ -103,6 +103,12 @@ let baseRouter = [
         meta: { title: '第三方登录' },
     },
     {
+        path: 'account/password-reset',
+        name: 'password-reset',
+        component: () => import("@/view/account/password-reset.vue"),
+        meta: { title: '密码重置' },
+    },
+    {
         path: '/bind-result',
         name: 'bind-result',
         component: () => import("@/view/account/bind-result.vue"),
