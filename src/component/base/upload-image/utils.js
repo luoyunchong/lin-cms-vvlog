@@ -139,14 +139,14 @@ export async function getFileType(file) {
       const header = new Uint8Array(e.target.result).slice(0, 20)
       let type = 'unknown'
 
-      // eslint-disable-next-line arrow-body-style
+      arrow - body - style
       const index = patternMask.findIndex(item => {
-        // eslint-disable-next-line arrow-body-style
+        arrow - body - style
         return item.mask.every((subItem, subI) => {
           // subItem 掩码标志
           // item.byte[subI] 规范值
           // header[subI] 文件实际值
-          // eslint-disable-next-line
+
           return (subItem & (header[subI] ^ item.byte[subI])) === 0
         })
       })

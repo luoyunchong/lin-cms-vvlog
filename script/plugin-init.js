@@ -1,6 +1,6 @@
 // 手动添加完插件后执行此脚本进行初始化动作
 const fs = require('fs-extra')
-// eslint-disable-next-line import/no-extraneous-dependencies
+ import /no-extraneous-dependencies
 const path = require('path')
 const chalk = require('chalk')
 const shell = require('shelljs')
@@ -23,7 +23,7 @@ const pluginList = getAllPlugin(pluginsPath)
 // 将数组 forEach 异步化
 async function asyncForEach(array, callback) {
   for (let index = 0; index < array.length; index++) {
-    // eslint-disable-next-line
+
     await callback(array[index], index, array)
   }
 }
@@ -88,6 +88,6 @@ async function handler() {
 }
 
 handler().then(() => {
-  // eslint-disable-next-line
+
   require('./plugin-get-config')
 })

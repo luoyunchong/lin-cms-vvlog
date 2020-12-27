@@ -1,4 +1,4 @@
-/* eslint-disable*/
+
 class Emitter {
   constructor() {
     this.listeners = new Map()

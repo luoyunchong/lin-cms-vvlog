@@ -1,6 +1,5 @@
 import Vue from "vue"
 
-/* eslint-disable func-names */
 Vue.directive('ripple', {
   inserted(el, binding) {
     const cl = Array.from(el.classList)
@@ -10,7 +9,6 @@ Vue.directive('ripple', {
 
     let background = 'rgba(0,0,0,.3)'
     el.setAttribute('ripple', 'ripple')
-    /* eslint no-param-reassign: 0 */
     el.style.position = 'relative'
     if (binding.value) {
       background = binding.value

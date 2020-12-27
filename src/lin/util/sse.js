@@ -14,7 +14,6 @@ export default class Sse {
    * @param {Array} events 当前用户可监听的路径
    */
   constructor(url, events) {
-    /* eslint-disable no-undef */
     console.log(url, events)
     this.source = new EventSourcePolyfill(url, {
       headers: {

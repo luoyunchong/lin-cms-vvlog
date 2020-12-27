@@ -1,4 +1,4 @@
-/* eslint-disable*/
+
 
 /* Author: https://github.com/nathantsoi/vue-native-websocket */
 import Notify from './notify.vue'

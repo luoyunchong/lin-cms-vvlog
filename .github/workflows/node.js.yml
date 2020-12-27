@@ -14,19 +14,18 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: ['8','10','12']
+        node-version: ["8", "10", "12"]
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: 安装依赖
-      run: npm i
-    - name: 编译文件
-      run: |
-        npm run lint
-        npm run build
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: 安装依赖
+        run: npm i
+      - name: 编译文件
+        run: |
+          npm run build
   deploy:
     name: 部署
     runs-on: ubuntu-latest
@@ -41,7 +40,6 @@ jobs:
         run: npm i
       - name: 编译文件
         run: |
-          npm run lint
           npm run build
       - name: 上传文件
         uses: easingthemes/ssh-deploy@v2.1.4
@@ -52,4 +50,3 @@ jobs:
           REMOTE_USER: ${{ secrets.USER }}
           SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
           TARGET: ${{ secrets.REMOTE_TARGET }}
-  

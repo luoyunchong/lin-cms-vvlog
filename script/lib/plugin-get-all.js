@@ -1,4 +1,4 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
+ import /no-extraneous-dependencies
 const path = require('path')
 const fs = require('fs-extra')
 const chalk = require('chalk')

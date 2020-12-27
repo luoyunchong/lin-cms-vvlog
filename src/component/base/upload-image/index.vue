@@ -499,7 +499,6 @@ export default {
           })
           let msg = '图像上传失败, 请重试'
           if (err.message) {
-            // eslint-disable-next-line
             msg = err.message
           }
           console.error(err)
@@ -549,18 +548,17 @@ export default {
     async uploadImg(item) {
       // 远程结果处理
       const reduceResult = (imgItem, res) => {
-        // eslint-disable-next-line
         imgItem.loading = false
         if (!res) {
           return
         }
-        // eslint-disable-next-line
+
         imgItem.display = res.url
-        // eslint-disable-next-line
+
         imgItem.src = res.path
-        // eslint-disable-next-line
+
         imgItem.imgId = res.id
-        // eslint-disable-next-line
+
         imgItem.file = null
         window.URL.revokeObjectURL(imgItem.display)
       }
@@ -568,7 +566,7 @@ export default {
       if (item.status === 'input' || !item.file) {
         return
       }
-      // eslint-disable-next-line
+
       item.loading = true
       if (this.beforeUpload && typeof this.beforeUpload === 'function') {
         if (typeof this.beforeUpload === 'function') {
@@ -838,7 +836,6 @@ export default {
         if (Array.isArray(rule.ratio)) {
           ratio = rule.ratio[0] / rule.ratio[1]
         } else {
-          // eslint-disable-next-line
           ratio = rule.ratio
         }
         ratio = ratio.toFixed(2)
