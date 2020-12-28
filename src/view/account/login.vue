@@ -23,9 +23,10 @@
 </template>
 
 <script>
-import { mapActions, mapMutations } from 'vuex';
-import User from '@/lin/model/user';
-import Utils from '@/lin/util/util';
+import { mapActions, mapMutations } from 'vuex'
+import AppConfig from '@/config/index'
+import User from '@/lin/model/user'
+import Utils from '@/lin/util/util'
 
 export default {
   name: 'login',
@@ -35,58 +36,48 @@ export default {
       wait: 2000, // 2000ms之内不能重复发起请求
       throttleLogin: null, // 节流登录
       form: {
-        username: '',
-        password: '',
-        confirm_password: '',
-        email: '',
+        username: 'root',
+        password: '123456',
       },
-    };
+      headers: {
+        'Google-RecaptchaToken': '',
+      },
+    }
   },
   methods: {
     async login() {
-      const { username, password } = this.form;
       try {
-        this.loading = true;
-        await User.getToken(username, password);
-        await this.getInformation();
-        this.loading = false;
-
-        const redirect = decodeURIComponent(
-          this.$route.query.redirect || this.$route.path
-        );
-        if (this.$route.path === redirect) {
-          this.$router.push('/index');
-        } else {
-          this.$router.push(redirect);
-        }
-        // this.$router.push("/index");
-        this.$message.success('登录成功');
+        this.loading = true
+        await User.getToken(this.form, this.headers)
+        await this.getInformation()
+        this.$router.push(AppConfig.defaultRoute)
+        this.$message.success('登录成功')
       } catch (e) {
-        this.loading = false;
-        console.log(e);
+        this.loading = false
+        console.error(e)
       }
     },
     async getInformation() {
       try {
         // 尝试获取当前用户信息
-        const user = await User.getPermissions();
-        this.setUserAndState(user);
-        this.setUserAuths(user.permissions);
+        const user = await User.getPermissions()
+        this.setUserAndState(user)
+        this.setUserPermissions(user.permissions)
       } catch (e) {
-        console.log(e);
+        console.log(e)
       }
     },
     ...mapActions(['setUserAndState']),
     ...mapMutations({
-      setUserAuths: 'SET_USER_AUTHS',
+      setUserPermissions: 'SET_USER_PERMISSIONS',
     }),
   },
   created() {
     // 节流登录
-    this.throttleLogin = Utils.throttle(this.login, this.wait);
+    this.throttleLogin = Utils.throttle(this.login, this.wait)
   },
   components: {},
-};
+}
 </script>
 
 <style lang="scss">

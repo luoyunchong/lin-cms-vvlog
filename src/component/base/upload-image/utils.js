@@ -139,9 +139,7 @@ export async function getFileType(file) {
       const header = new Uint8Array(e.target.result).slice(0, 20)
       let type = 'unknown'
 
-      arrow - body - style
       const index = patternMask.findIndex(item => {
-        arrow - body - style
         return item.mask.every((subItem, subI) => {
           // subItem 掩码标志
           // item.byte[subI] 规范值
