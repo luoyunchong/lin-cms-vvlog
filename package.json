@@ -17,7 +17,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
     "@tinymce/tinymce-vue": "3.2.2",
-    "axios": "0.19.2",
+    "axios": "0.21.1",
     "element-ui": "2.13.2",
     "enquire.js": "^2.1.6",
     "event-source-polyfill": "^1.0.7",
