@@ -42,6 +42,24 @@
 #### Lin CMS 是一个前后端分离的 CMS 解决方案
 ## 快速上手
 
+- NVM 
+
+node 请安装 14版本，不要升级到最新的16，如果有多个版本，可以使用nvm管理多个node版本。
+- Linux [https://github.com/nvm-sh/nvm](https://github.com/nvm-sh/nvm)
+- MAC [https://github.com/tj/n](https://github.com/tj/n)
+- windows 下安装 [nvm-windows](https://github.com/coreybutler/nvm-windows/releases)
+
+```sh
+# 获取所有可以安装的 Node.js 版本
+nvm list available
+# 安装指定版本的 Node.js
+- nvm install 14.17.4
+# 列出所有已经安装的版本
+- nvm list
+# 指定当前要使用的 Node.js 版本,只用指定使用的 Node.js 版本后，nodejs 的才真正安装了。
+- nvm use 14.17.4
+```
+- run
 ```sh
 # clone the project
 git clone https://github.com/luoyunchong/lin-cms-vvlog
@@ -60,7 +78,7 @@ yarn upgrade element-ui@2.13.0
 ## 性能优化
 - 1.gzip压缩
 ```
-npm install compression-webpack-plugin -D
+npm install compression-webpack-plugin@6.1.1 -D
 ```
 
 修改vue.config.js
@@ -97,7 +115,7 @@ configureWebpack: config => {
 
 - 去除console.log与警告
 ```
-npm install compression-webpack-plugin -D
+npm install compression-webpack-plugin@6.1.1 -D
 ```
 
 ```
