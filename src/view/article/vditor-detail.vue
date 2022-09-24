@@ -158,7 +158,7 @@ export default {
   border-left: 1px solid #eee;
   background-color: #fff;
 }
-#outline /deep/ {
+#outline :deep{
   .vditor-outline__item {
     border-left: 1px solid transparent;
     padding: 10px 0px;

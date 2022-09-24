@@ -1,11 +1,11 @@
+import store from '@/store'
 import _axios, { post, get, put } from '@/lin/plugin/axios'
 import { saveTokens } from '../util/token'
-import store from '@/store'
 
 export default class User {
   /**
    * 分配用户
-   * @param {object} data 注册信息
+   * @param {object} user 注册信息
    */
   static register(data) {
     return post('cms/user/register', data)
@@ -14,7 +14,6 @@ export default class User {
   static registerAccount(data, headers) {
     return post('cms/user/account/register', data, {}, headers)
   }
-
   static async sendPasswordResetCode(data) {
     return await post('cms/user/account/send_password_reset_code', data)
   }
@@ -25,9 +24,10 @@ export default class User {
 
   /**
    * 登陆获取tokens
-   * @param {string} username 用户名
-   * @param {string} password 密码
-   * @param {string} 'g-recaptcha-response' google验证码
+   * @param { String } username 用户名
+   * @param { String } password 密码
+   * @param { String } captcha 验证码
+   * @param { String } tag 验证码签名
    */
   static async getToken(data, headers) {
     const tokens = await post('cms/user/login', data, {}, headers)
@@ -57,13 +57,13 @@ export default class User {
     return Object.assign({ ...storeUser }, info)
   }
 
-
   /**
    * 用户修改密码
    * @param {string} newPassword 新密码
    * @param {string} confirmPassword 确认新密码
    * @param {string} oldPassword 旧密码
    */
+  // eslint-disable-next-line camelcase
   static updatePassword({ old_password, new_password, confirm_password }) {
     return put('cms/user/change_password', {
       new_password,
@@ -77,11 +77,9 @@ export default class User {
     return res;
   }
 
-
   static async updateProfile(params) {
     return await put('cms/user', params)
   }
-
   static async getNovices() {
     return await get('cms/user/novices')
   }

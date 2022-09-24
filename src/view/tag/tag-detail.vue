@@ -18,12 +18,12 @@
       </el-row>
       <article-list :dataSource="dataSource"></article-list>
       <infinite-loading @infinite="infiniteHandler" spinner="bubbles" :identifier="any">
-        <span slot="no-more">
+        <template #spinner>
+          <el-divider class="lin-divider">加载中...</el-divider>
+        </template>
+        <template #complete>
           <el-divider class="lin-divider">我也是有底线的...</el-divider>
-        </span>
-        <span slot="no-results">
-          <el-divider class="lin-divider">没有随笔...</el-divider>
-        </span>
+        </template>
       </infinite-loading>
     </div>
     <error-404-page v-show="deleted"></error-404-page>
@@ -31,15 +31,16 @@
 </template>
 
 <script>
-import ArticleList from "@/view/article/article-list";
-import TagItem from "@/view/tag/tag-item";
-import InfiniteLoading from "vue-infinite-loading";
-import articleApi from "@/model/article";
-import tagApi from "@/model/tag";
-import Error404Page from "@/view/error-page/404";
+import ArticleList from '@/view/article/article-list'
+import TagItem from '@/view/tag/tag-item'
+import InfiniteLoading from 'v3-infinite-loading'
+import 'v3-infinite-loading/lib/style.css'
+import articleApi from '@/model/article'
+import tagApi from '@/model/tag'
+import Error404Page from '@/view/error-page/404'
 
 export default {
-  name: "TagDetail",
+  name: 'TagDetail',
   components: { ArticleList, InfiniteLoading, TagItem, Error404Page },
   data() {
     return {
@@ -48,78 +49,77 @@ export default {
       pagination: {
         currentPage: 0,
         pageSize: 10,
-        pageTotal: 0
+        pageTotal: 0,
       },
       loading: false,
       any: new Date(),
       item: {
-        id: "",
-        tag_name: "",
-        thumbnail_display: "",
-        article_count: 0
+        id: '',
+        tag_name: '',
+        thumbnail_display: '',
+        article_count: 0,
       },
-      deleted: false
-    };
+      deleted: false,
+    }
   },
   async mounted() {
-    await this.get();
+    await this.get()
   },
   computed: {
     tag_id() {
-      return this.$route.params.id;
-    }
+      return this.$route.params.id
+    },
   },
   methods: {
     async refresh() {
-      this.pagination.currentPage = 0;
-      this.any = new Date();
-      await this.infiniteHandler();
+      this.pagination.currentPage = 0
+      this.any = new Date()
+      await this.infiniteHandler()
     },
     async infiniteHandler($state) {
-      let res;
-      const currentPage = this.pagination.currentPage;
+      let res
+      const currentPage = this.pagination.currentPage
       res = await articleApi.getQueryArticles({
         count: this.pagination.pageSize,
         page: currentPage,
         tag_id: this.tag_id,
-        sort: "CreateTime"
-      });
-      let items = [...res.items];
+        sort: 'CreateTime',
+      })
+      let items = [...res.items]
 
       if (items.length == 0) {
-        $state && $state.complete();
+        $state && $state.complete()
       } else {
         if (currentPage == 0) {
-          this.dataSource = items;
+          this.dataSource = items
         } else {
-          this.dataSource = this.dataSource.concat(items);
+          this.dataSource = this.dataSource.concat(items)
         }
-        this.pagination.currentPage += 1;
-        this.pagination.pageTotal = res.total;
+        this.pagination.currentPage += 1
+        this.pagination.pageTotal = res.total
 
-        $state && $state.loaded();
+        $state && $state.loaded()
       }
     },
     async get() {
       try {
-        this.deleted = false;
-        let tag = await tagApi.getTag(this.tag_id);
-        this.item = tag;
+        this.deleted = false
+        let tag = await tagApi.getTag(this.tag_id)
+        this.item = tag
       } catch (ex) {
-        this.deleted = true;
+        this.deleted = true
       }
     },
     addSubscribeDataTag(index) {
-      this.item.is_subscribe = true;
-      this.item.subscribers_count += 1;
+      this.item.is_subscribe = true
+      this.item.subscribers_count += 1
     },
     deleteSubscribeDataTag(index) {
-      this.item.is_subscribe = false;
-      if (this.item.subscribers_count > 1) this.item.subscribers_count -= 1;
-    }
-  }
-};
+      this.item.is_subscribe = false
+      if (this.item.subscribers_count > 1) this.item.subscribers_count -= 1
+    },
+  },
+}
 </script>
 
-<style scoped lang="scss">
-</style>
+<style scoped lang="scss"></style>

@@ -22,7 +22,7 @@
               style="margin-left:-35px;margin-bottom:-35px;margin-top:15px;"
             >
               <el-form-item label="专栏名称" prop="classify_name">
-                <el-input size="medium" clearable v-model="form.classify_name"></el-input>
+                <el-input size="default" clearable v-model="form.classify_name"></el-input>
               </el-form-item>
               <el-form-item label="封面" prop="thumbnail">
                 <upload-imgs
@@ -33,7 +33,7 @@
                 />
               </el-form-item>
               <el-form-item label="排序码" prop="sort_code">
-                <el-input size="medium" type="number" clearable v-model="form.sort_code"></el-input>
+                <el-input size="default" type="number" clearable v-model="form.sort_code"></el-input>
               </el-form-item>
               <el-form-item class="submit">
                 <el-button type="primary" @click="confirmEdit('form')">保 存</el-button>
@@ -143,5 +143,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/style/form.scss";
+@import "@/assets/style/form";
 </style>

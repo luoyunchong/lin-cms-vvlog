@@ -54,7 +54,7 @@
             :type="item.type"
             plain
             :key="index"
-            size="mini"
+            size="small"
             v-permission="{permission:item.permission ? item.permission : '', type: 'disabled'}"
             @click.native.prevent.stop="buttonMethods(item.func, scope.$index, scope.row)"
           >{{item.name}}</el-button>

@@ -1,11 +1,12 @@
-import Vue from "vue"
+import { ElMessage } from 'element-plus'
+
 // import EventSourcePolyfill from 'event-source-polyfill'
 import 'event-source-polyfill/src/eventsource'
 import { getToken } from './cookie'
 import store from '../../store'
 
 export default class Sse {
-  source = null;
+  source = null
 
   /**
    * 需在vuex中确认有user对象后才能初始化，否则不连接服务器
@@ -14,6 +15,7 @@ export default class Sse {
    * @param {Array} events 当前用户可监听的路径
    */
   constructor(url, events) {
+    /* eslint-disable no-undef */
     console.log(url, events)
     this.source = new EventSourcePolyfill(url, {
       headers: {
@@ -22,33 +24,29 @@ export default class Sse {
     })
     this.open()
 
-    events.forEach((event) => {
+    events.forEach(event => {
       this.addEventListener(event)
     })
   }
 
   open() {
-    this.source.onopen = (event) => {
+    this.source.onopen = event => {
       console.log('sse opened', event)
     }
   }
 
   error() {
-    this.source.onerror = (event) => {
+    this.source.onerror = event => {
       console.log('error', event)
     }
   }
 
   addEventListener(eventName) {
-    this.source.addEventListener(eventName, (event) => {
+    this.source.addEventListener(eventName, event => {
       // console.log('receive one message: ', event.data)
       // console.log('receive one message: ', event.lastEventId)
-      store.commit('ADD_UNREAD_MESSAGE', { data: event.data, id: event.lastEventId })
-      Vue.prototype.$notify({
-        title: '您有新的消息',
-        dangerouslyUseHTMLString: true,
-        message: `<strong class="my-notify">${JSON.parse(event.data).message}</strong>`,
-      })
+      store.commit('MARK_UNREAD_MESSAGE', { data: event.data, id: event.lastEventId })
+      ElMessage.warning(JSON.parse(event.data).message)
     })
   }
 }

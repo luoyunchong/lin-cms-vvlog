@@ -1,86 +1,95 @@
 <template>
   <div class="article">
     <div class="article-list">
-      <div class="article-item" v-for="item in dataSource" v-bind:key="item.id">
+      <div class="article-item"
+        v-for="item in dataSource"
+        v-bind:key="item.id">
         <div class="article-list-item-extra-wrap">
           <div class="article-detail">
             <div class="info-row">
               <ul class="meta-list">
                 <li class="item clickable">
-                  <el-tag type="primary" effect="light" v-if="item.article_type==0">原</el-tag>
-                  <el-tag type="success" effect="light" v-else-if="item.article_type==1">转</el-tag>
-                  <el-tag type="info" effect="light" v-else-if="item.article_type==2">译</el-tag>
+                  <el-tag
+                    effect="light"
+                    v-if="item.article_type == 0">原</el-tag>
+                  <el-tag type="success"
+                    effect="light"
+                    v-else-if="item.article_type == 1">转</el-tag>
+                  <el-tag type="info"
+                    effect="light"
+                    v-else-if="item.article_type == 2">译</el-tag>
                 </li>
-                <li class="item username clickable" v-if="item.user_info!=undefined">
-                  <router-link
-                    :to="{ 
-                        path:`/user/${item.user_info.id}/article`
-                      }"
-                    target="_blank"
-                  >{{item.user_info.nickname}}</router-link>
+                <li class="item username clickable"
+                  v-if="item.user_info != undefined">
+                  <router-link :to="{
+                    path: `/user/${item.user_info.id}/article`
+                  }"
+                    target="_blank">{{ item.user_info.nickname }}</router-link>
                   <!-- <a :href="`/user/${item.user_info.id}/article`">{{item.user_info.nickname}}</a> -->
                 </li>
-                <li class="item">{{item.time_span}}</li>
-                <li class="item" v-for="(tag,index) in item.tags" v-bind:key="index">
-                  <router-link
-                    :to="{path:'/tag/'+`${tag.id}`}"
+                <li class="item">{{ item.time_span }}</li>
+                <li class="item"
+                  v-for="(tag, index) in item.tags"
+                  v-bind:key="index">
+                  <router-link :to="{ path: '/tag/' + `${tag.id}` }"
                     class="tag"
-                    target="_blank"
-                  >{{tag.tag_name}}</router-link>
+                    target="_blank">{{ tag.tag_name }}</router-link>
                 </li>
               </ul>
             </div>
             <div class="info-row title-row">
-              <router-link
-                target="_blank"
+              <router-link target="_blank"
                 class="article-detail-title"
-                :to="{ name: 'p', params: { id: item.id }}"
-              >{{item.title}}</router-link>
+                :to="{ name: 'p', params: { id: item.id } }">{{ item.title }}</router-link>
             </div>
-            <span class="info-row article-detail-content article-detail-ellpisis3">{{item.excerpt}}</span>
+            <span class="info-row article-detail-content article-detail-ellpisis3">{{ item.excerpt }}</span>
             <div class="info-row">
               <div class="article-tool">
                 <ul class="article-about">
                   <li>
-                    <router-link
-                      class="article-detail-title"
-                      :to="{ name: 'p', params: { id: item.id }}"
-                      target="_blank"
-                    >
-                      <l-icon name="like-fill" v-if="item.is_liked==true" color="#7fccde"></l-icon>
-                      <l-icon name="like" v-else color="#b2bac2"></l-icon>
+                    <router-link class="article-detail-title"
+                      :to="{ name: 'p', params: { id: item.id } }"
+                      target="_blank">
+                      <l-icon name="like-fill"
+                        v-if="item.is_liked == true"
+                        color="#7fccde"></l-icon>
+                      <l-icon name="like"
+                        v-else
+                        color="#b2bac2"></l-icon>
                       <!-- <i class="el-icon-star-off"></i> -->
-                      <span class="count">{{item.likes_quantity}}</span>
+                      <span class="count">{{ item.likes_quantity }}</span>
                     </router-link>
                   </li>
                   <li>
-                    <router-link
-                      class="article-detail-title"
+                    <router-link class="article-detail-title"
                       target="_blank"
-                      :to="{path:'/p/'+item.id+'#comment-list'}"
-                    >
-                      <l-icon name="comment" color="#b2bac2"></l-icon>
+                      :to="{ path: '/p/' + item.id + '#comment-list' }">
+                      <l-icon name="comment"
+                        color="#b2bac2"></l-icon>
                       <!-- <i class="el-icon-s-comment"></i> -->
-                      <span class="count">{{item.comment_quantity}}</span>
+                      <span class="count">{{ item.comment_quantity }}</span>
                     </router-link>
                   </li>
                   <li>
-                    <router-link
-                      class="article-detail-title"
+                    <router-link class="article-detail-title"
                       target="_blank"
-                      :to="{ name: 'p', params: { id: item.id }}"
-                    >
-                      <l-icon name="eye" color="#b2bac2"></l-icon>
+                      :to="{ name: 'p', params: { id: item.id } }">
+                      <l-icon name="eye"
+                        color="#b2bac2"></l-icon>
                       <!-- <i class="el-icon-view"></i> -->
-                      <span class="count">{{item.view_hits}}</span>
+                      <span class="count">{{ item.view_hits }}</span>
                     </router-link>
                   </li>
                 </ul>
               </div>
             </div>
           </div>
-          <router-link target="_blank" :to="{path:'/p/'+item.id}">
-            <img class="article-thumb" :src="item.thumbnail_display" alt />
+          <router-link target="_blank"
+            :to="{ path: '/p/' + item.id }"
+            v-if="item.thumbnail_display != ''">
+            <img class="
+            article-thumb"
+              :src="item.thumbnail_display" />
           </router-link>
         </div>
       </div>

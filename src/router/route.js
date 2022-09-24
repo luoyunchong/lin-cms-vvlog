@@ -1,5 +1,5 @@
 import Home from "@/view/home/home";
-import homeRouter from "./home-router";
+import homeRouter from './home-router'
 import baseRouter from "./base-router";
 import BaseLayout from "@/view/layout/base-layout";
 const routes = [
@@ -28,12 +28,12 @@ const routes = [
     path: '/p/editor/:id',
     name: 'post-editor',
     component: () => import("@/view/article/editor-form.vue"),
-    meta: { title: '随笔编辑' },
+    meta: { title: '��ʱ༭' },
   },
   {
     redirect: "/404",
-    path: "*"
+    path: "/:catchAll(.*)"
   }
 ];
 
-export default routes;
+export default routes

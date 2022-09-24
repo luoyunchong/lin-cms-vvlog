@@ -2,26 +2,35 @@
   <div class="a-tools action-box">
     <div class="a-badge" title="点赞">
       <a @click="handleLike">
-        <el-badge :value="model.likes_quantity" :type="model.is_liked?'danger':'info'">
+        <el-badge
+          :value="model.likes_quantity"
+          :type="model.is_liked ? 'danger' : 'info'"
+        >
           <el-avatar
             :size="32"
-            icon="iconfont icon-like"
             class="a-avatar"
-            :style="model.is_liked?'color: #f56a00; background-color: #fde3cf':''"
-          />
+            :style="model.is_liked ? 'color: #f56a00; background-color: #fde3cf' : ''"
+          >
+            <IconAntDesignLikeFilled />
+          </el-avatar>
         </el-badge>
+        <el-icon size="22" color="#000"> </el-icon>
       </a>
     </div>
     <el-divider direction="vertical"></el-divider>
     <div class="a-badge" title="评论">
       <a :href="`#/p/${model.id}#comment-list`">
-        <el-badge :type="model.is_comment?'danger':'info'" :value="model.comment_quantity">
+        <el-badge
+          :type="model.is_comment ? 'danger' : 'info'"
+          :value="model.comment_quantity"
+        >
           <el-avatar
             :size="32"
-            icon="el-icon-chat-dot-square"
             class="a-avatar"
-            :style="model.is_comment?'color: #f56a00; background-color: #fde3cf':''"
-          />
+            :style="model.is_comment ? 'color: #f56a00; background-color: #fde3cf' : ''"
+          >
+            <IconAntDesignCommentOutlined />
+          </el-avatar>
         </el-badge>
       </a>
     </div>
@@ -42,11 +51,15 @@
 </template>
 
 <script>
-import userLike from '@/model/user-like';
+import userLike from "@/model/user-like";
+import IconAntDesignLikeFilled from "~icons/ant-design/like-filled";
+import IconAntDesignCommentOutlined from "~icons/ant-design/comment-outlined";
+
 export default {
   data() {
     return {};
   },
+  components: { IconAntDesignLikeFilled, IconAntDesignCommentOutlined },
   props: {
     model: {
       type: Object,
@@ -73,13 +86,13 @@ export default {
       });
       this.$message.success(`${res.message}`);
       if (this.model.is_liked) {
-        this.$emit('likeChange', { likes_quantity: -1, is_liked: false });
+        this.$emit("likeChange", { likes_quantity: -1, is_liked: false });
       } else {
-        this.$emit('likeChange', { likes_quantity: 1, is_liked: true });
+        this.$emit("likeChange", { likes_quantity: 1, is_liked: true });
       }
     },
     handleCollect() {
-      console.log('');
+      console.log("");
 
       if (this.model.isCollect) {
         this.model.isCollect = 0;
@@ -92,7 +105,6 @@ export default {
   },
 };
 </script>
-
 
 <style lang="scss" scoped>
 .a-tools {

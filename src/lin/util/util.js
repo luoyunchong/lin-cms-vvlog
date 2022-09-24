@@ -1,5 +1,6 @@
 import { cloneDeep, throttle, debounce } from 'lodash'
 
+/* eslint-disable */
 const Utils = {}
 
 /** 参数说明：
@@ -15,7 +16,6 @@ Utils.cutString = (str, len) => {
   let strlen = 0
   let s = ''
   for (let i = 0; i < str.length; i++) {
-
     s += str.charAt(i)
     if (str.charCodeAt(i) > 128) {
       strlen += 2
@@ -91,43 +91,31 @@ function getTypeOf(obj) {
   return map[toString.call(obj)]
 }
 
-function insertItem(item, arr) {
-  const { order } = item
-  if (typeof arr[order] !== 'number') {
-    arr[order] = item
-    return
-  }
-  let moveBegin
-  let moveEnd
-  let pos
-  let i = order + 1
+function groupByOrder(source) {
+  // 有order的放这里
+  const map = {}
+  // 没有order放这里
+  const noOrderList = []
 
-  while (arr[i]) {
-    if (arr[i].order > order) {
-      if (!moveBegin) {
-        moveBegin = i
-        pos = i
-      }
+  source.forEach(s => {
+    const { order } = s
+    if (typeof order !== 'number') {
+      noOrderList.push(s)
+      return
     }
-    i += 1
-  }
 
-  if (moveBegin) {
-    moveEnd = i
-  } else {
-    pos = i
-  }
+    const list = map[order]
+    if (list) {
+      list.push(s)
+    } else {
+      map[order] = [s]
+    }
+  })
 
-  if (!moveEnd) {
-    arr[pos] = item
-    return
+  return {
+    orderMap: map,
+    noOrderList,
   }
-
-  // 需要移动
-  for (let i = moveEnd; i >= moveBegin; i -= 1) {
-    arr[i + 1] = arr[i]
-  }
-  arr[pos] = item
 }
 
 /**
@@ -136,49 +124,54 @@ function insertItem(item, arr) {
  */
 Utils.sortByOrder = (source = []) => {
   if (!Array.isArray(source)) {
-    console.error('sortByOrder 传入参数不符合要求, 应为数组', source)
+    const message = 'sortByOrder 传入参数不符合要求, 应为数组'
+    console.error(message)
+    throw new Error(message)
+  }
+
+  if (!source.length) {
     return source
   }
-  const tmp = []
-  let target = []
 
-  // 将带排序的子项添加进临时数组 tmp
-  for (let i = 0; i < source.length; i += 1) {
-    if (typeof source[i].order !== 'number') {
-      continue
-    }
-    let { order } = source[i]
-    // 支持设置倒数顺序
-    if (order < 0) {
-      order = source.length + order
-      if (order < 0) {
-        order = 0
-      }
-    }
+  // 1.根据order对数据进行分组
+  const { orderMap, noOrderList } = groupByOrder(source)
 
-    // 确保整数
-    source[i].order = Math.floor(order)
+  // 2.获取已存在的order
+  const orders = Object.keys(orderMap).map(o => Number(o))
 
-    // 插入临时数组
-    insertItem(source[i], tmp)
+  // 对order进行排序
+  orders.sort((a, b) => a - b)
+
+  // 小于0的order
+  const ltZeroOrders = orders.filter(o => o < 0)
+
+  // 大于等于0的order
+  const gteZeroOrders = orders.filter(o => o >= 0)
+
+  const finallyArr = []
+  const gteZeroItemList = gteZeroOrders.map(o => orderMap[o]).flat()
+
+  finallyArr.push(...gteZeroItemList)
+  finallyArr.push(...noOrderList)
+
+  // 如果没有小于0的order，则直接拼接
+  if (!ltZeroOrders.length) {
+    return finallyArr
   }
 
-  // 合并临时数组和原数组
-  for (let i = 0, j = 0; i < source.length; i += 1) {
-    if (typeof source[i].order === 'number') {
-      continue
+  // 将小于0的order的item插入到数组中
+  ltZeroOrders.reverse().forEach(o => {
+    let index = finallyArr.length + o + 1
+    if (index < 0) {
+      index = 0
     }
-    // 找需要填的坑
-    while (tmp[j]) {
-      j += 1
-    }
-    tmp[j] = source[i]
-  }
-  // 筛除空隙
-  target = tmp.filter(item => !!item)
-  return target
+
+    const arr = orderMap[o]
+    finallyArr.splice(index, 0, ...arr)
+  })
+
+  return finallyArr
 }
-
 
 /**
  * 深度遍历，深拷贝
@@ -197,8 +190,8 @@ Utils.came = str => {
  * 判断权限
  */
 Utils.hasPermission = (permissions, route, user) => {
-
-  if (user && user.admin) {
+  // eslint-disable-line
+  if (user?.admin) {
     return true
   }
   if (route.permission) {
@@ -266,5 +259,4 @@ Utils.formatHyperLink = (value) => {
 Utils.formatHtml = (xhtml) => {
   return xhtml != undefined ? xhtml.replace(/\n|\r\n/g, '<br/>') : '';
 }
-
 export default Utils

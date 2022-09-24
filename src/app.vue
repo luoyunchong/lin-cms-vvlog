@@ -1,34 +1,32 @@
 <template>
-  <div id="app" class="app">
+  <el-config-provider :locale="locale">
     <router-view />
-  </div>
+  </el-config-provider>
 </template>
 
 <script>
-import Vue from "vue";
-import { mapActions } from "vuex";
-import { AppDeviceEnquire } from "@/lin/util/mixin";
+import { ElConfigProvider } from 'element-plus'
+import zhCn from 'element-plus/lib/locale/lang/zh-cn'
+
 export default {
-  mixins: [AppDeviceEnquire],
+  components: {
+    [ElConfigProvider.name]: ElConfigProvider,
+  },
   data() {
     return {
-      timer: null,
-      eventBus: new Vue()
-    };
+      locale: zhCn,
+    }
   },
   mounted() {
-    document.getElementById("loader").style.display = "none";
+    document.getElementById('loader').style.display = 'none'
   },
   provide() {
-    // eventBus挂载的事件： addGroup addUser
     return {
-      eventBus: this.eventBus
-    };
+      eventBus: this.eventBus,
+    }
   },
-  methods: {
-    ...mapActions(["loginOut"])
-  }
-};
+  methods: {},
+}
 </script>
 
 <style lang="scss">

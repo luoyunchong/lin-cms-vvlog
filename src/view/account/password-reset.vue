@@ -1,6 +1,6 @@
 <template>
   <el-row :gutter="24">
-    <el-card class="box-card" style="padding:20px 100px 100px 100px">
+    <el-card class="box-card" style="padding: 20px 100px 100px 100px">
       <el-col :span="16" :offset="4">
         <el-steps :active="active" style="margin-top: 20px">
           <el-step title="找回密码" description="验证码将会发送至你的注册邮箱"></el-step>
@@ -9,33 +9,25 @@
       </el-col>
       <el-col :span="12" :offset="6">
         <el-form
-          v-show="active==0"
+          v-show="active == 0"
           label-position="top"
           ref="form"
-          style="margin-top:60px;"
+          style="margin-top: 60px"
           :model="form"
           label-width="80px"
         >
-          <el-form-item
-            label="邮件"
-            prop="email"
-            :rules="[
-              { required: true, message: '请输入邮件', trigger: 'blur' },
-            ]"
-          >
-            <el-input type="email" v-model="form.email">
-              <i slot="prefix" class="el-input__icon el-icon-position"></i>
-            </el-input>
+          <el-form-item label="邮件" prop="email" :rules="[{ required: true, message: '请输入邮件', trigger: 'blur' }]">
+            <el-input type="email" v-model="form.email" prefix-icon="position"> </el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="onSubmitNext">下一步</el-button>
           </el-form-item>
         </el-form>
         <el-form
-          v-show="active==1"
+          v-show="active == 1"
           label-position="top"
           ref="formResetPassword"
-          style="margin-top:60px;"
+          style="margin-top: 60px"
           :model="form"
           label-width="80px"
           :rules="rules"
@@ -49,13 +41,9 @@
           <el-form-item label="验证码" prop="reset_code">
             <el-input v-model="form.reset_code" autocomplete="off" type="text" clearable>
               <i slot="prefix" class="el-input__icon el-icon-lollipop"></i>
-              <el-button
-                slot="append"
-                type="primary"
-                plain
-                :disabled="reset_code.disabled"
-                @click="getNewCode"
-              >{{reset_code.text}}</el-button>
+              <el-button slot="append" type="primary" plain :disabled="reset_code.disabled" @click="getNewCode">{{
+                reset_code.text
+              }}</el-button>
             </el-input>
           </el-form-item>
           <el-form-item label="新密码" prop="password">
@@ -69,8 +57,8 @@
         </el-form>
 
         <el-alert
-          v-show="active==2"
-          style="margin-top:100px;"
+          v-show="active == 2"
+          style="margin-top: 100px"
           title="提示"
           :closable="false"
           type="success"
@@ -102,9 +90,7 @@ export default {
       rules: {
         email: [{ required: true, message: '请输入邮件', trigger: 'blur' }],
         password: [{ required: true, message: '请输入新密码', trigger: 'blur' }],
-        reset_code: [
-          { required: true, message: '请输入验证码', trigger: 'blur' },
-        ],
+        reset_code: [{ required: true, message: '请输入验证码', trigger: 'blur' }],
       },
     }
   },
@@ -159,5 +145,4 @@ export default {
 }
 </script>
 
-<style>
-</style>
+<style></style>

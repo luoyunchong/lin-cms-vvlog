@@ -13,38 +13,20 @@
       >
         <el-row>
           <el-col :lg="24">
-            <el-form-item
-              prop="title"
-              style="margin-bottom:0px !important"
-            >
+            <el-form-item prop="title" style="margin-bottom: 0px !important">
               <el-input
                 class="editor-title"
-                size="medium"
+                size="default"
                 v-model="form.title"
                 placeholder="请填写随笔标题"
-                style="font-size:1.4rem;"
+                style="font-size: 1.4rem"
               ></el-input>
             </el-form-item>
           </el-col>
           <el-col :lg="24">
-            <div
-              class="index-page"
-              v-loading="isLoading"
-              v-if="form.editor==1"
-            >
-              <div
-                id="vditor"
-                class="vditor"
-                style="margin-top:0px !important"
-              />
+            <div class="index-page" v-loading="isLoading">
+              <div id="vditor" class="vditor" style="margin-top: 0px !important" />
             </div>
-            <tinymce
-              v-else
-              :height="750"
-              :defaultContent="form.content"
-              @change="changeTinymce"
-              upload_url="/cms/file"
-            />
           </el-col>
         </el-row>
       </el-form>
@@ -60,19 +42,18 @@
   </div>
 </template>
 <script>
-import EditorDialog from './editor-dialog';
-import HeadNav from './head-nav';
-import articleApi from '@/model/article';
-import settingApi from '@/model/setting';
-import { User as CurrentUser } from '@/component/layout';
-import Tinymce from '@/component/base/tinymce';
-import Vditor from 'vditor';
+import EditorDialog from './editor-dialog'
+import HeadNav from './head-nav'
+import articleApi from '@/model/article'
+import settingApi from '@/model/setting'
+import { User as CurrentUser } from '@/component/layout'
+import Vditor from 'vditor'
 
 export default {
   name: 'EditorForm',
   data() {
     return {
-      isLoading: true,
+      isLoading: false,
       form: {
         content: '',
         title: '',
@@ -83,37 +64,36 @@ export default {
         title: [{ required: true, message: '请输入标题', trigger: 'blur' }],
       },
       vditor: null,
-    };
+    }
   },
   components: {
     EditorDialog,
     CurrentUser,
     HeadNav,
-    Tinymce,
   },
   async mounted() {
-    this.initVditor();
+    this.initVditor()
     this.$nextTick(() => {
-      this.isLoading = false;
-    });
+      this.isLoading = false
+    })
   },
   async created() {},
   watch: {
     $route(to, from) {
-      this.show();
+      this.show()
     },
   },
   computed: {
     id() {
-      return this.$route.params.id;
+      return this.$route.params.id
     },
   },
   methods: {
     initVditor() {
-      const that = this;
+      const that = this
       const options = {
         width: '100%',
-        height: '0',
+        height: 'calc(100vh - 100px)',
         tab: '\t',
         counter: '999999',
         typewriterMode: true,
@@ -137,129 +117,125 @@ export default {
           max: 8 * 1024 * 1024,
           // linkToImgUrl: '/cms/file',
           handler(files) {
-            console.log(files);
-            const data = {};
+            console.log(files)
+            const data = {}
             files.forEach((item, index) => {
-              data[`file_${index}`] = item;
-            });
+              data[`file_${index}`] = item
+            })
             that
               .$axios({
                 method: 'post',
                 url: '/cms/file',
                 data,
               })
-              .then((res) => {
+              .then(res => {
                 if (!Array.isArray(res) || res.length === 0) {
-                  throw new Error('图像上传失败');
+                  throw new Error('图像上传失败')
                 }
                 if (res.length > 0) {
-                  var imgMdStr = ``;
+                  var imgMdStr = ``
                   res.forEach((re, i) => {
                     if (files[i].type == 'video/webm') {
-                      imgMdStr = `<audio controls="controls" src="${re.url}"></audio>`;
+                      imgMdStr = `<audio controls="controls" src="${re.url}"></audio>`
                     } else {
-                      imgMdStr = `![${files[i].name}](${re.url})`;
+                      imgMdStr = `![${files[i].name}](${re.url})`
                     }
-                    that.vditor.insertValue(imgMdStr);
-                  });
+                    that.vditor.insertValue(imgMdStr)
+                  })
 
-                  that.vditor.enable();
+                  that.vditor.enable()
                 }
-              });
+              })
           },
         },
         outline: true,
         after: () => {
-          this.show();
+          this.show()
         },
         cache: {
           enable: false,
         },
         theme: 'light',
         blur(value) {
-          that.handleOnSave(value);
+          that.handleOnSave(value)
         },
         icon: 'material',
-      };
-      this.vditor = new Vditor('vditor', options);
-      this.vditor.focus();
+      }
+      this.vditor = new Vditor('vditor', options)
+      this.vditor.focus()
     },
     async getSetting() {
-      let editor = await settingApi.getSettingByKey('Article.Editor');
+      let editor = await settingApi.getSettingByKey('Article.Editor')
       if (editor != '' && editor != null) {
-        this.form.editor = editor;
+        this.form.editor = editor
+      } else {
+        this.form.editor = 1
       }
     },
     async show() {
-      if (this.id != 0) {
-        this.loading = true;
+      if (this.id != 0 && this.id != null) {
+        this.loading = false
         let res = await articleApi.getArticleDraft(this.id).finally(() => {
-          this.loading = false;
-        });
+          this.loading = false
+        })
         if (res == null || res == undefined || res == '') {
           let article = await articleApi.getArticle(this.id).finally(() => {
-            this.loading = false;
-          });
+            this.loading = false
+          })
           this.form = {
             title: article.title,
             content: article.content,
             editor: article.editor,
-          };
+          }
         } else {
-          this.vditor.setValue(res.content);
+          this.vditor.setValue(res.content)
           this.form = {
             title: res.title,
             content: res.content,
             editor: res.editor,
-          };
+          }
         }
-        console.log(this.form.content);
+        console.log(this.form.content)
       } else {
-        await this.getSetting();
-        this.resetForm('form');
+        await this.getSetting()
+        this.resetForm('form')
       }
 
-      let codeTheme = await settingApi.getSettingByKey('Article.CodeTheme');
+      let codeTheme = await settingApi.getSettingByKey('Article.CodeTheme')
       if (codeTheme != '' && codeTheme != null) {
-        this.codeTheme = codeTheme;
-        this.vditor.setTheme('classic', 'light', this.codeTheme);
+        this.codeTheme = codeTheme
+        this.vditor.setTheme('classic', 'light', this.codeTheme)
       }
     },
     async confirmEdit() {
-      var that = this;
-      this.$refs['form'].validate(async (valid) => {
+      var that = this
+      this.$refs['form'].validate(async valid => {
         if (valid) {
           if (that.form.editor == 1) {
-            that.form.content = that.vditor.getValue();
+            that.form.content = that.vditor.getValue()
           }
-          that.$refs['editorDialog'].show();
+          that.$refs['editorDialog'].show()
         }
-      });
+      })
     },
     resetForm(formName) {
-      this.$refs[formName].resetFields();
-      this.form.content = '';
+      this.$refs[formName].resetFields()
+      this.form.content = ''
     },
     async handleOnSave(value) {
-      if (
-        this.id == 0 ||
-        this.form.title == '' ||
-        value == '' ||
-        value.trim() == ''
-      )
-        return;
+      if (this.id == 0 || this.form.title == '' || value == '' || value.trim() == '') return
       await articleApi.editArticleDraft(this.id, {
         title: this.form.title,
         content: value,
-      });
-      console.log('自动保存');
+      })
+      console.log('自动保存')
     },
     changeTinymce(val) {
-      this.form.content = val;
-      this.handleOnSave(val);
+      this.form.content = val
+      this.handleOnSave(val)
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>
@@ -272,8 +248,6 @@ export default {
   .vditor {
     position: absolute;
     max-width: 1440px;
-    width: 80%;
-    height: calc(100vh - 100px);
     margin: 20px auto;
     text-align: left;
   }
@@ -303,11 +277,11 @@ export default {
     width: 80%;
     margin: 20px auto;
     max-width: 1440px;
-    /deep/ .el-form-item__content {
+    :deep(.el-form-item__content) {
       margin-left: 0px !important;
     }
   }
-  .editor-title /deep/ .el-input__inner {
+  .editor-title :deep(.el-input__inner) {
     height: 45px;
     line-height: 45px;
   }

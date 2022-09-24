@@ -3,70 +3,74 @@
     <el-row class="row-bg" :gutter="20">
       <el-col :span="24">
         <el-card
-          :body-style="{ 'padding': '15px','overflow-x':'auto' }"
+          :body-style="{ padding: '15px', 'overflow-x': 'auto' }"
           shadow="never"
-          style="margin-bottom:10px;border-radius: 8px;"
+          style="margin-bottom: 10px; border-radius: 8px"
         >
           <ul class="nav-list">
-            <li v-for="(item,index) in channels" v-bind:key="index" class="nav-item">
+            <li v-for="(item, index) in channels" v-bind:key="index" class="nav-item">
               <router-link
-                :class="['el-link is-underline',channel==item.channel_code?'el-link--primary':'']"
-                :to="{path:`/index/${item.channel_code}`}"
-              >{{item.channel_name}}</router-link>
+                :class="['el-link is-underline', channel == item.channel_code ? 'el-link--primary' : '']"
+                :to="{ path: `/index/${item.channel_code}` }"
+                >{{ item.channel_name }}</router-link
+              >
             </li>
           </ul>
         </el-card>
       </el-col>
       <el-col :span="24" class="margin-bottom-xs">
-        <div v-for="(item,index) in channels" v-bind:key="index">
+        <div v-for="(item, index) in channels" v-bind:key="index">
           <el-tag
             :hit="false"
-            type="primary"
             class="margin-left-xs margin-bottom-xs"
-            v-if="item.channel_code==channel"
-            :effect="(channel!=undefined&&tag_name==undefined?'dark':'plain')"
+            v-if="item.channel_code == channel"
+            :effect="channel != undefined && tag_name == undefined ? 'dark' : 'plain'"
           >
-            <router-link :to="{path:`/index/${encodeURIComponent(item.channel_code)}`}">全部</router-link>
+            <router-link :to="{ path: `/index/${encodeURIComponent(item.channel_code)}` }">全部</router-link>
           </el-tag>
           <template v-for="tag in item.tags">
             <el-tag
               :hit="false"
-              :effect="(tag_name==tag.tag_name?'dark':'plain')"
-              type="primary"
+              :effect="tag_name == tag.tag_name ? 'dark' : 'plain'"
               v-bind:key="tag.id"
-              v-if="item.channel_code==channel"
+              v-if="item.channel_code == channel"
               class="margin-left-xs"
             >
               <router-link
-                :to="{path:`/index/${item.channel_code}/${encodeURIComponent(tag.tag_name)}`}"
-              >{{tag.tag_name}}</router-link>
+                :to="{
+                  path: `/index/${item.channel_code}/${encodeURIComponent(tag.tag_name)}`,
+                }"
+                >{{ tag.tag_name }}</router-link
+              >
             </el-tag>
           </template>
         </div>
       </el-col>
       <el-col :xs="24" :md="17">
         <el-card
-          :body-style="{ 'padding-bottom': '10px','padding-top':'10px' }"
+          :body-style="{ 'padding-bottom': '10px', 'padding-top': '10px' }"
           shadow="never"
-          style="margin-bottom:10px;border-radius: 8px;"
+          style="margin-bottom: 10px; border-radius: 8px"
         >
           <el-row>
             <el-col :span="24">
               <router-link
-                :to="{path:latestArticle}"
-                :class="['el-link is-underline',sort=='CreateTime'?'el-link--primary':'el-link--info']"
-              >最新</router-link>
+                :to="{ path: latestArticle, query: { sort: 'CreateTime' } }"
+                :class="['el-link is-underline', sort == 'CreateTime' ? 'el-link--primary' : 'el-link--info']"
+                >最新</router-link
+              >
               <el-divider direction="vertical"></el-divider>
               <router-link
-                :to="{path:threeDaysHottest}"
-                :class="['el-link is-underline','el-link--'+hotType]"
-              >热榜</router-link>
+                :to="{ path: threeDaysHottest, query: { sort: 'THREE_DAYS_HOTTEST' } }"
+                :class="['el-link is-underline', 'el-link--' + hotType]"
+                >热榜</router-link
+              >
               <el-select
-                :value="sort"
-                size="mini"
+                v-model="sort"
+                size="small"
                 @change="onChange"
-                style="width:100px;"
-                v-show="sort&&sort!='CreateTime'"
+                style="width: 100px"
+                v-show="sort && sort != 'CreateTime'"
                 class="margin-left-xs"
               >
                 <el-option label="3天内" value="THREE_DAYS_HOTTEST"></el-option>
@@ -83,86 +87,85 @@
         <el-backtop class="lin-back-top"></el-backtop>
 
         <infinite-loading @infinite="infiniteHandler" spinner="bubbles" :identifier="any">
-          <span slot="no-more">
+          <template #spinner>
+            <el-divider class="lin-divider">加载中...</el-divider>
+          </template>
+          <template #complete>
             <el-divider class="lin-divider">我也是有底线的...</el-divider>
-          </span>
-          <span slot="no-results">
-            <el-divider class="lin-divider">暂无随笔...</el-divider>
-          </span>
+          </template>
         </infinite-loading>
       </el-col>
       <el-col :xs="24" :md="7" class="sidebar">
         <div class="sidebar-block">
-          <el-card
-            :body-style="{ 'padding-bottom': '10px','padding-top':'10px' }"
-            shadow="never"
-            class="lin-card"
-          >
-            <div slot="header" class="clearfix">
-              <span class="lin-title">分享你的创作</span>
-            </div>
+          <el-card :body-style="{ 'padding-bottom': '10px', 'padding-top': '10px' }" shadow="never" class="lin-card">
+            <template #header>
+              <div class="card-header">
+                <span class="lin-title">分享你的创作</span>
+              </div>
+            </template>
             <div>
-              <router-link :to="{path:`/p/editor/0`}">
-                <el-button type="primary" icon="el-icon-edit" plain>写随笔</el-button>
+              <router-link :to="{ path: `/p/editor/0` }">
+                <el-button type="primary" plain>
+                  <el-icon class="el-icon--left">
+                    <Edit />
+                  </el-icon>
+                  写随笔
+                </el-button>
               </router-link>
             </div>
           </el-card>
           <hot-tag-card></hot-tag-card>
           <novices-card></novices-card>
 
-          <el-card
-            :body-style="{ 'padding-bottom': '10px','padding-top':'10px' }"
-            shadow="never"
-            class="lin-card"
-          >
-            <div slot="header" class="clearfix">
-              <span class="lin-title">开源</span>
-            </div>
+          <el-card :body-style="{ 'padding-bottom': '10px', 'padding-top': '10px' }" shadow="never" class="lin-card">
+            <template #header>
+              <div class="card-header">
+                <span class="lin-title">开源</span>
+              </div>
+            </template>
             <div>
               <div class="margin-bottom-xs">
                 <a href="https://github.com/luoyunchong/lin-cms-dotnetcore" target="_blank">
-                  <el-button type="danger" plain icon="iconfont icon-github-fill">lin-cms-dotnetcore</el-button>
+                  <el-button type="danger" plain>
+                    <el-icon> <Apple /> </el-icon>lin-cms-dotnetcore
+                  </el-button>
                 </a>
               </div>
               <div class="margin-bottom-xs">
                 <a href="https://github.com/luoyunchong/lin-cms-vue" target="_blank">
-                  <el-button type="primary" plain icon="iconfont icon-github-fill">lin-cms-vue</el-button>
+                  <el-button type="primary" plain>lin-cms-vue</el-button>
                 </a>
               </div>
               <div class="margin-bottom-xs">
                 <a href="https://github.com/luoyunchong/lin-cms-vvlog" target="_blank">
-                  <el-button type="success" plain icon="iconfont icon-github-fill">lin-cms-vvlog</el-button>
+                  <el-button type="success" plain>lin-cms-vvlog</el-button>
                 </a>
               </div>
             </div>
           </el-card>
-          <el-card
-            :body-style="{ 'padding-bottom': '10px','padding-top':'10px' }"
-            shadow="never"
-            class="lin-card"
-          >
-            <div slot="header" class="clearfix">
-              <span class="lin-title">服务器配置</span>
-            </div>
+          <el-card :body-style="{ 'padding-bottom': '10px', 'padding-top': '10px' }" shadow="never" class="lin-card">
+            <template #header>
+              <div class="card-header">
+                <span class="lin-title">服务器配置</span>
+              </div>
+            </template>
             <div>
               <ul class="server-info">
-                <li>已运行：{{serverInfo.working_time}}</li>
-                <li>环境：{{serverInfo.environment_name}}</li>
-                <li>OS_架构：{{serverInfo.os_architecture}}</li>
-                <li>内存占用：{{serverInfo.memory_footprint}}</li>
-                <li>Powered by ：{{serverInfo.framework_description}}</li>
+                <li>已运行：{{ serverInfo.working_time }}</li>
+                <li>环境：{{ serverInfo.environment_name }}</li>
+                <li>OS_架构：{{ serverInfo.os_architecture }}</li>
+                <li>内存占用：{{ serverInfo.memory_footprint }}</li>
+                <li>Powered by ：{{ serverInfo.framework_description }}</li>
               </ul>
             </div>
           </el-card>
 
-          <el-card
-            :body-style="{ 'padding-bottom': '10px','padding-top':'10px' }"
-            shadow="never"
-            class="lin-card"
-          >
-            <div slot="header" class="clearfix">
-              <span class="lin-title">社区</span>
-            </div>
+          <el-card :body-style="{ 'padding-bottom': '10px', 'padding-top': '10px' }" shadow="never" class="lin-card">
+            <template #header>
+              <div class="card-header">
+                <span class="lin-title">社区</span>
+              </div>
+            </template>
             <div class="community">
               <el-image fit="cover" :src="wechaturl" :preview-src-list="wechatsrcList"></el-image>
               <el-image fit="cover" :src="url" :preview-src-list="srcList"></el-image>
@@ -175,13 +178,14 @@
 </template>
 
 <script>
-import ArticleList from '@/view/article/article-list';
-import InfiniteLoading from 'vue-infinite-loading';
-import articleApi from '@/model/article';
-import channelApi from '@/model/channel';
-import monitorApi from '@/model/monitor';
-import HotTagCard from '@/view/tag/hot-tag-card';
-import NovicesCard from '@/view/home/novices-card';
+import ArticleList from '@/view/article/article-list'
+import InfiniteLoading from 'v3-infinite-loading'
+import 'v3-infinite-loading/lib/style.css'
+import articleApi from '@/model/article'
+import channelApi from '@/model/channel'
+import monitorApi from '@/model/monitor'
+import HotTagCard from '@/view/tag/hot-tag-card'
+import NovicesCard from '@/view/home/novices-card'
 
 export default {
   name: 'HomeIndex',
@@ -209,52 +213,47 @@ export default {
       ],
       wechaturl: 'https://pic.downk.cc/item/5eef6d4e14195aa594925b91.jpg',
       wechatsrcList: ['https://pic.downk.cc/item/5eef6d4e14195aa594925b91.jpg'],
-    };
+    }
   },
   async created() {},
   async mounted() {
-    this.serverInfo = await monitorApi.getServerInfo();
+    this.serverInfo = await monitorApi.getServerInfo()
   },
   computed: {
     sort() {
-      return this.$route.query.sort;
+      return this.$route.query.sort
     },
     hotType() {
-      let sortArray = [
-        'THREE_DAYS_HOTTEST',
-        'WEEKLY_HOTTEST',
-        'MONTHLY_HOTTEST',
-        'HOTTEST',
-      ];
-      let that = this;
-      let hot = sortArray.filter((r) => {
-        return r == this.$route.query.sort;
-      });
+      let sortArray = ['THREE_DAYS_HOTTEST', 'WEEKLY_HOTTEST', 'MONTHLY_HOTTEST', 'HOTTEST']
+      let that = this
+      let hot = sortArray.filter(r => {
+        return r == this.$route.query.sort
+      })
 
       if (hot.length > 0) {
-        return 'primary';
+        return 'primary'
       } else {
-        return 'info';
+        return 'info'
       }
     },
     channel() {
-      return this.$route.params.channel;
+      return this.$route.params.channel
     },
     tag_name() {
-      return this.$route.params.tag_name;
+      return this.$route.params.tag_name
     },
     latestArticle() {
-      return this.getSortUrl('CreateTime');
+      return this.getSortUrl('CreateTime')
     },
     threeDaysHottest() {
-      return this.getSortUrl('THREE_DAYS_HOTTEST');
+      return this.getSortUrl('THREE_DAYS_HOTTEST')
     },
   },
   watch: {
     $route(v) {
-      this.dataSource = [];
-      this.pagination.currentPage = 0;
-      this.any = new Date();
+      this.dataSource = []
+      this.pagination.currentPage = 0
+      this.any = new Date()
     },
   },
   methods: {
@@ -262,83 +261,84 @@ export default {
       //看起来很复杂，其实就是根据channels，得到选中的channelId值（技术频道），从channel.tags中找到对应的tagid（标签Id）值。
       if (this.channel != undefined) {
         this.channels &&
-          this.channels.forEach((element) => {
+          this.channels.forEach(element => {
             if (this.channel == element.channel_code) {
-              this.pagination.channel_id = element.id;
+              this.pagination.channel_id = element.id
               if (this.tag_name != undefined) {
-                element.tags.forEach((tag) => {
+                element.tags.forEach(tag => {
                   if (tag.tag_name == this.tag_name) {
-                    this.pagination.tag_id = tag.id;
-                    return false;
+                    this.pagination.tag_id = tag.id
+                    return false
                   }
-                });
+                })
               } else {
-                this.pagination.tag_id = null;
+                this.pagination.tag_id = null
               }
-              return false;
+              return false
             }
-          });
+          })
       } else {
-        this.pagination.channel_id = null;
+        this.pagination.channel_id = null
       }
     },
     async infiniteHandler($state) {
-      this.loading = true;
-      await this.getNavChannels();
-      this.setPaginationParams();
-      let res;
-      const currentPage = this.pagination.currentPage;
+      this.loading = true
+      await this.getNavChannels()
+      this.setPaginationParams()
+      let res
+      const currentPage = this.pagination.currentPage
       res = await articleApi.getQueryArticles({
         count: this.pagination.pageSize,
         page: currentPage,
         sort: this.sort,
         channel_id: this.pagination.channel_id,
         tag_id: this.pagination.tag_id,
-      });
-      let items = [...res.items];
+      })
+      let items = [...res.items]
 
       if (items.length == 0) {
         if (currentPage == 0) {
-          this.dataSource = items;
+          this.dataSource = items
         }
-        $state && $state.complete();
+        $state && $state.complete()
       } else {
         if (currentPage == 0) {
-          this.dataSource = items;
+          this.dataSource = items
         } else {
-          this.dataSource = this.dataSource.concat(items);
+          this.dataSource = this.dataSource.concat(items)
         }
-        this.pagination.currentPage += 1;
-        this.pagination.pageTotal = res.total;
+        this.pagination.currentPage += 1
+        this.pagination.pageTotal = res.total
 
-        $state && $state.loaded();
+        $state && $state.loaded()
       }
-      this.loading = false;
+      this.loading = false
     },
-    getSortUrl(val) {
-      let url = '';
+    getSortUrl() {
+      let url = ''
       if (this.channel && this.tag_name) {
-        url = `/index/${this.channel}/${this.tag_name}?sort=${val}`;
+        url = `/index/${this.channel}/${this.tag_name}`
       } else if (this.channel) {
-        url = `/index/${this.channel}?sort=${val}`;
+        url = `/index/${this.channel}`
       } else {
-        url = `/index?sort=${val}`;
+        url = `/index`
       }
-      return url;
+      return url
     },
     onChange(val) {
-      this.$router.push(this.getSortUrl(val));
+      this.sort = val
+      this.$router.push({ path: this.getSortUrl(), query: { sort: val } })
     },
     async getNavChannels() {
-      if (this.channels.length > 0) return;
+      if (this.channels.length > 0) return
       let res = await channelApi.getNavChannels({
         count: 20,
         page: 0,
-      });
-      this.channels = res.items;
+      })
+      this.channels = res.items
     },
   },
-};
+}
 </script>
 
 <style scoped lang="scss">
@@ -352,6 +352,7 @@ export default {
   display: flex;
   align-items: center;
   line-height: 1;
+
   .nav-item {
     height: 100%;
     align-items: center;
@@ -366,6 +367,7 @@ export default {
 .lin-card {
   margin-bottom: 10px;
   border-radius: 8px;
+
   .lin-title {
     margin-bottom: 1rem;
     padding: 0 0 0 0.5rem;
@@ -373,6 +375,7 @@ export default {
     border-left: 4px solid #ec7259;
   }
 }
+
 ul.server-info {
   li {
     margin-bottom: 14px;

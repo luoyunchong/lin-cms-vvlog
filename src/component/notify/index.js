@@ -1,45 +1,39 @@
-
-
 /* Author: https://github.com/nathantsoi/vue-native-websocket */
 import Notify from './notify.vue'
 import Observer from './observer'
 import Emitter from './emitter'
 
 export default {
-  install(Vue, connection, opts = {}) {
+  install(app, connection, opts = {}) {
     if (typeof connection === 'object') {
+      // eslint-disable-next-line no-param-reassign
       opts = connection
+      // eslint-disable-next-line no-param-reassign
       connection = ''
-    } else if (typeof connection === 'string') {
-      opts.autoconnect = true
     }
     let observer = null
 
     opts.$setInstance = wsInstance => {
-      Vue.prototype.$socket = wsInstance
+      app.config.globalProperties.$socket = wsInstance
     }
-    if (opts.autoconnect) {
-      observer = new Observer(connection, opts)
-      Vue.prototype.$socket = observer.WebSocket
-    } else {
-      Vue.prototype.$connect = (connectionUrl = connection, connectionOpts = opts) => {
-        connectionOpts.$setInstance = opts.$setInstance
-        observer = new Observer(connectionUrl, connectionOpts)
-        Vue.prototype.$socket = observer.WebSocket
-      }
+    app.config.globalProperties.$connect = (connectionUrl = connection, connectionOpts = opts) => {
+      connectionOpts.$setInstance = opts.$setInstance
+      observer = new Observer(connectionUrl, connectionOpts)
+      app.config.globalProperties.$socket = observer.WebSocket
     }
-    Vue.prototype.$disconnect = () => {
-      if (observer && observer.reconnection) {
+
+    app.config.globalProperties.$disconnect = () => {
+      if (observer?.reconnection) {
         observer.reconnection = false
       }
-      if (Vue.prototype.$socket) {
-        Vue.prototype.$socket.close()
-        delete Vue.prototype.$socket
+      if (app.config.globalProperties.$socket) {
+        app.config.globalProperties.$socket.close()
+        delete app.config.globalProperties.$socket
       }
     }
     const hasProxy = typeof Proxy !== 'undefined' && typeof Proxy === 'function' && /native code/.test(Proxy.toString())
-    Vue.component('LinNotify', Notify)
-    Vue.mixin({
+    app.component('LinNotify', Notify)
+    app.mixin({
       created() {
         const vm = this
         const { sockets } = this.$options
@@ -76,7 +70,7 @@ export default {
           }
         }
       },
-      beforeDestroy() {
+      beforeUnmount() {
         if (hasProxy) {
           const { sockets } = this.$options
 

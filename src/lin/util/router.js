@@ -1,6 +1,6 @@
 let homeRouter = []
 
-// æ·±åº¦éå†é…ç½®æ ‘, æ‘˜å–å¶å­èŠ‚ç‚¹ä½œä¸ºè·¯ç”±éƒ¨åˆ†
+// Éî¶È±éÀúÅäÖÃÊ÷, ÕªÈ¡Ò¶×Ó½Úµã×÷ÎªÂ·ÓÉ²¿·Ö
 function deepTravel(config) {
     if (Array.isArray(config)) {
         config.forEach((subConfig) => {
@@ -16,7 +16,7 @@ function deepTravel(config) {
 }
 
 function viewConfig(viewConfig) {
-    // æ„é€ èˆå°viewè·¯ç”±
+    // ¹¹ÔìÎèÌ¨viewÂ·ÓÉ
     const viewRouter = {}
     viewRouter.path = viewConfig.route
     viewRouter.name = viewConfig.name

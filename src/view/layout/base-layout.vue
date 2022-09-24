@@ -3,58 +3,60 @@
     <el-row>
       <el-col>
         <div class="headerWrapper">
-          <el-header style="padding:0;background:#fff;" class="main-header">
+          <el-header class="main-header">
             <div class="header-container">
-              <el-menu :default-active="activeIndex" mode="horizontal" @select="handleSelect">
-                <!-- text-color="#000"
-                  background-color="#fff"
-                active-text-color="#ffd04b"-->
+              <el-menu :default-active="activeIndex" mode="horizontal" :ellipsis="false" @select="handleSelect">
                 <el-menu-item index="/index" class="block">
-                  <router-link :to="{path:'/index'}">
+                  <router-link :to="{ path: '/index' }">
                     <i class="el-icon-help"></i>
                     首页
                   </router-link>
                 </el-menu-item>
-                <el-menu-item v-if="logined" index="/subscribe" class="block">
-                  <router-link :to="{path:'/subscribe'}">
-                    <i class="el-icon-c-scale-to-original"></i>关注
+                <el-menu-item v-if="loggedIn" index="/subscribe" class="block">
+                  <router-link :to="{ path: '/subscribe' }">
+                    <el-icon> <ScaleToOriginal /> </el-icon>关注
                   </router-link>
                 </el-menu-item>
-                <!-- <el-menu-item index="/tag" class="block">
-                  <router-link :to="{path:'/tag'}">标签</router-link>
-                </el-menu-item>-->
-                <el-menu-item v-if="logined" index="/notification/userComment" class="block">
-                  <router-link :to="{path:'/notification/userComment'}">
-                    <i class="el-icon-bell"></i>消息
+                <el-menu-item index="/tag/subscribe/all" class="block">
+                  <router-link :to="{ path: '/tag/subscribe/all' }">
+                    <el-icon> <CopyDocument /> </el-icon>标签
                   </router-link>
                 </el-menu-item>
-                <template>
-                  <el-menu-item index="login" v-show="!logined" style="float:right;">
-                    <el-link>登录</el-link>
-                  </el-menu-item>
-                  <el-menu-item index="register" v-show="!logined" style="float:right;">
-                    <el-link>注册</el-link>
-                  </el-menu-item>
-                  <el-menu-item v-if="logined" style="float:right;">
-                    <current-user class="current-user"></current-user>
-                  </el-menu-item>
-                </template>
+                <el-menu-item v-if="loggedIn" index="/notification/userComment" class="block">
+                  <router-link :to="{ path: '/notification/userComment' }">
+                    <el-icon> <Bell /> </el-icon>消息
+                  </router-link>
+                </el-menu-item>
+                <el-menu-item index="vvlog-vue2.igeekfan.cn/" class="block">
+                  <a href="https://vvlog-vue2.igeekfan.cn/" target="_blank">
+                    <el-icon> <Van /> </el-icon>VUE2 旧版本
+                  </a>
+                </el-menu-item>
+                <div class="flex-grow" />
+                <el-menu-item index="login" v-show="!loggedIn">
+                  <el-link>登录</el-link>
+                </el-menu-item>
+                <el-menu-item index="register" v-show="!loggedIn">
+                  <el-link>注册</el-link>
+                </el-menu-item>
+                <el-menu-item v-if="loggedIn">
+                  <current-user class="current-user"></current-user>
+                </el-menu-item>
               </el-menu>
             </div>
           </el-header>
         </div>
         <div class="mainWrapper" :class="device">
           <el-col
-            :xs=" {span: 24, offset: 0}"
-            :md="{span:18,offset:3}"
-            :lg=" {span: 16, offset: 4}"
-            :xl="{span: 14, offset: 5}"
+            :xs="{ span: 24, offset: 0 }"
+            :md="{ span: 18, offset: 3 }"
+            :lg="{ span: 16, offset: 4 }"
+            :xl="{ span: 14, offset: 5 }"
           >
             <transition name="fade-transform" mode="out-in">
               <router-view></router-view>
             </transition>
           </el-col>
-          <!-- <el-backtop class="lin-back-top"></el-backtop> -->
         </div>
       </el-col>
     </el-row>
@@ -63,49 +65,49 @@
 </template>
 
 <script>
-import { User as CurrentUser } from "@/component/layout";
-import { mixinDevice } from "@/lin/util/mixin";
-import LoginRegisterDialog from "@/view/account/login-register-dialog";
+import { User as CurrentUser } from '@/component/layout'
+import { mixinDevice } from '@/lin/util/mixin'
+import LoginRegisterDialog from '@/view/account/login-register-dialog'
 export default {
-  name: "Base",
+  name: 'Base',
   components: { CurrentUser, LoginRegisterDialog },
   mixins: [mixinDevice],
   data() {
-    return { activeIndex: "" };
+    return { activeIndex: '' }
   },
   computed: {
-    logined() {
-      return this.$store.state.logined;
-    }
+    loggedIn() {
+      return this.$store.state.loggedIn
+    },
   },
   watch: {
     $route() {
-      this.activeIndex = this.$router.path;
-    }
+      this.activeIndex = this.$router.path
+    },
   },
   created() {
-    this.activeIndex = this.$route.path;
+    this.activeIndex = this.$route.path
   },
   methods: {
     handleSelect(key, keyPath) {
-      console.log(key, keyPath);
-      if (key == "login" || key == "register") {
-        this.activeIndex = key;
-        this.$refs["loginRegister"].show(key);
-        return;
+      console.log(key, keyPath)
+      if (key == 'login' || key == 'register') {
+        this.activeIndex = key
+        this.$refs['loginRegister'].show(key)
+        return
       }
       switch (key) {
-        case "/home/index":
+        case '/home/index':
           // this.flushCom();
-          break;
+          break
       }
       // this.$router.push(key);
     },
-    flushCom: function() {
-      this.$router.go(0);
-    }
-  }
-};
+    flushCom: function () {
+      this.$router.go(0)
+    },
+  },
+}
 </script>
 <style lang="scss" scoped>
 .headerWrapper {
@@ -115,12 +117,14 @@ export default {
   top: 0;
   z-index: 1501;
 }
+
 .mainWrapper {
   height: calc(100% - 80px);
   margin-top: 80px;
   padding-left: 0px;
   width: 100%;
   padding-right: 0px;
+
   .lin-backtop {
     height: 100%;
     width: 100%;
@@ -131,26 +135,32 @@ export default {
     color: #1989fa;
   }
 }
+
 .main-header {
   background: #fff;
   border-bottom: 1px solid #f1f1f1;
   color: #909090;
-  height: 5rem;
 }
+
 .header-container {
   max-width: 1100px;
   margin: auto;
-  height: 100%;
-  /deep/ .block {
+
+  .flex-grow {
+    flex-grow: 1;
+  }
+
+  :deep(.block) {
     padding: 0px;
+
     a {
       display: block;
       padding: 0 20px;
     }
   }
+
   .current-user {
-    height: 60px;
-    /deep/ .el-dropdown {
+    :deep(.el-dropdown) {
       top: 10px;
       left: 5px;
     }

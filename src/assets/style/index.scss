@@ -1,7 +1,6 @@
 @import './realize/reset';
 @import './realize/animation';
 @import './realize/transition';
-@import './realize/global';
 
 .lin-container {
   .el-divider--horizontal {
@@ -21,7 +20,6 @@
     padding: 20px;
   }
 }
-
 
 .lin-divider .el-divider__text {
   background-color: #f4f5f5;
