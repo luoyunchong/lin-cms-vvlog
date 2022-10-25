@@ -1,12 +1,7 @@
 <template>
   <div class="comments-item">
     <div class="pull-left">
-      <img
-        class="avatar-32"
-        :src="author.avatar||defaultAvatar"
-        alt="default"
-        @click="handleClickAvatar"
-      />
+      <img class="avatar-32" :src="author.avatar || defaultAvatar" alt="default" @click="handleClickAvatar" />
     </div>
     <div class="comments-box">
       <div class="comments-trigger">
@@ -22,37 +17,40 @@
             @click="handleClickTool($event, item)"
           >
             <i :class="item.icon" v-if="item.icon"></i>
-            <span v-if="item.text">{{item.text}}</span>
+            <span v-if="item.text">{{ item.text }}</span>
           </a>
         </div>
         <strong>
           <router-link
-            v-if="author.id!=0"
-            :to="{path:`/user/${author.id}/article`}"
+            v-if="author.id != 0"
+            :to="{ path: `/user/${author.id}/article` }"
             target="_blank"
             @click="handleClickAuthor"
-          >{{author.nickname}}</router-link>
-          <a v-if="author.id==0" @click="handleClickAuthor">{{author.nickname}}</a>
+            >{{ author.nickname }}</router-link
+          >
+          <a v-if="author.id == 0" @click="handleClickAuthor">{{ author.nickname }}</a>
         </strong>
-        <span class="comments-date">· {{time | filterTimeYmdHms}}</span>
+        <span class="comments-date">· {{ $filters.filterTimeYmdHms(time) }}</span>
       </div>
       <div class="comments-content">
         <p v-html="commentContent"></p>
       </div>
       <p class="comments-ops">
         <span class="comments-reply-btn ml15" @click="handleAddReply" v-show="isAudit">
-          <i class="iconfont icon-comment coments-ops-icon"></i>
-          {{replyText}}
+          <el-icon><Comment /></el-icon>
+          {{ replyText }}
         </span>
         <el-popconfirm
-          :title="hasReply?'删除评论后，评论下的所有回复都会被删除!':'确认删除此评论'"
-          @onConfirm="handleDeleteReply"
-          v-show="user!=null&&author.id==user.id"
+          :title="hasReply ? '删除评论后，评论下的所有回复都会被删除!' : '确认删除此评论'"
+          @confirm="handleDeleteReply"
+          v-show="user != null && author.id == user.id"
         >
-          <span class="comments-reply-btn ml15" slot="reference">
-            <i class="iconfont icon-delete coments-ops-icon"></i>
-            删除
-          </span>
+          <template #reference>
+            <span class="comments-reply-btn ml15">
+              <el-icon><Delete /></el-icon>
+              删除
+            </span>
+          </template>
         </el-popconfirm>
       </p>
       <div class="comment-input" v-show="replyVisible">
@@ -66,8 +64,8 @@
 </template>
 
 <script>
-import Utils from '@/lin/util/util';
-import defaultAvatar from '@/assets/image/user/user.png';
+import Utils from '@/lin/util/util'
+import defaultAvatar from '@/assets/image/user/user.png'
 export default {
   name: 'CommentItem',
   props: {
@@ -92,44 +90,47 @@ export default {
     return {
       // replyVisible: false
       defaultAvatar,
-    };
+    }
   },
   computed: {
     replyText() {
-      return this.replyVisible == true ? '取消回复' : '回复';
+      return this.replyVisible == true ? '取消回复' : '回复'
     },
     commentContent() {
-      return Utils.formatHtml(Utils.formatHyperLink(this.content));
+      return Utils.formatHtml(Utils.formatHyperLink(this.content))
+    },
+    user() {
+      return this.$store.state.user
     },
   },
   methods: {
     handleClickAvatar(event) {
-      event.stopPropagation();
-      this.$emit('clickAvatar', this);
+      event.stopPropagation()
+      this.$emit('clickAvatar', this)
     },
     handleClickTool(event, tool) {
-      event.stopPropagation();
-      this.$emit('clickTool', this, tool);
+      event.stopPropagation()
+      this.$emit('clickTool', this, tool)
     },
     handleClickAuthor(event) {
-      event.stopPropagation();
+      event.stopPropagation()
       this.$notify({
         title: '警告',
         message: '该用户已被系统删除·',
         type: 'warning',
-      });
-      this.$emit('clickAuthor', this);
+      })
+      this.$emit('clickAuthor', this)
     },
     handleAddReply(event) {
-      event.stopPropagation();
-      this.$emit('addReply', this);
+      event.stopPropagation()
+      this.$emit('addReply', this)
     },
     handleDeleteReply(event) {
-      this.$emit('deleteReply', this);
+      this.$emit('deleteReply', this)
     },
   },
   filters: {},
-};
+}
 </script>
 
 <style lang="scss" scoped>
@@ -213,6 +214,7 @@ img {
   font-size: 13px;
 }
 .comments-reply-btn {
+  color: #999;
   cursor: pointer;
 }
 .comment-input {

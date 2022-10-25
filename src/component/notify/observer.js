@@ -1,4 +1,4 @@
-
+/* eslint-disable*/
 import Emitter from './emitter'
 
 export default class {

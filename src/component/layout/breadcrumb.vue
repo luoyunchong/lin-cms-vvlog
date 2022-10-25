@@ -2,7 +2,7 @@
   <div class="nav-title">
     <a class="item" v-for="(item, index) in titleArr" style="cursor: default;" :key="index">
       <!-- <i v-if="index===0"
-      :class="item.meta.icon"></i>-->
+         :class="item.meta.icon"></i> -->
       <p>{{ item }}</p>
     </a>
   </div>
@@ -11,21 +11,17 @@
 <script>
 export default {
   data() {
-    return {};
+    return {}
   },
   computed: {
     stageInfo() {
-      return this.$store.getters.getStageInfo(this.$route.name);
+      return this.$store.getters.getStageInfo(this.$route.name)
     },
     titleArr() {
-      return this.stageInfo.map(item => item.title).filter(item => !!item);
-    }
-  }
-  // created() {},
-  // mounted() {},
-  // watch: {},
-  // components: {},
-};
+      return this.stageInfo.map(item => item.title).filter(item => !!item)
+    },
+  },
+}
 </script>
 
 <style lang="scss">
@@ -46,7 +42,7 @@ export default {
     color: $right-side-font-color;
 
     &:after {
-      content: "/";
+      content: '/';
       position: absolute;
       top: 0;
       right: 6px;
@@ -58,7 +54,7 @@ export default {
     padding-right: 0;
 
     &:after {
-      content: "";
+      content: '';
     }
   }
 }

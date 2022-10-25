@@ -7,15 +7,18 @@
         </div>
 
         <div class="header-right">
-          <div style="margin-left:30px">
+          <div style="margin-left: 30px">
             <el-button
               type="primary"
               icon="el-icon-edit"
-              @click="()=>{
-                this.showEdit = true;
-                this.id = 0;
-            }"
-            >新增分类专栏</el-button>
+              @click="
+                () => {
+                  this.showEdit = true
+                  this.id = 0
+                }
+              "
+              >新增分类专栏</el-button
+            >
             <el-button type="default" icon="el-icon-search" @click="refresh">刷新</el-button>
           </div>
         </div>
@@ -30,10 +33,10 @@
         v-loading="loading"
       >
         <template v-slot:thumbnail_display="scope">
-          <div class="thumb" :style="'background-image: url('+scope.row.thumbnail_display+');'"></div>
+          <div class="thumb" :style="'background-image: url(' + scope.row.thumbnail_display + ');'"></div>
         </template>
         <template v-slot:create_time="scope">
-          <span>{{scope.row.create_time|filterTimeYmdHms}}</span>
+          <span>{{ $filters.filterTimeYmdHms(scope.row.create_time) }}</span>
         </template>
       </lin-table>
       <!--表格结束-->
@@ -43,9 +46,9 @@
 </template>
 
 <script>
-import classifyApi from '../../model/classify';
-import LinTable from '@/component/base/table/lin-table';
-import ClassifyForm from './classify-form';
+import classifyApi from '../../model/classify'
+import LinTable from '@/component/base/table/lin-table'
+import ClassifyForm from './classify-form'
 export default {
   name: 'ClassifyList',
   components: { LinTable, ClassifyForm },
@@ -59,69 +62,69 @@ export default {
       tableData: [], // 表格数据
       tableColumn: [], // 表头数据
       operate: [], // 表格按键操作区
-      loading: false
-    };
+      loading: false,
+    }
   },
   methods: {
     async getClassifys() {
-      let res;
+      let res
       try {
-        this.loading = true;
-        res = await classifyApi.getClassifys();
+        this.loading = true
+        res = await classifyApi.getClassifys()
         setTimeout(() => {
-          this.loading = false;
-        }, 500);
-        this.tableData = res;
+          this.loading = false
+        }, 500)
+        this.tableData = res
       } catch (e) {
-        this.loading = false;
+        this.loading = false
       }
     },
     async handleEdit(val) {
-      this.showEdit = true;
-      this.id = val.row.id;
+      this.showEdit = true
+      this.id = val.row.id
     },
     handleDelete(val) {
-      let res;
+      let res
       this.$confirm('此操作将永久删除该分类专栏项, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        type: 'warning'
+        type: 'warning',
       }).then(async () => {
         try {
-          this.loading = true;
-          res = await classifyApi.deleteClassify(val.row.id);
+          this.loading = true
+          res = await classifyApi.deleteClassify(val.row.id)
         } catch (e) {
-          this.loading = false;
+          this.loading = false
         }
         if (res.code === 0) {
-          this.loading = false;
-          await this.getClassifys();
+          this.loading = false
+          await this.getClassifys()
 
           this.$message({
             type: 'success',
-            message: `${res.message}`
-          });
+            message: `${res.message}`,
+          })
         } else {
-          this.loading = false;
-          this.$message.error(`${res.message}`);
+          this.loading = false
+          this.$message.error(`${res.message}`)
         }
-      });
+      })
     },
     async refresh() {
-      await this.getClassifys();
+      await this.getClassifys()
     },
     // 下拉框选择分组
     async handleChange() {
-      this.currentPage = 1;
-      this.loading = true;
-      await this.getClassifys();
-      this.loading = false;
+      this.currentPage = 1
+      this.loading = true
+      await this.getClassifys()
+      this.loading = false
     },
 
     async editClose() {
-      this.showEdit = false;
-      await this.getClassifys();
-    }
+      this.showEdit = false
+      await this.getClassifys()
+    },
   },
   async created() {
     this.tableColumn = [
@@ -130,26 +133,26 @@ export default {
       {
         prop: 'thumbnail_display',
         label: '封面',
-        scopedSlots: { customRender: 'thumbnail_display' }
+        scopedSlots: { customRender: 'thumbnail_display' },
       },
       { prop: 'sort_code', label: '排序码' },
       {
         prop: 'create_time',
         label: '创建时间',
-        scopedSlots: { customRender: 'create_time' }
-      }
-    ];
+        scopedSlots: { customRender: 'create_time' },
+      },
+    ]
     this.operate = [
       { name: '编辑', func: 'handleEdit', type: 'primary' },
-      { name: '删除', func: 'handleDelete', type: 'danger' }
-    ];
+      { name: '删除', func: 'handleDelete', type: 'danger' },
+    ]
 
-    await this.getClassifys();
+    await this.getClassifys()
   },
-  beforeDestroy() {}
-};
+  beforeDestroy() {},
+}
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/style/list.scss';
+@import '@/assets/style/list';
 </style>

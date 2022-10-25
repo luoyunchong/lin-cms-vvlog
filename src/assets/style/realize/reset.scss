@@ -5,12 +5,12 @@ span,
 applet,
 object,
 iframe,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
+// h1,
+// h2,
+// h3,
+// h4,
+// h5,
+// h6,
 p,
 blockquote,
 pre,
@@ -83,14 +83,9 @@ input {
   padding: 0;
   border: 0;
   font-size: 100%;
-  font-family: Helvetica Neue,
-    Helvetica,
-    PingFang SC,
-    Hiragino Sans GB,
-    Microsoft YaHei,
-    SimSun,
-    sans-serif;
-  font-weight: normal;
+  font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB,
+    Microsoft YaHei, sans-serif;
+   font-weight: normal;
   vertical-align: baseline;
 }
 
@@ -105,10 +100,6 @@ menu,
 nav,
 section {
   display: block;
-}
-
-body {
-  background-color: #f4f5f5;
 }
 
 html,
@@ -133,7 +124,6 @@ table {
 input,
 button {
   padding: 0;
-
   &:focus {
     outline: -webkit-focus-ring-color auto 0px;
   }
@@ -154,11 +144,12 @@ li {
 
 img {
   display: block;
-  width: auto;
+  width: 100%;
   height: auto;
 }
 
 body {
+  background-color: #f4f5f5;
   line-height: 1;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
@@ -189,7 +180,7 @@ a:hover {
     visibility: hidden;
     display: block;
     font-size: 0;
-    content: " ";
+    content: ' ';
     clear: both;
     height: 0;
   }
@@ -198,7 +189,7 @@ a:hover {
 // 饿了么主题
 
 /* 改变主题色变量 */
-$--color-primary: #4c76af;
+$--color-success: #4c76af;
 /* 改变 icon 字体路径变量，必需 */
-$--font-path: "~element-ui/lib/theme-chalk/fonts";
-@import "../../../../node_modules/element-ui/packages/theme-chalk/src/index";
+$--font-path: '~element-plus/lib/theme-chalk/fonts';
+// @import '../../../../node_modules/element-plus/packages/theme-chalk/src/index';

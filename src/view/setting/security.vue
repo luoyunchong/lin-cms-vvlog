@@ -1,17 +1,15 @@
 <template>
   <div class="container">
     <v-list itemLayout="horizontal" :dataSource="listData" :bordered="false" v-loading="loading">
-      <template v-slot:renderItem="{item,index}">
+      <template v-slot:renderItem="{ item, index }">
         <v-list-item>
-          <li
-            slot="actions"
-            v-for="(actionItem,actionIndex) in item.actions"
-            v-bind:key="actionIndex"
-          >
-            <a @click="actionItem.click">{{actionItem.text}}</a>
-          </li>
+          <template #actions>
+            <li v-for="(actionItem, actionIndex) in item.actions" v-bind:key="actionIndex">
+              <a @click="actionItem.click">{{ actionItem.text }}</a>
+            </li>
+          </template>
           <v-list-item-meta :description="item.description">
-            <a slot="title">{{item.title}}</a>
+            <template #title>{{ item.title }}</template>
           </v-list-item-meta>
         </v-list-item>
       </template>
@@ -21,15 +19,15 @@
 </template>
 
 <script>
-import VList from "@/component/list";
-import "@/component/list/index.css";
-import ChangePwdDialog from "./change-pwd-dialog";
+import VList from '@/component/list'
+import '@/component/list/index.css'
+import ChangePwdDialog from './change-pwd-dialog'
 export default {
   components: {
     VList,
     VListItem: VList.Item,
     VListItemMeta: VList.Item.Meta,
-    ChangePwdDialog
+    ChangePwdDialog,
   },
   data() {
     return {
@@ -37,24 +35,23 @@ export default {
         {
           actions: [
             {
-              text: "编辑",
+              text: '编辑',
               click: () => {
-                this.$refs["changePwdDialog"].show();
-              }
-            }
+                this.$refs['changePwdDialog'].show()
+              },
+            },
           ],
           title: `账户密码`,
-          description: "已设置",
-          content:
-            "We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently."
-        }
+          description: '已设置',
+          content: '',
+        },
       ],
-      loading: false
-    };
+      loading: false,
+    }
   },
-  name: "Security",
-  methods: {}
-};
+  name: 'Security',
+  methods: {},
+}
 </script>
 
 <style lang="scss" scoped>

@@ -1,23 +1,17 @@
 <template>
   <div style="height:100%;">
     <el-container>
-      <el-aside :width="sideBarWidth" class="aside" :style="asideStyle">
-        <side-bar :isCollapse="isCollapse" :is-phone="isPhone"></side-bar>
+      <el-aside :width="sidebarWidth" class="aside" :style="asideStyle">
+        <sidebar :isCollapse="isCollapse" :is-phone="isPhone"></sidebar>
       </el-aside>
       <el-container>
         <el-header class="header">
           <div class="left">
             <div class="operate" ref="operate">
-              <i
-                class="iconfont icon-fold"
-                :class="{rotate: foldState}"
-                @click="changeSlidebarState"
-              />
+              <i class="iconfont icon-fold" :class="{ rotate: foldState }" @click="changeSlidebarState" />
               <nav-bar></nav-bar>
             </div>
-            <el-collapse-transition>
-              <reuse-tab ref="reuse"></reuse-tab>
-            </el-collapse-transition>
+            <el-collapse-transition> <reuse-tab ref="reuse"></reuse-tab> </el-collapse-transition>
           </div>
         </el-header>
         <el-main ref="main">
@@ -26,63 +20,62 @@
         </el-main>
         <back-top :right="50" :bottom="50" :fontSize="34"></back-top>
       </el-container>
-      <div class="sidenav-mask" :class="{show: isPhone && isCollapse}" @click="changeSlidebarState"></div>
+      <div class="sidenav-mask" :class="{ show: isPhone && isCollapse }" @click="changeSlidebarState"></div>
     </el-container>
   </div>
 </template>
 
 <script>
-import {
-  NavBar,
-  SideBar,
-  AppMain,
-  ReuseTab,
-  MenuTab,
-  BackTop,
-} from '@/component/layout';
+import emitter from 'lin/util/emitter'
+import { NavBar, Sidebar, AppMain, ReuseTab, MenuTab, BackTop } from '@/component/layout'
 
-const navBarHeight = 66; // header高度
-const reuseTabHeight = 70; // 历史记录栏高度
-const marginHeight = 20; // 历史记录栏与舞台的间距
-const sideBarWidth = '190px';
-const totalHeight = navBarHeight + reuseTabHeight + marginHeight;
+const navBarHeight = 66 // header高度
+const reuseTabHeight = 70 // 历史记录栏高度
+const marginHeight = 20 // 历史记录栏与舞台的间距
+const sidebarWidth = '210px'
+const totalHeight = navBarHeight + reuseTabHeight + marginHeight
 
 export default {
-  name: 'layout',
+  components: {
+    NavBar,
+    Sidebar,
+    AppMain,
+    ReuseTab,
+    MenuTab,
+    BackTop,
+  },
   data() {
     return {
       isCollapse: false, // 左侧菜单栏是否折叠
-      sideBarWidth, // 左侧菜单栏展开的宽度
+      sidebarWidth, // 左侧菜单栏展开的宽度
       clientWidth: 0, // 页面宽度
       clientHeight: 0, // 页面高度
       foldState: false, // 控制左侧菜单栏按键
       isPhone: false,
-    };
+    }
   },
-  created() {},
   mounted() {
-    this.setResize();
-    // console.log(this.clientWidth)
+    this.setResize()
     if (this.clientWidth < 500) {
-      this.isPhone = true;
+      this.isPhone = true
     } else {
-      this.isPhone = false;
+      this.isPhone = false
       // 检测屏幕宽度, 确定默认是否展开
       if (this.clientWidth <= 768) {
-        this.eventBus.$emit('removeSidebarSearch');
-        this.isCollapse = true;
+        emitter.emit('removeSidebarSearch')
+        this.isCollapse = true
       } else {
-        this.isCollapse = false;
-        this.eventBus.$emit('showSidebarSearch');
+        this.isCollapse = false
+        emitter.emit('showSidebarSearch')
       }
     }
     // 监测屏幕宽度 折叠左侧菜单栏
     window.onresize = () => {
-      this.setResize();
+      this.setResize()
       if (this.clientWidth <= 500) {
-        this.isPhone = true;
+        this.isPhone = true
       } else if (this.clientWidth <= 800) {
-        this.isPhone = false;
+        this.isPhone = false
       }
 
       // if (_this.clientWidth <= 768) {
@@ -95,98 +88,88 @@ export default {
       //   _this.eventBus.$emit('showSidebarSearch')
       //   _this.isCollapse = false
       // }
-    };
+    }
 
-    this.eventBus.$on('noReuse', () => {
-      this.$refs.operate.style.height = '71px';
-    });
-    this.eventBus.$on('hasReuse', () => {
-      this.$refs.operate.style.height = '45px';
-    });
+    emitter.on('noReuse', () => {
+      this.$refs.operate.style.height = '86px'
+    })
+    emitter.on('hasReuse', () => {
+      this.$refs.operate.style.height = '45px'
+    })
   },
-  inject: ['eventBus'],
   computed: {
     elMenuCollapse() {
       if (this.isPhone) {
-        return false;
+        return false
       }
 
-      return this.isCollapse;
+      return this.isCollapse
     },
     asideStyle() {
-      const style = {};
+      const style = {}
       if (this.isPhone) {
-        style.position = 'absolute';
-        style.height = `${this.clientHeight}px`;
-        style.zIndex = 12;
+        style.position = 'absolute'
+        style.height = `${this.clientHeight}px`
+        style.zIndex = 12
         if (this.isCollapse === false) {
-          style.transform = `translateX(-${sideBarWidth})`;
+          style.transform = `translateX(-${sidebarWidth})`
         } else {
-          style.transform = 'translateX(0)';
+          style.transform = 'translateX(0)'
         }
       }
-      return style;
+      return style
     },
   },
   methods: {
     // 控制菜单折叠
     changeSlidebarState() {
-      this.isCollapse = !this.isCollapse;
+      this.isCollapse = !this.isCollapse
       if (this.isCollapse) {
-        this.eventBus.$emit('removeSidebarSearch');
+        emitter.emit('removeSidebarSearch')
       } else {
-        this.eventBus.$emit('showSidebarSearch');
+        emitter.emit('showSidebarSearch')
       }
-      this.foldState = !this.foldState;
+      this.foldState = !this.foldState
     },
     // 响应页面的宽度高度变化
     setResize() {
-      this.clientHeight = document.body.clientHeight;
-      this.clientWidth = document.body.clientWidth;
-      this.$refs.appMain.$el.style.minHeight = `${
-        this.clientHeight - totalHeight + 20
-      }px`;
+      this.clientHeight = document.body.clientHeight
+      this.clientWidth = document.body.clientWidth
+      this.$refs.appMain.$el.style.minHeight = `${this.clientHeight - totalHeight + 20}px`
     },
   },
   watch: {
     isCollapse() {
       if (this.isPhone) {
         // 手机模式
-        this.sideBarWidth = sideBarWidth;
+        this.sidebarWidth = sidebarWidth
         if (this.isCollapse === false) {
-          this.transX = 0;
+          this.transX = 0
         } else {
-          this.transX = -1 * sideBarWidth;
+          this.transX = -1 * sidebarWidth
         }
       } else {
-        this.transX = 0;
-        this.sideBarWidth = this.isCollapse === false ? sideBarWidth : '64px';
+        this.transX = 0
+        this.sidebarWidth = this.isCollapse === false ? sidebarWidth : '64px'
       }
     },
     $route() {
-      this.showBackTop = false;
+      this.showBackTop = false
       if (this.scrollY <= 70) {
         // MenuTab组件高度
-        this.backTop();
+        this.backTop()
       }
       if (this.isPhone && this.isCollapse) {
-        this.changeSlidebarState();
+        this.changeSlidebarState()
       }
     },
   },
-  components: {
-    NavBar,
-    SideBar,
-    AppMain,
-    ReuseTab,
-    MenuTab,
-    BackTop,
+
+  beforeUnmount() {
+    emitter.off('noReuse')
+    emitter.off('hasReuse')
   },
-  beforeDestroy() {
-    this.eventBus.$off('noReuse');
-    this.eventBus.$off('hasReuse');
-  },
-};
+}
 </script>
 
 <style lang="scss" scoped>
@@ -209,7 +192,6 @@ export default {
   justify-content: space-between;
   box-shadow: 0px 2px 6px 0px rgba(190, 204, 216, 0.4);
   border-bottom: 1px solid rgba(190, 204, 216, 0.4);
-  z-index: 1;
 
   .left {
     height: 100%;
@@ -220,7 +202,7 @@ export default {
       align-items: center;
       background: $header-background;
       padding-left: 20px;
-      height: 72px;
+      height: 86px;
 
       .iconfont {
         font-size: 16px;

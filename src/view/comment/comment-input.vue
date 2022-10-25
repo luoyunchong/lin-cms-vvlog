@@ -4,7 +4,7 @@
       <el-form-item prop="text">
         <el-input
           type="textarea"
-          :autosize="{ minRows: 2, maxRows: 4}"
+          :autosize="{ minRows: 2, maxRows: 4 }"
           placeholder="请输入评论内容"
           v-model="model.text"
           minlength="1"
@@ -12,15 +12,17 @@
           show-word-limit
         ></el-input>
       </el-form-item>
-      <el-form-item style="text-align:right;">
-        <el-button type="primary" @click="addComment" :disabled="model.text==''">发布</el-button>
+      <el-form-item>
+        <el-col :span="6" :offset="18" style="text-align: right">
+          <el-button type="primary" @click="addComment" :disabled="model.text == ''">发布</el-button>
+        </el-col>
       </el-form-item>
     </el-form>
   </div>
 </template>
 
 <script>
-import commentApi from '@/model/comment';
+import commentApi from '@/model/comment'
 export default {
   name: 'CommentInput',
   props: {
@@ -34,7 +36,7 @@ export default {
           text: '',
           root_comment_id: null,
           resp_user_id: null,
-        };
+        }
       },
     },
   },
@@ -54,43 +56,41 @@ export default {
           },
         ],
       },
-    };
+    }
   },
   created() {},
   computed: {},
   methods: {
     addComment() {
-      this.$refs['form'].validate(async (valid) => {
+      this.$refs['form'].validate(async valid => {
         if (valid) {
-          let text = this.model.text.trim();
+          let text = this.model.text.trim()
           if (text == '') {
             this.$message({
               message: '发布内容为空!',
               type: 'warning',
-            });
-            return;
+            })
+            return
           }
 
-          let res = await commentApi.addComment(
-            Object.assign(this.form, { text: text })
-          );
-          this.$message.success(`${res.message}`);
-          this.$emit('success');
-          this.$refs['form'].resetFields();
+          let res = await commentApi.addComment(Object.assign(this.form, { text: text }))
+          this.$message.success(`${res.message}`)
+          this.$emit('success')
+          this.$refs['form'].resetFields()
         } else {
-          console.log('error submit!!');
-          return false;
+          console.log('error submit!!')
+          return false
         }
-      });
+      })
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>
 .el-form-item {
   margin-bottom: 1px !important;
-  /deep/ .el-form-item__content {
+  :deep(.el-form-item__content) {
     line-height: 20px;
     margin-bottom: 10px;
   }

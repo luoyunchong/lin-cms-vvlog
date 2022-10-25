@@ -3,19 +3,18 @@
     <div class="lin-info">
       <div class="lin-info-left">
         <div class="welcome">
-          <img src="../../assets/image/about/welcome.png" class="welcome-title" alt />
+          <img src="../../assets/image/about/welcome.png"
+            class="welcome-title"
+            alt="" />
           <div class="subtitle">
             <div class="guide">您还可以点击林间有风官方网站，查看更多作品</div>
-            <div class="link">
-              <a href="https://www.talelin.com" target="_blank">https://talelin.com</a>
-            </div>
+            <div class="link"><a href="https://www.talelin.com"
+                target="_blank">https://talelin.com</a></div>
           </div>
         </div>
-        <img
-          class="welcome-bg"
+        <img class="welcome-bg"
           src="../../assets/image/about/header-bg.png"
-          alt
-        />
+          alt="" />
       </div>
       <div class="lin-info-right">
         <div class="team-detail">
@@ -23,17 +22,11 @@
             <div class="team-title">产品团队</div>
             <ul class="team-ul">
               <li>
-                <span class="shadow-box">
-                  <i class="team-shadow"></i>
-                </span>
-                <span class="team-role">策划</span>
+                <span class="shadow-box"> <i class="team-shadow"></i> </span> <span class="team-role">策划</span>
                 <span class="team-name">七月</span>
               </li>
               <li>
-                <span class="shadow-box">
-                  <i class="team-shadow"></i>
-                </span>
-                <span class="team-role">研发</span>
+                <span class="shadow-box"> <i class="team-shadow"></i> </span> <span class="team-role">研发</span>
                 <span class="team-name">
                   <ul v-if="!showTeam">
                     <li>Pedro</li>
@@ -51,18 +44,11 @@
                 </span>
               </li>
               <li>
-                <span class="shadow-box">
-                  <i class="team-shadow"></i>
-                </span>
-                <span class="team-role">设计</span>
+                <span class="shadow-box"> <i class="team-shadow"></i> </span> <span class="team-role">设计</span>
                 <span class="team-name">瓜瓜</span>
               </li>
             </ul>
           </div>
-          <div class="team-icon">
-            <img src="../../assets/image/about/qrcode.jpg" alt />
-          </div>
-          <p class="team-label">林间有风公众号</p>
         </div>
       </div>
     </div>
@@ -75,9 +61,8 @@
             <div class="quantity">11,590</div>
           </div>
         </div>
-        <div class="quantity-icon">
-          <img src="../../assets/image/about/icon.png" alt />
-        </div>
+        <div class="quantity-icon"><img src="../../assets/image/about/icon.png"
+            alt="" /></div>
       </div>
       <div class="quantity-item">
         <div class="quantity-detail">
@@ -87,9 +72,8 @@
             <div class="quantity">51,862</div>
           </div>
         </div>
-        <div class="quantity-icon">
-          <img src="../../assets/image/about/icon.png" alt />
-        </div>
+        <div class="quantity-icon"><img src="../../assets/image/about/icon.png"
+            alt="" /></div>
       </div>
       <div class="quantity-item">
         <div class="quantity-detail">
@@ -99,9 +83,8 @@
             <div class="quantity">1,862</div>
           </div>
         </div>
-        <div class="quantity-icon">
-          <img src="../../assets/image/about/icon.png" alt />
-        </div>
+        <div class="quantity-icon"><img src="../../assets/image/about/icon.png"
+            alt="" /></div>
       </div>
       <div class="quantity-item">
         <div class="quantity-detail">
@@ -111,15 +94,15 @@
             <div class="quantity">1,323</div>
           </div>
         </div>
-        <div class="quantity-icon">
-          <img src="../../assets/image/about/icon.png" alt />
-        </div>
+        <div class="quantity-icon"><img src="../../assets/image/about/icon.png"
+            alt="" /></div>
       </div>
     </div>
     <div class="information">
       <div class="personal">
         <div class="personal-title">个人信息</div>
-        <img src="../../assets/image/about/avatar.png" class="personal-avatar" />
+        <img src="../../assets/image/about/avatar.png"
+          class="personal-avatar" />
         <div class="personal-influence">
           <div class="personal-influence-item">
             <div class="personal-influence-num color1">5411</div>
@@ -134,11 +117,14 @@
             <div class="personal-influece-label">作品</div>
           </div>
         </div>
-        <el-tabs v-model="activeName" class="personal-tabs">
-          <el-tab-pane label="最新作品" name="first">
+        <el-tabs v-model="activeName"
+          class="personal-tabs">
+          <el-tab-pane label="最新作品"
+            name="first">
             <div class="content">How to Contribute to Open Source?</div>
           </el-tab-pane>
-          <el-tab-pane label="最热作品" name="second">
+          <el-tab-pane label="最热作品"
+            name="second">
             <div class="content">为什么程序员们愿意在GitHub上开源...</div>
           </el-tab-pane>
         </el-tabs>
@@ -146,11 +132,11 @@
       <div class="article">
         <div class="article-title">文章</div>
         <div class="article-list">
-          <div
-            class="article-item"
-            @click="handleArticle('https://opensource.guide/how-to-contribute/')"
-          >
-            <img class="article-thumb" src="../../assets/image/about/open-source.jpg" alt />
+          <div class="article-item"
+            @click="handleArticle('https://opensource.guide/how-to-contribute/')">
+            <img class="article-thumb"
+              src="../../assets/image/about/open-source.jpg"
+              alt="" />
             <div class="article-detail">
               <p class="article-detail-title">How to Contribute to Open Source?</p>
               <div class="article-detail-content">
@@ -162,45 +148,33 @@
               <div class="article-tool">
                 <div class="pubdate">一天前</div>
                 <div class="article-about">
-                  <span>
-                    <i class="iconfont icon-shoucang"></i>37
-                  </span>
+                  <span><i class="iconfont icon-shoucang"></i>37</span>
                   <el-divider direction="vertical"></el-divider>
-                  <span>
-                    <i class="iconfont icon-pinglun"></i>2384
-                  </span>
+                  <span><i class="iconfont icon-pinglun"></i>2384</span>
                   <el-divider direction="vertical"></el-divider>
-                  <span>
-                    <i class="iconfont icon-fenxiang"></i>56
-                  </span>
+                  <span><i class="iconfont icon-fenxiang"></i>56</span>
                 </div>
               </div>
             </div>
           </div>
-          <div
-            class="article-item"
-            @click="handleArticle('https://www.zhihu.com/question/269033309')"
-          >
-            <img class="article-thumb" src="../../assets/image/about/open-source.jpg" alt />
+          <div class="article-item"
+            @click="handleArticle('https://www.zhihu.com/question/269033309')">
+            <img class="article-thumb"
+              src="../../assets/image/about/open-source.jpg"
+              alt="" />
             <div class="article-detail article-last">
               <p class="article-detail-title">为什么程序员们愿意在GitHub上开源自己的成果给别人免费使用和学习？</p>
-              <div
-                class="article-detail-content"
-              >“Git的精髓在于让所有人的贡献无缝合并。而GitHub的天才之处，在于理解了Git的精髓。”来一句我们程序员们接地气的话：分享是一种快乐~</div>
+              <div class="article-detail-content">
+                “Git的精髓在于让所有人的贡献无缝合并。而GitHub的天才之处，在于理解了Git的精髓。”来一句我们程序员们接地气的话：分享是一种快乐~
+              </div>
               <div class="article-tool">
                 <div class="pubdate">2019年5月26日</div>
                 <div class="article-about">
-                  <span>
-                    <i class="iconfont icon-shoucang"></i>37
-                  </span>
+                  <span><i class="iconfont icon-shoucang"></i>37</span>
                   <el-divider direction="vertical"></el-divider>
-                  <span>
-                    <i class="iconfont icon-pinglun"></i>2384
-                  </span>
+                  <span><i class="iconfont icon-pinglun"></i>2384</span>
                   <el-divider direction="vertical"></el-divider>
-                  <span>
-                    <i class="iconfont icon-fenxiang"></i>56
-                  </span>
+                  <span><i class="iconfont icon-fenxiang"></i>56</span>
                 </div>
               </div>
             </div>
@@ -212,24 +186,36 @@
 </template>
 
 <script>
+import { ref, onMounted } from 'vue'
+
 export default {
-  data() {
+  setup() {
+    const showTeam = ref(false)
+    const activeName = ref('first')
+    const { clientWidth } = document.body
+
+    onMounted(() => {
+      if (clientWidth > 1200 && clientWidth < 1330) {
+        showTeam.value = true
+      } else {
+        showTeam.value = false
+      }
+    })
+
+    /**
+     * 切换选项
+     */
+    const handleArticle = link => {
+      window.open(link)
+    }
+
     return {
-      activeName: "first",
-      showTeam: false
-    };
-  },
-  mounted() {
-    if (document.body.clientWidth > 1200 && document.body.clientWidth < 1330) {
-      this.showTeam = true;
+      showTeam,
+      activeName,
+      handleArticle,
     }
   },
-  methods: {
-    handleArticle(link) {
-      window.open(link);
-    }
-  }
-};
+}
 </script>
 
 <style scoped lang="scss">
@@ -497,12 +483,12 @@ export default {
       .personal-tabs {
         margin-bottom: 20px;
       }
-      .personal-tabs /deep/ .is-top {
+      .personal-tabs :deep(.is-top) {
         width: 320px;
         display: flex;
         justify-content: space-around;
       }
-      .personal-tabs /deep/ .el-tabs__content {
+      .personal-tabs :deep(.el-tabs__content) {
         text-indent: 20px;
       }
     }

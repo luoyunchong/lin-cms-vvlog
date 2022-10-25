@@ -1,4 +1,5 @@
 const fs = require('fs-extra')
+// eslint-disable-next-line import/no-extraneous-dependencies
 const path = require('path')
 const inquirer = require('inquirer')
 const ejs = require('ejs')
@@ -165,15 +166,15 @@ inquirer
     fs.copySync(sourcePath, targetPath)
 
     console.log(chalk.green(`创建插件 ${answers.name}: ${targetPath}`))
-
+    // eslint-disable-next-line
   })
   .then(() => {
-
+    // eslint-disable-next-line
     require('./plugin-get-config.js')
-
+    // eslint-disable-next-line
   })
   .catch(err => {
-
+    // eslint-disable-next-line
     console.log(chalk.red('创建插件失败'))
     console.error(err)
     process.exit(1)

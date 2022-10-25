@@ -7,64 +7,72 @@
             <profile></profile>
           </el-card>
         </div>
-        <div style="background:#fff;padding: 26px 24px ">
-          <el-tabs v-model="tab" :stretch="false" class="vv-tabs" @tab-click="handleTabClick" type>
+        <div style="background: #fff; padding: 26px 24px">
+          <el-tabs v-model="tab" class="vv-tabs" @tab-click="handleTabClick">
             <el-tab-pane name="article">
-              <span slot="label">
-                <i class="el-icon-date"></i> 随笔
-              </span>
+              <template #label> <i class="el-icon-date"></i> 随笔 </template>
               <!-- <my-create-classify></my-create-classify> -->
               <article-list :dataSource="dataSource" class="vv-article-list"></article-list>
               <infinite-loading @infinite="infiniteHandler" spinner="bubbles" :identifier="any">
-                <span slot="no-more">
-                  <el-divider class>我也是有底线的...</el-divider>
-                </span>
-                <span slot="no-results">
-                  <el-divider class>暂无随笔...</el-divider>
-                </span>
+                <template #spinner>
+                  <el-divider class="lin-divider">加载中...</el-divider>
+                </template>
+                <template #complete>
+                  <el-divider class="lin-divider">我也是有底线的...</el-divider>
+                </template>
               </infinite-loading>
             </el-tab-pane>
-            <el-tab-pane name="subscribe" :lazy="true">
-              <span slot="label">
-                <i class="el-icon-user"></i> 关注
-              </span>
+            <el-tab-pane name="subscribe">
+              <template #label> <i class="el-icon-user"></i> 关注 </template>
               <el-tabs v-model="activeName" @tab-click="handleClick" type="card">
-                <el-tab-pane :label="'关注用户'+info.subscribe_count" name="subscribe">
+                <el-tab-pane :label="'关注用户' + info.subscribe_count" name="subscribe">
                   <subscribe-user-list
                     :userId="userId"
                     userType="subscribe"
-                    v-if="activeName=='subscribe'"
-                    v-on:success="(subscribe_count)=>{
-                     info.subscribe_count=subscribe_count
-                    }"
-                    v-on:subscribe="(subscribe_count)=>{
-                      info.subscribe_count+=subscribe_count
-                    }"
+                    v-if="activeName == 'subscribe'"
+                    v-on:success="
+                      subscribe_count => {
+                        info.subscribe_count = subscribe_count
+                      }
+                    "
+                    v-on:subscribe="
+                      subscribe_count => {
+                        info.subscribe_count += subscribe_count
+                      }
+                    "
                   ></subscribe-user-list>
                 </el-tab-pane>
-                <el-tab-pane :label="'粉丝'+info.fans_count" name="fans">
+                <el-tab-pane :label="'粉丝' + info.fans_count" name="fans">
                   <subscribe-user-list
                     :userId="userId"
                     userType="fans"
-                    v-if="activeName=='fans'"
-                    v-on:success="(fans_count)=>{
-                     info.fans_count=fans_count
-                    }"
-                    v-on:subscribe="(fans_count)=>{
-                      info.subscribe_count+=fans_count
-                    }"
+                    v-if="activeName == 'fans'"
+                    v-on:success="
+                      fans_count => {
+                        info.fans_count = fans_count
+                      }
+                    "
+                    v-on:subscribe="
+                      fans_count => {
+                        info.subscribe_count += fans_count
+                      }
+                    "
                   ></subscribe-user-list>
                 </el-tab-pane>
-                <el-tab-pane :label="'标签'+info.tag_count" name="tag">
+                <el-tab-pane :label="'标签' + info.tag_count" name="tag">
                   <subscribe-tag-list
                     :userId="userId"
-                    v-if="activeName=='tag'"
-                    v-on:success="(tag_count)=>{
-                      info.tag_count=tag_count
-                    }"
-                    v-on:subscribe="(tag_count)=>{
-                      info.tag_count+=tag_count
-                    }"
+                    v-if="activeName == 'tag'"
+                    v-on:success="
+                      tag_count => {
+                        info.tag_count = tag_count
+                      }
+                    "
+                    v-on:subscribe="
+                      tag_count => {
+                        info.tag_count += tag_count
+                      }
+                    "
                   ></subscribe-tag-list>
                 </el-tab-pane>
               </el-tabs>
@@ -76,37 +84,34 @@
         <div class="margin-bottom-xs">
           <el-card class="box-card" shadow="never" :body-style="{ padding: '0px' }">
             <div class="number-board">
-              <router-link
-                :to="`/user/${userId}/subscribe?key=subscribe`"
-                class="number-board-item"
-              >
+              <router-link :to="`/user/${userId}/subscribe?key=subscribe`" class="number-board-item">
                 <div class="number-board-item-inner">
                   <div class="number-board-item-name">关注用户</div>
-                  <strong class="number-board-item-value">{{info.subscribe_count}}</strong>
+                  <strong class="number-board-item-value">{{ info.subscribe_count }}</strong>
                 </div>
               </router-link>
               <el-divider direction="vertical"></el-divider>
               <router-link :to="`/user/${userId}/subscribe?key=fans`" class="number-board-item">
                 <div class="number-board-item-inner">
                   <div class="number-board-item-name">粉丝</div>
-                  <strong class="number-board-item-value">{{info.fans_count}}</strong>
+                  <strong class="number-board-item-value">{{ info.fans_count }}</strong>
                 </div>
               </router-link>
             </div>
           </el-card>
         </div>
         <div class="margin-bottom-xs">
-          <el-card
-            :body-style="{ 'padding-bottom': '10px','padding-top':'10px' }"
-            shadow="never"
-            class="tag-card"
-          >
-            <div slot="header" class="clearfix">
-              <span class="tag-title">分享你的创作</span>
-            </div>
+          <el-card :body-style="{ 'padding-bottom': '10px', 'padding-top': '10px' }" shadow="never" class="tag-card">
+            <template #header>
+              <div class="lin-card">
+                <span class="lin-title">分享你的创作</span>
+              </div>
+            </template>
             <div>
-              <router-link :to="{path:`/p/editor/0`}">
-                <el-button type="primary" icon="el-icon-edit" plain>写随笔</el-button>
+              <router-link :to="{ path: `/p/editor/0` }">
+                <el-button type="primary" plain>
+                  <el-icon class="el-icon--left"><Edit /> </el-icon>写随笔
+                </el-button>
               </router-link>
             </div>
           </el-card>
@@ -117,13 +122,14 @@
 </template>
 
 <script>
-import { SubscribeUserList, SubscribeTagList } from '@/view/subscribe';
-import Profile from '@/view/user/profile';
-import articleApi from '@/model/article';
-import subscribeApi from '@/model/subscribe';
-import InfiniteLoading from 'vue-infinite-loading';
-import ArticleList from '@/view/article/article-list';
-import MyCreateClassify from './my-create-classify';
+import { SubscribeUserList, SubscribeTagList } from '@/view/subscribe'
+import Profile from '@/view/user/profile'
+import articleApi from '@/model/article'
+import subscribeApi from '@/model/subscribe'
+import InfiniteLoading from 'v3-infinite-loading'
+import 'v3-infinite-loading/lib/style.css'
+import ArticleList from '@/view/article/article-list'
+import MyCreateClassify from './my-create-classify'
 export default {
   name: 'UserIndex',
   components: {
@@ -152,117 +158,122 @@ export default {
         tag_count: 0,
       },
       classifys: [],
-    };
+    }
   },
   computed: {
     userId() {
-      return this.$route.params.id;
+      return this.$route.params.id
     },
     name() {
-      return this.$route.params.name;
+      return this.$route.params.name
     },
     classify_id() {
-      return this.$route.query.classify_id;
+      return this.$route.query.classify_id
     },
   },
   watch: {
     name(newVal) {
-      this.tab = newVal;
-      console.log(newVal);
+      this.tab = newVal
+      console.log(newVal)
     },
     async $route(v) {
       switch (v.params.name) {
         case 'article':
-          this.refresh();
-          break;
+          this.refresh()
+          break
         case 'subscribe':
-          let key = v.query.key;
+          let key = v.query.key
           if (key == null || key == undefined) {
-            key = 'subscribe';
+            key = 'subscribe'
           }
-          this.activeName = key;
-          break;
+          this.activeName = key
+          break
         default:
-          break;
+          break
       }
-      await this.getUserSubscribe();
+      await this.getUserSubscribe()
     },
   },
   async created() {
-    await this.getUserSubscribe();
+    await this.getUserSubscribe()
   },
   mounted() {
     switch (this.name) {
       case 'article':
       case 'subscribe':
-        this.tab = this.name;
-        break;
+        this.tab = this.name
+        break
       default:
-        this.tab = 'article';
-        break;
+        this.tab = 'article'
+        break
     }
-    let key = this.$route.query.key;
+    let key = this.$route.query.key
     if (key == null || key == undefined) {
-      key = 'subscribe';
+      key = 'subscribe'
     }
-    this.activeName = key;
+    this.activeName = key
   },
   methods: {
     async refresh() {
-      this.pagination.currentPage = 0;
-      this.any = new Date();
-      await this.infiniteHandler();
+      this.pagination.currentPage = 0
+      this.any = new Date()
+      await this.infiniteHandler()
     },
     handleTabClick(tab, event) {
-      if (tab.name == this.name) return;
-      this.$router.push({ path: `/user/${this.userId}/${tab.name}` });
+      if (tab.paneName == this.name) return
+      this.$router.push({ path: `/user/${this.userId}/${tab.paneName}` })
     },
     handleClick(tab, event) {
-      if (tab.name == this.$route.query.key) return;
+      if (tab.paneName == this.$route.query.key) return
       this.$router.push({
         path: `/user/${this.userId}/subscribe?key=${tab.name}`,
-      });
+      })
     },
     async infiniteHandler($state) {
-      let res;
-      const currentPage = this.pagination.currentPage;
+      let res
+      const currentPage = this.pagination.currentPage
       res = await articleApi.getQueryArticles({
         count: this.pagination.pageSize,
         page: currentPage,
         sort: this.sort,
         user_id: this.userId,
         classify_id: this.classify_id,
-      });
-      let items = [...res.items];
+      })
+      let items = [...res.items]
 
       if (items.length == 0) {
         if (currentPage == 0) {
-          this.dataSource = items;
+          this.dataSource = items
         }
-        $state && $state.complete();
+        $state && $state.complete()
       } else {
         if (currentPage == 0) {
-          this.dataSource = items;
+          this.dataSource = items
         } else {
-          this.dataSource = this.dataSource.concat(items);
+          this.dataSource = this.dataSource.concat(items)
         }
-        this.pagination.currentPage += 1;
-        this.pagination.pageTotal = res.total;
+        this.pagination.currentPage += 1
+        this.pagination.pageTotal = res.total
 
-        $state && $state.loaded();
+        $state && $state.loaded()
       }
     },
     async getUserSubscribe() {
-      let res = await subscribeApi.getUserSubscribe({
-        userId: this.userId,
-      });
-      this.info = res;
+      if (this.userId != null) {
+        let res = await subscribeApi.getUserSubscribe({
+          userId: this.userId,
+        })
+        this.info = res
+      }
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>
+.lin-divider .el-divider__text {
+  background-color: #f4f5f5;
+}
 .list {
   .item {
     cursor: pointer;
@@ -272,15 +283,15 @@ export default {
     }
   }
 }
-.vv-article-list /deep/ .article-list .article-item {
+.vv-article-list :deep(.article-list .article-item) {
   padding: 1.5rem 0rem;
 }
 
-.vv-tabs /deep/ .el-tabs__item {
+.vv-tabs :deep(.el-tabs__item) {
   font-size: 16px;
 }
 
-.vv-tabs /deep/ .el-tabs__nav .el-tabs__active-bar {
+.vv-tabs :deep(.el-tabs__nav .el-tabs__active-bar) {
   height: 3px;
 }
 
@@ -314,7 +325,17 @@ export default {
     }
   }
 }
+.lin-card {
+  margin-bottom: 10px;
+  border-radius: 8px;
 
+  .lin-title {
+    margin-bottom: 1rem;
+    padding: 0 0 0 0.5rem;
+    color: #000;
+    border-left: 4px solid #ec7259;
+  }
+}
 .tag-card {
   margin-bottom: 10px;
   border-radius: 8px;

@@ -1,10 +1,10 @@
 <template>
   <div>
-    <router-link :to="{path:'/index'}">
+    <router-link :to="{ path: '/index' }">
       <el-button type="primary">回到首页</el-button>
     </router-link>
     <div class="margin-top-lg">
-      <el-alert :title="errorMsg" type="error" v-if="error==true"></el-alert>
+      <el-alert :title="errorMsg" type="error" v-if="error == true"></el-alert>
     </div>
   </div>
 </template>
@@ -14,7 +14,7 @@ const axios = require('axios')
 import { mapActions, mapMutations } from 'vuex'
 import User from '@/lin/model/user'
 import { saveTokens } from '@/lin/util/token'
-import { Loading } from 'element-ui'
+import { ElLoading } from 'element-plus'
 export default {
   data() {
     return {
@@ -23,7 +23,7 @@ export default {
     }
   },
   created() {
-    var loading = Loading.service({
+    var loading = ElLoading.service({
       fullscreen: true,
       text: '登录中。。。',
       lock: true,
@@ -42,14 +42,10 @@ export default {
   },
   methods: {
     ...mapActions(['loginOut', 'setUserAndState']),
-    ...mapMutations({
-      setUserAuths: 'SET_USER_AUTHS',
-    }),
     async getInformation() {
       try {
         const user = await User.getPermissions()
         this.setUserAndState(user)
-        this.setUserAuths(user.permissions)
       } catch (e) {
         console.log(e)
       } finally {
@@ -61,5 +57,4 @@ export default {
 }
 </script>
 
-<style>
-</style>
+<style></style>

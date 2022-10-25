@@ -1,41 +1,48 @@
 <template>
   <div class="container">
-    <el-tabs v-model="activeName" @tab-click="tabChange">
-      <el-tab-pane label="全部标签" name="all">
-        <el-row :gutter="24" style="margin-left:0px;margin-right:0px;">
+    <el-tabs v-model="activeName"
+      @tab-click="tabChange">
+      <el-tab-pane label="全部标签"
+        name="all">
+        <el-row :gutter="24"
+          style="margin-left:0px;margin-right:0px;">
           <el-col :span="24">
-            <el-card shadow="never" style="margin-bottom:10px;border-radius: 8px;">
-              <el-form :inline="true" size="small" :model="form" class="demo-form-inline">
+            <el-card shadow="never"
+              style="margin-bottom:10px;border-radius: 8px;">
+              <el-form :inline="true"
+                size="small"
+                :model="form"
+                class="demo-form-inline">
                 <el-form-item>
-                  <router-link
-                    :to="{path:'/tag/subscribe/all?sort=hottest'}"
-                    :class="sortName=='hottest'?'el-link el-link--primary is-underline':'el-link el-link--info'"
-                  >最热</router-link>
+                  <router-link :to="{path:'/tag/subscribe/all/hottest'}"
+                    :class="sortName=='hottest'?'el-link el-link--primary is-underline':'el-link el-link--info'">最热
+                  </router-link>
                   <el-divider direction="vertical"></el-divider>
-                  <router-link
-                    :to="{path:'/tag/subscribe/all?sort=newest'}"
-                    :class="sortName=='newest'?'el-link el-link--primary is-underline':'el-link el-link--info'"
-                  >最新</router-link>
+                  <router-link :to="{path:'/tag/subscribe/all/newest'}"
+                    :class="sortName=='newest'?'el-link el-link--primary is-underline':'el-link el-link--info'">最新
+                  </router-link>
                 </el-form-item>
                 <el-form-item class="search-input">
-                  <el-input
-                    v-model="form.tag_name"
+                  <el-input v-model="form.tag_name"
                     placeholder="根据标签名查询/回车查询"
                     clearable
                     size="small"
                     @keyup.enter.native="refresh"
-                    @clear="refresh"
-                  ></el-input>
+                    @clear="refresh"></el-input>
                 </el-form-item>
                 <el-form-item class="search-button">
-                  <el-button type="primary" @click="refresh">查询</el-button>
+                  <el-button type="primary"
+                    @click="refresh">查询</el-button>
                 </el-form-item>
               </el-form>
             </el-card>
           </el-col>
-          <el-col :span="6" :xs="12" :md="6" v-for="(item,index) in dataSource" :key="index">
-            <tag-item
-              :index="index"
+          <el-col :span="6"
+            :xs="12"
+            :md="6"
+            v-for="(item,index) in dataSource"
+            :key="index">
+            <tag-item :index="index"
               :subscribers_count="item.subscribers_count"
               :article_count="item.article_count"
               :id="item.id"
@@ -44,30 +51,31 @@
               :view_hits="item.view_hits"
               :is_subscribe="item.is_subscribe"
               v-on:addSubscribeTag="addSubscribeTag"
-              v-on:deleteSubscribeTag="deleteSubscribeTag"
-            ></tag-item>
+              v-on:deleteSubscribeTag="deleteSubscribeTag"></tag-item>
           </el-col>
         </el-row>
-        <infinite-loading @infinite="infiniteHandler" spinner="bubbles" :identifier="any">
-          <span slot="no-more">
-            <el-divider class="lin-divider">我也是有底线的...</el-divider>
-          </span>
-          <span slot="no-results">
-            <el-divider class="lin-divider">没有查询您想要的标签...</el-divider>
-          </span>
+        <infinite-loading @infinite="infiniteHandler"
+          spinner="bubbles"
+          :identifier="any">
+          <template #spinner>
+            <el-divider  class="lin-divider">加载中...</el-divider>
+          </template>
+          <template #complete>
+           <el-divider  class="lin-divider">我也是有底线的...</el-divider>
+          </template>
         </infinite-loading>
       </el-tab-pane>
-      <el-tab-pane label="已关注标签" name="subscribe" v-if="logined">
-        <el-row :gutter="24" style="margin-left:0px;margin-right:0px;">
-          <el-col
-            :span="6"
+      <el-tab-pane label="已关注标签"
+        name="subscribe"
+        v-if="loggedIn">
+        <el-row :gutter="24"
+          style="margin-left:0px;margin-right:0px;">
+          <el-col :span="6"
             :xs="12"
             :md="6"
             v-for="(item,index) in subscribeDataSource"
-            :key="index"
-          >
-            <tag-item
-              :index="index"
+            :key="index">
+            <tag-item :index="index"
               :subscribers_count="item.subscribers_count"
               :article_count="item.article_count"
               :id="item.id"
@@ -76,8 +84,7 @@
               :is_subscribe="item.is_subscribe"
               :status="item.status"
               v-on:addSubscribeTag="addSubscribeDataTag"
-              v-on:deleteSubscribeTag="deleteSubscribeDataTag"
-            ></tag-item>
+              v-on:deleteSubscribeTag="deleteSubscribeDataTag"></tag-item>
           </el-col>
         </el-row>
       </el-tab-pane>
@@ -88,7 +95,8 @@
 <script>
 import tagApi from "@/model/tag";
 import userTagApi from "@/model/user-tag";
-import InfiniteLoading from "vue-infinite-loading";
+import InfiniteLoading from "v3-infinite-loading";
+ import "v3-infinite-loading/lib/style.css";
 import TagItem from "@/view/tag/tag-item";
 export default {
   components: { InfiniteLoading, TagItem },
@@ -114,13 +122,13 @@ export default {
   },
   computed: {
     sort() {
-      return this.$route.query.sort;
+      return this.$route.params.sort;
     },
     tab() {
       return this.$route.params.tab;
     },
-    logined() {
-      return this.$store.state.logined;
+    loggedIn() {
+      return this.$store.state.loggedIn;
     }
   },
   watch: {
@@ -133,7 +141,7 @@ export default {
     this.getSubscribeTags();
     // this.refresh();
 
-    if (this.logined != true) {
+    if (this.loggedIn != true) {
       this.activeName = "all";
     }
     this.activeName = this.tab;
@@ -153,7 +161,7 @@ export default {
   },
   methods: {
     tabChange(tab, event) {
-      if (tab.name == "subscribe") {
+      if (tab.paneName == "subscribe") {
         this.getSubscribeTags();
       } else {
         this.refresh();
@@ -220,13 +228,11 @@ export default {
         this.dataSource[index].subscribers_count -= 1;
     },
     async getSubscribeTags() {
-      let userId = 0;
-      if (this.user && this.user.id) {
-        userId = this.user.id;
-      }
+      var user = this.$store.state.user;
       let res = await userTagApi.getSubscribeTags({
-        user_id: userId,
+        user_id: user.id,
       });
+
       this.subscribeDataSource = [...res.items];
     }
   }
@@ -236,20 +242,19 @@ export default {
 <style lang="scss" scoped>
 .container {
   margin-bottom: 20px;
-  /deep/.el-card__body {
+  :deep(.el-card__body) {
     padding: 15px;
   }
-  /deep/ .el-form-item__content {
+  :deep(.el-form-item__content) {
     margin-bottom: 0px;
   }
   .el-form-item {
     margin-bottom: 0px !important;
   }
-  /deep/ .el-tabs__header {
+  :deep(.el-tabs__header) {
     margin: 0 0 15px 15px;
   }
 }
-
 .mobile .container {
   .el-form-item.search-input,
   .el-form-item.search-button {

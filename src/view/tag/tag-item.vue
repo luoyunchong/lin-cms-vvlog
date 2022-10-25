@@ -2,7 +2,7 @@
   <el-card
     class="info-box"
     shadow="hover"
-    :body-style="{ 
+    :body-style="{
                 'width':' 100%',
                 'background-color': '#fff',
                 'border': '1px solid #f1f1f1',
@@ -27,7 +27,7 @@
         <el-button
           type="primary"
           class="button"
-          icon="iconfont icon-heart-fill"
+          icon=""
           v-if="is_subscribe"
           @click="deleteSubscribeTag"
           size="small"
@@ -35,7 +35,7 @@
         <el-button
           type="plain"
           class="button"
-          icon="iconfont icon-heart"
+          icon=""
           v-else
           size="small"
           @click="addSubscribeTag"
@@ -130,7 +130,7 @@ export default {
         margin-left: 0.8rem;
       }
     }
-    /deep/.el-button--small {
+    :deep(.el-button--small) {
       .iconfont {
         font-size: 12px;
         margin-right: 3px;

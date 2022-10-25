@@ -1,12 +1,22 @@
 <template>
   <div v-if="histories.length > 1" ref="resueTab" class="reuse-tab">
-    <swiper :options="swiperOption" class="reuse-tab-wrap">
+    <swiper
+      class="reuse-tab-wrap"
+      slides-per-view="auto"
+      :space-between="1"
+      :initial-slide="0"
+      effect="slide"
+      :prevent-clicks="false"
+      :free-mode="true"
+      :mousewheel="true"
+      direction="horizontal"
+    >
       <swiper-slide v-for="(item, index) in histories" :key="item.path">
         <router-link
           class="reuse-tab-item"
           :class="item.path === $route.path ? 'active' : ''"
           :to="item.path"
-          @contextmenu.prevent.native="onTags(index, $event)"
+          @contextmenu.prevent="onTags(index, $event)"
         >
           <i v-if="!filterIcon(stageList[item.stageId].icon)" :class="stageList[item.stageId].icon"></i>
           <img v-else :src="stageList[item.stageId].icon" style="width:16px;" />
@@ -26,15 +36,17 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import { Swiper, SwiperSlide, directive } from "vue-awesome-swiper";
-import "swiper/css/swiper.css";
+import { mapGetters } from 'vuex'
+import emitter from 'lin/util/emitter'
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import SwiperCore, { Mousewheel } from 'swiper'
+
+import 'swiper/swiper.scss'
+
+SwiperCore.use([Mousewheel])
 
 export default {
   components: { Swiper, SwiperSlide },
-  directives: {
-    swiper: directive
-  },
   data() {
     return {
       histories: [],
@@ -44,201 +56,186 @@ export default {
       top: 0,
       left: 0,
       index: 0,
-      swiperOption: {
-        slidesPerView: "auto",
-        initialSlide: 0,
-        effect: "slide",
-        spaceBetween: 1,
-        preventClicks: false,
-        freeMode: true,
-        mousewheel: {
-          sensitivity: 1.5
-        }
-      }
-    };
+    }
   },
   watch: {
     $route(to) {
       // 对路由变化作出响应...
-      const { histories } = this;
-      const flag = histories.find(item => item.path === to.path);
+      const { histories } = this
+      const flag = histories.find(item => item.path === to.path)
       if (flag) {
-        return;
+        return
       }
-      const ele = {};
-      ele.stageId = to.name;
-      ele.path = to.path;
-      ele.routePath = to.matched[to.matched.length - 1].path;
-      this.histories = [ele, ...histories];
+
+      const ele = {}
+      ele.stageId = to.name
+      ele.path = to.path
+      ele.routePath = to.matched[to.matched.length - 1].path
+      this.histories = [ele, ...histories]
     },
-    logined(val) {
+    loggedIn(val) {
       if (val) {
-        return;
+        return
       }
-      this.closeAll();
+      this.closeAll()
     },
     visible(value) {
       if (value) {
-        document.body.addEventListener("click", this.closeMenu);
+        document.body.addEventListener('click', this.closeMenu)
       } else {
-        document.body.removeEventListener("click", this.closeMenu);
+        document.body.removeEventListener('click', this.closeMenu)
       }
     },
     // 舞台改变时触发
     stageList() {
-      this.init();
+      this.init()
     },
     histories(arr) {
       if (arr.length < 2) {
-        this.eventBus.$emit("noReuse");
+        emitter.emit('noReuse')
       } else {
-        this.eventBus.$emit("hasReuse");
+        emitter.emit('hasReuse')
       }
-    }
+    },
   },
-  inject: ["eventBus"],
   created() {
     // 关闭窗口时执行
     window.onbeforeunload = () => {
       // 缓存历史记录
-      window.localStorage.setItem("history", JSON.stringify(this.histories));
-    };
+      window.localStorage.setItem('history', JSON.stringify(this.histories))
+    }
   },
   computed: {
-    logined() {
-      return this.$store.state.logined;
+    loggedIn() {
+      return this.$store.state.loggedIn
     },
     defaultRoute() {
-      return this.$store.state.defaultRoute;
+      return this.$store.state.defaultRoute
     },
-    ...mapGetters(["getStageByRoute", "getStageByName", "stageList"])
+    ...mapGetters(['getStageByRoute', 'getStageByName', 'stageList']),
   },
   mounted() {
-    this.init();
-    this.eventBus.$on("clearTap", () => {
-      this.histories = [];
-    });
+    this.init()
+    emitter.on('clearTap', () => {
+      this.histories = []
+    })
   },
   methods: {
     init() {
-      const histories = [];
+      const histories = []
 
       // 获取当前的历史记录, 可能从本地存储, 可能直接获取当前的
-      let localHistory;
+      let localHistory
       if (this.histories.length > 0) {
-        localHistory = [...this.histories];
+        localHistory = [...this.histories]
       } else {
-        localHistory = window.localStorage.getItem("history") || "[]";
-        localHistory = JSON.parse(localHistory);
+        localHistory = window.localStorage.getItem('history') || '[]'
+        localHistory = JSON.parse(localHistory)
       }
 
       localHistory.forEach(item => {
-        let findResult;
+        let findResult
         if (item.name) {
-          findResult = this.getStageByName(item.name);
+          findResult = this.getStageByName(item.name)
         } else {
-          findResult = this.getStageByRoute(item.routePath);
+          findResult = this.getStageByRoute(item.routePath)
         }
         if (!findResult) {
-          return;
+          return
         }
-        histories.push({
-          ...item,
-          stageId: findResult.name
-        });
-        this.histories = histories;
-      });
+
+        histories.push({ ...item, stageId: findResult.name })
+        this.histories = histories
+      })
     },
     filterIcon(icon) {
       if (!icon) {
-        return false;
+        return false
       }
-      return icon.indexOf("/") !== -1;
+      return icon.indexOf('/') !== -1
     },
     closeAll() {
-      this.histories = [];
-      this.$router.push(this.defaultRoute);
+      this.histories = []
+      this.$router.push(this.defaultRoute)
     },
     closeOthers() {
-      this.$router.push(this.histories[this.index].path);
-      this.histories = [];
+      this.$router.push(this.histories[this.index].path)
+      this.histories = []
     },
     closeLeft() {
-      this.histories.splice(0, this.index);
+      this.histories.splice(0, this.index)
     },
     closeRight() {
-      this.histories.splice(
-        this.index + 1,
-        this.histories.length - this.index - 1
-      );
+      this.histories.splice(this.index + 1, this.histories.length - this.index - 1)
     },
     onTags(index, event) {
-      this.closeMenu();
-      const menuMinWidth = 126;
-      const offsetLeft = this.$el.getBoundingClientRect().left;
-      const { offsetWidth } = this.$el;
-      const maxLeft = offsetWidth - menuMinWidth;
-      const left = event.clientX - offsetLeft + 15;
+      this.closeMenu()
+      const menuMinWidth = 126
+      const offsetLeft = this.$el.getBoundingClientRect().left
+      const { offsetWidth } = this.$el
+      const maxLeft = offsetWidth - menuMinWidth
+      const left = event.clientX - offsetLeft + 15
 
       if (left > maxLeft) {
-        this.left = maxLeft;
+        this.left = maxLeft
       } else {
-        this.left = left;
+        this.left = left
       }
 
       if (index === 0) {
-        this.hasLeft = false;
+        this.hasLeft = false
       }
 
       if (index + 1 === this.histories.length) {
-        this.hasRight = false;
+        this.hasRight = false
       }
 
-      this.top = 18;
-      this.index = index;
-      this.visible = true;
+      this.top = 18
+      this.index = index
+      this.visible = true
     },
     closeMenu() {
-      this.visible = false;
-      this.hasLeft = true;
-      this.hasRight = true;
+      this.visible = false
+      this.hasLeft = true
+      this.hasRight = true
     },
     close(index) {
       // 检测是否是当前页, 如果是当前页则自动切换路由
       if (this.$route.path === this.histories[index].path) {
         if (index > 0) {
-          this.$router.push(this.histories[index - 1].path);
+          this.$router.push(this.histories[index - 1].path)
         } else if (this.histories.length > 1) {
-          this.$router.push(this.histories[1].path);
+          this.$router.push(this.histories[1].path)
         } else {
-          this.$router.push(this.defaultRoute);
+          this.$router.push(this.defaultRoute)
         }
       }
       // 删除该历史记录
-      this.histories.splice(index, 1);
-      this.histories = [...this.histories];
-    }
-  }
-};
+      this.histories.splice(index, 1)
+      this.histories = [...this.histories]
+    },
+  },
+}
 </script>
 
 <style lang="scss" scoped>
 .swiper-slide {
-  width: auto;
+  width: auto !important;
   min-width: 126px;
   display: flex;
-  height: $reusetab-height;
+  height: $reuse-tab-height;
   flex-direction: column;
   justify-content: center;
   background-color: $reuse-tab-item-background;
   color: $right-side-font-color;
+  margin-right: 1px;
 }
 
 .reuse-tab-wrap {
   bottom: 0;
   left: 0;
   user-select: none;
-  height: $reusetab-height;
+  height: $reuse-tab-height;
   background: $header-background;
   font-size: 14px;
   color: #8c98ae;
@@ -249,7 +246,7 @@ export default {
   .reuse-tab-item {
     box-sizing: border-box;
     width: auto;
-    height: $reusetab-height;
+    height: $reuse-tab-height;
     min-width: 126px;
     display: flex;
     justify-content: center;

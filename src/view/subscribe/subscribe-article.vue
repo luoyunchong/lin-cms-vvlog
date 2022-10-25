@@ -7,12 +7,12 @@
         </div>
         <el-backtop></el-backtop>
         <infinite-loading @infinite="infiniteHandler" spinner="bubbles" :identifier="any">
-          <span slot="no-more">
+          <template #spinner>
+            <el-divider class="lin-divider">加载中...</el-divider>
+          </template>
+          <template #complete>
             <el-divider class="lin-divider">我也是有底线的...</el-divider>
-          </span>
-          <span slot="no-results">
-            <el-divider class="lin-divider">暂无随笔...</el-divider>
-          </span>
+          </template>
         </infinite-loading>
       </el-col>
     </el-row>
@@ -20,13 +20,14 @@
 </template>
 
 <script>
-import ArticleList from "@/view/article/article-list";
-import InfiniteLoading from "vue-infinite-loading";
-import articleApi from "@/model/article";
-import { SubscribeUserList } from "@/view/subscribe";
+import ArticleList from '@/view/article/article-list'
+import InfiniteLoading from 'v3-infinite-loading'
+import 'v3-infinite-loading/lib/style.css'
+import articleApi from '@/model/article'
+import { SubscribeUserList } from '@/view/subscribe'
 
 export default {
-  name: "HomeIndex",
+  name: 'HomeIndex',
   components: { ArticleList, InfiniteLoading, SubscribeUserList },
   data() {
     return {
@@ -35,54 +36,54 @@ export default {
       pagination: {
         currentPage: 0,
         pageSize: 10,
-        pageTotal: 0
+        pageTotal: 0,
       },
       loading: false,
-      any: new Date()
-    };
+      any: new Date(),
+    }
   },
   mounted() {},
   computed: {},
   watch: {
     $route(v) {
-      console.log(v);
-      this.refresh();
-    }
+      console.log(v)
+      this.refresh()
+    },
   },
   methods: {
     async refresh() {
-      this.pagination.currentPage = 0;
-      this.any = new Date();
-      await this.infiniteHandler();
+      this.pagination.currentPage = 0
+      this.any = new Date()
+      await this.infiniteHandler()
     },
     async infiniteHandler($state) {
-      let res;
-      const currentPage = this.pagination.currentPage;
+      let res
+      const currentPage = this.pagination.currentPage
       res = await articleApi.getSubscribeArticles({
         count: this.pagination.pageSize,
-        page: currentPage
-      });
-      let items = [...res.items];
+        page: currentPage,
+      })
+      let items = [...res.items]
 
       if (items.length == 0) {
-        $state && $state.complete();
+        $state && $state.complete()
       } else {
         if (currentPage == 0) {
-          this.dataSource = items;
+          this.dataSource = items
         } else {
-          this.dataSource = this.dataSource.concat(items);
+          this.dataSource = this.dataSource.concat(items)
         }
-        this.pagination.currentPage += 1;
-        this.pagination.pageTotal = res.total;
+        this.pagination.currentPage += 1
+        this.pagination.pageTotal = res.total
 
-        $state && $state.loaded();
+        $state && $state.loaded()
       }
     },
     onChange(val) {
-      this.$router.push("/index?sort=" + val);
-    }
-  }
-};
+      this.$router.push('/index?sort=' + val)
+    },
+  },
+}
 </script>
 
 <style scoped lang="scss">

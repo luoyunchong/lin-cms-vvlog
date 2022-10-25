@@ -2,24 +2,19 @@
   <div>
     <div class="reply-item">
       <div class="pull-left">
-        <img class="avatar-32" :src="author.avatar||defaultAvatar" alt @click="handleClickAvatar" />
+        <img class="avatar-32" :src="author.avatar || defaultAvatar" alt @click="handleClickAvatar" />
       </div>
       <div class="reply-content-block">
         <div class="comment-func">
           <span class="comment-meta inline-block">
-            <a
-              target="_blank"
-              :href="`/user/${author.id}/article`"
-              @click="handleClickAuthor($event)"
-            >{{author.nickname}}</a>
-            <template v-if="resp_user_info!=null">
-              <span style="margin:0px 5px;">回复</span>
-              <a
-                target="_blank"
-                :href="`/user/${resp_user_info.id}/article`"
-              >{{resp_user_info.nickname}}</a>
+            <a target="_blank" :href="`/user/${author.id}/article`" @click="handleClickAuthor($event)">{{
+              author.nickname
+            }}</a>
+            <template v-if="resp_user_info != null">
+              <span style="margin: 0px 5px">回复</span>
+              <a target="_blank" :href="`/user/${resp_user_info.id}/article`">{{ resp_user_info.nickname }}</a>
             </template>
-            <span class="comments-date">· {{time | filterTimeYmdHms}}</span>
+            <span class="comments-date">· {{ $filters.filterTimeYmdHms(time) }}</span>
           </span>
           <span class="pull-right comment-tools ml15">
             <a
@@ -32,7 +27,7 @@
               @click="handleClickTool($event, item)"
             >
               <i :class="item.icon" v-if="item.icon"></i>
-              <span v-if="item.text">{{item.text}}</span>
+              <span v-if="item.text">{{ item.text }}</span>
             </a>
           </span>
         </div>
@@ -43,19 +38,21 @@
       <div class="comments-ops">
         <div class="coments-ops-item">
           <span class="comments-reply-btn ml15" @click="handleAddReply">
-            <i class="iconfont icon-comment coments-ops-icon"></i>
-            {{replyText}}
+            <el-icon><Comment /></el-icon>
+            {{ replyText }}
           </span>
           <el-popconfirm
             class="comments-reply-btn"
             title="确认删除此评论"
-            @onConfirm="handleDeleteReply"
-            v-show="user!=null&&author.id==user.id"
+            @confirm="handleDeleteReply"
+            v-show="user != null && author.id == user.id"
           >
-            <span class="ml15" slot="reference">
-              <i class="iconfont icon-delete coments-ops-icon"></i>
-              删除
-            </span>
+            <template #reference>
+              <span class="comments-reply-btn ml15">
+                <el-icon><Delete /></el-icon>
+                删除
+              </span>
+            </template>
           </el-popconfirm>
         </div>
       </div>
@@ -67,8 +64,8 @@
 </template>
 
 <script>
-import defaultAvatar from '@/assets/image/user/user.png';
-import Utils from '@/lin/util/util';
+import defaultAvatar from '@/assets/image/user/user.png'
+import Utils from '@/lin/util/util'
 export default {
   name: 'ReplyItem',
   props: {
@@ -85,39 +82,42 @@ export default {
   data() {
     return {
       defaultAvatar,
-    };
+    }
   },
   computed: {
     replyText() {
-      return this.replyVisible == true ? '取消回复' : '回复';
+      return this.replyVisible == true ? '取消回复' : '回复'
     },
     commentContent() {
-      return Utils.formatHtml(Utils.formatHyperLink(this.content));
+      return Utils.formatHtml(Utils.formatHyperLink(this.content))
+    },
+    user() {
+      return this.$store.state.user
     },
   },
   methods: {
     handleClickAvatar(event) {
-      event.stopPropagation();
-      this.$emit('clickAvatar', this);
+      event.stopPropagation()
+      this.$emit('clickAvatar', this)
     },
     handleClickTool(event, tool) {
-      event.stopPropagation();
-      this.$emit('clickTool', this, tool);
+      event.stopPropagation()
+      this.$emit('clickTool', this, tool)
     },
     handleClickAuthor(event) {
-      event.stopPropagation();
-      this.$emit('clickAuthor', this);
+      event.stopPropagation()
+      this.$emit('clickAuthor', this)
     },
     handleAddReply(event) {
-      event.stopPropagation();
-      this.$emit('addReply', this);
+      event.stopPropagation()
+      this.$emit('addReply', this)
     },
     handleDeleteReply(event) {
-      this.$emit('deleteReply', this);
+      this.$emit('deleteReply', this)
     },
   },
   filters: {},
-};
+}
 </script>
 
 <style lang="scss" scoped>
@@ -185,6 +185,9 @@ export default {
     &:hover {
       cursor: pointer;
       color: #5cb6ff;
+    }
+    i {
+      vertical-align: middle;
     }
   }
 }

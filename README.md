@@ -6,158 +6,67 @@
 </p>
 
 <p align="center">
-  <a href="#简介">简介</a>&nbsp;|&nbsp;<a href="#快速上手">快速上手</a>&nbsp;|&nbsp;<a href="#版本日志">版本日志</a>
+  <a href="#简介">简介</a>&nbsp;|&nbsp;<a href="#快速上手">快速上手</a>&nbsp;
 </p>
 
-![](https://img.shields.io/badge/版本-0.0.1-3963bc.svg)
-![](https://img.shields.io/badge/node-8.11.0+-3963bc.svg)
-![](https://img.shields.io/badge/脚手架-vuecli3-3963bc.svg)
 ![](https://img.shields.io/badge/license-MIT-3963bc.svg)
 
-![](https://img.shields.io/badge/developer-@igeekfan-3963bc.svg)
 
 ## 简介
-- 功能简介 [https://github.com/luoyunchong/lin-cms-dotnetcore/issues/3](https://github.com/luoyunchong/lin-cms-dotnetcore/issues/3)
-## 开源
-- 后端接口 [https://github.com/luoyunchong/lin-cms-dotnetcore](https://github.com/luoyunchong/lin-cms-dotnetcore)
-- 管理后台UI [https://github.com/luoyunchong/lin-cms-vue](https://github.com/luoyunchong/lin-cms-vue)
-- 前端UI[https://github.com/luoyunchong/lin-cms-vvlog](https://github.com/luoyunchong/lin-cms-vvlog)
+
+## 注意事项
+
+1. Lin-CMS 是工程类开源项目，不能保证无缝升级.
+
+2. 当前分支为 Vue3 版本，如需使用 Vue2.x 请切换至 master 分支。
+
+## 文档资料
+
+### 文档地址
+
+- [https://igeekfan.cn/](https://igeekfan.cn/)
+
+### 线上 Demo
+
+- [https://vvlog.igeekfan.cn/](https://vvlog.igeekfan.cn/)
 
 
-## 线上 Demo
-- 本项目swagger地址 [https://baimocore.cn/swagger/index.html](https://baimocore.cn/swagger/index.html)
-- 用户端 lin-cms-vvlog [https://vvlog.baimocore.cn](https://vvlog.baimocore.cn) 
-  - 普通用户：710277267@qq.com
-  - 密码：123qwe
+## Lin CMS 的特点
 
-- 管理员 lin-cms-vue [https://cms.baimocore.cn/](https://cms.baimocore.cn)
-  - 管理员： admin
-  - 密码：123qwe
+Lin CMS 的构筑思想是有其自身特点的。下面我们阐述一些 Lin 的主要特点。
 
-
-## 线上文档地址(完善中)
-- [https://luoyunchong.github.io/vuepress-docs/dotnetcore/lin-cms/](https://luoyunchong.github.io/vuepress-docs/dotnetcore/lin-cms/)
-- [https://igeekfan.gitee.io/vuepress-docs/dotnetcore/lin-cms/](https://igeekfan.gitee.io/vuepress-docs/dotnetcore/lin-cms/)
-- 
 #### Lin CMS 是一个前后端分离的 CMS 解决方案
+
+这意味着，Lin 既提供后台的支撑，也有一套对应的前端系统，当然双端分离的好处不仅仅在于此，我们会在后续提供`NodeJS`和`PHP`版本的 Lin。如果你心仪 Lin，却又因为技术栈的原因无法即可使用，没关系，我们会在后续提供更多的语言版本。为什么 Lin 要选择前后端分离的单页面架构呢？
+
+首先，传统的网站开发更多的是采用服务端渲染的方式，需用使用一种模板语言在服务端完成页面渲染：比如 JinJa2、Jade 等。
+服务端渲染的好处在于可以比较好的支持 SEO，但作为内部使用的 CMS 管理系统，SEO 并不重要。
+
+但一个不可忽视的事实是，服务器渲染的页面到底是由前端开发者来完成，还是由服务器开发者来完成？其实都不太合适。现在已经没有多少前端开发者是了解这些服务端模板语言的，而服务器开发者本身是不太擅长开发页面的。那还是分开吧，前端用最熟悉的 Vue 写 JS 和 CSS，而服务器只关注自己的 API 即可。
+
+其次，单页面应用程序的体验本身就要好于传统网站。
+
+#### 框架本身已内置了 CMS 常用的功能
+
+Lin 已经内置了 CMS 中最为常见的需求：用户管理、权限管理、日志系统等。开发者只需要集中精力开发自己的 CMS 业务即可
+
+#### Lin CMS 本身也是一套开发规范
+
+Lin CMS 除了内置常见的功能外，还提供了一套开发规范与工具类。换句话说，开发者无需再纠结如何验证参数？如何操作数据库？如何做全局的异常处理？API 的结构如何？前端结构应该如何组织？这些问题 Lin CMS 已经给出了解决方案。当然，如果你不喜欢 Lin 给出的架构，那么自己去实现自己的 CMS 架构也是可以的。但通常情况下，你确实无需再做出架构上的改动，Lin 可以满足绝大多数中小型的 CMS 需求。
+
+举例来说，每个 API 都需要校验客户端传递的参数。但校验的方法有很多种，不同的开发者会有不同的构筑方案。但 Lin 提供了一套验证机制，开发者无需再纠结如何校验参数，只需模仿 Lin 的校验方案去写自己的业务即可。
+
+还是基于这样的一个原则：**Lin CMS 只需要开发者关注自己的业务开发，它已经内置了很多机制帮助开发者快速开发自己的业务**。
+
 ## 快速上手
 
-- NVM 
-
-node 请安装 14版本，不要升级到最新的16，如果有多个版本，可以使用nvm管理多个node版本。
-- Linux [https://github.com/nvm-sh/nvm](https://github.com/nvm-sh/nvm)
-- MAC [https://github.com/tj/n](https://github.com/tj/n)
-- windows 下安装 [nvm-windows](https://github.com/coreybutler/nvm-windows/releases)
-
-```sh
-# 获取所有可以安装的 Node.js 版本
-nvm list available
-# 安装指定版本的 Node.js
-- nvm install 14.17.4
-# 列出所有已经安装的版本
-- nvm list
-# 指定当前要使用的 Node.js 版本,只用指定使用的 Node.js 版本后，nodejs 的才真正安装了。
-- nvm use 14.17.4
-```
-- run
 ```sh
 # clone the project
-git clone https://github.com/luoyunchong/lin-cms-vvlog
+git clone https://github.com/luoyunchong/lin-cms-vvlog.git
 
 # install dependency
-npm install or yarn (install)
+pnpm install
 
 # develop
-npm run serve or yarn (run) serve
-
-#upgrade package
-yarn upgrade element-ui
-yarn upgrade element-ui@2.13.0
+pnpm run serve
 ```
-
-## 性能优化
-- 1.gzip压缩
-```
-npm install compression-webpack-plugin@6.1.1 -D
-```
-
-修改vue.config.js
-```
-const CompressionPlugin = require('compression-webpack-plugin');//引入gzip压缩插
-configureWebpack: config => {
-    const baseConfig = {
-        name: name,
-        resolve: {
-            alias: {
-                '@': resolve('src')
-            }
-        }
-    }
-    if (process.env.NODE_ENV === 'production') {
-        return {
-            plugins: [
-                // 压缩代码
-                new CompressionPlugin({
-                    test: /\.js$|\.html$|.\css/, // 匹配文件名
-                    threshold: 10240, // 对超过10k的数据压缩
-                    deleteOriginalAssets: false // true 不删除源文件 false 删除源文件
-                })
-            ],
-            ...baseConfig
-        }
-    } else {
-        return { ...baseConfig }
-    }
-}
-```
-
-
-
-- 去除console.log与警告
-```
-npm install compression-webpack-plugin@6.1.1 -D
-```
-
-```
-const TerserPlugin = require('terser-webpack-plugin')
-configureWebpack: config => {
-    const baseConfig = {
-        name: name,
-        resolve: {
-            alias: {
-                '@': resolve('src')
-            }
-        }
-    }
-    if (process.env.NODE_ENV === 'production') {
-        return {
-            plugins: [
-                // 压缩代码
-                new CompressionPlugin({
-                    test: /\.js$|\.html$|.\css/, // 匹配文件名
-                    threshold: 10240, // 对超过10k的数据压缩
-                    deleteOriginalAssets: false // 不删除源文件
-                }),
-                // 去除console.log
-                new TerserPlugin({
-                    terserOptions: {
-                        compress: {
-                            warnings: false,
-                            drop_console: true,
-                            drop_debugger: true,
-                            pure_funcs: ['console.log']
-                        }
-                    }
-                })
-            ],
-            ...baseConfig
-        }
-    } else {
-        return { ...baseConfig }
-    }
-}
-
-```
-
-## 版本日志
-
