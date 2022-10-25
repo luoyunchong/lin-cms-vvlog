@@ -25,12 +25,13 @@
 
 
 ## 线上 Demo
-- 本项目swagger地址 [https://baimocore.cn/swagger/index.html](https://baimocore.cn/swagger/index.html)
-- 用户端 lin-cms-vvlog [https://vvlog.baimocore.cn](https://vvlog.baimocore.cn) 
+
+- 本项目swagger地址 [https://igeekfan.cn/swagger/index.html](https://igeekfan.cn/swagger/index.html)
+- 用户端 lin-cms-vvlog [https://vvlog.igeekfan.cn](https://vvlog.igeekfan.cn)
   - 普通用户：710277267@qq.com
   - 密码：123qwe
 
-- 管理员 lin-cms-vue [https://cms.baimocore.cn/](https://cms.baimocore.cn)
+- 管理员 lin-cms-vue [https://cms.igeekfan.cn/](https://cms.igeekfan.cn)
   - 管理员： admin
   - 密码：123qwe
 
