@@ -3,7 +3,7 @@
     <v-list :dataSource="listData" :bordered="false" v-loading="loading" itemLayout="vertical" :pagination="pagination">
       <template v-slot:renderItem="{ item }">
         <v-list-item>
-          <v-list-item-meta :description="item.create_time | filterTimeYmdHms">
+          <v-list-item-meta :description="$filters.filterTimeYmdHms(item.create_time)">
             <template #title>
               <div class="info" v-show="item.notification_type == 0">
                 <router-link :to="{ path: `/user/${item.user_info_id}/article` }" target="_blank">{{

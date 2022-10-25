@@ -7,8 +7,8 @@
       @handleEdit="handleEdit"
       v-loading="loading"
     >
-      <template v-slot:create_time="scope">
-        <span>{{ scope.row.create_time | filterTimeYmdHms }}</span>
+      <template #create_time="scope">
+        <span>{{ $filters.filterTimeYmdHms(scope.row.create_time) }}</span>
       </template>
     </lin-table>
     <div class="margin-top oauth2">
@@ -129,6 +129,7 @@ export default {
 .oauth2 {
   .el-avatar :deep(i) {
     font-size: 27px !important;
+
     &:hover {
       cursor: pointer !important;
     }

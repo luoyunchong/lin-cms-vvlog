@@ -14,7 +14,7 @@
               <span style="margin: 0px 5px">回复</span>
               <a target="_blank" :href="`/user/${resp_user_info.id}/article`">{{ resp_user_info.nickname }}</a>
             </template>
-            <span class="comments-date">· {{ time | filterTimeYmdHms }}</span>
+            <span class="comments-date">· {{ $filters.filterTimeYmdHms(time) }}</span>
           </span>
           <span class="pull-right comment-tools ml15">
             <a

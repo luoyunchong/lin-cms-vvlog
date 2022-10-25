@@ -30,7 +30,7 @@
           >
           <a v-if="author.id == 0" @click="handleClickAuthor">{{ author.nickname }}</a>
         </strong>
-        <span class="comments-date">· {{ time | filterTimeYmdHms }}</span>
+        <span class="comments-date">· {{ $filters.filterTimeYmdHms(time) }}</span>
       </div>
       <div class="comments-content">
         <p v-html="commentContent"></p>
