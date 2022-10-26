@@ -87,12 +87,12 @@ export default {
         this.form = classify;
         this.thumbnailPreview.length = 0;
         if (classify.thumbnail) {
-          this.thumbnailPreview.push({
+          this.thumbnailPreview = [{
             id: classify.id,
             display: classify.thumbnail_display,
             src: classify.thumbnail,
             imgId: classify.id
-          });
+          }]
         }
       } else {
         Object.assign(this.form, {

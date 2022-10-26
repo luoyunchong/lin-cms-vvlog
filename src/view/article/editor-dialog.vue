@@ -218,12 +218,12 @@ export default {
         })
         this.form = res
         if (res.thumbnail) {
-          this.thumbnailPreview.push({
+          this.thumbnailPreview = [{
             id: res.id,
             display: res.thumbnail_display,
             src: res.thumbnail,
             imgId: res.id,
-          })
+          }]
         }
         this.tags = res.tags
       } else {
