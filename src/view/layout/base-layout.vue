@@ -32,6 +32,16 @@
                     <el-icon> <Van /> </el-icon>VUE2 旧版本
                   </a>
                 </el-menu-item>
+                <el-menu-item index="cms.igeekfan.cn/" class="block">
+                  <a href="https://cms.igeekfan.cn/" target="_blank">
+                    <el-icon> <Van /> </el-icon>CMS
+                  </a>
+                </el-menu-item>
+                <el-menu-item index="cms-vue2.igeekfan.cn/" class="block">
+                  <a href="https://cms-vue2.igeekfan.cn/" target="_blank">
+                    <el-icon> <Van /> </el-icon>CMS VUE2
+                  </a>
+                </el-menu-item>
                 <div class="flex-grow" />
                 <el-menu-item index="login" v-show="!loggedIn">
                   <el-link>登录</el-link>
