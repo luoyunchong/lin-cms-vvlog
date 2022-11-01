@@ -72,6 +72,7 @@
                   v-for="item in article_types"
                   :key="Number(item.item_code)"
                   :label="item.item_name"
+                  :disabled="!item.status"
                   :value="Number(item.item_code)"
                 ></el-option>
               </el-select>
