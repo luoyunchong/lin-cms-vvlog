@@ -1,6 +1,6 @@
 <template>
   <div v-loading="loading" element-loading-background="rgba(0, 0, 0, 0)">
-    <el-dialog width="318px" custom-class="lin-dialog" v-model="dialogTableVisible" :close-on-click-modal="false">
+    <el-dialog width="318px" class="lin-dialog" v-model="dialogTableVisible" :close-on-click-modal="false">
       <template #header="{ close, titleId, titleClass }">
         {{ activeIndex == 'login' ? '登录' : '注册' }}
       </template>

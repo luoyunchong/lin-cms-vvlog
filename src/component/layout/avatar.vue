@@ -6,7 +6,7 @@
     :append-to-body="true"
     :close-on-click-modal="false"
     :model-value="cropVisible"
-    custom-class="croppa-dialog"
+    class="croppa-dialog"
   >
     <div style="text-align: center">
       <div class="avatar-croppa-container">

@@ -112,14 +112,15 @@ _axios.interceptors.response.use(
       const { url } = res.config
 
       // refresh_token 异常，直接登出
-      // if (refreshTokenException(code)) {
-      //   setTimeout(() => {
-      //     store.dispatch('loginOut')
-      //     const { origin } = window.location
-      //     window.location.href = origin
-      //   }, 1500)
-      //   return resolve(null)
-      // }
+      if (refreshTokenException(code)) {
+        ElMessage.error(message)
+        setTimeout(() => {
+          store.dispatch('loginOut')
+          const { origin } = window.location
+          window.location.href = origin
+        }, 1500)
+        return resolve(null)
+      }
       // assessToken相关，刷新令牌
       if (code === 10041 || code === 10051) {
         const cache = {}
