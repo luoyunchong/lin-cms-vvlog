@@ -2,77 +2,45 @@
   <div>
     <el-row class="row-bg" :gutter="20">
       <el-col :span="24">
-        <el-card
-          :body-style="{ padding: '15px', 'overflow-x': 'auto' }"
-          shadow="never"
-          style="margin-bottom: 10px; border-radius: 8px"
-        >
+        <el-card :body-style="{ padding: '15px', 'overflow-x': 'auto' }" shadow="never"
+          style="margin-bottom: 10px; border-radius: 8px">
           <ul class="nav-list">
             <li v-for="(item, index) in channels" v-bind:key="index" class="nav-item">
-              <router-link
-                :class="['el-link is-underline', channel == item.channel_code ? 'el-link--primary' : '']"
-                :to="{ path: `/index/${item.channel_code}` }"
-                >{{ item.channel_name }}</router-link
-              >
+              <router-link :class="['el-link is-underline', channel == item.channel_code ? 'el-link--primary' : '']"
+                :to="{ path: `/index/${item.channel_code}` }">{{ item.channel_name }}</router-link>
             </li>
           </ul>
         </el-card>
       </el-col>
       <el-col :span="24" class="margin-bottom-xs">
         <div v-for="(item, index) in channels" v-bind:key="index">
-          <el-tag
-            :hit="false"
-            class="margin-left-xs margin-bottom-xs"
-            v-if="item.channel_code == channel"
-            :effect="channel != undefined && tag_name == undefined ? 'dark' : 'plain'"
-          >
+          <el-tag :hit="false" class="margin-left-xs margin-bottom-xs" v-if="item.channel_code == channel"
+            :effect="channel != undefined && tag_name == undefined ? 'dark' : 'plain'">
             <router-link :to="{ path: `/index/${encodeURIComponent(item.channel_code)}` }">全部</router-link>
           </el-tag>
           <template v-for="tag in item.tags">
-            <el-tag
-              :hit="false"
-              :effect="tag_name == tag.tag_name ? 'dark' : 'plain'"
-              v-bind:key="tag.id"
-              v-if="item.channel_code == channel"
-              class="margin-left-xs"
-            >
-              <router-link
-                :to="{
-                  path: `/index/${item.channel_code}/${encodeURIComponent(tag.tag_name)}`,
-                }"
-                >{{ tag.tag_name }}</router-link
-              >
+            <el-tag :hit="false" :effect="tag_name == tag.tag_name ? 'dark' : 'plain'" v-bind:key="tag.id"
+              v-if="item.channel_code == channel" class="margin-left-xs">
+              <router-link :to="{
+                path: `/index/${item.channel_code}/${encodeURIComponent(tag.tag_name)}`,
+              }">{{ tag.tag_name }}</router-link>
             </el-tag>
           </template>
         </div>
       </el-col>
       <el-col :xs="24" :md="17">
-        <el-card
-          :body-style="{ 'padding-bottom': '10px', 'padding-top': '10px' }"
-          shadow="never"
-          style="margin-bottom: 10px; border-radius: 8px"
-        >
+        <el-card :body-style="{ 'padding-bottom': '10px', 'padding-top': '10px' }" shadow="never"
+          style="margin-bottom: 10px; border-radius: 8px">
           <el-row>
             <el-col :span="24">
-              <router-link
-                :to="{ path: latestArticle, query: { sort: 'CreateTime' } }"
-                :class="['el-link is-underline', sort == 'CreateTime' ? 'el-link--primary' : 'el-link--info']"
-                >最新</router-link
-              >
+              <router-link :to="{ path: latestArticle, query: { sort: 'CreateTime' } }"
+                :class="['el-link is-underline', sort == 'CreateTime' ? 'el-link--primary' : 'el-link--info']">最新
+              </router-link>
               <el-divider direction="vertical"></el-divider>
-              <router-link
-                :to="{ path: threeDaysHottest, query: { sort: 'THREE_DAYS_HOTTEST' } }"
-                :class="['el-link is-underline', 'el-link--' + hotType]"
-                >热榜</router-link
-              >
-              <el-select
-                v-model="sort"
-                size="small"
-                @change="onChange"
-                style="width: 100px"
-                v-show="sort && sort != 'CreateTime'"
-                class="margin-left-xs"
-              >
+              <router-link :to="{ path: threeDaysHottest, query: { sort: 'THREE_DAYS_HOTTEST' } }"
+                :class="['el-link is-underline', 'el-link--' + hotType]">热榜</router-link>
+              <el-select v-model="sort" size="small" @change="onChange" style="width: 100px"
+                v-show="sort && sort != 'CreateTime'" class="margin-left-xs">
                 <el-option label="3天内" value="THREE_DAYS_HOTTEST"></el-option>
                 <el-option label="7天内" value="WEEKLY_HOTTEST"></el-option>
                 <el-option label="30天内" value="MONTHLY_HOTTEST"></el-option>
@@ -83,17 +51,17 @@
         </el-card>
         <div>
           <article-list :dataSource="dataSource"></article-list>
+
+          <infinite-loading @infinite="infiniteHandler" :identifier="any" distance="50">
+            <template #spinner>
+              <el-divider class="lin-divider">加载中...</el-divider>
+            </template>
+            <template #complete>
+              <el-divider class="lin-divider">我也是有底线的...</el-divider>
+            </template>
+          </infinite-loading>
         </div>
         <el-backtop class="lin-back-top"></el-backtop>
-
-        <infinite-loading @infinite="infiniteHandler" spinner="bubbles" :identifier="any">
-          <template #spinner>
-            <el-divider class="lin-divider">加载中...</el-divider>
-          </template>
-          <template #complete>
-            <el-divider class="lin-divider">我也是有底线的...</el-divider>
-          </template>
-        </infinite-loading>
       </el-col>
       <el-col :xs="24" :md="7" class="sidebar">
         <div class="sidebar-block">
@@ -127,7 +95,7 @@
               <div class="margin-bottom-xs">
                 <a href="https://github.com/luoyunchong/lin-cms-dotnetcore" target="_blank">
                   <el-button type="danger" plain>
-                    <el-icon> <Apple /> </el-icon>lin-cms-dotnetcore
+                    lin-cms-dotnetcore
                   </el-button>
                 </a>
               </div>
@@ -215,7 +183,7 @@ export default {
       wechatsrcList: ['https://pic.downk.cc/item/5eef6d4e14195aa594925b91.jpg'],
     }
   },
-  async created() {},
+  async created() { },
   async mounted() {
     this.serverInfo = await monitorApi.getServerInfo()
   },
@@ -253,6 +221,7 @@ export default {
     $route(v) {
       this.dataSource = []
       this.pagination.currentPage = 0
+      console.log('this any')
       this.any = new Date()
     },
   },
@@ -282,6 +251,7 @@ export default {
       }
     },
     async infiniteHandler($state) {
+      console.log('infiniteHandler')
       this.loading = true
       await this.getNavChannels()
       this.setPaginationParams()
@@ -300,6 +270,7 @@ export default {
         if (currentPage == 0) {
           this.dataSource = items
         }
+        console.log('state.complete')
         $state && $state.complete()
       } else {
         if (currentPage == 0) {

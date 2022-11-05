@@ -18,12 +18,8 @@
                   <el-row :gutter="10">
                     <el-col :span="20" :xs="18">
                       <el-col :span="24">
-                        <router-link
-                          class="nickname"
-                          :to="{ path: `/user/${model.user_info.id}/article` }"
-                          target="_blank"
-                          >{{ model.user_info.nickname }}</router-link
-                        >
+                        <router-link class="nickname" :to="{ path: `/user/${model.user_info.id}/article` }"
+                          target="_blank">{{ model.user_info.nickname }}</router-link>
                       </el-col>
                       <el-col :span="24">
                         <span>{{ model.time_span }}</span>
@@ -41,28 +37,17 @@
                         </span>
                       </el-col>
                     </el-col>
-                    <el-col
-                      :span="4"
-                      :xs="4"
-                      style="text-align: right; padding-left: 0px"
-                      v-if="user != null && model.user_info.id != user.id"
-                    >
-                      <subscribe-button
-                        v-if="model.user_info.id"
-                        :userId="model.user_info.id"
-                        @subscribe="subscribe"
-                        :is_subscribeed="is_subscribeed"
-                      ></subscribe-button>
+                    <el-col :span="4" :xs="4" style="text-align: right; padding-left: 0px"
+                      v-if="user != null && model.user_info.id != user.id">
+                      <subscribe-button v-if="model.user_info.id" :userId="model.user_info.id" @subscribe="subscribe"
+                        :is_subscribeed="is_subscribeed"></subscribe-button>
                     </el-col>
                   </el-row>
                 </el-col>
               </el-row>
             </div>
             <div class="info-box margin-bottom-xs">
-              <el-alert
-                :title="`本文共${model.word_number}字,阅读约需${model.reading_time}分钟。`"
-                type="info"
-              ></el-alert>
+              <el-alert :title="`本文共${model.word_number}字,阅读约需${model.reading_time}分钟。`" type="info"></el-alert>
             </div>
             <div id="preview" class="preview" @click="handlePreview($event)"></div>
             <div id="outline"></div>
@@ -70,27 +55,17 @@
               <h3 class="tag-title">标签</h3>
               <el-tag :hit="false" effect="light" type="info" v-bind:key="item.id" v-for="item in model.tags">
                 <router-link :to="{ path: '/tag/' + `${item.id}` }" target="_blank">
-                  <div
-                    alt="天上有木月"
-                    class="tag-image"
-                    :style="`background-image: url('${item.thumbnail_display}');`"
-                  ></div>
+                  <div alt="天上有木月" class="tag-image" :style="`background-image: url('${item.thumbnail_display}');`">
+                  </div>
                   {{ item.tag_name }}
                 </router-link>
               </el-tag>
             </div>
           </el-card>
           <div id="comment-list" class="margin-bottom-xs">
-            <comment-list
-              :subject_id="id"
-              :subject_type="1"
-              v-if="user != null"
-              :resp_user_id="model.create_user_id"
-              :commentable="model.commentable"
-              :authorid="model.user_info.id"
-              v-on:success="getCommentSuccess"
-              v-on:updateCommentable="updateCommentable"
-            ></comment-list>
+            <comment-list :subject_id="id" :subject_type="1" v-if="user != null" :resp_user_id="model.create_user_id"
+              :commentable="model.commentable" :authorid="model.user_info.id" v-on:success="getCommentSuccess"
+              v-on:updateCommentable="updateCommentable"></comment-list>
           </div>
           <el-backtop class="lin-back-top"></el-backtop>
         </el-col>
@@ -103,36 +78,22 @@
             </template>
             <div class="info-box" style="display: flex">
               <div style="flex: 0 0 auto; margin-right: 1rem">
-                <router-link
-                  :to="{
-                    path: `/user/${model.user_info.id}/article`,
-                  }"
-                  target="_blank"
-                  class="avatar"
-                >
+                <router-link :to="{
+                  path: `/user/${model.user_info.id}/article`,
+                }" target="_blank" class="avatar">
                   <el-avatar size="large" :src="model.user_info.avatar" icon="el-icon-user-solid"></el-avatar>
                 </router-link>
               </div>
               <div style="flex: 1 1 auto; min-width: 0">
-                <router-link
-                  class="nickname"
-                  :to="{
-                    path: `/user/${model.user_info.id}/article`,
-                  }"
-                  target="_blank"
-                  >{{ model.user_info.nickname }}</router-link
-                >
+                <router-link class="nickname" :to="{
+                  path: `/user/${model.user_info.id}/article`,
+                }" target="_blank">{{ model.user_info.nickname }}</router-link>
                 <div class="intro-content">{{ model.user_info.introduction }}</div>
               </div>
             </div>
             <div class="info-box" style="display: flex">
-              <v-list
-                itemLayout="vertical"
-                :dataSource="latestArticles"
-                :bordered="false"
-                class="lastest-articles"
-                v-loading="latestLoading"
-              >
+              <v-list itemLayout="vertical" :dataSource="latestArticles" :bordered="false" class="lastest-articles"
+                v-loading="latestLoading">
                 <template v-slot:renderItem="{ item }">
                   <v-list-item>
                     <template #actions>
@@ -143,14 +104,8 @@
 
                     <v-list-item-meta>
                       <template #description>
-                        <a
-                          target="_blank"
-                          :title="item.title"
-                          :href="'/#/p/' + item.id"
-                          style="color: rgb(45, 45, 45)"
-                          >{{ item.title }}</a
-                        ></template
-                      >
+                        <a target="_blank" :title="item.title" :href="'/#/p/' + item.id"
+                          style="color: rgb(45, 45, 45)">{{ item.title }}</a></template>
                     </v-list-item-meta>
                   </v-list-item>
                 </template>
@@ -158,12 +113,8 @@
             </div>
           </el-card>
 
-          <el-card
-            class="aside-list"
-            shadow="never"
-            :body-style="{ padding: '12px' }"
-            :style="this.aside > 260 ? 'position: fixed;top:80px;width:260px;' : ''"
-          >
+          <el-card class="aside-list" shadow="never" :body-style="{ padding: '12px' }"
+            :style="this.aside > 260 ? 'position: fixed;top:80px;width:260px;' : ''">
             <template #header>
               <div class="card-header">
                 <span>目录</span>
@@ -173,18 +124,15 @@
           </el-card>
         </el-col>
       </el-row>
-      <tools-badge
-        :model="{
-          id: model.id,
-          is_liked: model.is_liked,
-          likes_quantity: model.likes_quantity,
-          is_comment: model.is_comment,
-          comment_quantity: model.comment_quantity,
-          is_collect: model.is_collect,
-          collect_quantity: model.collect_quantity,
-        }"
-        @likeChange="likeChange"
-      ></tools-badge>
+      <tools-badge :model="{
+        id: model.id,
+        is_liked: model.is_liked,
+        likes_quantity: model.likes_quantity,
+        is_comment: model.is_comment,
+        comment_quantity: model.comment_quantity,
+        is_collect: model.is_collect,
+        collect_quantity: model.collect_quantity,
+      }" @likeChange="likeChange"></tools-badge>
     </div>
     <error-404-page v-show="deleted"></error-404-page>
   </div>
@@ -192,7 +140,6 @@
 
 <script>
 import articleApi from '../../model/article'
-import subscribeApi from '../../model/subscribe'
 import ToolsBadge from './tools-badge'
 import CommentList from '@/view/comment/comment-list'
 import { SubscribeButton } from '@/view/subscribe'
@@ -201,6 +148,7 @@ import Vditor from 'vditor'
 import VList from '@/component/list'
 import '@/component/list/index.css'
 import settingApi from '@/model/setting'
+
 export default {
   name: 'ArticleDetail',
   data() {
@@ -248,11 +196,7 @@ export default {
   async created() {
     await this.getData()
     this.activeIndex = 0
-  },
-  mounted() {
-    this.$nextTick(function () {
-      window.addEventListener('scroll', this.dataScroll, true)
-    })
+    window.addEventListener('scroll', this.dataScroll, true)
   },
   watch: {
     scroll: function () {
@@ -318,10 +262,8 @@ export default {
       })
     },
     dataScroll: function () {
-      this.scroll =
-        document.documentElement.scrollTop || document.body.scrollTop || document.querySelector('#preview').scrollTop
-      this.aside =
-        document.documentElement.scrollTop || document.body.scrollTop || document.querySelector('.aside-list').scrollTop
+      this.scroll = document.documentElement.scrollTop || document.body.scrollTop || document.querySelector('#preview').scrollTop
+      this.aside = document.documentElement.scrollTop || document.body.scrollTop || document.querySelector('.aside-list').scrollTop
     },
     loadSroll() {
       let self = this
@@ -544,7 +486,7 @@ export default {
   }
 }
 
-#preview ::v-deep {
+#preview :deep {
   color: #24292e;
   padding: 0px 12px 20px 12px !important;
 
@@ -666,7 +608,7 @@ export default {
   }
 }
 
-.sidebar-user .info-box .lastest-articles ::v-deep {
+.sidebar-user .info-box .lastest-articles :deep {
   width: 100%;
 
   a:hover {
@@ -712,8 +654,8 @@ export default {
   overflow: auto;
 }
 
-.wx_navigation ::v-deep .navigator-item,
-.wx_navigation ::v-deep .navigator-item-title {
+.wx_navigation :deep(.navigator-item),
+.wx_navigation :deep(.navigator-item-title) {
   cursor: pointer;
   margin: 0;
   padding: 0;
@@ -729,15 +671,15 @@ export default {
   position: relative;
 }
 
-.wx_navigation ::v-deep {
-  .navigator-item > a {
+.wx_navigation :deep {
+  .navigator-item>a {
     // padding-left: 10px;
     position: relative;
     padding: 4px 0 4px 12px;
     white-space: nowrap;
   }
 
-  .navigator-item.heading_1 > a {
+  .navigator-item.heading_1>a {
     font-weight: 600;
     color: #000;
   }
@@ -763,7 +705,7 @@ export default {
   }
 }
 
-.wx_navigation ::v-deep .navigator-item {
+.wx_navigation :deep(.navigator-item) {
   border-left: 4px solid transparent;
 
   &.active {
@@ -778,7 +720,7 @@ export default {
   }
 }
 
-.wx_navigation > .navigator-item > a::before {
+.wx_navigation>.navigator-item>a::before {
   content: '';
   position: absolute;
   top: 50%;
@@ -790,7 +732,7 @@ export default {
   border-radius: 50%;
 }
 
-.wx_navigation > .navigator-item.heading_1 > a::before {
+.wx_navigation>.navigator-item.heading_1>a::before {
   margin-top: -3px;
   width: 6px;
   height: 6px;

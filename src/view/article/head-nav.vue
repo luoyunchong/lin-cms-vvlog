@@ -122,7 +122,7 @@ export default {
   .flex-grow {
     flex-grow: 1;
   }
-  ::v-deep .block {
+  :deep(.block) {
     padding: 0px;
     a {
       display: block;

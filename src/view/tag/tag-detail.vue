@@ -17,7 +17,7 @@
         </el-col>
       </el-row>
       <article-list :dataSource="dataSource"></article-list>
-      <infinite-loading @infinite="infiniteHandler" spinner="bubbles" :identifier="any">
+      <infinite-loading @infinite="infiniteHandler" spinner="bubbles" :identifier="any" distance="50">
         <template #spinner>
           <el-divider class="lin-divider">加载中...</el-divider>
         </template>

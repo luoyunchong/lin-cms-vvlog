@@ -135,6 +135,7 @@ export default {
 
 <style  lang="scss" scoped>
 @import '~vditor/dist/index.css';
+
 .header {
   background-color: #fff;
   box-shadow: rgba(0, 0, 0, 0.05) 0 1px 7px;
@@ -158,7 +159,8 @@ export default {
   border-left: 1px solid #eee;
   background-color: #fff;
 }
-#outline :deep{
+
+#outline :deep {
   .vditor-outline__item {
     border-left: 1px solid transparent;
     padding: 10px 0px;

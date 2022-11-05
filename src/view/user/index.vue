@@ -13,7 +13,7 @@
               <template #label> <i class="el-icon-date"></i> 随笔 </template>
               <!-- <my-create-classify></my-create-classify> -->
               <article-list :dataSource="dataSource" class="vv-article-list"></article-list>
-              <infinite-loading @infinite="infiniteHandler" spinner="bubbles" :identifier="any">
+              <infinite-loading @infinite="infiniteHandler" :identifier="any" distance="50">
                 <template #spinner>
                   <el-divider class="lin-divider">加载中...</el-divider>
                 </template>

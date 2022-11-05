@@ -17,8 +17,8 @@
     "@element-plus/icons-vue": "^2.0.6",
     "axios": "^0.24.0",
     "core-js": "^3.23.5",
-    "dayjs": "^1.10.4",
-    "element-plus": "^2.1.4",
+    "dayjs": "^1.11.6",
+    "element-plus": "^2.2.19",
     "enquire.js": "^2.1.6",
     "event-source-polyfill": "^1.0.7",
     "fastscan": "^1.0.4",
@@ -26,17 +26,16 @@
     "js-cookie": "^2.2.0",
     "lodash": "^4.17.14",
     "mitt": "^2.1.0",
-    "moment": "^2.24.0",
     "photoswipe": "^4.1.2",
     "screenfull": "^4.2.0",
     "swiper": "^6.4.5",
     "v3-infinite-loading": "^1.2.1",
     "vditor": "^3.8.18",
-    "vue": "^3.2.24",
+    "vue": "^3.2.41",
     "vue-picture-cropper": "^0.1.9",
-    "vue-router": "^4.0.10",
-    "vuex": "^4.0.2",
-    "vuex-persist": "^2.0.1"
+    "vue-router": "^4.1.6",
+    "vuex": "^4.1.0",
+    "vuex-persist": "^2.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.11.4",
@@ -87,8 +86,7 @@
       "path": "./node_modules/cz-conventional-changelog"
     }
   },
-  "gitHooks": {
-  },
+  "gitHooks": {},
   "lint-staged": {
     "*.{js,vue}": [
       "prettier --write",

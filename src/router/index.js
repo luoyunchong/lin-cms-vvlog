@@ -37,12 +37,11 @@ let isLoginRequired = routeName => {
 
 const scrollBehavior = function (to, from, savedPosition) {
   if (to.hash) {
+    console.log(to)
     return {
       // 通过 to.hash 的值來找到对应的元素
-      selector: to.hash,
-      offset: {
-        y: 100
-      }
+      el: to.hash,
+      top: 100
     }
   }
 }
