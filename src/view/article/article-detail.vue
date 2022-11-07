@@ -228,16 +228,16 @@ export default {
         }
 
         this.render(this.model.content)
-        let setting = await settingApi.getSettingByKeys({
-          keys: ['Article.CodeTheme', 'Article.Commentable'],
-        })
-        if (setting['Article.CodeTheme'] != undefined) {
-          this.model.codeTheme = setting['Article.CodeTheme']
-          Vditor.setCodeTheme(this.model.codeTheme)
-        }
-        if (setting['Article.Commentable'] != undefined) {
-          this.model.commentable = Boolean(setting['Article.Commentable'])
-        }
+         let setting = await settingApi.getSettingByKeys({
+           keys: ['Article.CodeTheme', 'Article.Commentable'],
+         })
+         if (setting['Article.CodeTheme'] != undefined) {
+           this.model.codeTheme = setting['Article.CodeTheme']
+           Vditor.setCodeTheme(this.model.codeTheme)
+         }
+         if (setting['Article.Commentable'] != undefined) {
+           this.model.commentable = Boolean(setting['Article.Commentable'])
+         }
         if (this.model.user_info == undefined) {
           this.model.user_info = {
             id: 0,

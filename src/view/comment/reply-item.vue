@@ -8,7 +8,7 @@
         <div class="comment-func">
           <span class="comment-meta inline-block">
             <a target="_blank" :href="`/user/${author.id}/article`" @click="handleClickAuthor($event)">{{
-              author.nickname
+                author.nickname
             }}</a>
             <template v-if="resp_user_info != null">
               <span style="margin: 0px 5px">回复</span>
@@ -17,15 +17,8 @@
             <span class="comments-date">· {{ $filters.filterTimeYmdHms(time) }}</span>
           </span>
           <span class="pull-right comment-tools ml15">
-            <a
-              href="javascript:void(0)"
-              class="ml10"
-              data-placement="top"
-              :title="item.title"
-              v-for="item in tools"
-              :key="item.name"
-              @click="handleClickTool($event, item)"
-            >
+            <a href="javascript:void(0)" class="ml10" data-placement="top" :title="item.title" v-for="item in tools"
+              :key="item.name" @click="handleClickTool($event, item)">
               <i :class="item.icon" v-if="item.icon"></i>
               <span v-if="item.text">{{ item.text }}</span>
             </a>
@@ -38,19 +31,18 @@
       <div class="comments-ops">
         <div class="coments-ops-item">
           <span class="comments-reply-btn ml15" @click="handleAddReply">
-            <el-icon><Comment /></el-icon>
+            <el-icon>
+              <Comment />
+            </el-icon>
             {{ replyText }}
           </span>
-          <el-popconfirm
-            class="comments-reply-btn"
-            title="确认删除此评论?"
-            :width="160"
-            @confirm="handleDeleteReply"
-            v-show="user != null && author.id == user.id"
-          >
+          <el-popconfirm class="comments-reply-btn" title="确认删除此评论?" :width="160" @confirm="handleDeleteReply"
+            v-show="user != null && author.id == user.id">
             <template #reference>
               <span class="comments-reply-btn ml15">
-                <el-icon><Delete /></el-icon>
+                <el-icon>
+                  <Delete />
+                </el-icon>
                 删除
               </span>
             </template>
@@ -125,11 +117,13 @@ export default {
 .pull-left {
   float: left !important;
 }
+
 .avatar-32 {
   width: 32px;
   height: 32px;
   border-radius: 50%;
 }
+
 .avatar-32:hover {
   cursor: pointer;
 }
@@ -137,46 +131,57 @@ export default {
 .ml10 {
   margin-left: 10px !important;
 }
+
 .ml15 {
   margin-left: 15px !important;
 }
+
 .pull-left {
   float: left !important;
 }
+
 .pull-right {
   float: right !important;
 }
+
 .reply-item {
   padding-bottom: 10px;
   padding-top: 10px;
   line-height: 1.6;
   border-bottom: 1px dashed rgba(0, 0, 0, 0.09);
   word-break: break-word;
+
   .reply-content-block {
     margin-bottom: 10px !important;
     padding-left: 47px;
+
     .reply-content {
       display: inline-block;
       margin-top: 0.5rem;
     }
   }
 }
+
 .reply-item a {
   color: #009a61;
   text-decoration: none;
   background: transparent;
 }
+
 .reply-item a:hover,
 .reply-item a:active,
 .reply-item a:focus {
   outline: 0;
 }
+
 .reply-item p {
   margin-bottom: 5px;
 }
+
 .comment-meta {
   color: #999;
 }
+
 .inline-block {
   display: inline-block;
 }
@@ -187,6 +192,7 @@ export default {
       cursor: pointer;
       color: #5cb6ff;
     }
+
     i {
       vertical-align: middle;
     }

@@ -2,25 +2,13 @@
   <div>
     <head-nav @confirmEdit="confirmEdit"></head-nav>
     <div class="editor-container">
-      <el-form
-        class="editor-form"
-        :rules="rules"
-        :model="form"
-        status-icon
-        ref="form"
-        label-width="100px"
-        @submit.native.prevent
-      >
+      <el-form class="editor-form" :rules="rules" :model="form" status-icon ref="form" label-width="100px"
+        @submit.native.prevent>
         <el-row>
           <el-col :lg="24">
             <el-form-item prop="title" style="margin-bottom: 0px !important">
-              <el-input
-                class="editor-title"
-                size="default"
-                v-model="form.title"
-                placeholder="请填写随笔标题"
-                style="font-size: 1.4rem"
-              ></el-input>
+              <el-input class="editor-title" size="default" v-model="form.title" placeholder="请填写随笔标题"
+                style="font-size: 1.4rem"></el-input>
             </el-form-item>
           </el-col>
           <el-col :lg="24">
@@ -31,13 +19,8 @@
         </el-row>
       </el-form>
       <div class="markdown"></div>
-      <editor-dialog
-        ref="editorDialog"
-        :editor="form.editor"
-        :id="id"
-        :content="form.content"
-        :title="form.title"
-      ></editor-dialog>
+      <editor-dialog ref="editorDialog" :editor="form.editor" :id="id" :content="form.content" :title="form.title">
+      </editor-dialog>
     </div>
   </div>
 </template>
@@ -57,7 +40,6 @@ export default {
       form: {
         content: '',
         title: '',
-        editor: 1,
       },
       codeTheme: 'github',
       rules: {
@@ -77,10 +59,10 @@ export default {
       this.isLoading = false
     })
   },
-  async created() {},
+  async created() { },
   watch: {
-    $route(to, from) {
-      this.show()
+    async $route(to, from) {
+      await this.show()
     },
   },
   computed: {
@@ -97,13 +79,16 @@ export default {
         tab: '\t',
         counter: '999999',
         typewriterMode: true,
-        mode: 'sv', //ir 即时渲染，sv 分屏预览 wysiwyg 所见即所得
+        hint: {
+        },
+        mode: 'wysiwyg', //ir 即时渲染，sv 分屏预览 wysiwyg 所见即所得
         preview: {
           delay: 100,
           show: true,
           markdown: {
             toc: true,
             theme: 'light',
+            mark:true
           },
           hljs: {
             enable: true,
@@ -122,33 +107,33 @@ export default {
             files.forEach((item, index) => {
               data[`file_${index}`] = item
             })
-            that
-              .$axios({
-                method: 'post',
-                url: '/cms/file',
-                data,
-              })
-              .then(res => {
-                if (!Array.isArray(res) || res.length === 0) {
-                  throw new Error('图像上传失败')
-                }
-                if (res.length > 0) {
-                  var imgMdStr = ``
-                  res.forEach((re, i) => {
-                    if (files[i].type == 'video/webm') {
-                      imgMdStr = `<audio controls="controls" src="${re.url}"></audio>`
-                    } else {
-                      imgMdStr = `![${files[i].name}](${re.url})`
-                    }
-                    that.vditor.insertValue(imgMdStr)
-                  })
-
-                  that.vditor.enable()
-                }
-              })
+            that.$axios({
+              method: 'post',
+              url: '/cms/file',
+              data,
+            }).then(res => {
+              if (!Array.isArray(res) || res.length === 0) {
+                throw new Error('图像上传失败')
+              }
+              if (res.length > 0) {
+                var imgMdStr = ``
+                res.forEach((re, i) => {
+                  if (files[i].type == 'video/webm') {
+                    imgMdStr = `<audio controls="controls" src="${re.url}"></audio>`
+                  } else {
+                    imgMdStr = `![${files[i].name}](${re.url})`
+                  }
+                  that.vditor.insertValue(imgMdStr)
+                })
+                that.vditor.enable()
+              }
+            })
           },
         },
-        outline: true,
+        outline: {
+          enable: true,
+          position: 'left'
+        },
         after: () => {
           this.show()
         },
@@ -164,14 +149,6 @@ export default {
       this.vditor = new Vditor('vditor', options)
       this.vditor.focus()
     },
-    async getSetting() {
-      let editor = await settingApi.getSettingByKey('Article.Editor')
-      if (editor != '' && editor != null) {
-        this.form.editor = editor
-      } else {
-        this.form.editor = 1
-      }
-    },
     async show() {
       if (this.id != 0 && this.id != null) {
         this.loading = false
@@ -182,6 +159,8 @@ export default {
           let article = await articleApi.getArticle(this.id).finally(() => {
             this.loading = false
           })
+          document.title = article.title
+
           this.form = {
             title: article.title,
             content: article.content,
@@ -194,11 +173,8 @@ export default {
             content: res.content,
             editor: res.editor,
           }
+          document.title = res.title
         }
-        console.log(this.form.content)
-      } else {
-        await this.getSetting()
-        this.resetForm('form')
       }
 
       let codeTheme = await settingApi.getSettingByKey('Article.CodeTheme')
@@ -211,9 +187,7 @@ export default {
       var that = this
       this.$refs['form'].validate(async valid => {
         if (valid) {
-          if (that.form.editor == 1) {
-            that.form.content = that.vditor.getValue()
-          }
+          that.form.content = that.vditor.getValue()
           that.$refs['editorDialog'].show()
         }
       })
@@ -229,11 +203,7 @@ export default {
         content: value,
       })
       console.log('自动保存')
-    },
-    changeTinymce(val) {
-      this.form.content = val
-      this.handleOnSave(val)
-    },
+    }
   },
 }
 </script>
@@ -241,19 +211,23 @@ export default {
 <style lang="scss" scoped>
 @import '@/assets/style/form.scss';
 @import '~vditor/dist/index.css';
+
 .index-page {
   width: 100%;
   height: 100%;
   background-color: #fff;
+
   .vditor {
     position: absolute;
     max-width: 1440px;
     margin: 20px auto;
     text-align: left;
   }
+
   .vditor-reset {
     font-size: 14px;
   }
+
   .vditor-textarea {
     font-size: 14px;
     height: 100% !important;
@@ -269,22 +243,27 @@ export default {
     }
   }
 }
+
 .editor-container {
   margin-top: 80px;
   width: 100%;
   height: 100%;
+
   .editor-form {
     width: 80%;
     margin: 20px auto;
     max-width: 1440px;
+
     :deep(.el-form-item__content) {
       margin-left: 0px !important;
     }
   }
+
   .editor-title :deep(.el-input__inner) {
     height: 45px;
     line-height: 45px;
   }
+
   .header-container {
     width: 100px;
   }

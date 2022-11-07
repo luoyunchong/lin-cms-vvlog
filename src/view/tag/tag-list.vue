@@ -41,6 +41,7 @@
             <el-divider class="lin-divider">我也是有底线的...</el-divider>
           </template>
         </infinite-loading>
+
       </el-tab-pane>
       <el-tab-pane label="已关注标签" name="subscribe" v-if="loggedIn">
         <el-row :gutter="24" style="margin-left:0px;margin-right:0px;">
@@ -61,6 +62,7 @@
         </infinite-loading>
       </el-tab-pane>
     </el-tabs>
+    <el-backtop class="lin-back-top"></el-backtop>
   </div>
 </template>
 

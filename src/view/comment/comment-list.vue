@@ -7,25 +7,20 @@
             <h4 style="line-height: 32px">评论已关闭</h4>
           </el-col>
           <el-col :span="12" justify="right" v-show="authorid == user.id">
-            <el-button type="primary" plain style="float: right" @click="() => updateCommentable(true)"
-              >开启评论</el-button
-            >
+            <el-button type="primary" plain style="float: right" @click="() => updateCommentable(true)">开启评论</el-button>
           </el-col>
         </el-row>
       </section>
     </el-card>
     <div v-else>
       <el-card shadow="never" :body-style="{ 'padding-bottom': '0px' }" style="margin-bottom: 20px; margin-top: 20px">
-        <comment-input
-          @success="getComments"
-          :form="{
-            subject_id: subject_id,
-            subject_type: subject_type,
-            resp_id: null,
-            root_comment_id: null,
-            resp_user_id: resp_user_id,
-          }"
-        ></comment-input>
+        <comment-input @success="getComments" :form="{
+          subject_id: subject_id,
+          subject_type: subject_type,
+          resp_id: null,
+          root_comment_id: null,
+          resp_user_id: resp_user_id,
+        }"></comment-input>
       </el-card>
       <el-card shadow="never">
         <!-- :ops="[
@@ -40,39 +35,23 @@
         <template #header>
           <div class="clearfix">
             <span>全部评论</span>
-            <el-popconfirm
-              confirmButtonText="确认"
-              cancelButtonText="取消"
-              iconColor="red"
-              title="确认要关闭评论?"
-              @confirm="() => updateCommentable(false)"
-              width="160px"
-            >
+            <el-popconfirm confirmButtonText="确认" cancelButtonText="取消" iconColor="red" title="确认要关闭评论?"
+              @confirm="() => updateCommentable(false)" :width="160">
               <template #reference>
-                <el-button style="float: right; padding: 3px 0" v-show="authorid == user.id" type="text"
-                  >关闭评论</el-button
-                >
+                <el-button style="float: right; padding: 3px 0" v-show="authorid == user.id" type="text">关闭评论
+                </el-button>
               </template>
             </el-popconfirm>
           </div>
         </template>
 
-        <comment-item
-          v-for="(comment, index) in comments"
-          :key="comment.id"
-          :avatar="comment.user_info.avatar"
-          :author="comment.user_info"
-          :content="comment.text"
-          :time="$filters.filterTimeYmdHms(comment.create_time)"
-          :hasReply="comment.top_comment && comment.top_comment.length > 0"
-          :replyVisible="comment.replyVisible"
-          :isAudit="comment.is_audit"
-          @clickAvatar="handleClickAvatar(comment)"
-          @clickAuthor="handleClickAuthor(comment)"
-          @addReply="handleAddReply(comment, index)"
+        <comment-item v-for="(comment, index) in comments" :key="comment.id" :avatar="comment.user_info.avatar"
+          :author="comment.user_info" :content="comment.text" :time="$filters.filterTimeYmdHms(comment.create_time)"
+          :hasReply="comment.top_comment && comment.top_comment.length > 0" :replyVisible="comment.replyVisible"
+          :isAudit="comment.is_audit" @clickAvatar="handleClickAvatar(comment)"
+          @clickAuthor="handleClickAuthor(comment)" @addReply="handleAddReply(comment, index)"
           @deleteReply="handleDeleteReply(comment, index)"
-          @clickTool="($event, item) => handleClickTool(item, comment, index)"
-          :tools="[
+          @clickTool="($event, item) => handleClickTool(item, comment, index)" :tools="[
             {
               text: comment.likes_quantity,
               title: '点赞',
@@ -80,52 +59,38 @@
               icon: 'iconfont icon-' + (comment.is_liked ? 'like-fill' : 'like'),
               is_audit: comment.is_audit,
             },
-          ]"
-        >
+          ]">
           <template #comment-input>
-            <comment-input
-              @success="() => getTopComments(comment.id, index)"
-              :form="{
-                subject_id: subject_id,
-                subject_type: subject_type,
-                resp_id: comment.id,
-                root_comment_id: comment.id,
-                resp_user_id: comment.user_info.id,
-              }"
-            ></comment-input>
+            <comment-input @success="() => getTopComments(comment.id, index)" :form="{
+              subject_id: subject_id,
+              subject_type: subject_type,
+              resp_id: comment.id,
+              root_comment_id: comment.id,
+              resp_user_id: comment.user_info.id,
+            }"></comment-input>
           </template>
           <template #reply-list>
-            <reply-item
-              v-for="(reply, i) in comment.top_comment"
-              :key="reply.id"
-              :author="reply.user_info"
-              :resp_user_info="reply.resp_user_info"
-              :content="reply.text"
+            <reply-item v-for="(reply, i) in comment.top_comment" :key="reply.id" :author="reply.user_info"
+              :resp_user_info="reply.resp_user_info" :content="reply.text"
               :time="$filters.filterTimeYmdHms(reply.create_time)"
               @clickTool="($event, item) => handleClickReplyTool(item, reply, index, i)"
               @addReply="handleAddCommentReply(reply, index, i)"
-              @deleteReply="handleDeleteCommentReply(reply, index, i)"
-              :replyVisible="reply.replyVisible"
-              :tools="[
+              @deleteReply="handleDeleteCommentReply(reply, index, i)" :replyVisible="reply.replyVisible" :tools="[
                 {
                   text: reply.likes_quantity,
                   title: '点赞',
                   name: 'like',
                   icon: 'iconfont icon-' + (reply.is_liked ? 'like-fill' : 'like'),
                 },
-              ]"
-            >
+              ]">
               <template #reply-item-input>
-                <comment-input
-                  @success="() => getTopComments(reply.root_comment_id, index)"
-                  :form="{
-                    subject_id: subject_id,
-                    subject_type: subject_type,
-                    resp_id: reply.id,
-                    root_comment_id: reply.root_comment_id,
-                    resp_user_id: reply.user_info.id,
-                  }"
-                ></comment-input>
+                <comment-input @success="() => getTopComments(reply.root_comment_id, index)" :form="{
+                  subject_id: subject_id,
+                  subject_type: subject_type,
+                  resp_id: reply.id,
+                  root_comment_id: reply.root_comment_id,
+                  resp_user_id: reply.user_info.id,
+                }"></comment-input>
               </template>
             </reply-item>
           </template>
@@ -196,7 +161,7 @@ export default {
       return this.$store.state.user
     },
   },
-  async created() {},
+  async created() { },
   methods: {
     async getComments() {
       this.pagination.currentPage = 0
@@ -249,8 +214,8 @@ export default {
       this.comments[index].replyVisible = false
       this.$emit('success', res.total)
     },
-    handleClickAvatar() {},
-    handleClickAuthor() {},
+    handleClickAvatar() { },
+    handleClickAuthor() { },
     handleAddReply(comment, index) {
       this.comments[index].replyVisible = !comment.replyVisible
     },
@@ -311,4 +276,6 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+
+</style>

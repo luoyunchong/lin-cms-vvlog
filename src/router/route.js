@@ -28,7 +28,7 @@ const routes = [
     path: '/p/editor/:id',
     name: 'post-editor',
     component: () => import("@/view/article/editor-form.vue"),
-    meta: { title: '��ʱ༭' },
+    meta: { title: '随笔编辑' },
   },
   {
     redirect: "/404",

@@ -16,6 +16,8 @@ export default {
   data() {
     return {
       model: {
+        title:'',
+        editor:1,
         content: '',
       },
     };
@@ -51,8 +53,7 @@ export default {
           enable: true,
         },
         anchor: 1,
-        lazyLoadImage:
-          'https://cdn.jsdelivr.net/npm/vditor/dist/images/img-loading.svg',
+        lazyLoadImage: 'https://cdn.jsdelivr.net/npm/vditor/dist/images/img-loading.svg',
         after() {
           if (window.innerWidth <= 768) {
             return;
