@@ -44,8 +44,9 @@
               confirmButtonText="确认"
               cancelButtonText="取消"
               iconColor="red"
-              title="你确认要关闭评论"
+              title="确认要关闭评论?"
               @confirm="() => updateCommentable(false)"
+              width="160px"
             >
               <template #reference>
                 <el-button style="float: right; padding: 3px 0" v-show="authorid == user.id" type="text"

@@ -8,7 +8,8 @@
               <el-form :inline="true" size="small" :model="form" class="demo-form-inline">
                 <el-form-item>
                   <router-link :to="{ path: '/tag/subscribe/all/hottest' }"
-                    :class="sortName == 'hottest' ? 'el-link el-link--primary is-underline' : 'el-link el-link--info'">最热
+                    :class="sortName == 'hottest' ? 'el-link el-link--primary is-underline' : 'el-link el-link--info'">
+                    最热
                   </router-link>
                   <el-divider direction="vertical"></el-divider>
                   <router-link :to="{ path: '/tag/subscribe/all/newest' }"
@@ -32,7 +33,7 @@
               v-on:deleteSubscribeTag="deleteSubscribeTag"></tag-item>
           </el-col>
         </el-row>
-        <infinite-loading @infinite="infiniteHandler" spinner="bubbles" :identifier="any" distance="50">
+        <infinite-loading @infinite="infiniteHandler" :identifier="any" distance="50">
           <template #spinner>
             <el-divider class="lin-divider">加载中...</el-divider>
           </template>
@@ -50,6 +51,14 @@
               v-on:deleteSubscribeTag="deleteSubscribeDataTag"></tag-item>
           </el-col>
         </el-row>
+        <infinite-loading @infinite="infiniteHandlerSubscribe" :identifier="anySubscribe" distance="50">
+          <template #spinner>
+            <el-divider class="lin-divider">加载中...</el-divider>
+          </template>
+          <template #complete>
+            <el-divider class="lin-divider">我也是有底线的...</el-divider>
+          </template>
+        </infinite-loading>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -74,8 +83,14 @@ export default {
         pageSize: 15,
         pageTotal: 0
       },
+      paginationSubscribe: {
+        currentPage: 0,
+        pageSize: 15,
+        pageTotal: 0
+      },
       loading: false,
       any: new Date(),
+      anySubscribe: new Date(),
       form: {
         tag_name: ""
       },
@@ -101,7 +116,7 @@ export default {
     }
   },
   created() {
-    this.getSubscribeTags();
+    this.refreshSubscribe();
     // this.refresh();
 
     if (this.loggedIn != true) {
@@ -125,7 +140,7 @@ export default {
   methods: {
     tabChange(tab, event) {
       if (tab.paneName == "subscribe") {
-        this.getSubscribeTags();
+        this.refreshSubscribe();
       } else {
         this.refresh();
       }
@@ -134,6 +149,11 @@ export default {
       this.pagination.currentPage = 0;
       this.any = new Date();
       await this.infiniteHandler();
+    },
+    async refreshSubscribe() {
+      this.paginationSubscribe.currentPage = 0;
+      this.anySubscribe = new Date();
+      await this.infiniteHandlerSubscribe();
     },
     async infiniteHandler($state) {
       let res;
@@ -190,13 +210,35 @@ export default {
       if (this.dataSource[index].subscribers_count > 1)
         this.dataSource[index].subscribers_count -= 1;
     },
-    async getSubscribeTags() {
+    async infiniteHandlerSubscribe($state) {
       var user = this.$store.state.user;
+      const currentPage = this.paginationSubscribe.currentPage;
       let res = await userTagApi.getSubscribeTags({
+        count: this.paginationSubscribe.pageSize,
+        page: currentPage,
         user_id: user.id,
       });
 
-      this.subscribeDataSource = [...res.items];
+      let items = [...res.items];
+
+      if (items.length == 0) {
+        $state && $state.complete();
+        if (currentPage == 0) {
+          this.subscribeDataSource = items;
+          this.paginationSubscribe.currentPage += 1;
+          this.paginationSubscribe.pageTotal = res.total;
+        }
+      } else {
+        if (currentPage == 0) {
+          this.subscribeDataSource = items;
+        } else {
+          this.subscribeDataSource = this.subscribeDataSource.concat(items);
+        }
+        this.paginationSubscribe.currentPage += 1;
+        this.paginationSubscribe.pageTotal = res.total;
+
+        $state && $state.loaded();
+      }
     }
   }
 };

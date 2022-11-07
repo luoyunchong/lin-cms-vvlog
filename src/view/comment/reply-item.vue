@@ -43,7 +43,8 @@
           </span>
           <el-popconfirm
             class="comments-reply-btn"
-            title="确认删除此评论"
+            title="确认删除此评论?"
+            :width="160"
             @confirm="handleDeleteReply"
             v-show="user != null && author.id == user.id"
           >

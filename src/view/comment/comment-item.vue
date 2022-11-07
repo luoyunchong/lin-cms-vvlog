@@ -41,6 +41,7 @@
           {{ replyText }}
         </span>
         <el-popconfirm
+          :width="200"
           :title="hasReply ? '删除评论后，评论下的所有回复都会被删除!' : '确认删除此评论'"
           @confirm="handleDeleteReply"
           v-show="user != null && author.id == user.id"
