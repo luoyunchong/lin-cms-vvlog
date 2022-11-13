@@ -6,48 +6,32 @@
           <v-list-item-meta :description="$filters.filterTimeYmdHms(item.create_time)">
             <template #title>
               <div class="info" v-show="item.notification_type == 0">
-                <router-link :to="{ path: `/user/${item.user_info_id}/article` }" target="_blank">{{
-                  item.user_info != null ? item.user_info.nickname : ''
-                }}</router-link
-                >点赞了你的随笔
-                <router-link
-                  v-if="item.article_entry != null"
-                  :to="{ path: `/p/${item.article_entry.id}` }"
-                  target="_blank"
-                  >《{{ item.article_entry.title }}》</router-link
-                >
+                <router-link :to="{ path: `/user/${item.user_info_id}/article` }" target="_blank" class="user_link">
+                  {{ item.user_info != null ? item.user_info.nickname : '' }}</router-link>
+                <span>点赞了你的随笔</span>
+                <router-link v-if="item.article_entry != null" :to="{ path: `/p/${item.article_entry.id}` }"
+                  target="_blank">《{{ item.article_entry.title }}》</router-link>
               </div>
 
               <div class="info" v-show="item.notification_type == 1">
-                <router-link :to="{ path: `/user/${item.user_info_id}` }" target="_blank">{{
-                  item.user_info != null ? item.user_info.nickname : ''
-                }}</router-link
-                >在随笔
-                <router-link
-                  v-if="item.article_entry != null"
-                  :to="{ path: `/p/${item.article_entry.id}` }"
-                  target="_blank"
-                  >《{{ item.article_entry.title }}》</router-link
-                >点赞了你的评论
+                <router-link :to="{ path: `/user/${item.user_info_id}` }" target="_blank" class="user_link">{{
+                    item.user_info != null ? item.user_info.nickname : ''
+                }}</router-link>在随笔
+                <router-link v-if="item.article_entry != null" :to="{ path: `/p/${item.article_entry.id}` }"
+                  target="_blank">《{{ item.article_entry.title }}》</router-link>点赞了你的评论
               </div>
 
               <div class="info" v-show="item.notification_type == 2">
-                <router-link :to="{ path: `/user/${item.user_info_id}/article` }" target="_blank">{{
-                  item.user_info != null ? item.user_info.nickname : ''
-                }}</router-link
-                >评论了你的随笔
-                <router-link
-                  v-if="item.article_entry != null"
-                  :to="{ path: `/p/${item.article_entry.id}` }"
-                  target="_blank"
-                  >《{{ item.article_entry.title }}》</router-link
-                >
+                <router-link :to="{ path: `/user/${item.user_info_id}/article` }" target="_blank" class="user_link">{{
+                    item.user_info != null ? item.user_info.nickname : ''
+                }}</router-link>评论了你的随笔
+                <router-link v-if="item.article_entry != null" :to="{ path: `/p/${item.article_entry.id}` }"
+                  target="_blank">《{{ item.article_entry.title }}》</router-link>
               </div>
               <div class="info" v-show="item.notification_type == 4">
-                <router-link :to="{ path: `/user/${item.user_info_id}/article` }" target="_blank">{{
-                  item.user_info != null ? item.user_info.nickname : ''
-                }}</router-link
-                >关注了你
+                <router-link :to="{ path: `/user/${item.user_info_id}/article` }" target="_blank" class="user_link">{{
+                    item.user_info != null ? item.user_info.nickname : ''
+                }}</router-link>关注了你
               </div>
             </template>
             <template #avatar>
@@ -59,11 +43,8 @@
           <template #content>{{ item.comment_entry != null ? item.comment_entry.text : '' }}</template>
           <template #actions>
             <li v-show="item.notification_type == 1 || item.notification_type == 2">
-              <router-link
-                v-if="item.article_entry != null && item.comment_entry != null"
-                :to="{ path: `/p/${item.article_entry.id}#comment-list-${item.comment_entry.id}` }"
-                target="_blank"
-              >
+              <router-link v-if="item.article_entry != null && item.comment_entry != null"
+                :to="{ path: `/p/${item.article_entry.id}#comment-list-${item.comment_entry.id}` }" target="_blank">
                 <span>
                   <i class="iconfont icon-comment"></i>
                   查看对话
@@ -155,6 +136,11 @@ export default {
   padding: 1px 30px;
 
   .info {
+    .user_link {
+      margin-right: 8px;
+      font-weight: bold;
+    }
+
     a {
       font-size: 15px;
       color: #3194d0;
