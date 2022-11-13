@@ -31,7 +31,7 @@ import articleApi from '@/model/article'
 import settingApi from '@/model/setting'
 import { User as CurrentUser } from '@/component/layout'
 import Vditor from 'vditor'
-
+import axios from 'lin/plugin/axios'
 export default {
   name: 'EditorForm',
   data() {
@@ -107,7 +107,7 @@ export default {
             files.forEach((item, index) => {
               data[`file_${index}`] = item
             })
-            that.$axios({
+            axios({
               method: 'post',
               url: '/cms/file',
               data,
