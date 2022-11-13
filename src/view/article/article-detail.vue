@@ -148,7 +148,7 @@ import Vditor from 'vditor'
 import VList from '@/component/list'
 import '@/component/list/index.css'
 import settingApi from '@/model/setting'
-
+import PreviewImage from '@/lin/plugin/preview'
 export default {
   name: 'ArticleDetail',
   data() {
@@ -228,16 +228,16 @@ export default {
         }
 
         this.render(this.model.content)
-         let setting = await settingApi.getSettingByKeys({
-           keys: ['Article.CodeTheme', 'Article.Commentable'],
-         })
-         if (setting['Article.CodeTheme'] != undefined) {
-           this.model.codeTheme = setting['Article.CodeTheme']
-           Vditor.setCodeTheme(this.model.codeTheme)
-         }
-         if (setting['Article.Commentable'] != undefined) {
-           this.model.commentable = Boolean(setting['Article.Commentable'])
-         }
+        let setting = await settingApi.getSettingByKeys({
+          keys: ['Article.CodeTheme', 'Article.Commentable'],
+        })
+        if (setting['Article.CodeTheme'] != undefined) {
+          this.model.codeTheme = setting['Article.CodeTheme']
+          Vditor.setCodeTheme(this.model.codeTheme)
+        }
+        if (setting['Article.Commentable'] != undefined) {
+          this.model.commentable = Boolean(setting['Article.Commentable'])
+        }
         if (this.model.user_info == undefined) {
           this.model.user_info = {
             id: 0,
@@ -395,8 +395,8 @@ export default {
     handlePreview($event) {
       if ($event.target) {
         if ($event.target.nodeName == 'IMG') {
-          this.$imagePreview({
-            images: [$event.target.currentSrc],
+          PreviewImage({
+            images: [$event.target.currentSrc]
           })
         }
       }

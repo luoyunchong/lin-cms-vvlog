@@ -4,7 +4,6 @@ import ElementPlus from 'element-plus'
 import locale from 'element-plus/lib/locale/lang/zh-cn'
 
 import '@/config/global'
-import 'lin/plugin'
 import { filters } from 'lin/filter'
 import permissionDirective from 'lin/directive/authorize'
 

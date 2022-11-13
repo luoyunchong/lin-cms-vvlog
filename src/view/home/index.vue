@@ -135,8 +135,8 @@
               </div>
             </template>
             <div class="community">
-              <el-image fit="cover" :src="wechaturl" :preview-src-list="wechatsrcList"></el-image>
-              <el-image fit="cover" :src="url" :preview-src-list="srcList"></el-image>
+              <el-image fit="cover" :src="wechaturl" @click="handlePreview"></el-image>
+              <el-image fit="cover" :src="url" @click="handlePreview"></el-image>
             </div>
           </el-card>
         </div>
@@ -154,6 +154,7 @@ import channelApi from '@/model/channel'
 import monitorApi from '@/model/monitor'
 import HotTagCard from '@/view/tag/hot-tag-card'
 import NovicesCard from '@/view/home/novices-card'
+import PreviewImage from '@/lin/plugin/preview'
 
 export default {
   name: 'HomeIndex',
@@ -175,12 +176,7 @@ export default {
       users: [],
       serverInfo: {},
       url: 'https://pic.downk.cc/item/5eef6f3114195aa59494de99.jpg',
-      srcList: [
-        'https://pic.downk.cc/item/5eef6f3114195aa59494de99.jpg',
-        'https://pic.downk.cc/item/5eef6d4e14195aa594925b91.jpg',
-      ],
       wechaturl: 'https://pic.downk.cc/item/5eef6d4e14195aa594925b91.jpg',
-      wechatsrcList: ['https://pic.downk.cc/item/5eef6d4e14195aa594925b91.jpg'],
     }
   },
   async created() { },
@@ -221,11 +217,15 @@ export default {
     $route(v) {
       this.dataSource = []
       this.pagination.currentPage = 0
-      console.log('this any')
       this.any = new Date()
     },
   },
   methods: {
+    handlePreview($event) {
+      PreviewImage({
+        images: [$event.target.currentSrc],
+      })
+    },
     setPaginationParams() {
       //看起来很复杂，其实就是根据channels，得到选中的channelId值（技术频道），从channel.tags中找到对应的tagid（标签Id）值。
       if (this.channel != undefined) {
