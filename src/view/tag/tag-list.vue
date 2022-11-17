@@ -267,11 +267,12 @@ export default {
   }
 }
 
-.mobile .container {
-
-  .el-form-item.search-input,
-  .el-form-item.search-button {
-    display: none;
+@media (max-width: 960px) {
+  .container {
+    .el-form-item.search-input,
+    .el-form-item.search-button {
+      display: none;
+    }
   }
 }
 </style>

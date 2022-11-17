@@ -100,9 +100,7 @@ export default {
         upload: {
           accept: 'image/*',
           max: 8 * 1024 * 1024,
-          // linkToImgUrl: '/cms/file',
           handler(files) {
-            console.log(files)
             const data = {}
             files.forEach((item, index) => {
               data[`file_${index}`] = item

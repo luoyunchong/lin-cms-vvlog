@@ -413,7 +413,7 @@ export default {
 @import '~vditor/dist/index.css';
 
 .page-header-index-wide {
-  max-width: 1200px;
+
   margin: 0 auto;
 }
 
@@ -428,10 +428,9 @@ export default {
 
   .title {
     font-size: 2rem;
-    font-weight: 600;
-    color: #000;
+    color: var(--el-color-black);
     font-weight: 700;
-    line-height: 1.5;
+    line-height: 1.31;
   }
 
   .avatar {
@@ -685,19 +684,19 @@ export default {
   }
 
   .navigator-item.heading_2 {
-    padding-left: 20px;
+    padding-left: 10px;
   }
 
   .navigator-item.heading_3 {
-    padding-left: 30px;
+    padding-left: 20px;
   }
 
   .navigator-item.heading_4 {
-    padding-left: 40px;
+    padding-left: 30px;
   }
 
   .navigator-item.heading_5 {
-    padding-left: 50px;
+    padding-left: 40px;
   }
 
   .navigator-item.heading_6 {
@@ -738,7 +737,8 @@ export default {
   height: 6px;
 }
 
-.mobile {
+
+@media (max-width: 960px) {
   .sidebar-user {
     margin-bottom: 40px;
   }
@@ -746,9 +746,6 @@ export default {
   .el-backtop {
     bottom: 5rem !important;
   }
-}
-
-@media (max-width: 960px) {
   .aside-list {
     display: none;
   }

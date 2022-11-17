@@ -1,19 +1,12 @@
 <template>
-  <div>
+  <div class="comment-input">
     <el-form ref="form" :rules="rules" :model="model">
       <el-form-item prop="text">
-        <el-input
-          type="textarea"
-          :autosize="{ minRows: 2, maxRows: 4 }"
-          placeholder="请输入评论内容"
-          v-model="model.text"
-          minlength="1"
-          :maxlength="surplus"
-          show-word-limit
-        ></el-input>
+        <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 6 }" placeholder="请输入评论的内容" v-model="model.text"
+          minlength="1" :maxlength="surplus" show-word-limit></el-input>
       </el-form-item>
       <el-form-item>
-        <el-col :span="6" :offset="18" style="text-align: right">
+        <el-col :span="6" :offset="18" style="text-align: right;padding-right:0rem">
           <el-button type="primary" @click="addComment" :disabled="model.text == ''">发布</el-button>
         </el-col>
       </el-form-item>
@@ -51,14 +44,14 @@ export default {
         text: [
           {
             required: true,
-            message: '请输入评论内容',
+            message: '请输入评论的内容',
             trigger: 'blur',
           },
         ],
       },
     }
   },
-  created() {},
+  created() { },
   computed: {},
   methods: {
     addComment() {
@@ -90,6 +83,7 @@ export default {
 <style lang="scss" scoped>
 .el-form-item {
   margin-bottom: 1px !important;
+
   :deep(.el-form-item__content) {
     line-height: 20px;
     margin-bottom: 10px;

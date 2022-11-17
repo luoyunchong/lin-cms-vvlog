@@ -201,11 +201,9 @@ export default {
         },
         hotType() {
             let sortArray = ['THREE_DAYS_HOTTEST', 'WEEKLY_HOTTEST', 'MONTHLY_HOTTEST', 'HOTTEST']
-            let that = this
             let hot = sortArray.filter(r => {
                 return r == this.$route.query.sort
             })
-
             if (hot.length > 0) {
                 return 'primary'
             } else {
@@ -356,6 +354,9 @@ export default {
         padding: 0 0 0 0.5rem;
         color: #000;
         border-left: 4px solid #ec7259;
+    }
+    .lin-divider{
+      background-color: #f4f5f5;
     }
 }
 

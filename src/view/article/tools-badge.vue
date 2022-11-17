@@ -2,15 +2,9 @@
   <div class="a-tools action-box">
     <div class="a-badge" title="点赞">
       <a @click="handleLike">
-        <el-badge
-          :value="model.likes_quantity"
-          :type="model.is_liked ? 'danger' : 'info'"
-        >
-          <el-avatar
-            :size="32"
-            class="a-avatar"
-            :style="model.is_liked ? 'color: #f56a00; background-color: #fde3cf' : ''"
-          >
+        <el-badge :value="model.likes_quantity" :type="model.is_liked ? 'danger' : 'info'">
+          <el-avatar :size="32" class="a-avatar"
+            :style="model.is_liked ? 'color: #f56a00; background-color: #fde3cf' : ''">
             <IconAntDesignLikeFilled />
           </el-avatar>
         </el-badge>
@@ -20,15 +14,9 @@
     <el-divider direction="vertical"></el-divider>
     <div class="a-badge" title="评论">
       <a :href="`#/p/${model.id}#comment-list`">
-        <el-badge
-          :type="model.is_comment ? 'danger' : 'info'"
-          :value="model.comment_quantity"
-        >
-          <el-avatar
-            :size="32"
-            class="a-avatar"
-            :style="model.is_comment ? 'color: #f56a00; background-color: #fde3cf' : ''"
-          >
+        <el-badge :type="model.is_comment ? 'danger' : 'info'" :value="model.comment_quantity">
+          <el-avatar :size="32" class="a-avatar"
+            :style="model.is_comment ? 'color: #f56a00; background-color: #fde3cf' : ''">
             <IconAntDesignCommentOutlined />
           </el-avatar>
         </el-badge>
@@ -77,7 +65,7 @@ export default {
     },
   },
   computed: {},
-  created() {},
+  created() { },
   methods: {
     async handleLike() {
       let res = await userLike.likeOrCancel({
@@ -111,28 +99,32 @@ export default {
   position: fixed;
   margin-left: -4rem;
   top: 15rem;
+
   .a-badge {
     cursor: pointer;
     margin-bottom: 1rem;
   }
+
   .el-divider {
     display: none;
   }
 }
 
-.mobile {
+@media (max-width: 960px) {
   .a-tools {
     display: block;
     position: fixed;
     z-index: 1501;
     bottom: 0;
-    width: 95%;
+    width: 100%;
     margin-left: 0px;
     top: inherit;
+
     .a-badge {
       cursor: pointer;
       margin-bottom: 0rem;
     }
+
     .el-divider {
       display: inherit;
       height: 1.92rem;
@@ -146,12 +138,14 @@ export default {
     border-top: 1px solid #ebebeb;
     border-bottom: 1px solid #ebebeb;
     background: #fff;
+
     .a-badge {
       flex: 1 1 33.333%;
       display: flex;
       align-items: center;
       justify-content: center;
     }
+
     .ant-divider-vertical {
       top: 0.8em;
       width: 1px;

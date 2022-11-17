@@ -14,32 +14,44 @@
                 </el-menu-item>
                 <el-menu-item v-if="loggedIn" index="/subscribe" class="block">
                   <router-link :to="{ path: '/subscribe' }">
-                    <el-icon> <ScaleToOriginal /> </el-icon>关注
+                    <el-icon>
+                      <ScaleToOriginal />
+                    </el-icon>关注
                   </router-link>
                 </el-menu-item>
                 <el-menu-item index="/tag/subscribe/all" class="block">
                   <router-link :to="{ path: '/tag/subscribe/all' }">
-                    <el-icon> <CopyDocument /> </el-icon>标签
+                    <el-icon>
+                      <CopyDocument />
+                    </el-icon>标签
                   </router-link>
                 </el-menu-item>
                 <el-menu-item v-if="loggedIn" index="/notification/userComment" class="block">
                   <router-link :to="{ path: '/notification/userComment' }">
-                    <el-icon> <Bell /> </el-icon>消息
+                    <el-icon>
+                      <Bell />
+                    </el-icon>消息
                   </router-link>
                 </el-menu-item>
                 <el-menu-item index="vvlog-vue2.igeekfan.cn/" class="block">
                   <a href="https://vvlog-vue2.igeekfan.cn/" target="_blank">
-                    <el-icon> <Van /> </el-icon>VUE2 旧版本
+                    <el-icon>
+                      <Van />
+                    </el-icon>VUE2 旧版本
                   </a>
                 </el-menu-item>
                 <el-menu-item index="cms.igeekfan.cn/" class="block">
                   <a href="https://cms.igeekfan.cn/" target="_blank">
-                    <el-icon> <Van /> </el-icon>CMS
+                    <el-icon>
+                      <Van />
+                    </el-icon>CMS
                   </a>
                 </el-menu-item>
                 <el-menu-item index="cms-vue2.igeekfan.cn/" class="block">
                   <a href="https://cms-vue2.igeekfan.cn/" target="_blank">
-                    <el-icon> <Van /> </el-icon>CMS VUE2
+                    <el-icon>
+                      <Van />
+                    </el-icon>CMS VUE2
                   </a>
                 </el-menu-item>
                 <div class="flex-grow" />
@@ -57,16 +69,9 @@
           </el-header>
         </div>
         <div class="mainWrapper" :class="device">
-          <el-col
-            :xs="{ span: 24, offset: 0 }"
-            :md="{ span: 18, offset: 3 }"
-            :lg="{ span: 16, offset: 4 }"
-            :xl="{ span: 14, offset: 5 }"
-          >
-            <transition name="fade-transform" mode="out-in">
-              <router-view></router-view>
-            </transition>
-          </el-col>
+          <transition name="fade-transform" mode="out-in">
+            <router-view></router-view>
+          </transition>
         </div>
       </el-col>
     </el-row>
@@ -76,12 +81,10 @@
 
 <script>
 import { User as CurrentUser } from '@/component/layout'
-import { mixinDevice } from '@/lin/util/mixin'
 import LoginRegisterDialog from '@/view/account/login-register-dialog'
 export default {
   name: 'Base',
   components: { CurrentUser, LoginRegisterDialog },
-  mixins: [mixinDevice],
   data() {
     return { activeIndex: '' }
   },
@@ -130,10 +133,10 @@ export default {
 
 .mainWrapper {
   height: calc(100% - 80px);
-  margin-top: 80px;
   padding-left: 0px;
-  width: 100%;
+  max-width: 1200px;
   padding-right: 0px;
+  margin: 80px auto;
 
   .lin-backtop {
     height: 100%;

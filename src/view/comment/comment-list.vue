@@ -96,8 +96,7 @@
           </template>
         </comment-item>
 
-        <infinite-loading @infinite="infiniteHandler" spinner="bubbles" :identifier="any">
-          // <span slot="no-more"> // <el-divider>我也是有底线的...</el-divider> // </span>
+        <infinite-loading @infinite="infiniteHandler" :identifier="any">
           <template #spinner>
             <el-divider class="lin-divider">加载中...</el-divider>
           </template>
@@ -135,7 +134,7 @@ export default {
         pageSize: 10,
         pageTotal: 0,
       },
-      any: 'any' + new Date(),
+      any: new Date(),
     }
   },
   props: {
@@ -224,7 +223,7 @@ export default {
     },
     async handleDeleteReply(comment, index) {
       await commentApi.delectComment(comment.id)
-      this.getComments()
+      await this.getComments()
     },
     async handleDeleteCommentReply(reply, index, i) {
       let res = await commentApi.delectComment(reply.id)
@@ -276,6 +275,8 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-
+<style lang="scss">
+.lin-divider .el-divider__text {
+  background-color: #fff;
+}
 </style>

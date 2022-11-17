@@ -63,12 +63,10 @@
 
 <script>
 import { User as CurrentUser } from '@/component/layout'
-import { mixinDevice } from '@/lin/util/mixin'
 import LoginRegisterDialog from '@/view/account/login-register-dialog'
 export default {
   name: 'Base',
   components: { CurrentUser, LoginRegisterDialog },
-  mixins: [mixinDevice],
   data() {
     return { activeIndex: '' }
   },

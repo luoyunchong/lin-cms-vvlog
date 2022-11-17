@@ -29,17 +29,20 @@
           </el-icon>
           {{ replyText }}
         </span>
-        <el-popconfirm :width="200" :title="hasReply ? '删除评论后，评论下的所有回复都会被删除!' : '确认删除此评论'" @confirm="handleDeleteReply"
-          v-show="user != null && author.id == user.id">
-          <template #reference>
-            <span class="comments-reply-btn ml15">
-              <el-icon>
-                <Delete />
-              </el-icon>
-              删除
-            </span>
-          </template>
-        </el-popconfirm>
+        <template v-show="user != null && author.id == user.id">
+          <el-popconfirm :width="200" :title="hasReply ? '删除评论后，评论下的所有回复都会被删除!' : '确认删除此评论'"
+            @confirm="handleDeleteReply">
+            <template #reference>
+              <span class="comments-reply-btn ml15">
+                <el-icon>
+                  <Delete />
+                </el-icon>
+                删除
+              </span>
+            </template>
+          </el-popconfirm>
+
+        </template>
       </p>
       <div class="comment-input" v-show="replyVisible">
         <slot name="comment-input"></slot>

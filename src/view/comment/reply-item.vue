@@ -36,17 +36,18 @@
             </el-icon>
             {{ replyText }}
           </span>
-          <el-popconfirm class="comments-reply-btn" title="确认删除此评论?" :width="160" @confirm="handleDeleteReply"
-            v-show="user != null && author.id == user.id">
-            <template #reference>
-              <span class="comments-reply-btn ml15">
-                <el-icon>
-                  <Delete />
-                </el-icon>
-                删除
-              </span>
-            </template>
-          </el-popconfirm>
+          <template v-show="user != null && author.id == user.id">
+            <el-popconfirm class="comments-reply-btn" title="确认删除此评论?" :width="160" @confirm="handleDeleteReply">
+              <template #reference>
+                <span class="comments-reply-btn ml15">
+                  <el-icon>
+                    <Delete />
+                  </el-icon>
+                  删除
+                </span>
+              </template>
+            </el-popconfirm>
+          </template>
         </div>
       </div>
       <div class="comment-input" v-show="replyVisible">

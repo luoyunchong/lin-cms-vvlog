@@ -153,7 +153,7 @@ export default {
   }
 }
 
-.mobile {
+@media (max-width: 960px) {
   .meta-box .meta-hidden {
     display: none !important;
   }

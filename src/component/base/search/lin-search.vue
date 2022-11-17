@@ -9,13 +9,20 @@
 </template>
 
 <script lang="js">
+import Utils from 'lin/util/util'
 export default {
-data() {
+  props: {
+    placeholder: {
+      type: String,
+      default: '请输入搜索内容'
+    }
+  },
+  data() {
     return {
       keyword: '',
     }
   },
-created() {
+  created() {
     // 节流搜索
     this.$watch(
       'keyword',
@@ -24,7 +31,7 @@ created() {
       }, 1000),
     )
   },
-methods: {
+  methods: {
     clear() {
       this.keyword = ''
     },
@@ -33,17 +40,6 @@ methods: {
     },
   },
 };
-</script>
-
-<script lang="js" setup>
-import Utils from 'lin/util/util'
-
-defineProps({
-    placeholder: {
-      type: String,
-      default: '请输入内容',
-    },
-  });
 </script>
 <style lang="scss" scoped>
 .lin-search :deep(.el-input__inner) {
@@ -56,6 +52,7 @@ defineProps({
     transition: all 0.3s linear;
   }
 }
+
 .lin-search :deep(.el-input__suffix) {
   cursor: pointer;
 }

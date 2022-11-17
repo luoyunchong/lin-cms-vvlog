@@ -26,54 +26,38 @@
               <template #label> <i class="el-icon-user"></i> 关注 </template>
               <el-tabs v-model="activeName" @tab-click="handleClick" type="card">
                 <el-tab-pane :label="'关注用户' + info.subscribe_count" name="subscribe">
-                  <subscribe-user-list
-                    :userId="userId"
-                    userType="subscribe"
-                    v-if="activeName == 'subscribe'"
+                  <subscribe-user-list :userId="userId" userType="subscribe" v-if="activeName == 'subscribe'"
                     v-on:success="
                       subscribe_count => {
                         info.subscribe_count = subscribe_count
                       }
-                    "
-                    v-on:subscribe="
-                      subscribe_count => {
-                        info.subscribe_count += subscribe_count
-                      }
-                    "
-                  ></subscribe-user-list>
+                    " v-on:subscribe="
+  subscribe_count => {
+    info.subscribe_count += subscribe_count
+  }
+"></subscribe-user-list>
                 </el-tab-pane>
                 <el-tab-pane :label="'粉丝' + info.fans_count" name="fans">
-                  <subscribe-user-list
-                    :userId="userId"
-                    userType="fans"
-                    v-if="activeName == 'fans'"
-                    v-on:success="
-                      fans_count => {
-                        info.fans_count = fans_count
-                      }
-                    "
-                    v-on:subscribe="
-                      fans_count => {
-                        info.subscribe_count += fans_count
-                      }
-                    "
-                  ></subscribe-user-list>
+                  <subscribe-user-list :userId="userId" userType="fans" v-if="activeName == 'fans'" v-on:success="
+                    fans_count => {
+                      info.fans_count = fans_count
+                    }
+                  " v-on:subscribe="
+  fans_count => {
+    info.subscribe_count += fans_count
+  }
+"></subscribe-user-list>
                 </el-tab-pane>
                 <el-tab-pane :label="'标签' + info.tag_count" name="tag">
-                  <subscribe-tag-list
-                    :userId="userId"
-                    v-if="activeName == 'tag'"
-                    v-on:success="
-                      tag_count => {
-                        info.tag_count = tag_count
-                      }
-                    "
-                    v-on:subscribe="
-                      tag_count => {
-                        info.tag_count += tag_count
-                      }
-                    "
-                  ></subscribe-tag-list>
+                  <subscribe-tag-list :userId="userId" v-if="activeName == 'tag'" v-on:success="
+                    tag_count => {
+                      info.tag_count = tag_count
+                    }
+                  " v-on:subscribe="
+  tag_count => {
+    info.tag_count += tag_count
+  }
+"></subscribe-tag-list>
                 </el-tab-pane>
               </el-tabs>
             </el-tab-pane>
@@ -110,7 +94,9 @@
             <div>
               <router-link :to="{ path: `/p/editor/0` }">
                 <el-button type="primary" plain>
-                  <el-icon class="el-icon--left"><Edit /> </el-icon>写随笔
+                  <el-icon class="el-icon--left">
+                    <Edit />
+                  </el-icon>写随笔
                 </el-button>
               </router-link>
             </div>
@@ -174,7 +160,6 @@ export default {
   watch: {
     name(newVal) {
       this.tab = newVal
-      console.log(newVal)
     },
     async $route(v) {
       switch (v.params.name) {
@@ -274,15 +259,18 @@ export default {
 .lin-divider .el-divider__text {
   background-color: #f4f5f5;
 }
+
 .list {
   .item {
     cursor: pointer;
     padding-left: 10px;
+
     &:hover {
       background: #e6f7ff;
     }
   }
 }
+
 .vv-article-list :deep(.article-list .article-item) {
   padding: 1.5rem 0rem;
 }
@@ -297,14 +285,18 @@ export default {
 
 .number-board {
   display: flex;
+
   .el-divider--vertical {
     height: 5rem;
   }
+
   .number-board-item {
     flex: 1 1;
+
     &:hover {
       color: #175199;
     }
+
     .number-board-item-inner {
       padding: 12px 0;
       text-align: center;
@@ -314,10 +306,12 @@ export default {
         font-size: 14px;
         color: #8590a6;
       }
+
       .number-board-item-value {
         font-size: 20px;
         color: #1a1a1a;
         font-weight: 600;
+
         &:hover {
           text-decoration: underline;
         }
@@ -325,6 +319,7 @@ export default {
     }
   }
 }
+
 .lin-card {
   margin-bottom: 10px;
   border-radius: 8px;
@@ -336,6 +331,7 @@ export default {
     border-left: 4px solid #ec7259;
   }
 }
+
 .tag-card {
   margin-bottom: 10px;
   border-radius: 8px;
