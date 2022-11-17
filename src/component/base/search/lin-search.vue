@@ -8,22 +8,14 @@
   </div>
 </template>
 
-<script>
-import Utils from 'lin/util/util'
-
+<script lang="js">
 export default {
-  props: {
-    placeholder: {
-      type: String,
-      default: '请输入内容',
-    },
-  },
-  data() {
+data() {
     return {
       keyword: '',
     }
   },
-  created() {
+created() {
     // 节流搜索
     this.$watch(
       'keyword',
@@ -32,7 +24,7 @@ export default {
       }, 1000),
     )
   },
-  methods: {
+methods: {
     clear() {
       this.keyword = ''
     },
@@ -40,7 +32,18 @@ export default {
       this.$emit('query', this.keyword)
     },
   },
-}
+};
+</script>
+
+<script lang="js" setup>
+import Utils from 'lin/util/util'
+
+defineProps({
+    placeholder: {
+      type: String,
+      default: '请输入内容',
+    },
+  });
 </script>
 <style lang="scss" scoped>
 .lin-search :deep(.el-input__inner) {

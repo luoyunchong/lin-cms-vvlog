@@ -366,6 +366,12 @@ ul.server-info {
     }
 }
 
+.community{
+  :hover{
+    cursor: pointer;
+  }
+}
+
 @media (max-width: 980px) {
     .nav-list {
         max-width: 960px;
