@@ -1,23 +1,40 @@
 <template>
-  <el-container style>
-    <el-aside class="vv-aside" width="190px">
-      <el-menu class="el-menu-profile" :default-active="activeIndex" :router="true">
-        <el-menu-item-group>
-          <el-menu-item index="userComment"> <i class="el-icon-chat-round"></i>评论 </el-menu-item>
-          <el-menu-item index="userLike">
-            <el-icon><Star /></el-icon>
-            喜欢和赞
-          </el-menu-item>
-          <el-menu-item index="userLikeUser"> <i class="el-icon-user"></i>关注 </el-menu-item>
-        </el-menu-item-group>
+  <el-container>
+    <el-header class="vv-header">
+      <el-menu mode="horizontal" :default-active="activeIndex" :router="true" :ellipsis="false">
+        <el-menu-item index="userComment"> <i class="el-icon-chat-round"></i>评论 </el-menu-item>
+        <el-menu-item index="userLike">
+          <el-icon>
+            <Star />
+          </el-icon>
+          喜欢和赞
+        </el-menu-item>
+        <el-menu-item index="userLikeUser"> <i class="el-icon-user"></i>关注 </el-menu-item>
       </el-menu>
-    </el-aside>
-    <el-main class="vv-main">
-      <div class="vv-main-title">
-        <span>{{ activeTitle[activeIndex] }}</span>
-      </div>
-      <notification-list :notification_type="notification_type"></notification-list>
-    </el-main>
+    </el-header>
+    <el-container>
+      <el-aside class="vv-aside">
+        <el-menu class="el-menu-profile" :default-active="activeIndex" :router="true" :ellipsis="false">
+          <el-menu-item-group>
+            <template #title><i class="el-icon-bell"></i><span style="margin-left:2px;">消息</span></template>
+            <el-menu-item index="userComment"> <i class="el-icon-chat-round"></i>评论 </el-menu-item>
+            <el-menu-item index="userLike">
+              <el-icon>
+                <Star />
+              </el-icon>
+              喜欢和赞
+            </el-menu-item>
+            <el-menu-item index="userLikeUser"> <i class="el-icon-user"></i>关注 </el-menu-item>
+          </el-menu-item-group>
+        </el-menu>
+      </el-aside>
+      <el-main class="vv-main">
+        <div class="vv-main-title">
+          <span>{{ activeTitle[activeIndex] }}</span>
+        </div>
+        <notification-list :notification_type="notification_type"></notification-list>
+      </el-main>
+    </el-container>
   </el-container>
 </template>
 
@@ -63,10 +80,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.vv-header {
+  display: none;
+}
+
 .vv-aside {
+  width: 190px;
   background: #fff;
-  overflow-x: hidden;
+  overflow: hidden;
   border-right: 1px solid #ebebeb;
+
   .el-menu-item i.icon-like {
     margin-right: 5px;
     padding-right: 3px;
@@ -76,15 +99,31 @@ export default {
     vertical-align: middle;
   }
 }
+
 .vv-main {
   background: #fff;
   padding: 0px;
+
   .vv-main-title {
     margin: 20px 0px 0px 20px;
+
     span {
       line-height: 1.4;
       font-size: 19px;
     }
+  }
+}
+
+
+@media (max-width: 600px) {
+  .vv-aside {
+    display: none;
+  }
+
+  .vv-header {
+    width: 100%;
+    background: #fff;
+    display: flex;
   }
 }
 </style>

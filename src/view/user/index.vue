@@ -7,8 +7,8 @@
             <profile></profile>
           </el-card>
         </div>
-        <div style="background: #fff; padding: 26px 24px">
-          <el-tabs v-model="tab" class="vv-tabs" @tab-click="handleTabClick">
+        <div style="background: #fff; padding: 26px 24px;" class="margin-bottom-xs">
+          <el-tabs v-model="tab" class="vv-tabs " @tab-click="handleTabClick">
             <el-tab-pane name="article">
               <template #label> <i class="el-icon-date"></i> 随笔 </template>
               <!-- <my-create-classify></my-create-classify> -->

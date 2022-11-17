@@ -1,12 +1,7 @@
 <template>
   <div class="padding">
-    <lin-table
-      :tableColumn="tableColumn"
-      :tableData="tableData"
-      :operate="operate"
-      @handleEdit="handleEdit"
-      v-loading="loading"
-    >
+    <lin-table :fixed="false" :tableColumn="tableColumn" :tableData="tableData" :operate="operate" @handleEdit="handleEdit"
+      v-loading="loading">
       <template #create_time="scope">
         <span>{{ $filters.filterTimeYmdHms(scope.row.create_time) }}</span>
       </template>
@@ -78,14 +73,13 @@ export default {
     // 'https://github.com/login/oauth/authorize?client_id=0be6b05fc717bfc4fb67&state=github&redirect_uri=https://localhost:5001/signin-github',
     bind(provider) {
       var t = window.open(
-        `${process.env.VUE_APP_BASE_URL}cms/oauth2/signin-bind?provider=${provider}&redirectUrl=${
-          process.env.VUE_APP_CURRENT_URL
+        `${process.env.VUE_APP_BASE_URL}cms/oauth2/signin-bind?provider=${provider}&redirectUrl=${process.env.VUE_APP_CURRENT_URL
         }&token=${getToken('access_token')}`,
         '_blank',
         'toolbar=yes, location=yes, directories=no, status=no, menubar=yes, scrollbars=yes, resizable=no, copyhistory=yes, width=800, height=600',
       )
       var n = window.setInterval(function () {
-        ;(t && !t.closed) || (window.clearInterval(n), window.location.reload())
+        ; (t && !t.closed) || (window.clearInterval(n), window.location.reload())
       }, 300)
     },
     async bindlist() {

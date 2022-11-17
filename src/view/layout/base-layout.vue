@@ -5,7 +5,8 @@
         <div class="headerWrapper">
           <el-header class="main-header">
             <div class="header-container">
-              <el-menu :default-active="activeIndex" mode="horizontal" :ellipsis="false" @select="handleSelect">
+              <el-menu :default-active="activeIndex" mode="horizontal" class="header-menu-desktop" :ellipsis="false"
+                @select="handleSelect">
                 <el-menu-item index="/index" class="block">
                   <router-link :to="{ path: '/index' }">
                     <i class="el-icon-help"></i>
@@ -65,6 +66,41 @@
                   <current-user class="current-user"></current-user>
                 </el-menu-item>
               </el-menu>
+              <el-menu :default-active="activeIndex" mode="horizontal" :ellipsis="false" @select="handleSelect"
+                class="header-menu-mobile">
+                <el-menu-item index="index">
+                  <el-dropdown size="large" class="header-dropdown" @command="handleCommand">
+                    <span class="el-dropdown-link">
+                      {{ activeValue }}
+                      <el-icon class="el-icon--right">
+                        <arrow-down />
+                      </el-icon>
+                    </span>
+                    <template #dropdown>
+                      <el-dropdown-menu>
+                        <el-dropdown-item command="/index">首页</el-dropdown-item>
+                        <el-dropdown-item command="/subscribe" v-if="loggedIn">关注
+                        </el-dropdown-item>
+                        <el-dropdown-item command="/tag/subscribe/all">标签</el-dropdown-item>
+                        <el-dropdown-item command="/notification/userComment" v-if="loggedIn">消息
+                        </el-dropdown-item>
+                        <el-dropdown-item command="vvlog-vue2">VUE2 旧版本</el-dropdown-item>
+                      </el-dropdown-menu>
+                    </template>
+                  </el-dropdown>
+                </el-menu-item>
+
+                <div class="flex-grow" />
+                <el-menu-item index="login" v-show="!loggedIn">
+                  <el-link>登录</el-link>
+                </el-menu-item>
+                <el-menu-item index="register" v-show="!loggedIn">
+                  <el-link>注册</el-link>
+                </el-menu-item>
+                <el-menu-item v-if="loggedIn">
+                  <current-user class="current-user"></current-user>
+                </el-menu-item>
+              </el-menu>
             </div>
           </el-header>
         </div>
@@ -86,11 +122,33 @@ export default {
   name: 'Base',
   components: { CurrentUser, LoginRegisterDialog },
   data() {
-    return { activeIndex: '' }
+    return {}
   },
   computed: {
     loggedIn() {
       return this.$store.state.loggedIn
+    },
+    activeIndex() {
+      if (this.$route.path === '/') {
+        return '/index'
+      }
+      return this.$route.path
+    },
+    activeValue() {
+      switch (this.activeIndex) {
+        case '/index':
+          return '首页'
+        case '/subscribe':
+          return '关注'
+        case '/tag/subscribe/all':
+          return '标签'
+        case '/notification/userComment':
+          return '消息'
+        case 'vvlog-vue2':
+          return 'VUE2 旧版本'
+        default:
+          return '首页'
+      }
     },
   },
   watch: {
@@ -105,7 +163,6 @@ export default {
     handleSelect(key, keyPath) {
       console.log(key, keyPath)
       if (key == 'login' || key == 'register') {
-        this.activeIndex = key
         this.$refs['loginRegister'].show(key)
         return
       }
@@ -116,9 +173,20 @@ export default {
       }
       // this.$router.push(key);
     },
-    flushCom: function () {
+    flushCom() {
       this.$router.go(0)
     },
+    handleCommand(command) {
+      if (command == 'login' || command == 'register') {
+        this.$refs['loginRegister'].show(command)
+        return
+      }
+      if (command == 'vvlog-vue2') {
+        window.open('https://vvlog-vue2.igeekfan.cn/')
+        return
+      }
+      this.$router.push(command);
+    }
   },
 }
 </script>
@@ -176,6 +244,28 @@ export default {
     :deep(.el-dropdown) {
       top: 10px;
       left: 5px;
+    }
+  }
+}
+
+.header-menu-mobile {
+  display: none;
+}
+
+@media screen and (max-width: 768px) {
+  .header-menu-desktop {
+    display: none
+  }
+
+  .header-menu-mobile {
+    display: flex;
+  }
+
+  .header-menu-mobile {
+    .header-dropdown {
+      height: 57px;
+      line-height: 60px;
+      cursor: pointer;
     }
   }
 }

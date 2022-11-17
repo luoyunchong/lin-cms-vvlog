@@ -46,7 +46,7 @@
           </template>
         </template>
       </el-table-column>
-      <el-table-column v-if="operate.length > 0" label="操作" fixed="right" width="275">
+      <el-table-column v-if="operate.length > 0" label="操作" :fixed="fixed" width="275">
         <template #default="scope">
           <el-button
             v-for="(item, index) in operate"
@@ -81,6 +81,10 @@
 
 export default {
   props: {
+    fixed:{
+      type: Boolean,
+      default: true
+    },
     tableColumn: {
       // 表头名称
       type: Array,

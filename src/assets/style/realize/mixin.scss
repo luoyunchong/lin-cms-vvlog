@@ -62,3 +62,33 @@
     opacity: $opacity;
   }
 }
+
+/* default state */
+.state-indicator {
+  position: absolute;
+  top: -999em;
+  left: -999em;
+
+  z-index: 1;
+}
+
+/* small desktop */
+@media all and (max-width: 1200px) {
+  .state-indicator {
+    z-index: 2;
+  }
+}
+
+/* tablet */
+@media all and (max-width: 1024px) {
+  .state-indicator {
+    z-index: 3;
+  }
+}
+
+/* mobile phone */
+@media all and (max-width: 768px) {
+  .state-indicator {
+    z-index: 4;
+  }
+}

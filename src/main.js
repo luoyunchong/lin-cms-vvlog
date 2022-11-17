@@ -21,6 +21,7 @@ import '@/assets/style/index.scss'
 import 'element-plus/dist/index.css'
 import '@/assets/style/realize/element-variable.scss'
 import '@/assets/style/main.scss';
+
 const app = createApp(App)
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
