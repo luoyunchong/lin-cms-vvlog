@@ -11,7 +11,6 @@
 
 ![](https://img.shields.io/badge/license-MIT-3963bc.svg)
 
-
 ## 简介
 
 ## 注意事项
@@ -29,7 +28,6 @@
 ### 线上 Demo
 
 - [https://vvlog.igeekfan.cn/](https://vvlog.igeekfan.cn/)
-
 
 ## Lin CMS 的特点
 
@@ -65,6 +63,7 @@ Lin CMS 除了内置常见的功能外，还提供了一套开发规范与工具
 git clone https://github.com/luoyunchong/lin-cms-vvlog.git
 
 # install dependency
+npm install -g pnpm
 pnpm install
 
 # develop

@@ -13,6 +13,16 @@ let homeRouter = [
     order: 1,
   },
   {
+    title: "首页",
+    type: "view",
+    name: 'dashboard',
+    route: "/dashboard",
+    filePath: "view/home/dashboard.vue",
+    inNav: true,
+    icon: 'iconfont icon-appstoreadd',
+    order: 1
+  },
+  {
     title: '日志管理',
     type: 'view',
     name: Symbol('log'),
