@@ -28,6 +28,8 @@
                         <template v-if="user != null && model.user_info.id == user.id">
                           <el-divider direction="vertical"></el-divider>
                           <el-link type="primary" :href="`#/p/editor/${model.id}`" target="_blank">编辑</el-link>
+                          <el-divider direction="vertical"></el-divider>
+                          <el-link type="primary" @click="deleteArticle()" target="_blank">删除</el-link>
                         </template>
                         <el-divider direction="vertical"></el-divider>
                         <span>
@@ -104,8 +106,8 @@
 
                     <v-list-item-meta>
                       <template #description>
-                        <a target="_blank" :title="item.title" :href="'/#/p/' + item.id"
-                          style="color: rgb(45, 45, 45)">{{ item.title }}</a></template>
+                        <a target="_blank" :title="item.title" :href="'/#/p/' + item.id" style="color: rgb(45, 45, 45)">{{
+                          item.title }}</a></template>
                     </v-list-item-meta>
                   </v-list-item>
                 </template>
@@ -135,7 +137,7 @@
       }" @likeChange="likeChange"></tools-badge>
     </div>
     <error-404-page v-show="deleted"></error-404-page>
-  </div>
+</div>
 </template>
 
 <script>
@@ -404,6 +406,10 @@ export default {
     async updateCommentable(commentable) {
       await articleApi.updateCommentable(this.id, commentable)
       this.model.commentable = commentable
+    },
+    async deleteArticle() {
+      await articleApi.deleteArticle(this.id)
+      this.$router.push('/user/' + this.model.user_info.id + '/article')
     },
   },
 }
@@ -746,6 +752,7 @@ export default {
   .el-backtop {
     bottom: 5rem !important;
   }
+
   .aside-list {
     display: none;
   }
