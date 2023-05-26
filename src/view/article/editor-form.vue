@@ -88,7 +88,7 @@ export default {
           markdown: {
             toc: true,
             theme: 'light',
-            mark:true
+            mark: true
           },
           hljs: {
             enable: true,
@@ -145,7 +145,6 @@ export default {
         icon: 'material',
       }
       this.vditor = new Vditor('vditor', options)
-      this.vditor.focus()
     },
     async show() {
       if (this.id != 0 && this.id != null) {
