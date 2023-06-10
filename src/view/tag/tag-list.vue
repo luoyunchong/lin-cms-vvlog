@@ -180,7 +180,7 @@ export default {
         if (currentPage == 0) {
           this.dataSource = items;
           this.pagination.currentPage += 1;
-          this.pagination.pageTotal = res.total;
+          this.pagination.pageTotal = res.count;
         }
       } else {
         if (currentPage == 0) {
@@ -189,7 +189,7 @@ export default {
           this.dataSource = this.dataSource.concat(items);
         }
         this.pagination.currentPage += 1;
-        this.pagination.pageTotal = res.total;
+        this.pagination.pageTotal = res.count;
 
         $state && $state.loaded();
       }
@@ -228,7 +228,7 @@ export default {
         if (currentPage == 0) {
           this.subscribeDataSource = items;
           this.paginationSubscribe.currentPage += 1;
-          this.paginationSubscribe.pageTotal = res.total;
+          this.paginationSubscribe.pageTotal = res.count;
         }
       } else {
         if (currentPage == 0) {
@@ -237,7 +237,7 @@ export default {
           this.subscribeDataSource = this.subscribeDataSource.concat(items);
         }
         this.paginationSubscribe.currentPage += 1;
-        this.paginationSubscribe.pageTotal = res.total;
+        this.paginationSubscribe.pageTotal = res.count;
 
         $state && $state.loaded();
       }

@@ -115,8 +115,8 @@ export default {
       })
 
       this.listData = res.items
-      this.pagination.total = res.total
-      this.$emit('success', res.total)
+      this.pagination.count = res.count
+      this.$emit('success', res.count)
       this.loading = false
     },
     async subscribe(index) {

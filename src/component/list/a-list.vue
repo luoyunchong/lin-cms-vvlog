@@ -11,7 +11,7 @@
         :small="pagination.small?pagination.small:false"
         layout="prev, pager, next, jumper"
         :page-size="pagination.pageSize ? pagination.pageSize: 10 "
-        :total="pagination.total ? pagination.total : null "
+        :total="pagination.count ? pagination.count : null "
         @current-change="currentChange"
         :current-page="pagination.currentPage"
       ></el-pagination>
@@ -30,7 +30,7 @@
         :small="pagination.small?pagination.small:false"
         layout="prev, pager, next, jumper"
         :page-size="pagination.pageSize ? pagination.pageSize: 10 "
-        :total="pagination.total ? pagination.total : null "
+        :total="pagination.count ? pagination.count : null "
         @current-change="currentChange"
         :current-page="pagination.currentPage"
       ></el-pagination>

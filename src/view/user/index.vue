@@ -238,7 +238,7 @@ export default {
           this.dataSource = this.dataSource.concat(items)
         }
         this.pagination.currentPage += 1
-        this.pagination.pageTotal = res.total
+        this.pagination.pageTotal = res.count
 
         $state && $state.loaded()
       }
