@@ -1,39 +1,26 @@
 <template>
   <div :class="classString">
-    <div class="vv-list-header" v-if="header|| $slots.header">
+    <div class="vv-list-header" v-if="header || $slots.header">
       <slot name="header">{{ header }}</slot>
     </div>
-    <div class="vv-list-pagination" v-if="pagination&&(pagination.position=='top')">
-      <el-pagination
-        class="pagination"
-        v-if="pagination"
-        :background="pagination.background?pagination.background:false"
-        :small="pagination.small?pagination.small:false"
-        layout="prev, pager, next, jumper"
-        :page-size="pagination.pageSize ? pagination.pageSize: 10 "
-        :total="pagination.count ? pagination.count : null "
-        @current-change="currentChange"
-        :current-page="pagination.currentPage"
-      ></el-pagination>
+    <div class="vv-list-pagination" v-if="pagination && (pagination.position == 'top')">
+      <el-pagination class="pagination" v-if="pagination" :background="pagination.background ? pagination.background : false"
+        :small="pagination.small ? pagination.small : false" layout="prev, pager, next, jumper"
+        :page-size="pagination.pageSize ? pagination.pageSize : 10" :total="pagination.count ? pagination.count : null"
+        @current-change="currentChange" :current-page="pagination.currentPage"></el-pagination>
     </div>
-    <template v-for="(item,index) in dataSource">
+    <template v-for="(item, index) in dataSource">
       <slot name="renderItem" :item="item" :index="index"></slot>
     </template>
+    <el-empty :description="emptyText" v-if="dataSource.length == 0" />
     <div class="vv-list-footer" v-if="footer || $slots.footer">
       <slot name="footer">{{ footer }}</slot>
     </div>
-    <div class="vv-list-pagination" v-if="pagination&&(pagination.position=='bottom')">
-      <el-pagination
-        class="pagination"
-        v-if="pagination"
-        :background="pagination.background?pagination.background:false"
-        :small="pagination.small?pagination.small:false"
-        layout="prev, pager, next, jumper"
-        :page-size="pagination.pageSize ? pagination.pageSize: 10 "
-        :total="pagination.count ? pagination.count : null "
-        @current-change="currentChange"
-        :current-page="pagination.currentPage"
-      ></el-pagination>
+    <div class="vv-list-pagination" v-if="pagination && (pagination.position == 'bottom')">
+      <el-pagination class="pagination" v-if="pagination" :background="pagination.background ? pagination.background : false"
+        :small="pagination.small ? pagination.small : false" layout="prev, pager, next, jumper"
+        :page-size="pagination.pageSize ? pagination.pageSize : 10" :total="pagination.count ? pagination.count : null"
+        @current-change="currentChange" :current-page="pagination.currentPage"></el-pagination>
     </div>
   </div>
 </template>
@@ -67,6 +54,10 @@ export default {
   props: {
     header: String,
     footer: String,
+    emptyText: {
+      type: String,
+      default: '暂无数据'
+    },
     dataSource: {
       type: Array,
       default: []
@@ -132,5 +123,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

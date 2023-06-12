@@ -8,11 +8,13 @@
           <template #actions>
             <li v-show="showActions">
               <el-button @click="updateCollection(item.id)">编辑</el-button>
+              <el-button @click="deleteCollection(item.id)">删除</el-button>
             </li>
           </template>
           <v-list-item-meta :description="item.remark">
             <template #title>
               {{ item.name }}
+              <span><el-icon><Lock /></el-icon></span>
             </template>
           </v-list-item-meta>
         </v-list-item>
@@ -31,6 +33,7 @@ import VList from '@/component/list'
 import '@/component/list/index.css'
 import defaultAvatar from '@/assets/image/user/user.png'
 import CollectionForm from '@/view/collection/collection-form'
+import { ElMessageBox } from 'element-plus'
 
 export default {
   name: 'CollectionList',
@@ -97,6 +100,24 @@ export default {
     },
     updateCollection(id) {
       this.$refs['createCollection'].show(id)
+    },
+    deleteCollection(id) {
+      ElMessageBox.confirm('此操作将永久删除该收藏集, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        collectionApi.deleteCollection(id).then(() => {
+          this.$message.success('删除成功')
+          this.getData()
+        });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
+
     },
     async onCreateCollectionSuccess() {
       await this.getData()
