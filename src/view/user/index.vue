@@ -44,7 +44,7 @@
             </el-tab-pane>
             <el-tab-pane name="collection">
               <template #label> <i class="el-icon-collection"></i> <span>收藏</span> </template>
-              <collection-list></collection-list>
+              <collection-list :userId="userId"></collection-list>
             </el-tab-pane>
           </el-tabs>
         </div>

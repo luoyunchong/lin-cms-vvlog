@@ -81,7 +81,7 @@ export default {
         typewriterMode: true,
         hint: {
         },
-        mode: 'wysiwyg', //ir 即时渲染，sv 分屏预览 wysiwyg 所见即所得
+        mode: 'sv', //ir 即时渲染，sv 分屏预览 wysiwyg 所见即所得
         preview: {
           delay: 100,
           show: true,
@@ -142,7 +142,7 @@ export default {
         blur(value) {
           that.handleOnSave(value)
         },
-        icon: 'material',
+        icon: 'ant',
       }
       this.vditor = new Vditor('vditor', options)
     },

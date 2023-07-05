@@ -1,12 +1,12 @@
 <template>
   <div>
-    <el-button @click="createCollection()">新建收藏集</el-button>
+    <el-button @click="createCollection()" v-if="showCreateCollection">新建收藏集</el-button>
     <v-list itemLayout="horizontal" :dataSource="listData" :bordered="false" v-loading="loading" class="list"
       :pagination="pagination">
       <template v-slot:renderItem="{ item, index }">
         <v-list-item class="item">
           <template #actions>
-            <li v-show="showActions">
+            <li v-show="showActions && showCreateCollection">
               <el-button @click="updateCollection(item.id)">编辑</el-button>
               <el-button @click="deleteCollection(item.id)">删除</el-button>
             </li>
@@ -14,7 +14,9 @@
           <v-list-item-meta :description="item.remark">
             <template #title>
               {{ item.name }}
-              <span><el-icon><Lock /></el-icon></span>
+              <span><el-icon>
+                  <Lock v-if="item.privacy_type == 1" />
+                </el-icon></span>
             </template>
           </v-list-item-meta>
         </v-list-item>
@@ -48,6 +50,9 @@ export default {
       type: [Boolean],
       default: true,
     },
+    userId: {
+      type: [String, Number],
+    }
   },
   data() {
     return {
@@ -78,6 +83,14 @@ export default {
       defaultAvatar,
     }
   },
+  computed: {
+    showCreateCollection() {
+      return this.user.id == this.userId;
+    },
+    user() {
+      return this.$store.state.user
+    },
+  },
   async created() {
     await this.getData()
   },
@@ -88,7 +101,7 @@ export default {
       let res = await collectionApi.getCollectionList({
         page: this.pagination.currentPage - 1,
         count: this.pagination.pageSize,
-        name: this.query.name
+        userid: this.userId
       });
       this.listData = res.items
       this.pagination.count = res.count
