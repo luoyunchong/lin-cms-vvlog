@@ -22,32 +22,32 @@
         </el-badge>
       </a>
     </div>
-    <!-- <el-divider direction="vertical"></el-divider>
+    <el-divider direction="vertical"></el-divider>
     <div class="a-badge" title="收藏">
       <a @click="handleCollect">
-        <el-badge :type="model.is_collect?'danger':'info'" :value="model.collect_quantity">
-          <el-avatar
-            :size="32"
-            icon="el-icon-collection"
-            class="a-avatar"
-            :style="model.is_collect?'color: #f56a00; background-color: #fde3cf':''"
-          />
+        <el-badge :type="model.is_collect ? 'danger' : 'info'" :value="model.collect_quantity">
+          <el-avatar :size="32" class="a-avatar"
+            :style="model.is_collect ? 'color: #f56a00; background-color: #fde3cf' : ''">
+            <IconAntDesignStarOutlined />
+          </el-avatar>
         </el-badge>
       </a>
-    </div>-->
+    </div>
   </div>
 </template>
 
 <script>
 import userLike from "@/model/user-like";
+import collectionApi from "@/model/collection";
 import IconAntDesignLikeFilled from "~icons/ant-design/like-filled";
 import IconAntDesignCommentOutlined from "~icons/ant-design/comment-outlined";
-
+import IconAntDesignStarOutlined from "~icons/ant-design/star-outlined";
 export default {
+  name:'ToolsBadge',
   data() {
     return {};
   },
-  components: { IconAntDesignLikeFilled, IconAntDesignCommentOutlined },
+  components: { IconAntDesignLikeFilled, IconAntDesignCommentOutlined, IconAntDesignStarOutlined },
   props: {
     model: {
       type: Object,
@@ -79,15 +79,15 @@ export default {
         this.$emit("likeChange", { likes_quantity: 1, is_liked: true });
       }
     },
-    handleCollect() {
-      console.log("");
-
-      if (this.model.isCollect) {
-        this.model.isCollect = 0;
-        this.model.collectCount -= 1;
+    async handleCollect() {
+      if (this.model.is_collect == false) {
+        this.$emit("collectChange", { is_collect: true });
       } else {
-        this.model.isCollect = 1;
-        this.model.collectCount += 1;
+        let res = await collectionApi.createOrCancelCollection({
+          article_id: this.model.id
+        })
+        this.$message.success(`${res.message}`);
+        this.$emit("collectChange", { is_collect: false });
       }
     },
   },

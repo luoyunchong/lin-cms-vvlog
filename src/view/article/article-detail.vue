@@ -134,10 +134,12 @@
         comment_quantity: model.comment_quantity,
         is_collect: model.is_collect,
         collect_quantity: model.collect_quantity,
-      }" @likeChange="likeChange"></tools-badge>
+      }" @likeChange="likeChange" @collectChange="collectChange"></tools-badge>
+      <article-collection ref="articleCollection"
+        @success="{ this.model.is_collect = true; this.model.collect_quantity += 1 }"></article-collection>
     </div>
     <error-404-page v-show="deleted"></error-404-page>
-</div>
+  </div>
 </template>
 
 <script>
@@ -151,6 +153,7 @@ import VList from '@/component/list'
 import '@/component/list/index.css'
 import settingApi from '@/model/setting'
 import PreviewImage from '@/lin/plugin/preview'
+import ArticleCollection from '@/view/collection/article-collection'
 export default {
   name: 'ArticleDetail',
   data() {
@@ -175,10 +178,11 @@ export default {
       latestLoading: false,
       deleted: false,
       is_subscribeed: null,
-      latestArticles: [],
+      latestArticles: []
     }
   },
   components: {
+    ArticleCollection,
     ToolsBadge,
     CommentList,
     SubscribeButton,
@@ -212,6 +216,16 @@ export default {
     likeChange({ likes_quantity, is_liked }) {
       this.model.likes_quantity += likes_quantity
       this.model.is_liked = is_liked
+    },
+    collectChange({ is_collect }) {
+      //收藏弹框
+      if (is_collect == true) {
+        this.$refs['articleCollection'].show(this.model.id);
+        return;
+      }
+      //取消收藏回调
+      this.model.is_collect = is_collect
+      this.model.collect_quantity -= 1
     },
     async getData() {
       const loading = this.$loading({
