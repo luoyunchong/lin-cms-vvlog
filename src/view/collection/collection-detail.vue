@@ -78,7 +78,7 @@ export default {
       return this.$route.params.id
     },
     showCreateCollection() {
-      return this.item.create_user_id == this.user.id;
+      return this.item.create_user_id == this.user?.id;
     },
     user() {
       return this.$store.state.user
