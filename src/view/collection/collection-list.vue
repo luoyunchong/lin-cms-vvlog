@@ -13,10 +13,12 @@
           </template>
           <v-list-item-meta :description="item.remark">
             <template #title>
-              {{ item.name }}
-              <span><el-icon>
-                  <Lock v-if="item.privacy_type == 1" />
-                </el-icon></span>
+              <router-link :to="{ path: `/collection/${item.id}` }" target="_blank">
+                {{ item.name }}
+                <span><el-icon>
+                    <Lock v-if="item.privacy_type == 1" />
+                  </el-icon></span>
+              </router-link>
             </template>
           </v-list-item-meta>
         </v-list-item>
@@ -52,6 +54,7 @@ export default {
     },
     userId: {
       type: [String, Number],
+      default: 0
     }
   },
   data() {
@@ -85,16 +88,18 @@ export default {
   },
   computed: {
     showCreateCollection() {
-      return this.user.id == this.userId;
+      return this.user?.id == this.userId;
     },
     user() {
       return this.$store.state.user
     },
   },
   async created() {
+     await this.getData()
+  },
+  async activated() {
     await this.getData()
   },
-
   methods: {
     async getData() {
       this.loading = true

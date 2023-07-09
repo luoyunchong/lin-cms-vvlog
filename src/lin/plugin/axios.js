@@ -119,7 +119,7 @@ _axios.interceptors.response.use(
           const { origin } = window.location
           window.location.href = origin
         }, 1500)
-        return resolve(null)
+        return reject(null)
       }
       // assessToken相关，刷新令牌
       if (code === 10041 || code === 10051) {

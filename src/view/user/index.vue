@@ -10,7 +10,7 @@
         <div style="background: #fff; padding: 26px 24px;" class="margin-bottom-xs">
           <el-tabs v-model="tab" class="vv-tabs " @tab-click="handleTabClick">
             <el-tab-pane name="article">
-              <template #label> <i class="el-icon-date"></i> <span>随笔</span> </template>
+              <template #label> <i class="el-icon-date"></i> <span style="margin-left:3px;">随笔</span> </template>
               <!-- <my-create-classify></my-create-classify> -->
               <article-list :dataSource="dataSource" class="vv-article-list"></article-list>
               <infinite-loading @infinite="infiniteHandler" :identifier="any" distance="50">
@@ -23,7 +23,7 @@
               </infinite-loading>
             </el-tab-pane>
             <el-tab-pane name="subscribe">
-              <template #label> <i class="el-icon-user"></i> <span>关注</span> </template>
+              <template #label> <i class="el-icon-user"></i> <span style="margin-left:3px;">关注</span> </template>
               <el-tabs v-model="activeName" @tab-click="handleClick" type="card">
                 <el-tab-pane :label="'关注用户' + info.subscribe_count" name="subscribe">
                   <subscribe-user-list :userId="userId" userType="subscribe" v-if="activeName == 'subscribe'"
@@ -43,7 +43,7 @@
               </el-tabs>
             </el-tab-pane>
             <el-tab-pane name="collection">
-              <template #label> <i class="el-icon-collection"></i> <span>收藏</span> </template>
+              <template #label> <i class="el-icon-collection"></i> <span style="margin-left:3px;">收藏</span> </template>
               <collection-list :userId="userId"></collection-list>
             </el-tab-pane>
           </el-tabs>

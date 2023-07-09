@@ -6,8 +6,8 @@
         <el-input type="text" v-model="form.name" autocomplete="off" placeholder="请输入收藏集名称" maxlength="50"></el-input>
       </el-form-item>
       <el-form-item label="描述" prop="remark">
-        <el-input type="textarea" :autosize="{ minRows: 4, maxRows: 5 }" maxlength="100" v-model="form.remark"
-          autocomplete="off" placeholder="请输入收藏描述（限100字，选填）"></el-input>
+        <el-input type="textarea" :autosize="{ minRows: 4, maxRows: 20 }" maxlength="200" show-word-limit
+          v-model="form.remark" autocomplete="off" placeholder="请输入收藏描述（限200字，选填）"></el-input>
       </el-form-item>
       <el-form-item label="隐私类型" prop="privacy_type" label-position="top">
         <el-radio v-model="form.privacy_type" :label="0">公开 当其他人关注此收藏集后不可再更改为隐私</el-radio>
