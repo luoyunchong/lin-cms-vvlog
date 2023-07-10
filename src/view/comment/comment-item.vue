@@ -105,11 +105,11 @@ export default {
     },
     handleClickAuthor(event) {
       event.stopPropagation()
-      this.$notify({
-        title: '警告',
-        message: '该用户已被系统删除·',
-        type: 'warning',
-      })
+      // this.$notify({
+      //   title: '警告',
+      //   message: '该用户已被系统删除·',
+      //   type: 'warning',
+      // })
       this.$emit('clickAuthor', this)
     },
     handleAddReply(event) {

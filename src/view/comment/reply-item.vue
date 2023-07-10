@@ -7,12 +7,12 @@
       <div class="reply-content-block">
         <div class="comment-func">
           <span class="comment-meta inline-block">
-            <a target="_blank" :href="`/user/${author.id}/article`" @click="handleClickAuthor($event)">{{
+            <a target="_blank" :href="`#/user/${author.id}/article`" @click="handleClickAuthor($event)">{{
                 author.nickname
             }}</a>
             <template v-if="resp_user_info != null">
               <span style="margin: 0px 5px">回复</span>
-              <a target="_blank" :href="`/user/${resp_user_info.id}/article`">{{ resp_user_info.nickname }}</a>
+              <a target="_blank" :href="`#/user/${resp_user_info.id}/article`">{{ resp_user_info.nickname }}</a>
             </template>
             <span class="comments-date">· {{ $filters.filterTimeYmdHms(time) }}</span>
           </span>
