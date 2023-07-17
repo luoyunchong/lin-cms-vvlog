@@ -29,7 +29,16 @@
                           <el-divider direction="vertical"></el-divider>
                           <el-link type="primary" :href="`#/p/editor/${model.id}`" target="_blank">编辑</el-link>
                           <el-divider direction="vertical"></el-divider>
-                          <el-link type="primary" @click="deleteArticle()" target="_blank">删除</el-link>
+                          <el-popover :visible="visibleDelete" placement="top" :width="160">
+                            <p>确认删除此随笔吗?</p>
+                            <div style="text-align: right; margin: 0">
+                              <el-button size="small" text @click="visibleDelete = false">取消</el-button>
+                              <el-button size="small" type="primary" @click="deleteArticle()">确认</el-button>
+                            </div>
+                            <template #reference>
+                                <el-link type="primary" @click="visibleDelete = true" target="_blank">删除</el-link>
+                            </template>
+                          </el-popover>
                         </template>
                         <el-divider direction="vertical"></el-divider>
                         <span>
@@ -178,7 +187,8 @@ export default {
       latestLoading: false,
       deleted: false,
       is_subscribeed: null,
-      latestArticles: []
+      latestArticles: [],
+      visibleDelete: false
     }
   },
   components: {
@@ -423,6 +433,7 @@ export default {
     },
     async deleteArticle() {
       await articleApi.deleteArticle(this.id)
+      this.visibleDelete = false;
       this.$router.push('/user/' + this.model.user_info.id + '/article')
     },
   },
