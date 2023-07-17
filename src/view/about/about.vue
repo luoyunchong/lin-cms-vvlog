@@ -130,7 +130,7 @@
         </el-tabs>
       </div>
       <div class="article">
-        <div class="article-title">文章</div>
+        <div class="article-title">随笔</div>
         <div class="article-list">
           <div class="article-item"
             @click="handleArticle('https://opensource.guide/how-to-contribute/')">

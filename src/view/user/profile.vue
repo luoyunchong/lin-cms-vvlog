@@ -56,16 +56,8 @@ export default {
     }
   },
   computed: {
-    userId() {
-      return this.$route.params.id
-    },
     user() {
       return this.$store.state.user
-    },
-  },
-  watch: {
-    async userId(newVal) {
-      await this.getUserByUserId()
     },
   },
   async created() {
@@ -73,8 +65,8 @@ export default {
   },
   methods: {
     async getUserByUserId() {
-      if (this.userId != null) {
-        this.openUser = await userApi.getUserByUserId(this.userId)
+      if (this.user.id != null) {
+        this.openUser = await userApi.getUserByUserId(this.user.id)
         if (this.openUser.job_title == null) {
           this.openUser.job_title = '无'
         }

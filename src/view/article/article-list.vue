@@ -57,6 +57,22 @@
                       <span class="count">{{ item.view_hits }}</span>
                     </router-link>
                   </li>
+                  <li v-if="showedit && item.user_info.id == this.user.id">
+                    <el-dropdown size="large" >
+                      <span class="el-dropdown-link">
+                        {{ activeValue }}
+                        <el-icon style="width:50px;height:36px;">
+                          <More />
+                        </el-icon>
+                      </span>
+                      <template #dropdown>
+                        <el-dropdown-menu>
+                          <el-dropdown-item command="edit" @click="toArticle(item)">编辑</el-dropdown-item>
+                          <el-dropdown-item command="delete" @click="deleteArticle(item)">删除</el-dropdown-item>
+                        </el-dropdown-menu>
+                      </template>
+                    </el-dropdown>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -75,6 +91,8 @@
 </template>
 
 <script>
+import { ElMessageBox } from 'element-plus';
+import articleApi from '@/model/article'
 export default {
   name: 'ArticleList',
   data() {
@@ -87,12 +105,39 @@ export default {
         return [];
       },
     },
+    showedit:{
+      type:Boolean,
+      default:false
+    }
   },
   mounted() { },
+  computed: {
+    user() {
+      return this.$store.state.user
+    },
+  },
   methods: {
     toArticle(item) {
-      this.$router.push({ name: 'p', params: { id: item.id } });
+      window.open('/#/p/' + item.id)
     },
+    async deleteArticle(model) {
+      ElMessageBox.confirm(
+        '删除随笔后不可恢复，确定删除吗?',
+        'Warning',
+        {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+        }
+      ).then(async () => {
+        await articleApi.deleteArticle(model.id)
+        this.$message({
+          type: 'success',
+          message: '删除成功!'
+        });
+        this.$emit('deleteArticle', model)
+      })
+    }
   },
 };
 </script>

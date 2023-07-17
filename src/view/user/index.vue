@@ -12,7 +12,7 @@
             <el-tab-pane name="article">
               <template #label> <i class="el-icon-date"></i> <span style="margin-left:3px;">随笔</span> </template>
               <!-- <my-create-classify></my-create-classify> -->
-              <article-list :dataSource="dataSource" class="vv-article-list"></article-list>
+              <article-list :dataSource="dataSource" class="vv-article-list" @deleteArticle="deleteArticle" :showedit="true"></article-list>
               <infinite-loading @infinite="infiniteHandler" :identifier="any" distance="50">
                 <template #spinner>
                   <el-divider class="lin-divider">加载中...</el-divider>
@@ -191,6 +191,9 @@ export default {
     this.activeName = key
   },
   methods: {
+    async deleteArticle(){
+      await this.refresh();
+    },
     async refresh() {
       this.pagination.currentPage = 0
       this.any = new Date()
