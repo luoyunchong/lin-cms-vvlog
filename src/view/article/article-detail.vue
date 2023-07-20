@@ -36,7 +36,7 @@
                               <el-button size="small" type="primary" @click="deleteArticle()">确认</el-button>
                             </div>
                             <template #reference>
-                                <el-link type="primary" @click="visibleDelete = true" target="_blank">删除</el-link>
+                              <el-link type="primary" @click="visibleDelete = true" target="_blank">删除</el-link>
                             </template>
                           </el-popover>
                         </template>
@@ -250,7 +250,10 @@ export default {
         document.title = this.model.title
         if (this.model.word_number == 0) {
           this.model.word_number = this.model.content.length
-          this.model.reading_time = Number(this.model.word_number / 800).toFixed(0)
+          this.model.reading_time = Number(this.model.word_number / 500).toFixed(0)
+          if (this.model.reading_time == 0) {
+            this.model.reading_time = 1
+          }
         }
 
         this.render(this.model.content)

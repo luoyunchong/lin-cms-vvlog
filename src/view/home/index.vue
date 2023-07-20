@@ -99,7 +99,7 @@
                             <div class="margin-bottom-xs">
                                 <a href="https://github.com/luoyunchong/lin-cms-dotnetcore" target="_blank">
                                     <el-button type="danger" plain>
-                                        后端
+                                        后端接口
                                         <!-- <el-icon> </el-icon> -->
                                         lin-cms-dotnetcore
                                     </el-button>
@@ -107,12 +107,12 @@
                             </div>
                             <div class="margin-bottom-xs">
                                 <a href="https://github.com/luoyunchong/lin-cms-vue" target="_blank">
-                                    <el-button type="primary" plain>用户UI：lin-cms-vue</el-button>
+                                    <el-button type="primary" plain>后台管理：lin-cms-vue</el-button>
                                 </a>
                             </div>
                             <div class="margin-bottom-xs">
                                 <a href="https://github.com/luoyunchong/lin-cms-vvlog" target="_blank">
-                                    <el-button type="success" plain>后台管理：lin-cms-vvlog</el-button>
+                                    <el-button type="success" plain>用户UI：lin-cms-vvlog</el-button>
                                 </a>
                             </div>
                         </div>

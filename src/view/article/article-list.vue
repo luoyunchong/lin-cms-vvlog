@@ -123,7 +123,7 @@ export default {
     async deleteArticle(model) {
       ElMessageBox.confirm(
         '删除随笔后不可恢复，确定删除吗?',
-        'Warning',
+        '提示',
         {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
