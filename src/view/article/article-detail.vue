@@ -251,9 +251,12 @@ export default {
         if (this.model.word_number == 0) {
           this.model.word_number = this.model.content.length
           this.model.reading_time = Number(this.model.word_number / 500).toFixed(0)
+          debugger
           if (this.model.reading_time == 0) {
             this.model.reading_time = 1
           }
+        }else if (this.model.reading_time == 0) {
+          this.model.reading_time = 1
         }
 
         this.render(this.model.content)
