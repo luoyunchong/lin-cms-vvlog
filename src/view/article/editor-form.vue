@@ -82,7 +82,7 @@ export default {
         hint: {
         },
         mode: 'sv', //ir 即时渲染，sv 分屏预览 wysiwyg 所见即所得
-        cdn:'https://api.igeekfan.cn/js/vditor',
+        cdn:'https://images.igeekfan.cn/js/vditor',
         preview: {
           delay: 100,
           show: true,
