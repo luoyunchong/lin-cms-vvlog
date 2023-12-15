@@ -408,7 +408,8 @@ export default {
             return
           }
         },
-        lazyLoadImage: 'https://cdn.jsdelivr.net/npm/vditor/dist/images/img-loading.svg',
+        cdn:'https://images.igeekfan.cn/js/vditor',
+        lazyLoadImage: 'https://images.igeekfan.cn/js/vditor/dist/images/img-loading.svg',
       })
     },
     async getQueryArticles() {
