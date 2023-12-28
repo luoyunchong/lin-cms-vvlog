@@ -106,6 +106,7 @@ export default {
         author: '',
         keywords: '',
         nick_name: null,
+        isaudit: true,
         likes_quantity: 0,
         recommend: true,
         source: '',
