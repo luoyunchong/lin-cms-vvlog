@@ -15,11 +15,25 @@
                     首页
                   </router-link>
                 </el-menu-item>
+                <el-menu-item v-if="loggedIn" index="/subscribe" class="block">
+                    <router-link :to="{ path: '/subscribe' }">
+                      <el-icon>
+                        <ScaleToOriginal />
+                      </el-icon>关注
+                    </router-link>
+                  </el-menu-item>
                 <el-menu-item index="/tag/subscribe/all" class="block">
                   <router-link :to="{ path: '/tag/subscribe/all' }">
                     <el-icon> <CopyDocument /> </el-icon>标签
                   </router-link>
                 </el-menu-item>
+                <el-menu-item v-if="loggedIn" index="/notification/userComment" class="block">
+                    <router-link :to="{ path: '/notification/userComment' }">
+                      <el-icon>
+                        <Bell />
+                      </el-icon>消息
+                    </router-link>
+                 </el-menu-item>
                 <div class="flex-grow" />
                 <el-menu-item index="login" v-show="!loggedIn">
                   <el-link>登录</el-link>
