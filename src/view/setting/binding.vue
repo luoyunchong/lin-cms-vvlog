@@ -24,7 +24,7 @@
           </a>
           <a href="javascript:void(0);" @click="() => bind('Gitee')" v-if="showGitee">
             <el-avatar class="margin-left-xs" title="码云登录" :size="40">
-                  <SimpleIconsGitee width="1em" height="1em" />
+               <SimpleIconsGitee width="27" height="27.2" />
             </el-avatar>
           </a>
         </div>
