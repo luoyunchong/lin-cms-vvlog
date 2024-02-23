@@ -39,6 +39,7 @@
     "@babel/plugin-proposal-optional-chaining": "^7.20.7",
     "@iconify-json/ant-design": "^1.1.5",
     "@iconify-json/ic": "^1.1.13",
+    "@iconify-json/simple-icons": "^1.1.92",
     "@vue/cli-plugin-babel": "^5.0.8",
     "@vue/cli-plugin-eslint": "^5.0.8",
     "@vue/cli-plugin-unit-jest": "^5.0.8",

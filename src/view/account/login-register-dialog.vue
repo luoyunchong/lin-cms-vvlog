@@ -94,9 +94,11 @@
               <IconAntDesignQqOutlined width="1em" height="1em" />
             </el-avatar>
           </a>
-          <!--<a href="javascript:void(0);" @click="() => signin('Gitee')">
-            <el-avatar class="margin-left-xs" title="码云登录" size="default"></el-avatar>
-          </a> -->
+          <a href="javascript:void(0);" @click="() => signin('Gitee')">
+            <el-avatar class="margin-left-xs" title="码云登录" size="default">
+              <SimpleIconsGitee width="1em" height="1em" />
+            </el-avatar>
+          </a>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -110,10 +112,10 @@ import oauth2 from '@/model/oauth2'
 import Utils from '@/lin/util/util'
 import IconAntDesignGitHubFilled from '~icons/ant-design/github-filled'
 import IconAntDesignQqOutlined from '~icons/ant-design/qq-outlined'
-
+import SimpleIconsGitee from '~icons/simple-icons/gitee'
 export default {
   name: 'LoginRegisterDialog',
-  components: { IconAntDesignGitHubFilled, IconAntDesignQqOutlined },
+  components: { IconAntDesignGitHubFilled, IconAntDesignQqOutlined, SimpleIconsGitee },
   data() {
     return {
       dialogTableVisible: false,
