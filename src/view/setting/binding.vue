@@ -22,27 +22,24 @@
               <AntDesignQqOutlined width="27" height="27.2" />
             </el-avatar>
           </a>
+          <a href="javascript:void(0);" @click="() => bind('Gitee')" v-if="showGitee">
+            <el-avatar class="margin-left-xs" title="码云登录" :size="40">
+                  <SimpleIconsGitee width="1em" height="1em" />
+            </el-avatar>
+          </a>
         </div>
       </el-card>
     </div>
   </div>
 </template>
 
-//
-<a href="javascript:void(0);" @click="() => bind('Gitee')" v-if="showGitee">
-          //   <el-avatar
-          //     class="margin-left-xs"
-          //     icon="iconfont icon-gitee-fill-round"
-          //     title="码云登录"
-          //     size="large"
-          //   ></el-avatar>
-          // </a>
 <script>
 import oauth2 from '@/model/oauth2'
 import { getToken } from '@/lin/util/token'
 import LinTable from '@/component/base/table/lin-table'
 import AntDesignQqOutlined from '~icons/ant-design/qq-outlined'
 import AntDesignGithubOutlined from '~icons/ant-design/github-outlined'
+import SimpleIconsGitee from '~icons/simple-icons/gitee'
 export default {
   data() {
     return {
@@ -55,7 +52,7 @@ export default {
       showQQ: true,
     }
   },
-  components: { LinTable, AntDesignQqOutlined, AntDesignGithubOutlined },
+  components: { LinTable, AntDesignQqOutlined, AntDesignGithubOutlined, SimpleIconsGitee },
   async created() {
     this.tableColumn = [
       { prop: 'identity_type', label: '绑定帐号信息' },
