@@ -35,6 +35,11 @@ export default class User {
     return tokens
   }
 
+  static async refresh(data, headers) {
+    const tokens = await post('cms/user/refresh', data, {}, headers)
+    return tokens
+  }
+
   static async logout() {
     const result = await get('cms/user/logout')
     return result

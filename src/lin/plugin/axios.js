@@ -9,7 +9,7 @@ import router from '@/router'
 import Config from '@/config'
 import autoJump from '@/lin/util/auto-jump'
 import ErrorCode from '@/config/error-code'
-import { getToken, saveAccessToken } from '@/lin/util/token'
+import { getToken, saveAccessToken, saveTokens } from '@/lin/util/token'
 
 const config = {
   baseURL: Config.baseURL || '',
@@ -28,7 +28,7 @@ const config = {
  * @param { number } code 错误码
  */
 function refreshTokenException(code) {
-  const codes = [10000, 10042, 10050, 10052, 10012]
+  const codes = [ 10042, 10050, 10052, 10012]
   return codes.includes(code)
 }
 
@@ -122,12 +122,18 @@ _axios.interceptors.response.use(
         return reject(null)
       }
       // assessToken相关，刷新令牌
-      if (code === 10041 || code === 10051) {
+      if (code === 10000) {
         const cache = {}
         if (cache.url !== url) {
           cache.url = url
-          const refreshResult = await _axios('cms/user/refresh')
-          saveAccessToken(refreshResult.access_token)
+          const refreshResult = await _axios({
+            method: 'get',
+            url: 'cms/user/refresh',
+            headers: {
+              Authorization: getToken('refresh_token'),
+            },
+          })
+          saveTokens(refreshResult.access_token, refreshResult.refresh_token)
           // 将上次失败请求重发
           const result = await _axios(res.config)
           return resolve(result)
