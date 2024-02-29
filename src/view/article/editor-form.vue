@@ -82,7 +82,7 @@ export default {
         hint: {
         },
         mode: 'sv', //ir 即时渲染，sv 分屏预览 wysiwyg 所见即所得
-        cdn:'https://images.igeekfan.cn/js/vditor',
+        cdn: 'https://images.igeekfan.cn/js/vditor',
         preview: {
           delay: 100,
           show: true,
@@ -117,8 +117,11 @@ export default {
               if (res.length > 0) {
                 var imgMdStr = ``
                 res.forEach((re, i) => {
+                  console.log(files)
                   if (files[i].type == 'video/webm') {
                     imgMdStr = `<audio controls="controls" src="${re.url}"></audio>`
+                  } else if (files[i].type.indexOf('video') != -1) {
+                    imgMdStr = `[${files[i].name}](${re.url})`
                   } else {
                     imgMdStr = `![${files[i].name}](${re.url})`
                   }

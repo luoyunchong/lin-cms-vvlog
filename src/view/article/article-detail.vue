@@ -228,12 +228,10 @@ export default {
       this.model.is_liked = is_liked
     },
     collectChange({ is_collect }) {
-      //收藏弹框
       if (is_collect == true) {
         this.$refs['articleCollection'].show(this.model.id);
         return;
       }
-      //取消收藏回调
       this.model.is_collect = is_collect
       this.model.collect_quantity -= 1
     },
@@ -251,7 +249,7 @@ export default {
         if (this.model.word_number == 0) {
           this.model.word_number = this.model.content.length
           this.model.reading_time = Number(this.model.word_number / 500).toFixed(0)
-          debugger
+
           if (this.model.reading_time == 0) {
             this.model.reading_time = 1
           }
@@ -411,6 +409,7 @@ export default {
         cdn:'https://images.igeekfan.cn/js/vditor',
         lazyLoadImage: 'https://images.igeekfan.cn/js/vditor/dist/images/img-loading.svg',
       })
+      Vditor.mediaRender()
     },
     async getQueryArticles() {
       this.latestLoading = true
