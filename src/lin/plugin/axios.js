@@ -28,7 +28,7 @@ const config = {
  * @param { number } code 错误码
  */
 function refreshTokenException(code) {
-  const codes = [ 10042, 10050, 10052, 10012]
+  const codes = [10100, 10042, 10050, 10052, 10012]
   return codes.includes(code)
 }
 
@@ -98,7 +98,15 @@ _axios.interceptors.request.use(
   error => Promise.reject(error),
 )
 
-// Add a response interceptor
+const gotoLogin = (message) => {
+  ElMessage.error(message)
+  setTimeout(() => {
+    store.dispatch('loginOut')
+    const { origin } = window.location
+    window.location.href = origin
+  }, 1500)
+}
+
 _axios.interceptors.response.use(
   async res => {
     if (res.status.toString().charAt(0) === '2') {
@@ -113,12 +121,7 @@ _axios.interceptors.response.use(
 
       // refresh_token 异常，直接登出
       if (refreshTokenException(code)) {
-        ElMessage.error(message)
-        setTimeout(() => {
-          store.dispatch('loginOut')
-          const { origin } = window.location
-          window.location.href = origin
-        }, 1500)
+        gotoLogin(message)
         return reject(null)
       }
       // assessToken相关，刷新令牌
@@ -126,11 +129,16 @@ _axios.interceptors.response.use(
         const cache = {}
         if (cache.url !== url) {
           cache.url = url
+          var refresh_token = getToken('refresh_token');
+          if (!refresh_token) {
+            gotoLogin('未登录')
+            return reject(null)
+          }
           const refreshResult = await _axios({
             method: 'get',
             url: 'cms/user/refresh',
             headers: {
-              Authorization: getToken('refresh_token'),
+              Authorization: refresh_token
             },
           })
           saveTokens(refreshResult.access_token, refreshResult.refresh_token)
