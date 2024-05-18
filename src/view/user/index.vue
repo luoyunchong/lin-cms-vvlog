@@ -7,12 +7,17 @@
             <profile></profile>
           </el-card>
         </div>
-        <div style="background: #fff; padding: 26px 24px;" class="margin-bottom-xs">
-          <el-tabs v-model="tab" class="vv-tabs " @tab-click="handleTabClick">
+        <div style="background: #fff; padding: 26px 24px" class="margin-bottom-xs">
+          <el-tabs v-model="tab" class="vv-tabs" @tab-click="handleTabClick">
             <el-tab-pane name="article">
-              <template #label> <i class="el-icon-date"></i> <span style="margin-left:3px;">随笔</span> </template>
+              <template #label> <i class="el-icon-date"></i> <span style="margin-left: 3px">随笔</span> </template>
               <!-- <my-create-classify></my-create-classify> -->
-              <article-list :dataSource="dataSource" class="vv-article-list" @deleteArticle="deleteArticle" :showedit="true"></article-list>
+              <article-list
+                :dataSource="dataSource"
+                class="vv-article-list"
+                @deleteArticle="deleteArticle"
+                :showEdit="true"
+              ></article-list>
               <infinite-loading @infinite="infiniteHandler" :identifier="any" distance="50">
                 <template #spinner>
                   <el-divider class="lin-divider">加载中...</el-divider>
@@ -23,28 +28,47 @@
               </infinite-loading>
             </el-tab-pane>
             <el-tab-pane name="subscribe">
-              <template #label> <i class="el-icon-user"></i> <span style="margin-left:3px;">关注</span> </template>
+              <template #label> <i class="el-icon-user"></i> <span style="margin-left: 3px">关注</span> </template>
               <el-tabs v-model="activeName" @tab-click="handleClick" type="card">
                 <el-tab-pane :label="'关注用户' + info.subscribe_count" name="subscribe">
-                  <subscribe-user-list :userId="userId" userType="subscribe" v-if="activeName == 'subscribe'"
-                    v-on:success="subscribe_count => info.subscribe_count = subscribe_count"
-                    v-on:subscribe="subscribe_count => info.subscribe_count += subscribe_count"></subscribe-user-list>
+                  <subscribe-user-list
+                    :userId="userId"
+                    userType="subscribe"
+                    v-if="activeName == 'subscribe'"
+                    v-on:success="subscribe_count => (info.subscribe_count = subscribe_count)"
+                    v-on:subscribe="subscribe_count => (info.subscribe_count += subscribe_count)"
+                  ></subscribe-user-list>
                 </el-tab-pane>
                 <el-tab-pane :label="'粉丝' + info.fans_count" name="fans">
-                  <subscribe-user-list :userId="userId" userType="fans" v-if="activeName == 'fans'"
-                    v-on:success="fans_count => info.fans_count = fans_count"
-                    v-on:subscribe="fans_count => info.subscribe_count += fans_count"></subscribe-user-list>
+                  <subscribe-user-list
+                    :userId="userId"
+                    userType="fans"
+                    v-if="activeName == 'fans'"
+                    v-on:success="fans_count => (info.fans_count = fans_count)"
+                    v-on:subscribe="fans_count => (info.subscribe_count += fans_count)"
+                  ></subscribe-user-list>
                 </el-tab-pane>
                 <el-tab-pane :label="'标签' + info.tag_count" name="tag">
-                  <subscribe-tag-list :userId="userId" v-if="activeName == 'tag'"
-                    v-on:success="tag_count => info.tag_count = tag_count"
-                    v-on:subscribe="tag_count => info.tag_count += tag_count"></subscribe-tag-list>
+                  <subscribe-tag-list
+                    :userId="userId"
+                    v-if="activeName == 'tag'"
+                    v-on:success="tag_count => (info.tag_count = tag_count)"
+                    v-on:subscribe="tag_count => (info.tag_count += tag_count)"
+                  ></subscribe-tag-list>
                 </el-tab-pane>
               </el-tabs>
             </el-tab-pane>
             <el-tab-pane name="collection">
-              <template #label> <i class="el-icon-collection"></i> <span style="margin-left:3px;">收藏</span> </template>
+              <template #label>
+                <i class="el-icon-collection"></i> <span style="margin-left: 3px">收藏</span>
+              </template>
               <collection-list :userId="userId"></collection-list>
+            </el-tab-pane>
+            <el-tab-pane name="like">
+              <template #label>
+                <el-icon><Star /></el-icon> <span style="margin-left: 3px">点赞</span>
+              </template>
+              <user-like-article :userId="userId" ref="userLikeArticle" :classify_id="classify_id"></user-like-article>
             </el-tab-pane>
           </el-tabs>
         </div>
@@ -79,9 +103,7 @@
             <div>
               <router-link :to="{ path: `/p/editor/0` }">
                 <el-button type="primary" plain>
-                  <el-icon class="el-icon--left">
-                    <Edit />
-                  </el-icon>写随笔
+                  <el-icon class="el-icon--left"> <Edit /> </el-icon>写随笔
                 </el-button>
               </router-link>
             </div>
@@ -102,7 +124,7 @@ import 'v3-infinite-loading/lib/style.css'
 import ArticleList from '@/view/article/article-list'
 import MyCreateClassify from './my-create-classify'
 import CollectionList from '@/view/collection/collection-list'
-
+import UserLikeArticle from './user-like-article'
 export default {
   name: 'UserIndex',
   components: {
@@ -112,7 +134,8 @@ export default {
     ArticleList,
     InfiniteLoading,
     MyCreateClassify,
-    CollectionList
+    CollectionList,
+    UserLikeArticle,
   },
   data() {
     return {
@@ -164,6 +187,9 @@ export default {
           break
         case 'collection':
           break
+        case 'like':
+          this.$refs.userLikeArticle.refresh()
+          break
         default:
           break
       }
@@ -178,6 +204,7 @@ export default {
       case 'article':
       case 'subscribe':
       case 'collection':
+      case 'like':
         this.tab = this.name
         break
       default:
@@ -191,8 +218,8 @@ export default {
     this.activeName = key
   },
   methods: {
-    async deleteArticle(){
-      await this.refresh();
+    async deleteArticle() {
+      await this.refresh()
     },
     async refresh() {
       this.pagination.currentPage = 0

@@ -1,6 +1,6 @@
 <template>
   <el-row :gutter="24">
-    <el-card class="box-card" style="padding: 20px 100px 100px 100px">
+    <el-card class="box-card" style="padding: 20px 100px 100px 100px; width: 100%">
       <el-col :span="16" :offset="4">
         <el-steps :active="active" style="margin-top: 20px">
           <el-step title="找回密码" description="验证码将会发送至你的注册邮箱"></el-step>
