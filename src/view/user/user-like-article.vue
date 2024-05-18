@@ -43,9 +43,10 @@ export default {
     }
   },
   methods: {
-    refresh() {
+    async refresh() {
       this.pagination.currentPage = 0
       this.any = new Date()
+      await this.infiniteHandler()
     },
     async infiniteHandler($state) {
       let res
@@ -76,11 +77,6 @@ export default {
 
         $state && $state.loaded()
       }
-    },
-    async refresh() {
-      this.pagination.currentPage = 0
-      this.any = new Date()
-      await this.infiniteHandler()
     },
   },
 }
