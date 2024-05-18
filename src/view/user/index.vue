@@ -174,6 +174,7 @@ export default {
     },
     async $route(v) {
       let key = v.query.key
+      console.log(v)
       switch (v.params.name) {
         case 'article':
           this.refresh()

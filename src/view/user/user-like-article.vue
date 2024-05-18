@@ -42,10 +42,17 @@ export default {
       any: new Date(),
     }
   },
+  async created() {
+    await this.refresh()
+  },
+  async activated() {
+    await this.refresh()
+  },
   methods: {
     async refresh() {
       this.pagination.currentPage = 0
       this.any = new Date()
+      console.log('user-like-article')
       await this.infiniteHandler()
     },
     async infiniteHandler($state) {
