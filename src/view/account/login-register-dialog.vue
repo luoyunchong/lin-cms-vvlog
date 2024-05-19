@@ -72,8 +72,8 @@
               v-model="form.verification_code"
               prefix-icon="HelpFilled"
               placeholder="请输入验证码"
-              minlength="4"
-              maxlength="4"
+              minlength="6"
+              maxlength="6"
               style="width: 165px"
               clearable
             ></el-input>
@@ -255,7 +255,7 @@ export default {
     },
     async register() {
       this.loading = true
-      await User.registerAccount(
+      var res = await User.registerAccount(
         {
           nickname: this.form.nickname,
           password: this.form.password,
@@ -267,6 +267,10 @@ export default {
       ).finally(() => {
         this.loading = false
       })
+      if (res.code !== 0) {
+        this.$message.error(res.message)
+        return
+      }
       this.form.username = this.form.email
       this.$message.success('注册成功')
       // // Show reCAPTCHA badge:
