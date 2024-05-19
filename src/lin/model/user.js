@@ -14,10 +14,14 @@ export default class User {
   static registerAccount(data, headers) {
     return post('cms/user/account/register', data, {}, headers)
   }
+
+  static async sendEmailCode(data) {
+    return await post('cms/user/account/send_email_code', data)
+  }
+
   static async sendPasswordResetCode(data) {
     return await post('cms/user/account/send_password_reset_code', data)
   }
-
   static async resetPassword(data) {
     return await post('cms/user/account/reset_password', data)
   }

@@ -259,4 +259,9 @@ Utils.formatHyperLink = (value) => {
 Utils.formatHtml = (xhtml) => {
   return xhtml != undefined ? xhtml.replace(/\n|\r\n/g, '<br/>') : '';
 }
+
+function isEmail(path) {
+  return /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/.test(path)
+}
+Utils.isEmail = isEmail
 export default Utils

@@ -64,6 +64,29 @@
               clearable
             ></el-input>
           </el-form-item>
+          <el-form-item
+            prop="verification_code"
+            :rules="[{ required: true, message: '请输入验证码', trigger: 'blur' }]"
+          >
+            <el-input
+              v-model="form.verification_code"
+              prefix-icon="HelpFilled"
+              placeholder="请输入验证码"
+              minlength="4"
+              maxlength="4"
+              style="width: 165px"
+              clearable
+            ></el-input>
+            <el-button
+              type="warning"
+              :loading="checkCodeBtn.loading"
+              :disabled="checkCodeBtn.disabled"
+              @click="getCheckCode"
+              style="margin-left: 5px"
+            >
+              {{ checkCodeBtn.text }}
+            </el-button>
+          </el-form-item>
           <el-form-item prop="password" :rules="[{ required: true, message: '请输入密码', trigger: 'blur' }]">
             <el-input
               v-model="form.password"
@@ -83,7 +106,6 @@
         </template>
 
         <el-form-item label="第三方账号登录" class="oauth">
-          <!-- <el-avatar icon="iconfont icon-QQ" title="qq登录" size="large"></el-avatar> -->
           <a href="javascript:void(0);" @click="() => signin('GitHub')">
             <el-avatar class="margin-left-xs" title="github登录" size="default">
               <IconAntDesignGitHubFilled width="1em" height="1em" />
@@ -113,15 +135,27 @@ import Utils from '@/lin/util/util'
 import IconAntDesignGitHubFilled from '~icons/ant-design/github-filled'
 import IconAntDesignQqOutlined from '~icons/ant-design/qq-outlined'
 import SimpleIconsGitee from '~icons/simple-icons/gitee'
+
 export default {
   name: 'LoginRegisterDialog',
   components: { IconAntDesignGitHubFilled, IconAntDesignQqOutlined, SimpleIconsGitee },
   data() {
     return {
+      checkCodeBtn: {
+        text: '获取验证码',
+        loading: false,
+        disabled: false,
+        duration: 10,
+        timer: null,
+      },
       dialogTableVisible: false,
       form: {
         username: '',
         password: '',
+        nickname: '',
+        email: '',
+        verification_code: '',
+        email_code: '',
       },
       headers: {
         'Google-RecaptchaToken': '',
@@ -137,6 +171,36 @@ export default {
   },
   methods: {
     ...mapActions(['setUserAndState']),
+
+    async getCheckCode() {
+      if (!this.form.email) {
+        this.$message.error('请输入邮箱')
+        return false
+      }
+      if (!Utils.isEmail(this.form.email)) {
+        this.$message.error('请输入正确的邮箱地址')
+        return false
+      }
+      if (this.checkCodeBtn.duration !== 10) {
+        this.checkCodeBtn.disabled = true
+      }
+      this.checkCodeBtn.timer && clearInterval(this.checkCodeBtn.timer)
+      this.checkCodeBtn.timer = setInterval(() => {
+        const tmp = this.checkCodeBtn.duration--
+        this.checkCodeBtn.text = `${tmp}秒`
+        if (tmp <= 0) {
+          clearInterval(this.checkCodeBtn.timer)
+          this.checkCodeBtn.duration = 10
+          this.checkCodeBtn.text = '重新获取'
+          this.checkCodeBtn.disabled = false
+        }
+      }, 1000)
+      var email_code = await User.sendEmailCode({
+        email: this.form.email,
+        nickname: this.form.nickname,
+      })
+      this.form.email_code = email_code
+    },
     show(key) {
       this.dialogTableVisible = true
       this.activeIndex = key
@@ -196,6 +260,8 @@ export default {
           nickname: this.form.nickname,
           password: this.form.password,
           email: this.form.email,
+          verification_code: this.form.verification_code,
+          email_code: this.form.email_code,
         },
         this.headers,
       ).finally(() => {
