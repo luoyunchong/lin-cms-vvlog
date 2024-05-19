@@ -201,22 +201,24 @@ export default {
     // await this.getUserSubscribe()
   },
   mounted() {
-    switch (this.name) {
-      case 'article':
-      case 'subscribe':
-      case 'collection':
-      case 'like':
-        this.tab = this.name
-        break
-      default:
-        this.tab = 'article'
-        break
-    }
-    let key = this.$route.query.key
-    if (key == null || key == undefined) {
-      key = 'subscribe'
-    }
-    this.activeName = key
+    setTimeout(() => {
+      switch (this.name) {
+        case 'article':
+        case 'subscribe':
+        case 'collection':
+        case 'like':
+          this.tab = this.name
+          break
+        default:
+          this.tab = 'article'
+          break
+      }
+      let key = this.$route.query.key
+      if (key == null || key == undefined) {
+        key = 'subscribe'
+      }
+      this.activeName = key
+    }, 500)
   },
   methods: {
     async deleteArticle() {
