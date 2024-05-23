@@ -5,8 +5,13 @@
         <div class="headerWrapper">
           <el-header class="main-header">
             <div class="header-container">
-              <el-menu :default-active="activeIndex" mode="horizontal" class="header-menu-desktop" :ellipsis="false"
-                @select="handleSelect">
+              <el-menu
+                :default-active="activeIndex"
+                mode="horizontal"
+                class="header-menu-desktop"
+                :ellipsis="false"
+                @select="handleSelect"
+              >
                 <el-menu-item index="/index" class="block">
                   <router-link :to="{ path: '/index' }">
                     <i class="el-icon-help"></i>
@@ -16,43 +21,29 @@
                 <el-menu-item v-if="loggedIn" index="/subscribe" class="block">
                   <router-link :to="{ path: '/subscribe' }">
                     <el-icon>
-                      <ScaleToOriginal />
-                    </el-icon>关注
+                      <ScaleToOriginal /> </el-icon
+                    >关注
                   </router-link>
                 </el-menu-item>
                 <el-menu-item index="/tag/subscribe/all" class="block">
                   <router-link :to="{ path: '/tag/subscribe/all' }">
                     <el-icon>
-                      <CopyDocument />
-                    </el-icon>标签
+                      <CopyDocument /> </el-icon
+                    >标签
                   </router-link>
                 </el-menu-item>
                 <el-menu-item v-if="loggedIn" index="/notification/userComment" class="block">
                   <router-link :to="{ path: '/notification/userComment' }">
                     <el-icon>
-                      <Bell />
-                    </el-icon>消息
+                      <Bell /> </el-icon
+                    >消息
                   </router-link>
-                </el-menu-item>
-                <el-menu-item index="vvlog-vue2.igeekfan.cn/" class="block">
-                  <a href="https://vvlog-vue2.igeekfan.cn/" target="_blank">
-                    <el-icon>
-                      <Van />
-                    </el-icon>VUE2 旧版本
-                  </a>
                 </el-menu-item>
                 <el-menu-item index="cms.igeekfan.cn/" class="block">
                   <a href="https://cms.igeekfan.cn/" target="_blank">
                     <el-icon>
-                      <Van />
-                    </el-icon>CMS
-                  </a>
-                </el-menu-item>
-                <el-menu-item index="cms-vue2.igeekfan.cn/" class="block">
-                  <a href="https://cms-vue2.igeekfan.cn/" target="_blank">
-                    <el-icon>
-                      <Van />
-                    </el-icon>CMS VUE2
+                      <Van /> </el-icon
+                    >CMS
                   </a>
                 </el-menu-item>
                 <div class="flex-grow" />
@@ -66,8 +57,13 @@
                   <current-user class="current-user"></current-user>
                 </el-menu-item>
               </el-menu>
-              <el-menu :default-active="activeIndex" mode="horizontal" :ellipsis="false" @select="handleSelect"
-                class="header-menu-mobile">
+              <el-menu
+                :default-active="activeIndex"
+                mode="horizontal"
+                :ellipsis="false"
+                @select="handleSelect"
+                class="header-menu-mobile"
+              >
                 <el-menu-item index="index">
                   <el-dropdown size="large" class="header-dropdown" @command="handleCommand">
                     <span class="el-dropdown-link">
@@ -79,11 +75,9 @@
                     <template #dropdown>
                       <el-dropdown-menu>
                         <el-dropdown-item command="/index">首页</el-dropdown-item>
-                        <el-dropdown-item command="/subscribe" v-if="loggedIn">关注
-                        </el-dropdown-item>
+                        <el-dropdown-item command="/subscribe" v-if="loggedIn">关注 </el-dropdown-item>
                         <el-dropdown-item command="/tag/subscribe/all">标签</el-dropdown-item>
-                        <el-dropdown-item command="/notification/userComment" v-if="loggedIn">消息
-                        </el-dropdown-item>
+                        <el-dropdown-item command="/notification/userComment" v-if="loggedIn">消息 </el-dropdown-item>
                         <el-dropdown-item command="vvlog-vue2">VUE2 旧版本</el-dropdown-item>
                       </el-dropdown-menu>
                     </template>
@@ -185,8 +179,8 @@ export default {
         window.open('https://vvlog-vue2.igeekfan.cn/')
         return
       }
-      this.$router.push(command);
-    }
+      this.$router.push(command)
+    },
   },
 }
 </script>
@@ -254,7 +248,7 @@ export default {
 
 @media screen and (max-width: 768px) {
   .header-menu-desktop {
-    display: none
+    display: none;
   }
 
   .header-menu-mobile {
