@@ -20,30 +20,22 @@
                 </el-menu-item>
                 <el-menu-item v-if="loggedIn" index="/subscribe" class="block">
                   <router-link :to="{ path: '/subscribe' }">
-                    <el-icon>
-                      <ScaleToOriginal /> </el-icon
-                    >关注
+                    <el-icon> <ScaleToOriginal /> </el-icon>关注
                   </router-link>
                 </el-menu-item>
                 <el-menu-item index="/tag/subscribe/all" class="block">
                   <router-link :to="{ path: '/tag/subscribe/all' }">
-                    <el-icon>
-                      <CopyDocument /> </el-icon
-                    >标签
+                    <el-icon> <CopyDocument /> </el-icon>标签
                   </router-link>
                 </el-menu-item>
                 <el-menu-item v-if="loggedIn" index="/notification/userComment" class="block">
                   <router-link :to="{ path: '/notification/userComment' }">
-                    <el-icon>
-                      <Bell /> </el-icon
-                    >消息
+                    <el-icon> <Bell /> </el-icon>消息
                   </router-link>
                 </el-menu-item>
                 <el-menu-item index="cms.igeekfan.cn/" class="block">
                   <a href="https://cms.igeekfan.cn/" target="_blank">
-                    <el-icon>
-                      <Van /> </el-icon
-                    >CMS
+                    <el-icon> <Van /> </el-icon>CMS
                   </a>
                 </el-menu-item>
                 <div class="flex-grow" />
@@ -78,7 +70,6 @@
                         <el-dropdown-item command="/subscribe" v-if="loggedIn">关注 </el-dropdown-item>
                         <el-dropdown-item command="/tag/subscribe/all">标签</el-dropdown-item>
                         <el-dropdown-item command="/notification/userComment" v-if="loggedIn">消息 </el-dropdown-item>
-                        <el-dropdown-item command="vvlog-vue2">VUE2 旧版本</el-dropdown-item>
                       </el-dropdown-menu>
                     </template>
                   </el-dropdown>
@@ -138,8 +129,6 @@ export default {
           return '标签'
         case '/notification/userComment':
           return '消息'
-        case 'vvlog-vue2':
-          return 'VUE2 旧版本'
         default:
           return '首页'
       }
