@@ -11,7 +11,7 @@
           class="margin-left-xs margin-bottom-xs"
           :effect="classify_id == undefined ? 'dark' : 'plain'"
         >
-          <router-link :to="{ path: `/user/${userId}/article` }">全部</router-link>
+          <router-link :to="{ path: `/user/${userId}/classify` }">全部</router-link>
         </el-tag>
         <template v-for="item in classifys">
           <el-tag
@@ -21,7 +21,7 @@
             v-key="item.id"
             class="margin-left-xs margin-bottom-xs"
           >
-            <router-link :to="{ path: `/user/${userId}/article?classify_id=${item.id}` }"
+            <router-link :to="{ path: `/user/${userId}/classify?classify_id=${item.id}` }"
               >{{ item.classify_name }}
             </router-link>
           </el-tag>

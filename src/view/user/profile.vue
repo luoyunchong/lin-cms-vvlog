@@ -21,15 +21,15 @@
         <router-link :to="{ path: `/p/editor/0` }" class="item-button media_mobile">
           <el-button type="primary" plain>
             <el-icon class="el-icon--left">
-              <Edit />
-            </el-icon>写随笔
+              <Edit /> </el-icon
+            >写随笔
           </el-button>
         </router-link>
         <router-link :to="{ path: '/setting/profile' }" class="item-button">
           <el-button type="primary" v-if="user != null && user.id == openUser.id">
             <el-icon class="el-icon--left">
-              <Edit />
-            </el-icon>编辑个人资料
+              <Edit /> </el-icon
+            >编辑个人资料
           </el-button>
         </router-link>
         <subscribe-button :userId="openUser.id" v-if="user == null || (user != null && user.id != openUser.id)">
@@ -41,7 +41,6 @@
 
 <script>
 import userApi from '@/lin/model/user'
-import subscribeApi from '../../model/subscribe'
 import { SubscribeButton } from '@/view/subscribe'
 import defaultAvatar from '@/assets/image/user/user.png'
 export default {
@@ -73,7 +72,7 @@ export default {
   },
   methods: {
     async getUserByUserId() {
-        if (this.userId != null) {
+      if (this.userId != null) {
         this.openUser = await userApi.getUserByUserId(this.userId)
         if (this.openUser.job_title == null) {
           this.openUser.job_title = '无'
@@ -130,7 +129,6 @@ export default {
   }
 }
 
-
 .item-button {
   padding-bottom: 18px;
   padding-right: 10px;
@@ -142,7 +140,6 @@ export default {
 }
 
 @media (max-width: 600px) {
-
   .profile-wrapper {
     flex-direction: column;
     align-items: center;
@@ -155,6 +152,5 @@ export default {
       display: block;
     }
   }
-
 }
 </style>

@@ -1,37 +1,24 @@
 <template>
   <el-dialog
     width="500px"
-    title="新建收藏集"
+    title="新建专栏"
     :append-to-body="true"
     :before-close="handleClose"
     v-model="dialogFormVisible"
     class="user-dialog"
-    :close-on-click-modal="false"
   >
     <el-form :model="form" :rules="rules" label-position="left" ref="form" label-width="90px" @submit.native.prevent>
-      <el-form-item label="名称" prop="name">
+      <el-form-item label="名称" prop="classify_name">
         <el-input
           type="text"
-          v-model="form.name"
+          v-model="form.classify_name"
           autocomplete="off"
-          placeholder="请输入收藏集名称"
+          placeholder="请输入专栏名称"
           maxlength="50"
         ></el-input>
       </el-form-item>
-      <el-form-item label="描述" prop="remark">
-        <el-input
-          type="textarea"
-          :autosize="{ minRows: 4, maxRows: 20 }"
-          maxlength="200"
-          show-word-limit
-          v-model="form.remark"
-          autocomplete="off"
-          placeholder="请输入收藏描述（限200字，选填）"
-        ></el-input>
-      </el-form-item>
-      <el-form-item label="隐私类型" prop="privacy_type" label-position="top">
-        <el-radio v-model="form.privacy_type" :label="0">公开 当其他人关注此收藏集后不可再更改为隐私</el-radio>
-        <el-radio v-model="form.privacy_type" :label="1">隐私 仅自己可见此收藏集</el-radio>
+      <el-form-item label="专栏封面" prop="thumbnail">
+        <upload-image ref="thumbnail" :multiple="false" :value="thumbnailPreview" :max-num="1" />
       </el-form-item>
     </el-form>
     <template #footer>
@@ -44,19 +31,21 @@
 </template>
 
 <script>
-import collectionApi from '@/model/collection.js'
+import classifyApi from '@/model/classify.js'
+import UploadImage from '@/component/base/upload-image'
 export default {
-  name: 'CollectionForm',
+  components: { UploadImage },
   data() {
     return {
       dialogFormVisible: false,
       form: {
-        name: '',
-        remark: '',
-        privacy_type: 0,
+        classify_name: '',
+        thumbnail: '',
       },
+      thumbnailPreview: [],
       rules: {
-        name: [{ trigger: 'blur', required: true, message: '请输入收藏集名称' }],
+        classify_name: [{ trigger: 'blur', required: true, message: '请输入专栏名称' }],
+        thumbnail: [{ required: true, message: '请上传封面', trigger: 'blur' }],
       },
       saveLoading: false,
     }
@@ -65,31 +54,55 @@ export default {
   methods: {
     show(id) {
       this.dialogFormVisible = true
-      this.getCollection(id)
+      this.getClassify(id)
     },
     handleClose(done) {
       this.dialogFormVisible = false
       done()
     },
-    getCollection(id) {
+    getClassify(id) {
       this.id = id
-      if (this.id == 0 || this.id == undefined) return
-      collectionApi.getCollection(this.id).then(res => {
+      if (this.id == 0 || this.id == undefined) {
+        this.form = {
+          classify_name: '',
+          thumbnail: '',
+        }
+        this.$refs['thumbnail'].clear()
+        return
+      }
+      classifyApi.getClassify(this.id).then(res => {
         this.form = res
+        if (res.thumbnail) {
+          this.thumbnailPreview = [
+            {
+              id: res.id,
+              display: res.thumbnail_display,
+              src: res.thumbnail,
+              imgId: res.id,
+            },
+          ]
+        }
       })
     },
-    submitForm(formName) {
+    async submitForm(formName) {
       var that = this
+
+      let thumbnail = await this.$refs['thumbnail'].getValue()
+      if (thumbnail.length > 0) {
+        this.form.thumbnail = thumbnail[0].src
+      } else {
+        this.form.thumbnail = ''
+      }
       this.$refs[formName].validate(async valid => {
         if (valid) {
           this.saveLoading = true
           let res
           if (this.id == 0 || this.id == undefined) {
-            res = await collectionApi.createCollection(this.form).finally(r => {
+            res = await classifyApi.createClassify(this.form).finally(r => {
               that.saveLoading = false
             })
           } else {
-            res = await collectionApi.updateCollection(this.id, this.form).finally(r => {
+            res = await classifyApi.updateClassify(this.id, this.form).finally(r => {
               that.saveLoading = false
             })
           }

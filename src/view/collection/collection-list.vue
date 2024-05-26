@@ -1,8 +1,14 @@
 <template>
   <div>
     <el-button @click="createCollection()" v-if="showCreateCollection">新建收藏集</el-button>
-    <v-list itemLayout="horizontal" :dataSource="listData" :bordered="false" v-loading="loading" class="list"
-      :pagination="pagination">
+    <v-list
+      itemLayout="horizontal"
+      :dataSource="listData"
+      :bordered="false"
+      v-loading="loading"
+      class="list"
+      :pagination="pagination"
+    >
       <template v-slot:renderItem="{ item, index }">
         <v-list-item class="item">
           <template #actions>
@@ -15,9 +21,10 @@
             <template #title>
               <router-link :to="{ path: `/collection/${item.id}` }" target="_blank">
                 {{ item.name }}
-                <span><el-icon>
-                    <Lock v-if="item.privacy_type == 1" />
-                  </el-icon></span>
+                <span
+                  ><el-icon>
+                    <Lock v-if="item.privacy_type == 1" /> </el-icon
+                ></span>
               </router-link>
             </template>
           </v-list-item-meta>
@@ -45,7 +52,7 @@ export default {
     VList,
     VListItem: VList.Item,
     VListItemMeta: VList.Item.Meta,
-    CollectionForm
+    CollectionForm,
   },
   props: {
     showActions: {
@@ -54,8 +61,8 @@ export default {
     },
     userId: {
       type: [String, Number],
-      default: 0
-    }
+      default: 0,
+    },
   },
   data() {
     return {
@@ -63,7 +70,7 @@ export default {
       listData: [],
       loading: false,
       query: {
-        name: ''
+        name: '',
       },
       pagination: {
         small: false,
@@ -88,14 +95,14 @@ export default {
   },
   computed: {
     showCreateCollection() {
-      return this.user?.id == this.userId;
+      return this.user?.id == this.userId
     },
     user() {
       return this.$store.state.user
     },
   },
   async created() {
-     await this.getData()
+    await this.getData()
   },
   async activated() {
     await this.getData()
@@ -106,8 +113,8 @@ export default {
       let res = await collectionApi.getCollectionList({
         page: this.pagination.currentPage - 1,
         count: this.pagination.pageSize,
-        userid: this.userId
-      });
+        userid: this.userId,
+      })
       this.listData = res.items
       this.pagination.count = res.count
 
@@ -123,23 +130,17 @@ export default {
       ElMessageBox.confirm('此操作将永久删除该收藏集, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        type: 'warning'
+        type: 'warning',
       }).then(() => {
         collectionApi.deleteCollection(id).then(() => {
           this.$message.success('删除成功')
           this.getData()
-        });
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消删除'
-        });
-      });
-
+        })
+      })
     },
     async onCreateCollectionSuccess() {
       await this.getData()
-    }
+    },
   },
 }
 </script>

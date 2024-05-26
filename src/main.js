@@ -1,7 +1,7 @@
 import 'dayjs/locale/zh-cn'
 import { createApp } from 'vue'
 import ElementPlus from 'element-plus'
-import locale from 'element-plus/lib/locale/lang/zh-cn'
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
 
 import '@/config/global'
 import { filters } from 'lin/filter'
@@ -28,7 +28,7 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 }
 app.use(store)
 app.use(router)
-app.use(ElementPlus, { locale })
+app.use(ElementPlus, { locale: zhCn })
 app.use(LinNotify, {
   reconnection: true,
   reconnectionAttempts: 5,

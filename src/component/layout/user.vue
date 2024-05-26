@@ -35,7 +35,7 @@
             </div>
           </div>
           <el-dropdown-item command="home" icon="user"> 我的主页</el-dropdown-item>
-          <el-dropdown-item command="main" icon="menu">创作者中心</el-dropdown-item>
+          <el-dropdown-item command="dashboard" icon="menu">创作者中心</el-dropdown-item>
           <el-dropdown-item command="settings" icon="tools">设置</el-dropdown-item>
           <el-dropdown-item command="outLogin" icon="warning">退出账户</el-dropdown-item>
         </el-dropdown-menu>
@@ -185,7 +185,7 @@ export default {
     },
     handleCommand(command) {
       switch (command) {
-        case 'main':
+        case 'dashboard':
           window.open('#/dashboard')
           break
         case 'home':

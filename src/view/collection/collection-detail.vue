@@ -1,19 +1,27 @@
 <template>
   <div>
     <div v-show="!deleted">
-      <el-row :gutter="20" style="margin-bottom:20px;">
+      <el-row :gutter="20" style="margin-bottom: 20px">
         <el-col>
-          <el-card class="info-box" shadow="hover" :body-style="{
-            'background-color': '#fff',
-            'border': '1px solid #f1f1f1',
-            'transition': 'border-color .3s',
-          }">
+          <el-card
+            class="info-box"
+            shadow="hover"
+            :body-style="{
+              'background-color': '#fff',
+              border: '1px solid #f1f1f1',
+              transition: 'border-color .3s',
+            }"
+          >
             <template #header>
               <div class="card-header">
                 <span>{{ item.name }}</span>
                 <div>
-                  <el-button class="button" v-show="showCreateCollection" text @click="updateCollection(item.id)">编辑</el-button>
-                  <el-button class="button" v-show="showCreateCollection" text @click="deleteCollection(item.id)">删除</el-button>
+                  <el-button class="button" v-show="showCreateCollection" text @click="updateCollection(item.id)"
+                    >编辑</el-button
+                  >
+                  <el-button class="button" v-show="showCreateCollection" text @click="deleteCollection(item.id)"
+                    >删除</el-button
+                  >
                 </div>
               </div>
             </template>
@@ -78,7 +86,7 @@ export default {
       return this.$route.params.id
     },
     showCreateCollection() {
-      return this.item.create_user_id == this.user?.id;
+      return this.item.create_user_id == this.user?.id
     },
     user() {
       return this.$store.state.user
@@ -95,19 +103,13 @@ export default {
       ElMessageBox.confirm('此操作将永久删除该收藏集, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        type: 'warning'
+        type: 'warning',
       }).then(() => {
         collectionApi.deleteCollection(id).then(() => {
           this.$message.success('删除成功')
           this.getData()
-        });
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消删除'
-        });
-      });
-
+        })
+      })
     },
     async refresh() {
       this.pagination.currentPage = 0
@@ -150,7 +152,7 @@ export default {
     },
     async onCreateCollectionSuccess() {
       await this.get()
-    }
+    },
   },
 }
 </script>

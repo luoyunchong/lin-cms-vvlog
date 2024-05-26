@@ -104,6 +104,19 @@ let baseRouter = [
     ],
   },
   {
+    path: '/dashboard',
+    name: 'dashboard',
+    component: () => import('@/view/dashboard/index.vue'),
+    meta: { title: '后台管理' },
+    redirect: '/dashboard/classify',
+    children: [{
+      path: '/dashboard/classify',
+      name: 'dashboard-classify',
+      component: () => import('@/view/dashboard/classify.vue'),
+      meta: { title: '专栏' },
+    }]
+  },
+  {
     path: '/login-result',
     name: 'login-result',
     component: () => import('@/view/account/login-result.vue'),

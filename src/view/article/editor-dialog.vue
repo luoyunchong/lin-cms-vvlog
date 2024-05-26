@@ -1,13 +1,25 @@
 <template>
-  <el-dialog title="发布随笔" :modal-append-to-body="false" :before-close="handleClose" v-model="dialogFormVisible"
-    :close-on-click-modal="false" width="40%" :fullscreen="fullscreen">
+  <el-dialog
+    title="发布随笔"
+    :modal-append-to-body="false"
+    :before-close="handleClose"
+    v-model="dialogFormVisible"
+    :close-on-click-modal="false"
+    width="40%"
+    :fullscreen="fullscreen"
+  >
     <div>
       <el-form label-width="100px" :rules="rules" :model="form" status-icon ref="form" @submit.native.prevent>
         <el-row>
           <el-col :lg="24">
             <el-form-item label="技术频道" prop="channel_id">
-              <el-select size="default" filterable v-model="form.channel_id" :disabled="channels.length === 0"
-                placeholder="请选择技术频道">
+              <el-select
+                size="default"
+                filterable
+                v-model="form.channel_id"
+                :disabled="channels.length === 0"
+                placeholder="请选择技术频道"
+              >
                 <el-option v-for="item in channels" :key="item.id" :label="item.channel_name" :value="item.id">
                 </el-option>
               </el-select>
@@ -15,8 +27,17 @@
           </el-col>
           <el-col :lg="24">
             <el-form-item label="标签" prop="source">
-              <el-select style="width: 100%" v-model="form.tag_ids" remote multiple filterable :loading="tagLoading"
-                default-first-option placeholder="查询标签" :remote-method="remoteMethod">
+              <el-select
+                style="width: 100%"
+                v-model="form.tag_ids"
+                remote
+                multiple
+                filterable
+                :loading="tagLoading"
+                default-first-option
+                placeholder="查询标签"
+                :remote-method="remoteMethod"
+              >
                 <el-option v-for="item in tags" :key="item.id" :label="item.tag_name" :value="item.id"></el-option>
               </el-select>
             </el-form-item>
@@ -25,8 +46,14 @@
         <el-row>
           <el-col :lg="12">
             <el-form-item label="分类专栏" prop="classify_id">
-              <el-select size="default" filterable v-model="form.classify_id" :disabled="classifys.length === 0"
-                placeholder="请选择分类专栏">
+              <el-select
+                size="default"
+                filterable
+                clearable
+                v-model="form.classify_id"
+                :disabled="classifys.length === 0"
+                placeholder="请选择分类专栏"
+              >
                 <el-option v-for="item in classifys" :key="item.id" :label="item.classify_name" :value="item.id">
                 </el-option>
               </el-select>
@@ -35,8 +62,13 @@
           <el-col :lg="12">
             <el-form-item label="随笔类型" prop="excerpt">
               <el-select v-model="form.article_type" filterable default-first-option placeholder="请选择随笔类型">
-                <el-option v-for="item in article_types" :key="Number(item.item_code)" :label="item.item_name"
-                  :disabled="!item.status" :value="Number(item.item_code)"></el-option>
+                <el-option
+                  v-for="item in article_types"
+                  :key="Number(item.item_code)"
+                  :label="item.item_name"
+                  :disabled="!item.status"
+                  :value="Number(item.item_code)"
+                ></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -59,8 +91,13 @@
           </el-col>
           <el-col :lg="24">
             <el-form-item label="摘要" prop="excerpt">
-              <el-input size="default" type="textarea" :autosize="{ minRows: 4, maxRows: 8 }" placeholder="请输入摘要"
-                v-model="form.excerpt"></el-input>
+              <el-input
+                size="default"
+                type="textarea"
+                :autosize="{ minRows: 4, maxRows: 8 }"
+                placeholder="请输入摘要"
+                v-model="form.excerpt"
+              ></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -131,11 +168,16 @@ export default {
   computed: {
     fullscreen() {
       return this.devices == 'phone' ? true : false
-    }
+    },
   },
   async created() {
-    this.devices = getDeviceState();
-    this.classifys = await classifyApi.getClassifys()
+    this.devices = getDeviceState()
+    var { items } = await classifyApi.getClassifys({
+      userId: this.$store.state.user.id,
+      count: 200,
+      page: 0,
+    })
+    this.classifys = items
     let res = await channelApi.getNavChannels({
       count: 20,
       page: 0,
@@ -182,12 +224,14 @@ export default {
         })
         this.form = res
         if (res.thumbnail) {
-          this.thumbnailPreview = [{
-            id: res.id,
-            display: res.thumbnail_display,
-            src: res.thumbnail,
-            imgId: res.id,
-          }]
+          this.thumbnailPreview = [
+            {
+              id: res.id,
+              display: res.thumbnail_display,
+              src: res.thumbnail,
+              imgId: res.id,
+            },
+          ]
         }
         this.tags = res.tags
       } else {
@@ -232,6 +276,4 @@ export default {
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

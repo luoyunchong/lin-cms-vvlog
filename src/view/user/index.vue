@@ -58,6 +58,12 @@
                 </el-tab-pane>
               </el-tabs>
             </el-tab-pane>
+            <el-tab-pane name="classify">
+              <template #label>
+                <i class="el-icon-collection"></i> <span style="margin-left: 3px">专栏</span>
+              </template>
+              <my-create-classify :userId="userId"></my-create-classify>
+            </el-tab-pane>
             <el-tab-pane name="collection">
               <template #label>
                 <i class="el-icon-collection"></i> <span style="margin-left: 3px">收藏</span>
