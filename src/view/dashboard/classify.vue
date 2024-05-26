@@ -109,7 +109,7 @@ export default {
       let res = await classifyApi.getClassifys({
         page: this.pagination.currentPage - 1,
         count: this.pagination.pageSize,
-        userid: 1,
+        userid: this.user.id,
       })
       this.listData = res.items
       this.pagination.count = res.count
@@ -127,13 +127,12 @@ export default {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning',
-      })
-        .then(() => {
-          classifyApi.deleteClassify(id).then(() => {
-            this.$message.success('删除成功')
-            this.getData()
-          })
+      }).then(() => {
+        classifyApi.deleteClassify(id).then(() => {
+          this.$message.success('删除成功')
+          this.getData()
         })
+      })
     },
     async onCreateClassifySuccess() {
       await this.getData()
