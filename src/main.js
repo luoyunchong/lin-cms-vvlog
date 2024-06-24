@@ -52,5 +52,4 @@ app.config.globalProperties.$filters = filters
 app.directive('permission', permissionDirective)
 app.mount('#app')
 
-// 设置 App 实例
 window.App = app

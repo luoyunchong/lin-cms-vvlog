@@ -78,7 +78,7 @@
               clearable
             ></el-input>
             <el-button
-              type="warning"
+              type="primary"
               :loading="checkCodeBtn.loading"
               :disabled="checkCodeBtn.disabled"
               @click="getCheckCode"

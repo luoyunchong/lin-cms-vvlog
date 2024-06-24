@@ -1,7 +1,5 @@
 import Utils from '../util/util'
-/*
- * 全局的过滤函数
- * */
+
 export function checkAddZone(num) {
   return num < 10 ? `0${num.toString()}` : num
 }

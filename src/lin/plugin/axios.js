@@ -1,9 +1,5 @@
-/**
- * 封装 axios
- */
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
-
 import store from '@/store'
 import router from '@/router'
 import Config from '@/config'
@@ -13,11 +9,8 @@ import { getToken, saveAccessToken, saveTokens } from '@/lin/util/token'
 
 const config = {
   baseURL: Config.baseURL || '',
-  timeout: 5 * 1000, // 请求超时时间设置
+  timeout: 5 * 1000,
   crossDomain: true,
-  // withCredentials: true, // Check cross-site Access-Control
-  // 定义可获得的http响应状态码
-  // return true、设置为null或者undefined，promise将resolved,否则将rejected
   validateStatus(status) {
     return status >= 200 && status < 510
   },
