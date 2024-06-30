@@ -38,6 +38,16 @@
                     <el-icon> <Van /> </el-icon>CMS
                   </a>
                 </el-menu-item>
+                <el-menu-item index="https://igeekfan.cn/start/" class="block">
+                  <a href="https://igeekfan.cn/start/" target="_blank">
+                    <el-icon> <Sunny /> </el-icon>技术导航
+                  </a>
+                </el-menu-item>
+                <el-menu-item index="https://igeekfan.cn/tools/" class="block">
+                  <a href="https://igeekfan.cn/tools/" target="_blank">
+                    <el-icon> <PriceTag /> </el-icon>在线工具
+                  </a>
+                </el-menu-item>
                 <div class="flex-grow" />
                 <el-menu-item index="login" v-show="!loggedIn">
                   <el-link>登录</el-link>
