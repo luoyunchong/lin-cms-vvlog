@@ -12,12 +12,8 @@
             <el-tab-pane name="article">
               <template #label> <i class="el-icon-date"></i> <span style="margin-left: 3px">随笔</span> </template>
               <!-- <my-create-classify></my-create-classify> -->
-              <article-list
-                :dataSource="dataSource"
-                class="vv-article-list"
-                @deleteArticle="deleteArticle"
-                :showEdit="true"
-              ></article-list>
+              <article-list :dataSource="dataSource" class="vv-article-list" @deleteArticle="deleteArticle"
+                :showEdit="true"></article-list>
               <infinite-loading @infinite="infiniteHandler" :identifier="any" distance="50">
                 <template #spinner>
                   <el-divider class="lin-divider">加载中...</el-divider>
@@ -31,36 +27,25 @@
               <template #label> <i class="el-icon-user"></i> <span style="margin-left: 3px">关注</span> </template>
               <el-tabs v-model="activeName" @tab-click="handleClick" type="card">
                 <el-tab-pane :label="'关注用户' + info.subscribe_count" name="subscribe">
-                  <subscribe-user-list
-                    :userId="userId"
-                    userType="subscribe"
-                    v-if="activeName == 'subscribe'"
+                  <subscribe-user-list :userId="userId" userType="subscribe" v-if="activeName == 'subscribe'"
                     v-on:success="subscribe_count => (info.subscribe_count = subscribe_count)"
-                    v-on:subscribe="subscribe_count => (info.subscribe_count += subscribe_count)"
-                  ></subscribe-user-list>
+                    v-on:subscribe="subscribe_count => (info.subscribe_count += subscribe_count)"></subscribe-user-list>
                 </el-tab-pane>
                 <el-tab-pane :label="'粉丝' + info.fans_count" name="fans">
-                  <subscribe-user-list
-                    :userId="userId"
-                    userType="fans"
-                    v-if="activeName == 'fans'"
+                  <subscribe-user-list :userId="userId" userType="fans" v-if="activeName == 'fans'"
                     v-on:success="fans_count => (info.fans_count = fans_count)"
-                    v-on:subscribe="fans_count => (info.subscribe_count += fans_count)"
-                  ></subscribe-user-list>
+                    v-on:subscribe="fans_count => (info.subscribe_count += fans_count)"></subscribe-user-list>
                 </el-tab-pane>
                 <el-tab-pane :label="'标签' + info.tag_count" name="tag">
-                  <subscribe-tag-list
-                    :userId="userId"
-                    v-if="activeName == 'tag'"
+                  <subscribe-tag-list :userId="userId" v-if="activeName == 'tag'"
                     v-on:success="tag_count => (info.tag_count = tag_count)"
-                    v-on:subscribe="tag_count => (info.tag_count += tag_count)"
-                  ></subscribe-tag-list>
+                    v-on:subscribe="tag_count => (info.tag_count += tag_count)"></subscribe-tag-list>
                 </el-tab-pane>
               </el-tabs>
             </el-tab-pane>
             <el-tab-pane name="classify">
               <template #label>
-                <i class="el-icon-collection"></i> <span style="margin-left: 3px">专栏</span>
+                <i class="el-icon-present"></i> <span style="margin-left: 3px">专栏</span>
               </template>
               <my-create-classify :userId="userId"></my-create-classify>
             </el-tab-pane>
@@ -72,7 +57,9 @@
             </el-tab-pane>
             <el-tab-pane name="like">
               <template #label>
-                <el-icon><Star /></el-icon> <span style="margin-left: 3px">点赞</span>
+                <el-icon>
+                  <Star />
+                </el-icon> <span style="margin-left: 3px">点赞</span>
               </template>
               <user-like-article :userId="userId" ref="userLikeArticle" :classify_id="classify_id"></user-like-article>
             </el-tab-pane>
@@ -109,7 +96,9 @@
             <div>
               <router-link :to="{ path: `/p/editor/0` }">
                 <el-button type="primary" plain>
-                  <el-icon class="el-icon--left"> <Edit /> </el-icon>写随笔
+                  <el-icon class="el-icon--left">
+                    <Edit />
+                  </el-icon>写随笔
                 </el-button>
               </router-link>
             </div>
@@ -121,257 +110,258 @@
 </template>
 
 <script>
-import { SubscribeUserList, SubscribeTagList } from '@/view/subscribe'
-import Profile from '@/view/user/profile'
-import articleApi from '@/model/article'
-import subscribeApi from '@/model/subscribe'
-import InfiniteLoading from 'v3-infinite-loading'
-import 'v3-infinite-loading/lib/style.css'
-import ArticleList from '@/view/article/article-list'
-import MyCreateClassify from './my-create-classify'
-import CollectionList from '@/view/collection/collection-list'
-import UserLikeArticle from './user-like-article'
-export default {
-  name: 'UserIndex',
-  components: {
-    SubscribeUserList,
-    SubscribeTagList,
-    Profile,
-    ArticleList,
-    InfiniteLoading,
-    MyCreateClassify,
-    CollectionList,
-    UserLikeArticle,
-  },
-  data() {
-    return {
-      tab: 'article',
-      activeName: 'subscribe',
-      dataSource: [],
-      pagination: {
-        currentPage: 0,
-        pageSize: 10,
-        pageTotal: 0,
+  import { SubscribeUserList, SubscribeTagList } from '@/view/subscribe'
+  import Profile from '@/view/user/profile'
+  import articleApi from '@/model/article'
+  import subscribeApi from '@/model/subscribe'
+  import InfiniteLoading from 'v3-infinite-loading'
+  import 'v3-infinite-loading/lib/style.css'
+  import ArticleList from '@/view/article/article-list'
+  import MyCreateClassify from './my-create-classify'
+  import CollectionList from '@/view/collection/collection-list'
+  import UserLikeArticle from './user-like-article'
+  export default {
+    name: 'UserIndex',
+    components: {
+      SubscribeUserList,
+      SubscribeTagList,
+      Profile,
+      ArticleList,
+      InfiniteLoading,
+      MyCreateClassify,
+      CollectionList,
+      UserLikeArticle,
+    },
+    data() {
+      return {
+        tab: 'article',
+        activeName: 'subscribe',
+        dataSource: [],
+        pagination: {
+          currentPage: 0,
+          pageSize: 10,
+          pageTotal: 0,
+        },
+        loading: false,
+        any: new Date(),
+        info: {
+          subscribe_count: 0,
+          fans_count: 0,
+          tag_count: 0,
+        },
+        classifys: [],
+      }
+    },
+    computed: {
+      userId() {
+        return this.$route.params.id
       },
-      loading: false,
-      any: new Date(),
-      info: {
-        subscribe_count: 0,
-        fans_count: 0,
-        tag_count: 0,
+      name() {
+        return this.$route.params.name
       },
-      classifys: [],
-    }
-  },
-  computed: {
-    userId() {
-      return this.$route.params.id
+      classify_id() {
+        return this.$route.query.classify_id
+      },
     },
-    name() {
-      return this.$route.params.name
-    },
-    classify_id() {
-      return this.$route.query.classify_id
-    },
-  },
-  watch: {
-    name(newVal) {
-      this.tab = newVal
-    },
-    async $route(v) {
-      let key = v.query.key
-      console.log(v)
-      switch (v.params.name) {
-        case 'article':
-          this.refresh()
-          break
-        case 'subscribe':
-          if (key == null || key == undefined) {
-            key = 'subscribe'
-          }
-          this.activeName = key
-          await this.getUserSubscribe()
-          break
-        case 'collection':
-          break
-        case 'like':
-          this.$refs.userLikeArticle.refresh()
-          break
-        default:
-          break
-      }
-    },
-  },
-  async created() {
-    console.log(this.query)
-    // await this.getUserSubscribe()
-  },
-  mounted() {
-    setTimeout(() => {
-      switch (this.name) {
-        case 'article':
-        case 'subscribe':
-        case 'collection':
-        case 'like':
-          this.tab = this.name
-          break
-        default:
-          this.tab = 'article'
-          break
-      }
-      let key = this.$route.query.key
-      if (key == null || key == undefined) {
-        key = 'subscribe'
-      }
-      this.activeName = key
-    }, 500)
-  },
-  methods: {
-    async deleteArticle() {
-      await this.refresh()
-    },
-    async refresh() {
-      this.pagination.currentPage = 0
-      this.any = new Date()
-      await this.infiniteHandler()
-    },
-    handleTabClick(tab, event) {
-      if (tab.paneName == this.name) return
-      this.$router.push({ path: `/user/${this.userId}/${tab.paneName}` })
-    },
-    handleClick(tab, event) {
-      if (tab.paneName == this.$route.query.key) return
-      this.$router.push({
-        path: `/user/${this.userId}/subscribe?key=${tab.name}`,
-      })
-    },
-    async infiniteHandler($state) {
-      let res
-      const currentPage = this.pagination.currentPage
-      res = await articleApi.getQueryArticles({
-        count: this.pagination.pageSize,
-        page: currentPage,
-        sort: this.sort,
-        user_id: this.userId,
-        classify_id: this.classify_id,
-      })
-      let items = [...res.items]
-
-      if (items.length == 0) {
-        if (currentPage == 0) {
-          this.dataSource = items
+    watch: {
+      name(newVal) {
+        this.tab = newVal
+      },
+      async $route(v) {
+        let key = v.query.key
+        console.log(v)
+        switch (v.params.name) {
+          case 'article':
+            this.refresh()
+            break
+          case 'subscribe':
+            if (key == null || key == undefined) {
+              key = 'subscribe'
+            }
+            this.activeName = key
+            await this.getUserSubscribe()
+            break
+          case 'collection':
+            break
+          case 'like':
+            this.$refs.userLikeArticle.refresh()
+            break
+          default:
+            break
         }
-        $state && $state.complete()
-      } else {
-        if (currentPage == 0) {
-          this.dataSource = items
-        } else {
-          this.dataSource = this.dataSource.concat(items)
-        }
-        this.pagination.currentPage += 1
-        this.pagination.pageTotal = res.count
-
-        $state && $state.loaded()
-      }
+      },
     },
-    async getUserSubscribe() {
-      if (this.userId != null) {
-        let res = await subscribeApi.getUserSubscribe({
-          userId: this.userId,
+    async created() {
+      console.log(this.query)
+      // await this.getUserSubscribe()
+    },
+    mounted() {
+      setTimeout(() => {
+        switch (this.name) {
+          case 'article':
+          case 'subscribe':
+          case 'collection':
+          case 'classify':
+          case 'like':
+            this.tab = this.name
+            break
+          default:
+            this.tab = 'article'
+            break
+        }
+        let key = this.$route.query.key
+        if (key == null || key == undefined) {
+          key = 'subscribe'
+        }
+        this.activeName = key
+      }, 500)
+    },
+    methods: {
+      async deleteArticle() {
+        await this.refresh()
+      },
+      async refresh() {
+        this.pagination.currentPage = 0
+        this.any = new Date()
+        await this.infiniteHandler()
+      },
+      handleTabClick(tab, event) {
+        if (tab.paneName == this.name) return
+        this.$router.push({ path: `/user/${this.userId}/${tab.paneName}` })
+      },
+      handleClick(tab, event) {
+        if (tab.paneName == this.$route.query.key) return
+        this.$router.push({
+          path: `/user/${this.userId}/subscribe?key=${tab.name}`,
         })
-        this.info = res
-      }
+      },
+      async infiniteHandler($state) {
+        let res
+        const currentPage = this.pagination.currentPage
+        res = await articleApi.getQueryArticles({
+          count: this.pagination.pageSize,
+          page: currentPage,
+          sort: this.sort,
+          user_id: this.userId,
+          classify_id: this.classify_id,
+        })
+        let items = [...res.items]
+
+        if (items.length == 0) {
+          if (currentPage == 0) {
+            this.dataSource = items
+          }
+          $state && $state.complete()
+        } else {
+          if (currentPage == 0) {
+            this.dataSource = items
+          } else {
+            this.dataSource = this.dataSource.concat(items)
+          }
+          this.pagination.currentPage += 1
+          this.pagination.pageTotal = res.count
+
+          $state && $state.loaded()
+        }
+      },
+      async getUserSubscribe() {
+        if (this.userId != null) {
+          let res = await subscribeApi.getUserSubscribe({
+            userId: this.userId,
+          })
+          this.info = res
+        }
+      },
     },
-  },
-}
+  }
 </script>
 
 <style lang="scss" scoped>
-.lin-divider .el-divider__text {
-  background-color: #f4f5f5;
-}
-
-.list {
-  .item {
-    cursor: pointer;
-    padding-left: 10px;
-
-    &:hover {
-      background: #e6f7ff;
-    }
-  }
-}
-
-.vv-article-list :deep(.article-list .article-item) {
-  padding: 1.5rem 0rem;
-}
-
-.vv-tabs :deep(.el-tabs__item) {
-  font-size: 16px;
-}
-
-.vv-tabs :deep(.el-tabs__nav .el-tabs__active-bar) {
-  height: 3px;
-}
-
-.number-board {
-  display: flex;
-
-  .el-divider--vertical {
-    height: 5rem;
+  .lin-divider .el-divider__text {
+    background-color: #f4f5f5;
   }
 
-  .number-board-item {
-    flex: 1 1;
+  .list {
+    .item {
+      cursor: pointer;
+      padding-left: 10px;
 
-    &:hover {
-      color: #175199;
+      &:hover {
+        background: #e6f7ff;
+      }
+    }
+  }
+
+  .vv-article-list :deep(.article-list .article-item) {
+    padding: 1.5rem 0rem;
+  }
+
+  .vv-tabs :deep(.el-tabs__item) {
+    font-size: 16px;
+  }
+
+  .vv-tabs :deep(.el-tabs__nav .el-tabs__active-bar) {
+    height: 3px;
+  }
+
+  .number-board {
+    display: flex;
+
+    .el-divider--vertical {
+      height: 5rem;
     }
 
-    .number-board-item-inner {
-      padding: 12px 0;
-      text-align: center;
-      line-height: 1.6;
+    .number-board-item {
+      flex: 1 1;
 
-      .number-board-item-name {
-        font-size: 14px;
-        color: #8590a6;
+      &:hover {
+        color: #175199;
       }
 
-      .number-board-item-value {
-        font-size: 20px;
-        color: #1a1a1a;
-        font-weight: 600;
+      .number-board-item-inner {
+        padding: 12px 0;
+        text-align: center;
+        line-height: 1.6;
 
-        &:hover {
-          text-decoration: underline;
+        .number-board-item-name {
+          font-size: 14px;
+          color: #8590a6;
+        }
+
+        .number-board-item-value {
+          font-size: 20px;
+          color: #1a1a1a;
+          font-weight: 600;
+
+          &:hover {
+            text-decoration: underline;
+          }
         }
       }
     }
   }
-}
 
-.lin-card {
-  margin-bottom: 10px;
-  border-radius: 8px;
+  .lin-card {
+    margin-bottom: 10px;
+    border-radius: 8px;
 
-  .lin-title {
+    .lin-title {
+      margin-bottom: 1rem;
+      padding: 0 0 0 0.5rem;
+      color: #000;
+      border-left: 4px solid #ec7259;
+    }
+  }
+
+  .tag-card {
+    margin-bottom: 10px;
+    border-radius: 8px;
+  }
+
+  .tag-title {
     margin-bottom: 1rem;
     padding: 0 0 0 0.5rem;
     color: #000;
     border-left: 4px solid #ec7259;
   }
-}
-
-.tag-card {
-  margin-bottom: 10px;
-  border-radius: 8px;
-}
-
-.tag-title {
-  margin-bottom: 1rem;
-  padding: 0 0 0 0.5rem;
-  color: #000;
-  border-left: 4px solid #ec7259;
-}
 </style>
