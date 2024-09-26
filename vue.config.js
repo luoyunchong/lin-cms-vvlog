@@ -7,6 +7,7 @@ function resolve(dir) {
 }
 
 module.exports = {
+  publicPath: '/vvlog/',
   lintOnSave: false,
   productionSourceMap: false,
   // assetsDir: 'static',
