@@ -469,7 +469,7 @@ export default {
           }
         },
         cdn: 'http://101.34.7.82/vditor',
-        lazyLoadImage: 'http://101.34.7.82/vditor/dist/images/img-loading.svg',
+        lazyLoadImage: 'http://101.34.7.82/vditor/dist/images/img-loading.svg'
       })
       Vditor.mediaRender()
     },

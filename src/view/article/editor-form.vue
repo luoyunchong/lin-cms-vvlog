@@ -82,7 +82,11 @@ export default {
         hint: {
         },
         mode: 'sv', //ir 即时渲染，sv 分屏预览 wysiwyg 所见即所得
+<<<<<<< HEAD
          cdn: 'http://101.34.7.82/vditor',
+=======
+        cdn: 'http://101.34.7.82/vditor',
+>>>>>>> 039534efa310acf979b798fcc62d0be2a4807656
         preview: {
           delay: 100,
           show: true,
