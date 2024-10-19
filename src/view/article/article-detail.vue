@@ -200,7 +200,7 @@
       <article-collection
         ref="articleCollection"
         @success="
-          {
+          () => {
             this.model.is_collect = true
             this.model.collect_quantity += 1
           }
@@ -469,7 +469,7 @@ export default {
           }
         },
         cdn: 'http://101.34.7.82/vditor',
-        lazyLoadImage: 'http://101.34.7.82/vditor/dist/images/img-loading.svg'
+        lazyLoadImage: 'http://101.34.7.82/vditor/dist/images/img-loading.svg',
       })
       Vditor.mediaRender()
     },
