@@ -174,10 +174,6 @@ export default {
         this.$refs['loginRegister'].show(command)
         return
       }
-      if (command == 'vvlog-vue2') {
-        window.open('https://vvlog-vue2.igeekfan.cn/')
-        return
-      }
       this.$router.push(command)
     },
   },

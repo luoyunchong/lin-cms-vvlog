@@ -33,8 +33,8 @@
                     <el-icon> <Bell /> </el-icon>消息
                   </router-link>
                 </el-menu-item>
-                <el-menu-item index="cms.igeekfan.cn/" class="block">
-                  <a href="https://cms.igeekfan.cn/" target="_blank">
+                <el-menu-item index="http://101.34.7.82/cms/" class="block">
+                  <a href="http://101.34.7.82/cms/" target="_blank">
                     <el-icon> <Van /> </el-icon>CMS
                   </a>
                 </el-menu-item>
@@ -162,10 +162,6 @@ export default {
     handleCommand(command) {
       if (command == 'login' || command == 'register') {
         this.$refs['loginRegister'].show(command)
-        return
-      }
-      if (command == 'vvlog-vue2') {
-        window.open('https://vvlog-vue2.igeekfan.cn/')
         return
       }
       this.$router.push(command)
