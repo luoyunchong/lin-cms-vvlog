@@ -22,11 +22,11 @@
 
 ### 文档地址
 
-- [https://igeekfan.cn/](https://igeekfan.cn/)
+- [http://101.34.7.82/](http://101.34.7.82/)
 
 ### 线上 Demo
 
-- [https://vvlog.igeekfan.cn/](https://vvlog.igeekfan.cn/)
+- [http://101.34.7.82/vvlog](http://101.34.7.82/vvlog)
 
 ## 快速上手
 

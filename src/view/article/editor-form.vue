@@ -2,13 +2,25 @@
   <div>
     <head-nav @confirmEdit="confirmEdit"></head-nav>
     <div class="editor-container">
-      <el-form class="editor-form" :rules="rules" :model="form" status-icon ref="form" label-width="100px"
-        @submit.native.prevent>
+      <el-form
+        class="editor-form"
+        :rules="rules"
+        :model="form"
+        status-icon
+        ref="form"
+        label-width="100px"
+        @submit.native.prevent
+      >
         <el-row>
           <el-col :lg="24">
             <el-form-item prop="title" style="margin-bottom: 0px !important">
-              <el-input class="editor-title" size="default" v-model="form.title" placeholder="请填写随笔标题"
-                style="font-size: 1.4rem"></el-input>
+              <el-input
+                class="editor-title"
+                size="default"
+                v-model="form.title"
+                placeholder="请填写随笔标题"
+                style="font-size: 1.4rem"
+              ></el-input>
             </el-form-item>
           </el-col>
           <el-col :lg="24">
@@ -59,7 +71,7 @@ export default {
       this.isLoading = false
     })
   },
-  async created() { },
+  async created() {},
   watch: {
     async $route(to, from) {
       await this.show()
@@ -79,21 +91,16 @@ export default {
         tab: '\t',
         counter: '999999',
         typewriterMode: true,
-        hint: {
-        },
+        hint: {},
         mode: 'sv', //ir 即时渲染，sv 分屏预览 wysiwyg 所见即所得
-<<<<<<< HEAD
-         cdn: 'http://101.34.7.82/vditor',
-=======
         cdn: 'http://101.34.7.82/vditor',
->>>>>>> 039534efa310acf979b798fcc62d0be2a4807656
         preview: {
           delay: 100,
           show: true,
           markdown: {
             toc: true,
             theme: 'light',
-            mark: true
+            mark: true,
           },
           hljs: {
             enable: true,
@@ -138,7 +145,7 @@ export default {
         },
         outline: {
           enable: true,
-          position: 'left'
+          position: 'left',
         },
         after: () => {
           this.show()
@@ -208,7 +215,7 @@ export default {
         content: value,
       })
       console.log('自动保存')
-    }
+    },
   },
 }
 </script>
