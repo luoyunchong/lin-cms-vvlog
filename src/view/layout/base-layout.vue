@@ -38,9 +38,9 @@
                     <el-icon> <Van /> </el-icon>CMS
                   </a>
                 </el-menu-item>
-                <el-menu-item index="http://101.34.7.82/start/" class="block">
-                  <a href="http://101.34.7.82/start/" target="_blank">
-                    <el-icon> <Sunny /> </el-icon>技术导航
+                <el-menu-item index="http://101.34.7.82/hot/" class="block">
+                  <a href="http://101.34.7.82/hot/" target="_blank">
+                    <el-icon> <Sunny /> </el-icon>热榜
                   </a>
                 </el-menu-item>
                 <el-menu-item index="http://101.34.7.82/tools/" class="block">
