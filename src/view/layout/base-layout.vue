@@ -14,7 +14,7 @@
               >
                 <el-menu-item index="/index" class="block">
                   <router-link :to="{ path: '/index' }">
-                    <i class="el-icon-help"></i>
+                    <el-icon><HomeFilled /></el-icon>
                     首页
                   </router-link>
                 </el-menu-item>
@@ -36,6 +36,11 @@
                 <el-menu-item index="http://101.34.7.82/cms/" class="block">
                   <a href="http://101.34.7.82/cms/" target="_blank">
                     <el-icon> <Van /> </el-icon>CMS
+                  </a>
+                </el-menu-item>
+                <el-menu-item index="http://101.34.7.82/start/" class="block">
+                  <a href="http://101.34.7.82/start/" target="_blank">
+                    <el-icon><Platform /></el-icon>导航
                   </a>
                 </el-menu-item>
                 <el-menu-item index="http://101.34.7.82/hot/" class="block">
