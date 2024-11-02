@@ -93,7 +93,7 @@ export default {
         typewriterMode: true,
         hint: {},
         mode: 'sv', //ir 即时渲染，sv 分屏预览 wysiwyg 所见即所得
-        cdn: 'http://101.34.7.82/vditor',
+        cdn: 'http://124.221.134.143/vditor',
         preview: {
           delay: 100,
           show: true,

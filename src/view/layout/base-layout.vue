@@ -33,23 +33,23 @@
                     <el-icon> <Bell /> </el-icon>消息
                   </router-link>
                 </el-menu-item>
-                <el-menu-item index="http://101.34.7.82/cms/" class="block">
-                  <a href="http://101.34.7.82/cms/" target="_blank">
+                <el-menu-item index="http://124.221.134.143/cms/" class="block">
+                  <a href="http://124.221.134.143/cms/" target="_blank">
                     <el-icon> <Van /> </el-icon>CMS
                   </a>
                 </el-menu-item>
-                <el-menu-item index="http://101.34.7.82/start/" class="block">
-                  <a href="http://101.34.7.82/start/" target="_blank">
+                <el-menu-item index="http://124.221.134.143/start/" class="block">
+                  <a href="http://124.221.134.143/start/" target="_blank">
                     <el-icon><Platform /></el-icon>导航
                   </a>
                 </el-menu-item>
-                <el-menu-item index="http://101.34.7.82/hot/" class="block">
-                  <a href="http://101.34.7.82/hot/" target="_blank">
+                <el-menu-item index="http://124.221.134.143/hot/" class="block">
+                  <a href="http://124.221.134.143/hot/" target="_blank">
                     <el-icon> <Sunny /> </el-icon>热榜
                   </a>
                 </el-menu-item>
-                <el-menu-item index="http://101.34.7.82/tools/" class="block">
-                  <a href="http://101.34.7.82/tools/" target="_blank">
+                <el-menu-item index="http://124.221.134.143/tools/" class="block">
+                  <a href="http://124.221.134.143/tools/" target="_blank">
                     <el-icon> <PriceTag /> </el-icon>在线工具
                   </a>
                 </el-menu-item>
