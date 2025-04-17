@@ -17,11 +17,13 @@ module.exports = {
   },
   configureWebpack: {
     plugins: [
-      Components({ /** options **/ }),
+      Components({
+        /** options **/
+      }),
       // 使用
       Icons({
-        compiler: 'vue3',// 自动安装
-        autoInstall: true
+        compiler: 'vue3', // 自动安装
+        autoInstall: true,
       }),
     ],
     devtool: 'source-map',
@@ -38,7 +40,7 @@ module.exports = {
   },
   devServer: {
     compress: true,
-    port: 8080
+    port: 8080,
   },
   // node_modules依赖项es6语法未转换问题
   transpileDependencies: ['vuex-persist'],

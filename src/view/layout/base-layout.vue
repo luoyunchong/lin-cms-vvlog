@@ -14,7 +14,7 @@
               >
                 <el-menu-item index="/index" class="block">
                   <router-link :to="{ path: '/index' }">
-                    <i class="el-icon-help"></i>
+                    <el-icon><HomeFilled /></el-icon>
                     首页
                   </router-link>
                 </el-menu-item>
@@ -33,18 +33,23 @@
                     <el-icon> <Bell /> </el-icon>消息
                   </router-link>
                 </el-menu-item>
-                <el-menu-item index="cms.igeekfan.cn/" class="block">
-                  <a href="https://cms.igeekfan.cn/" target="_blank">
+                <el-menu-item index="http://124.221.134.143/cms/" class="block">
+                  <a href="http://124.221.134.143/cms/" target="_blank">
                     <el-icon> <Van /> </el-icon>CMS
                   </a>
                 </el-menu-item>
-                <el-menu-item index="https://igeekfan.cn/start/" class="block">
-                  <a href="https://igeekfan.cn/start/" target="_blank">
-                    <el-icon> <Sunny /> </el-icon>技术导航
+                <el-menu-item index="http://124.221.134.143/start/" class="block">
+                  <a href="http://124.221.134.143/start/" target="_blank">
+                    <el-icon><Platform /></el-icon>导航
                   </a>
                 </el-menu-item>
-                <el-menu-item index="https://igeekfan.cn/tools/" class="block">
-                  <a href="https://igeekfan.cn/tools/" target="_blank">
+                <el-menu-item index="http://124.221.134.143/hot/" class="block">
+                  <a href="http://124.221.134.143/hot/" target="_blank">
+                    <el-icon> <Sunny /> </el-icon>热榜
+                  </a>
+                </el-menu-item>
+                <el-menu-item index="http://124.221.134.143/tools/" class="block">
+                  <a href="http://124.221.134.143/tools/" target="_blank">
                     <el-icon> <PriceTag /> </el-icon>在线工具
                   </a>
                 </el-menu-item>
@@ -172,10 +177,6 @@ export default {
     handleCommand(command) {
       if (command == 'login' || command == 'register') {
         this.$refs['loginRegister'].show(command)
-        return
-      }
-      if (command == 'vvlog-vue2') {
-        window.open('https://vvlog-vue2.igeekfan.cn/')
         return
       }
       this.$router.push(command)
