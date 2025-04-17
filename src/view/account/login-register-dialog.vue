@@ -111,11 +111,6 @@
               <IconAntDesignGitHubFilled width="1em" height="1em" />
             </el-avatar>
           </a>
-          <a href="javascript:void(0);" @click="() => signin('QQ')">
-            <el-avatar class="margin-left-xs" title="qq登录" size="default">
-              <IconAntDesignQqOutlined width="1em" height="1em" />
-            </el-avatar>
-          </a>
           <a href="javascript:void(0);" @click="() => signin('Gitee')">
             <el-avatar class="margin-left-xs" title="码云登录" size="default">
               <SimpleIconsGitee width="1em" height="1em" />
@@ -133,12 +128,11 @@ import User from '@/lin/model/user'
 import oauth2 from '@/model/oauth2'
 import Utils from '@/lin/util/util'
 import IconAntDesignGitHubFilled from '~icons/ant-design/github-filled'
-import IconAntDesignQqOutlined from '~icons/ant-design/qq-outlined'
 import SimpleIconsGitee from '~icons/simple-icons/gitee'
 
 export default {
   name: 'LoginRegisterDialog',
-  components: { IconAntDesignGitHubFilled, IconAntDesignQqOutlined, SimpleIconsGitee },
+  components: { IconAntDesignGitHubFilled, SimpleIconsGitee },
   data() {
     return {
       checkCodeBtn: {
