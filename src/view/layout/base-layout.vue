@@ -39,8 +39,8 @@
                   </a>
                 </el-menu-item>
                 <el-menu-item index="https://igeekfan.cn/vvlog-pro/" class="block">
-                  <a href="https://igeekfan.cn/hot/" target="_blank">
-                    <el-icon> <Sunny /> </el-icon> CMSKIT
+                  <a href="https://igeekfan.cn/vvlog-pro/" target="_blank">
+                    <el-icon> <Sunny /> </el-icon> CMS-PRO
                   </a>
                 </el-menu-item>
                 <div class="flex-grow" />
