@@ -17,11 +17,6 @@
               <AntDesignGithubOutlined width="27" height="27.2" />
             </el-avatar>
           </a>
-          <a href="javascript:void(0);" @click="() => bind('QQ')" v-if="showQQ">
-            <el-avatar class="margin-left-xs" title="qq登录" :size="40">
-              <AntDesignQqOutlined width="27" height="27.2" />
-            </el-avatar>
-          </a>
           <a href="javascript:void(0);" @click="() => bind('Gitee')" v-if="showGitee">
             <el-avatar class="margin-left-xs" title="码云登录" :size="40">
                <SimpleIconsGitee width="27" height="27.2" />
@@ -37,7 +32,6 @@
 import oauth2 from '@/model/oauth2'
 import { getToken } from '@/lin/util/token'
 import LinTable from '@/component/base/table/lin-table'
-import AntDesignQqOutlined from '~icons/ant-design/qq-outlined'
 import AntDesignGithubOutlined from '~icons/ant-design/github-outlined'
 import SimpleIconsGitee from '~icons/simple-icons/gitee'
 export default {
@@ -48,11 +42,10 @@ export default {
       operate: [],
       loading: false,
       showGitee: true,
-      showGitHub: true,
-      showQQ: true,
+      showGitHub: true
     }
   },
-  components: { LinTable, AntDesignQqOutlined, AntDesignGithubOutlined, SimpleIconsGitee },
+  components: { LinTable, AntDesignGithubOutlined, SimpleIconsGitee },
   async created() {
     this.tableColumn = [
       { prop: 'identity_type', label: '绑定帐号信息' },
@@ -84,7 +77,6 @@ export default {
       this.loading = true
       that.showGitHub = true
       that.showGitee = true
-      that.showQQ = true
 
       this.tableData = await oauth2.bindlist()
       this.tableData.forEach(r => {
@@ -94,10 +86,6 @@ export default {
         }
         if (r.identity_type == 'Gitee') {
           that.showGitee = false
-          return
-        }
-        if (r.identity_type == 'QQ') {
-          that.showQQ = false
           return
         }
       })
