@@ -33,24 +33,14 @@
                     <el-icon> <Bell /> </el-icon>消息
                   </router-link>
                 </el-menu-item>
-                <el-menu-item index="http://124.221.134.143/cms/" class="block">
-                  <a href="http://124.221.134.143/cms/" target="_blank">
-                    <el-icon> <Van /> </el-icon>CMS
+                <el-menu-item index="https://igeekfan.cn/cms/" class="block">
+                  <a href="https://igeekfan.cn/cms/" target="_blank">
+                    <el-icon> <Van /> </el-icon>后端
                   </a>
                 </el-menu-item>
-                <el-menu-item index="http://124.221.134.143/start/" class="block">
-                  <a href="http://124.221.134.143/start/" target="_blank">
-                    <el-icon><Platform /></el-icon>导航
-                  </a>
-                </el-menu-item>
-                <el-menu-item index="http://124.221.134.143/hot/" class="block">
-                  <a href="http://124.221.134.143/hot/" target="_blank">
-                    <el-icon> <Sunny /> </el-icon>热榜
-                  </a>
-                </el-menu-item>
-                <el-menu-item index="http://124.221.134.143/tools/" class="block">
-                  <a href="http://124.221.134.143/tools/" target="_blank">
-                    <el-icon> <PriceTag /> </el-icon>在线工具
+                <el-menu-item index="https://igeekfan.cn/vvlog-pro/" class="block">
+                  <a href="https://igeekfan.cn/hot/" target="_blank">
+                    <el-icon> <Sunny /> </el-icon> CMSKIT
                   </a>
                 </el-menu-item>
                 <div class="flex-grow" />

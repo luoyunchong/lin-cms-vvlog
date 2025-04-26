@@ -33,8 +33,8 @@
                     <el-icon> <Bell /> </el-icon>消息
                   </router-link>
                 </el-menu-item>
-                <el-menu-item index="http://124.221.134.143/cms/" class="block">
-                  <a href="http://124.221.134.143/cms/" target="_blank">
+                <el-menu-item index="https://igeekfan.cn/cms/" class="block">
+                  <a href="https://igeekfan.cn/cms/" target="_blank">
                     <el-icon> <Van /> </el-icon>CMS
                   </a>
                 </el-menu-item>

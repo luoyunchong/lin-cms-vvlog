@@ -468,8 +468,8 @@ export default {
             return
           }
         },
-        cdn: 'http://124.221.134.143/vditor',
-        lazyLoadImage: 'http://124.221.134.143/vditor/dist/images/img-loading.svg',
+        cdn: 'https://igeekfan.cn/vditor',
+        lazyLoadImage: 'https://igeekfan.cn/vditor/dist/images/img-loading.svg',
       })
       Vditor.mediaRender()
     },
