@@ -93,7 +93,7 @@ export default {
         typewriterMode: true,
         hint: {},
         mode: 'sv', //ir 即时渲染，sv 分屏预览 wysiwyg 所见即所得
-        cdn: 'https://igeekfan.cn/vditor',
+        cdn: 'https://igeekfan.cn/cdn/vditor',
         preview: {
           delay: 100,
           show: true,
