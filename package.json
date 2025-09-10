@@ -15,7 +15,7 @@
     "axios": "^0.24.0",
     "core-js": "^3.28.0",
     "dayjs": "^1.11.7",
-    "element-plus": "^2.7.3",
+    "element-plus": "^2.11.0",
     "event-source-polyfill": "^1.0.31",
     "fastscan": "^1.0.6",
     "good-storage": "^1.1.1",
