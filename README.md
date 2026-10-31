@@ -12,22 +12,34 @@
 
 ![](https://img.shields.io/badge/license-MIT-3963bc.svg)
 
+<a name="简介"></a>
+
 ## Introduction
+
+<a name="注意事项"></a>
 
 ## Notes
 
 1. Lin-CMS is an open-source project intended for practical use; seamless upgrades cannot be guaranteed.
 2. The current branch uses Vue 3.
 
+<a name="文档资料"></a>
+
 ## Documentation
+
+<a name="文档地址"></a>
 
 ### Documentation site
 
 - [https://igeekfan.cn/](https://igeekfan.cn/)
 
+<a name="线上-demo"></a>
+
 ### Online demo
 
 - [https://igeekfan.cn/vvlog](https://igeekfan.cn/vvlog)
+
+<a name="快速上手"></a>
 
 ## Getting started
 
