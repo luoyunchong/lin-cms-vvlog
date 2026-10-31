@@ -1,4 +1,4 @@
-[English](README.en.md) | **简体中文**
+**English** | [简体中文](README.zh-CN.md)
 
 <p align="center">
   <a href="https://igeekfan.cn/">
@@ -7,39 +7,38 @@
 </p>
 
 <p align="center">
-  <a href="#简介">简介</a>&nbsp;|&nbsp;<a href="#快速上手">快速上手</a>&nbsp;
+  <a href="#introduction">Introduction</a>&nbsp;|&nbsp;<a href="#getting-started">Getting started</a>&nbsp;
 </p>
 
 ![](https://img.shields.io/badge/license-MIT-3963bc.svg)
 
-## 简介
+## Introduction
 
-## 注意事项
+## Notes
 
-1. Lin-CMS 是工程类开源项目，不能保证无缝升级.
+1. Lin-CMS is an open-source project intended for practical use; seamless upgrades cannot be guaranteed.
+2. The current branch uses Vue 3.
 
-2. 当前分支为 Vue3 版本
+## Documentation
 
-## 文档资料
-
-### 文档地址
+### Documentation site
 
 - [https://igeekfan.cn/](https://igeekfan.cn/)
 
-### 线上 Demo
+### Online demo
 
 - [https://igeekfan.cn/vvlog](https://igeekfan.cn/vvlog)
 
-## 快速上手
+## Getting started
 
 ```sh
-# clone the project
+# Clone the project
 git clone https://github.com/luoyunchong/lin-cms-vvlog.git
 
-# install dependency
+# Install dependencies
 npm install -g pnpm
 pnpm install
 
-# develop
+# Develop
 pnpm run serve
 ```
