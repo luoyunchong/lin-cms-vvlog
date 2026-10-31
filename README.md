@@ -1,3 +1,5 @@
+[English](README.en.md) | **简体中文**
+
 <p align="center">
   <a href="https://igeekfan.cn/">
     <img width="200" src="https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/left-logo.png">
