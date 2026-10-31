@@ -1,3 +1,5 @@
+[English](README.en.md) | **简体中文**
+
 # 多图上传
 
 多图片上传组件 `UploadImgs`, 附有预览, 排序, 验证等功能 [演示效果](http://face.cms.7yue.pro/#/imgs-upload/stage1)
